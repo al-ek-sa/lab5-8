@@ -1,0 +1,35 @@
+package edu.itmo.piikt.commands;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+
+
+public class HistoryCommands{
+    private LinkedList<String> listCommands = new LinkedList<>();
+    private static HistoryCommands instance;
+
+    private HistoryCommands(){}
+
+    public static HistoryCommands getInstance(){
+        if (instance == null){
+            instance = new HistoryCommands();
+        }
+        return instance;
+    }
+
+    public void add(String command) {
+        listCommands.addFirst(command);
+    }
+
+    public Iterator<String> getIterator(){
+        return listCommands.iterator();
+    }
+
+    public void printHistory(){
+        Iterator<String> iterator = listCommands.descendingIterator();
+        while (iterator.hasNext()){
+            String command = iterator.next();
+            System.out.println(command);
+        }
+    }
+}
