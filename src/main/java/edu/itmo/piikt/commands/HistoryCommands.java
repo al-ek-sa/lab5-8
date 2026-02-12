@@ -25,6 +25,10 @@ public class HistoryCommands{
         return listCommands.iterator();
     }
 
+    public LinkedList<String> getLinkedList(){
+        return listCommands;
+    }
+
     public void printHistory(){
         Iterator<String> iterator = listCommands.descendingIterator();
         while (iterator.hasNext()){
