@@ -15,7 +15,6 @@ public class Coordinates {
         return x;
     }
 
-
     private float validationsY(){
         if (y<=-644) {
             System.out.println("Значение y меньше либо равно -644: y = " + y);
