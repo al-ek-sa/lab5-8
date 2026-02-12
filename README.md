@@ -54,41 +54,41 @@
 Описание хранимых в коллекции классов:
 
 public class Worker {
-    private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
-    private String name; //Поле не может быть null, Строка не может быть пустой
-    private Coordinates coordinates; //Поле не может быть null
-    private java.util.Date creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
-    private Float salary; //Поле может быть null, Значение поля должно быть больше 0
-    private java.util.Date startDate; //Поле не может быть null
-    private java.time.ZonedDateTime endDate; //Поле может быть null
-    private Status status; //Поле не может быть null
-    private Organization organization; //Поле может быть null
-}
-public class Coordinates {
-    private long x; //Максимальное значение поля: 10
-    private float y; //Значение поля должно быть больше -644
-}
-public class Organization {
-    private int annualTurnover; //Значение поля должно быть больше 0
-    private OrganizationType type; //Поле не может быть null
-    private Address officialAddress; //Поле не может быть null
-}
-public class Address {
-    private String street; //Поле не может быть null
-}
-public enum Status {
-    FIRED,
-    HIRED,
-    RECOMMENDED_FOR_PROMOTION,
-    PROBATION;
-}
-public enum OrganizationType {
-    COMMERCIAL,
-    PUBLIC,
-    GOVERNMENT,
-    TRUST,
-    OPEN_JOINT_STOCK_COMPANY;
-}
+    private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически  
+    private String name; //Поле не может быть null, Строка не может быть пустой  
+    private Coordinates coordinates; //Поле не может быть null  
+    private java.util.Date creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически  
+    private Float salary; //Поле может быть null, Значение поля должно быть больше 0  
+    private java.util.Date startDate; //Поле не может быть null  
+    private java.time.ZonedDateTime endDate; //Поле может быть null  
+    private Status status; //Поле не может быть null  
+    private Organization organization; //Поле может быть null  
+}  
+public class Coordinates {  
+    private long x; //Максимальное значение поля: 10  
+    private float y; //Значение поля должно быть больше -644  
+}  
+public class Organization {  
+    private int annualTurnover; //Значение поля должно быть больше 0  
+    private OrganizationType type; //Поле не может быть null  
+    private Address officialAddress; //Поле не может быть null  
+}  
+public class Address {  
+    private String street; //Поле не может быть null  
+}  
+public enum Status {  
+    FIRED,  
+    HIRED,  
+    RECOMMENDED_FOR_PROMOTION,  
+    PROBATION;  
+}  
+public enum OrganizationType {  
+    COMMERCIAL,  
+    PUBLIC,  
+    GOVERNMENT,  
+    TRUST,  
+    OPEN_JOINT_STOCK_COMPANY;  
+}  
 
 
 
