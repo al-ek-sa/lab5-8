@@ -1,5 +1,10 @@
 package edu.itmo.piikt.models;
 
+import java.time.ZonedDateTime;
+import java.util.Date;
+
+import edu.itmo.piikt.validationModels.GeneratorId;
+
 public class Worker {
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -7,7 +12,21 @@ public class Worker {
     private java.util.Date creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
     private Float salary; //Поле может быть null, Значение поля должно быть больше 0
     private java.util.Date startDate; //Поле не может быть null
-    private java.time.ZonedDateTime endDate; //Поле может быть null
+    private java.time.ZonedDateTime endDate;
     private Status status; //Поле не может быть null
-    private Organization organization; //Поле может быть null
+    private Organization organization;
+
+    public Worker(String name, Coordinates coordinates, Float salary,
+                  Date startDate, ZonedDateTime endDate, Status status,
+                  Organization organization){
+        this.id = GeneratorId.getInstance().getId(); //генерация в отдельном классе
+        this.name = name;
+        this.coordinates = coordinates;
+        this.creationDate = new Date();
+        this.salary = salary;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.organization = organization;
+    }
 }

@@ -5,27 +5,9 @@ public class Organization {
     private OrganizationType type; //Поле не может быть null
     private Address officialAddress; //Поле не может быть null
 
-    public Organization(int annualTurnover, Organization type, Address officialAddress) {
-        this.annualTurnover = validationAnnualTurnover();
-        this.type = validationType();
-        this.officialAddress = validationOfficialAddress();
-    }
-
-    private int validationAnnualTurnover(){
-        if (annualTurnover<=0) {
-            System.out.println("Значение меньше либо равно нулю: = " + annualTurnover);
-        } return annualTurnover;
-    }
-
-    private OrganizationType validationType(){
-        if (type == null) {
-            System.out.println("значение null");
-        } return  type;
-    }
-
-    private Address validationOfficialAddress(){
-        if (officialAddress == null){
-            System.out.println("значение null");
-        } return officialAddress;
+    public Organization(int annualTurnover, OrganizationType type, Address officialAddress) {
+        this.annualTurnover = annualTurnover;
+        this.type = type;
+        this.officialAddress = officialAddress;
     }
 }

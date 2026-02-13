@@ -23,4 +23,12 @@ public class InputReader {
     public int nextInt() {
         return scanner.nextInt();
     }
+
+    public long nextLong(){
+        return  scanner.nextLong();
+    }
+
+    public  float nextFloat(){
+        return scanner.nextFloat();
+    }
 }

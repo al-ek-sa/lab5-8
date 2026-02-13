@@ -1,14 +1,10 @@
 package edu.itmo.piikt.models;
 
-public class Address {
-    private String street; //Поле не может быть null
-    public Address(String street) {
-        this.street = validationStreet();
-    }
+public record Address(String street){ }
 
-    private String validationStreet(){
-       if (street != null) {
-            System.out.println("Необходимо ввести улицу");
-        } return street;
-    }
-}
+/**public class Address {
+ private String street; //Поле не может быть null
+ public Address(String street){
+ this.stree = street;
+ }
+ }*/

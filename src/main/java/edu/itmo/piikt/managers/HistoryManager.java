@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import edu.itmo.piikt.commands.HistoryCommands;
 
 
-public class HistoryManager {
+public class HistoryManager {/**
     private static final String HISTORY_FILE = "history.csv";
     private HistoryCommands historyCommands;
     public HistoryManager(){
@@ -21,5 +21,5 @@ public class HistoryManager {
         LinkedList<String> commands = historyCommands.getLinkedList();
         StatefulBeanToCsv<CommandRecord> beanToCsv = new StatefulBeanToCsv<String>(writer).build();
         beanTiCsv.write(commands);}
-    }
+    }*/
 }
