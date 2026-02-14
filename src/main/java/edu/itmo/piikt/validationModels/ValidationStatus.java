@@ -10,6 +10,10 @@ public class ValidationStatus {
     }
 
     public Status validationStatus(){
+        System.out.println("Выберите один из статусов и запишите в верхнем регистре");
+        for (Status status : Status.values()){
+            System.out.println(status);
+        }
         String statusConsole = scanner.nextLine();
 
         for (Status nameStatus : Status.values()){

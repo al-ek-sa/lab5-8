@@ -16,18 +16,24 @@ public class ValidationOrganization {
     }
 
     public Address validationNullAddress(){
-        if (address.validationAddress() != null ){
-            return address.validationAddress();
-        } return validationNullAddress();
+        System.out.println("Введите адрес");
+        Address addressConsole = address.validationAddress();
+        if (addressConsole != null ){
+            return addressConsole;
+        } System.out.println("Адрес не введен неверно");
+        return validationNullAddress();
     }
 
     public OrganizationType validationNullOrganizationType(){
-        if (type.validationOrganizationType() != null ) {
-            return type.validationOrganizationType();
+        System.out.println("Выберете тип организации");
+        OrganizationType organizationTypeConsole = type.validationOrganizationType();
+        if (organizationTypeConsole != null ) {
+            return organizationTypeConsole;
         } return validationNullOrganizationType();
     }
 
     public int validationAnnualTurnover(){
+        System.out.println("Введите годовой доход");
         int annualTurnoverConsole = scanner.nextInt();
         if (annualTurnoverConsole > 0) {
             return annualTurnoverConsole;

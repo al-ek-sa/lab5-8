@@ -23,40 +23,50 @@ public class ValidationWorker {
     }
 
     public String validationName(){
+        System.out.println("Введите имя");
         String nameConsole = scanner.nextLine();
         if(!nameConsole.isBlank()) {
             return  nameConsole;
-        } return validationName();
+        } System.out.println("Имя введено некорректно");
+        return validationName();
     }
 
     public Coordinates validationNullCoordinates(){
-        if (coordinates.validationCoordinates() != null) {
-            return coordinates.validationCoordinates();
-        } return validationNullCoordinates();
+        System.out.println("Введите координаты");
+        Coordinates coordinatesConsole = coordinates.validationCoordinates();
+        if (coordinatesConsole != null) {
+            return coordinatesConsole;
+        }
+        System.out.println("Координаты введены некорректно");
+        return validationNullCoordinates();
     }
 
     public Float validationSalary(){
+        System.out.println("Введите заработную плату");
         Float salaryConsole = scanner.nextFloat();
         if (salaryConsole == null || salaryConsole > 0) {
             return salaryConsole;
-        } return  validationSalary();
+        }
+        System.out.println("Заработная плата введена некорректно, она должна быть больше 0");
+        return  validationSalary();
     }
 
-    public Date validationStartDate(){
+    public Date validationStartDate(){/**вызывается несколько раз*/
+        System.out.println("Введите дату начала работы (образец: дата-месяц-год)");
         String startDateConsole = scanner.nextLine();
         if (startDateConsole != null && !startDateConsole.isBlank()){
             try {
                 SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
                 return format.parse(startDateConsole);
             } catch (ParseException e) {
-                System.out.println();
+                System.out.println("данные не смогли преобразоваться в необходимый формат");
                 return validationStartDate();
             }}return  validationStartDate();
     }
 
-    public ZonedDateTime validationEndDate(){
+    public ZonedDateTime validationEndDate(){ /**формат 50/50*/
+        System.out.println("Введите дату окончания работы");
         String endDateConsole = scanner.nextLine();
-
         if (endDateConsole == null || endDateConsole.isBlank()) {
             return null;
         }
@@ -64,14 +74,17 @@ public class ValidationWorker {
         try{
             return ZonedDateTime.parse(endDateConsole);
         } catch (DateTimeParseException e) {
+            System.out.println("Дата не смогла преобразоваться в нужный формат");
             return validationEndDate();
         }
     }
 
     public Status validationNullStatus(){
-        if (status.validationStatus() != null) {
-            return status.validationStatus();
+        Status statusConsole = status.validationStatus();
+        if (statusConsole != null) {
+            return statusConsole;
         }
+        System.out.println("статус введен некорректно");
         return validationNullStatus();
     }
 
