@@ -29,4 +29,12 @@ public class Worker {
         this.status = status;
         this.organization = organization;
     }
+
+    @Override
+    public String toString() {
+        return "id: " + id +", name: " + name + ", координаты: " + coordinates.toString() +
+                ", дата идентификации: " + creationDate + ", заработная плата: " + salary +
+                ", дата начала работы: " + startDate + ", дата увольнения: " + endDate +
+                ", статус: " + status.toString() + ", организация: " + organization.toString();
+    }
 }

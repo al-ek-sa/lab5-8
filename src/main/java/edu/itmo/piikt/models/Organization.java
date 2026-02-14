@@ -10,4 +10,9 @@ public class Organization {
         this.type = type;
         this.officialAddress = officialAddress;
     }
+
+    @Override
+    public String toString() {
+        return " годовой оборот: " + annualTurnover + ", тип: " + type.toString() + ", адрес: " + officialAddress.toString();
+    }
 }

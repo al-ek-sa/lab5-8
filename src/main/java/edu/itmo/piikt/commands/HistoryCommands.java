@@ -18,7 +18,7 @@ public class HistoryCommands{
     }
 
     public void add(String command) {
-        listCommands.addFirst(command);
+        listCommands.add(command);
     }
 
     public Iterator<String> getIterator(){
