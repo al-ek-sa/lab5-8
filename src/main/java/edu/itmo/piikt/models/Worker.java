@@ -37,4 +37,8 @@ public class Worker {
                 ", дата начала работы: " + startDate + ", дата увольнения: " + endDate +
                 ", статус: " + status.toString() + ", организация: " + organization.toString();
     }
+
+    public String getName() {
+        return name;
+    }
 }

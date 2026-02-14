@@ -1,5 +1,7 @@
 package edu.itmo.piikt.commands;
 
+import edu.itmo.piikt.historyWorker.HistoryWorker;
+
 public class InfoCommand extends Commands{
     public InfoCommand(){
         super("info");
@@ -7,6 +9,6 @@ public class InfoCommand extends Commands{
 
     @Override
     public void execute() {
-
+        HistoryWorker.getInstance().infoLiat();
     }
 }
