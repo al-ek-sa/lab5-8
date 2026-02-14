@@ -64,4 +64,18 @@ public class HistoryWorker {
         System.out.println("Тип коллекции: " + listWorker.getClass() + "\nВремя идентификации: "
                         + data + "\nКолличество эллиментов: " + listWorker.size());
     }
+
+    public void removeId(){
+        Iterator<Worker> iterator = listWorker.iterator();
+        int idConsole = InputReader.getInstance().nextInt();
+        InputReader.getInstance().nextLine();
+        while(iterator.hasNext()){
+            Worker worker = iterator.next();
+            int id = worker.getId();
+            if (idConsole == id){
+                iterator.remove();
+                break;
+            }
+        }
+    }
 }

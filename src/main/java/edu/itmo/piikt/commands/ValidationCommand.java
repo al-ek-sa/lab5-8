@@ -15,7 +15,7 @@ public class ValidationCommand {
     public void validation(){
         while (true){
             String nameCommands = InputReader.getInstance().nextLine();
-            String input = nameCommands.trim().split("\\s+")[0];
+            String input = nameCommands.trim();
             historyCommands.add(input);
 
             Commands command = factory.getCommand(input);
