@@ -9,8 +9,8 @@ public class ValidationStatus {
         this.scanner = InputReader.getInstance();
     }
 
-    public Status validationStatus(){
-        System.out.println("Выберите один из статусов и запишите в верхнем регистре");
+    public Status status(){
+        System.out.println("Status options");
         for (Status status : Status.values()){
             System.out.println(status);
         }
@@ -20,6 +20,7 @@ public class ValidationStatus {
             if (nameStatus.name().equals(statusConsole)){
                 return nameStatus;
             }
-        } return validationStatus();
+        } System.out.println("Invalid input, please enter the value again");
+        return status();
     }
 }

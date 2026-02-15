@@ -10,12 +10,11 @@ public class ValidationAddress {
     }
 
     public Address validationAddress() {
-        System.out.println("Введите улицу");
-        String streetConsole = scanner.nextLine();
-        if (streetConsole != null){
-            return new Address(streetConsole);
-        }
-        System.out.println("Неверный формат, введите еще раз");
-        return validationAddress();
+            System.out.println("Enter the street");
+        while (true){
+            String streetConsole = scanner.nextLine();
+            if (!streetConsole.isBlank()){
+                return new Address(streetConsole);
+            }else System.out.println("Required field");}
     }
 }

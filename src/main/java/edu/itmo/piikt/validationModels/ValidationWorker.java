@@ -2,7 +2,6 @@ package edu.itmo.piikt.validationModels;
 
 import edu.itmo.piikt.models.*;
 import edu.itmo.piikt.reader.InputReader;
-import org.apache.commons.lang3.StringUtils;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -23,74 +22,88 @@ public class ValidationWorker {
     }
 
     public String validationName(){
-        System.out.println("Введите имя");
+        System.out.println("Enter name");
         String nameConsole = scanner.nextLine();
-        if(!nameConsole.isBlank()) {
-            return  nameConsole;
-        } System.out.println("Имя введено некорректно");
-        return validationName();
+        while(true) {
+            if (!nameConsole.isBlank()) {
+                return nameConsole;
+            }else System.out.println("Invalid name, please try again");
+            System.out.println("Enter name");
+        }
     }
 
     public Coordinates validationNullCoordinates(){
-        System.out.println("Введите координаты");
-        Coordinates coordinatesConsole = coordinates.validationCoordinates();
-        if (coordinatesConsole != null) {
-            return coordinatesConsole;
+        System.out.println("Enter coordinates");
+        while(true) {
+            Coordinates coordinatesConsole = coordinates.сoordinates();
+            if (coordinatesConsole != null) {
+                return coordinatesConsole;
+            } else System.out.println("Invalid coordinates, please try again");
+            System.out.println("Enter coordinates");
         }
-        System.out.println("Координаты введены некорректно");
-        return validationNullCoordinates();
     }
 
     public Float validationSalary(){
-        System.out.println("Введите заработную плату");
-        Float salaryConsole = scanner.nextFloat();
-        if (salaryConsole == null || salaryConsole > 0) {
-            return salaryConsole;
-        }
-        System.out.println("Заработная плата введена некорректно, она должна быть больше 0");
-        return  validationSalary();
-    }
-
-    public Date validationStartDate(){/**вызывается несколько раз*/
-        System.out.println("Введите дату начала работы (образец: дата-месяц-год)");
-        String startDateConsole = scanner.nextLine();
-        if (startDateConsole != null && !startDateConsole.isBlank()){
+        while (true){
+            System.out.println("Enter salary (value must be greater than 0)");
             try {
-                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-                return format.parse(startDateConsole);
-            } catch (ParseException e) {
-                System.out.println("данные не смогли преобразоваться в необходимый формат");
-                return validationStartDate();
-            }}return  validationStartDate();
+                String input = scanner.nextLine();
+                    if (input.isEmpty()) {
+                        return null;
+                    }
+                float salaryConsole = Float.parseFloat(input);
+                if (salaryConsole > 0) {
+                    return salaryConsole;
+                }else  System.out.println("Invalid input, please enter the value again");}
+            catch (RuntimeException e) {
+                System.out.println("Invalid input, please enter the value again");
+            }}
     }
 
-    public ZonedDateTime validationEndDate(){ /**формат 50/50*/
-        System.out.println("Введите дату окончания работы");
-        String endDateConsole = scanner.nextLine();
-        if (endDateConsole == null || endDateConsole.isBlank()) {
-            return null;
-        }
+    public Date validationStartDate(){
+        while (true){
+            System.out.println("Please enter the start date (format: dd-MM-yyyy)");
+            String startDateConsole = scanner.nextLine();
+            if (startDateConsole != null && !startDateConsole.isBlank()){
+                try {
+                    SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                    return format.parse(startDateConsole);
+                } catch (ParseException e) {
+                    System.out.println("Invalid input, please enter the value again");
+                }
+            }else System.out.println("Invalid input, please enter the value again");}
+    }
 
-        try{
-            return ZonedDateTime.parse(endDateConsole);
-        } catch (DateTimeParseException e) {
-            System.out.println("Дата не смогла преобразоваться в нужный формат");
-            return validationEndDate();
+    public ZonedDateTime validationEndDate(){
+        System.out.println("Enter the end date\nInput example: 2026-02-15T15:30:45+02:00");
+        while(true){
+        String endDateConsole = scanner.nextLine();
+            if (endDateConsole == null || endDateConsole.isBlank()) {
+                return null;
+            }
+
+            try{
+                return ZonedDateTime.parse(endDateConsole);
+            } catch (DateTimeParseException e) {
+                System.out.println("The date could not be parsed into the required format");
+                System.out.println("Enter the end date\nInput example: 2026-02-15T15:30:45+02:00");}
         }
     }
 
     public Status validationNullStatus(){
-        Status statusConsole = status.validationStatus();
+        System.out.println("Choose one of the statuses and write it in uppercase");
+        while(true){
+        Status statusConsole = status.status();
         if (statusConsole != null) {
             return statusConsole;
+        }else System.out.println("Required field");
+        System.out.println("Choose one of the statuses and write it in uppercase");
         }
-        System.out.println("статус введен некорректно");
-        return validationNullStatus();
     }
 
-    public Worker validationWorker(){
+    public Worker worker(){
         return  new Worker(validationName(), validationNullCoordinates(),
                 validationSalary(), validationStartDate(), validationEndDate(),
-                validationNullStatus(), organization.validationOrganization());
+                validationNullStatus(), organization.organization());
     }
 }

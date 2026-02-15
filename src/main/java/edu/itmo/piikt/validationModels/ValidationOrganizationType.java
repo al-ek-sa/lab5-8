@@ -9,8 +9,8 @@ public class ValidationOrganizationType {
         this.scanner = InputReader.getInstance();
     }
 
-    public OrganizationType validationOrganizationType(){
-        System.out.println("Выпишите в верхнем регистре один из нескольких вариантов: ");
+    public OrganizationType organizationType(){
+        System.out.println("Organization type options:");
         for (OrganizationType type : OrganizationType.values()){
             System.out.println(type);
         }
@@ -20,6 +20,7 @@ public class ValidationOrganizationType {
                 return nameObject;
             }
         }
-        return validationOrganizationType();
+        System.out.println("Invalid input, please enter the value again");
+        return organizationType();
     }
 }

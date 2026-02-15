@@ -2,18 +2,37 @@ package edu.itmo.piikt.models;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.Comparator;
+import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvRecurse;
 
 import edu.itmo.piikt.validationModels.GeneratorId;
 
-public class Worker {
-    private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+public class Worker implements Comparable<Worker> {
+
+    class WokerEnd implements Comparator<Worker> {
+        @Override
+        public int compare(Worker worker, Worker t1) {
+            return 0;
+        }
+    }
+    @CsvBindByPosition(position = 1)
+    private int id;
+    @CsvBindByPosition(position = 2)//Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
+    @CsvRecurse
     private Coordinates coordinates; //Поле не может быть null
+    @CsvBindByPosition(position = 5)
     private java.util.Date creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    @CsvBindByPosition(position = 6)
     private Float salary; //Поле может быть null, Значение поля должно быть больше 0
+    @CsvBindByPosition(position = 7)
     private java.util.Date startDate; //Поле не может быть null
+    @CsvBindByPosition(position = 8)
     private java.time.ZonedDateTime endDate;
+    @CsvBindByPosition(position = 9)
     private Status status; //Поле не может быть null
+    @CsvRecurse
     private Organization organization;
 
     public Worker(String name, Coordinates coordinates, Float salary,
@@ -42,7 +61,77 @@ public class Worker {
         return name;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public Float getSalary() {
+        return salary;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public ZonedDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setSalary(Float salary) {
+        this.salary = salary;
+    }
+
+    public void setEndDate(ZonedDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+
     public int getId() {
         return id;
+    }
+
+    @Override
+    public int compareTo(Worker other) {
+        return Integer.compare(this.id, other.id);
     }
 }

@@ -16,31 +16,41 @@ public class ValidationOrganization {
     }
 
     public Address validationNullAddress(){
-        System.out.println("Введите адрес");
-        Address addressConsole = address.validationAddress();
-        if (addressConsole != null ){
-            return addressConsole;
-        } System.out.println("Адрес не введен неверно");
-        return validationNullAddress();
+        System.out.println("Enter the address");
+        while (true){
+            Address addressConsole = address.validationAddress();
+            if (addressConsole != null ){
+                return addressConsole;
+            } else System.out.println("Required field");
+            System.out.println("Enter the address");
+        }
     }
 
     public OrganizationType validationNullOrganizationType(){
-        System.out.println("Выберете тип организации");
-        OrganizationType organizationTypeConsole = type.validationOrganizationType();
+        System.out.println("Select the organization type from the suggested options and enter it in uppercase");
+        OrganizationType organizationTypeConsole = type.organizationType();
         if (organizationTypeConsole != null ) {
             return organizationTypeConsole;
         } return validationNullOrganizationType();
     }
 
     public int validationAnnualTurnover(){
-        System.out.println("Введите годовой доход");
-        int annualTurnoverConsole = scanner.nextInt();
-        if (annualTurnoverConsole > 0) {
-            return annualTurnoverConsole;
-        } return  validationAnnualTurnover();
+        System.out.println("Enter annual turnover (annual turnover must be an integer greater than 0)");
+        while (true) {
+            try{
+                String input = scanner.nextLine();
+                int annualTurnoverConsole = Integer.parseInt(input);
+                if (annualTurnoverConsole > 0) {
+                    return annualTurnoverConsole;
+                } else System.out.println("Invalid input, please enter the value again");
+                System.out.println("Enter annual turnover (annual turnover must be an integer greater than 0)");
+        } catch (RuntimeException e) {
+                System.out.println("Invalid input, please enter the value again");
+                System.out.println("Enter annual turnover (annual turnover must be an integer greater than 0)");
+            }}
     }
 
-    public Organization validationOrganization(){
+    public Organization organization(){
         return new Organization(validationAnnualTurnover(), validationNullOrganizationType(), validationNullAddress());
     }
 }

@@ -17,4 +17,8 @@ public class GeneratorId {
     public int getId(){ /**многопотчность страдает*/
         return  startId++;
     }
+
+    public void setStartId(int startId) {
+        this.startId = startId;
+    }
 }
