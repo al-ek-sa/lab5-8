@@ -13,7 +13,6 @@ public class AddCommand extends Commands {
 
     @Override
     public void execute() {
-
         HistoryWorker.getInstance().add(worker.worker());
     }
 
