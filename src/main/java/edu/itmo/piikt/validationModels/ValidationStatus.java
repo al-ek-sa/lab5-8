@@ -9,18 +9,23 @@ public class ValidationStatus {
         this.scanner = InputReader.getInstance();
     }
 
-    public Status status(){
-        System.out.println("Status options");
-        for (Status status : Status.values()){
-            System.out.println(status);
-        }
-        String statusConsole = scanner.nextLine();
-
-        for (Status nameStatus : Status.values()){
-            if (nameStatus.name().equals(statusConsole)){
-                return nameStatus;
+    public Status status() {
+        while (true){
+            System.out.println("Status options");
+            for (Status status : Status.values()) {
+                System.out.println("(" +status.getId() +") " + status.name());
             }
-        } System.out.println("Invalid input, please enter the value again");
-        return status();
+            try {
+                String idStatus = scanner.nextLine();
+                int id = Integer.parseInt(idStatus);
+                for (Status status : Status.values()) {
+                    if (status.getId() == id) {
+                        return status;
+                    }
+                }
+            } catch (RuntimeException e) {
+                System.out.println("Invalid input, please enter the value again");
+            }
+        }
     }
 }

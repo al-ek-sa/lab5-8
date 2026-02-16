@@ -3,7 +3,7 @@ package edu.itmo.piikt.validationModels;
 import edu.itmo.piikt.models.*;
 import edu.itmo.piikt.reader.InputReader;
 
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
@@ -75,7 +75,7 @@ public class ValidationWorker {
     }
 
     public ZonedDateTime validationEndDate(){
-        System.out.println("Enter the end date\nInput example: 2026-02-15T15:30:45+02:00");
+        System.out.println("Enter the end date\nInput example: 2026-02-15");
         while(true){
         String endDateConsole = scanner.nextLine();
             if (endDateConsole == null || endDateConsole.isBlank()) {
@@ -83,10 +83,13 @@ public class ValidationWorker {
             }
 
             try{
-                return ZonedDateTime.parse(endDateConsole);
+                LocalTime timeNow = LocalTime.now();
+                LocalDate date = LocalDate.parse(endDateConsole);
+                ZonedDateTime dateTime = ZonedDateTime.of(date, timeNow, ZoneId.systemDefault());
+                return dateTime;
             } catch (DateTimeParseException e) {
                 System.out.println("The date could not be parsed into the required format");
-                System.out.println("Enter the end date\nInput example: 2026-02-15T15:30:45+02:00");}
+                System.out.println("Enter the end date\nInput example: 2026-02-15");}
         }
     }
 
