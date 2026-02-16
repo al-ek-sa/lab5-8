@@ -175,6 +175,10 @@ public class HistoryWorker {
     }
 
     public void sort(){
-        /**listWorker.sort(Comparator.comparZonedDateTime(worker -> worker.getEndDate()).reversed);*/
+        LinkedList<Worker> sortedList = new LinkedList<>(listWorker);
+        sortedList.sort(null);
+        Iterator<Worker> iterator = sortedList.descendingIterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());}
     }
 }

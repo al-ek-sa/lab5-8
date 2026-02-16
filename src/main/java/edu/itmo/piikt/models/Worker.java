@@ -7,15 +7,9 @@ import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvRecurse;
 
 import edu.itmo.piikt.validationModels.GeneratorId;
+import edu.itmo.piikt.validationModels.ValidationWorker;
 
 public class Worker implements Comparable<Worker> {
-
-    class WokerEnd implements Comparator<Worker> {
-        @Override
-        public int compare(Worker worker, Worker t1) {
-            return 0;
-        }
-    }
     @CsvBindByPosition(position = 1)
     private int id;
     @CsvBindByPosition(position = 2)//Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
@@ -54,7 +48,7 @@ public class Worker implements Comparable<Worker> {
         return "id: " + id +", name: " + name + ", координаты: " + coordinates.toString() +
                 ", дата идентификации: " + creationDate + ", заработная плата: " + salary +
                 ", дата начала работы: " + startDate + ", дата увольнения: " + endDate +
-                ", статус: " + status.toString() + ", организация: " + organization.toString();
+                ", статус: " + status.toString() + ", организация: " + organization.toString() + "\n";
     }
 
     public String getName() {
@@ -132,6 +126,13 @@ public class Worker implements Comparable<Worker> {
 
     @Override
     public int compareTo(Worker other) {
-        return Integer.compare(this.id, other.id);
+        if (this.endDate != null && other.endDate != null) {
+            return this.endDate.compareTo(other.endDate);
+        } else if (other.endDate == null) {
+            return 1;
+        } else if (this.endDate == null) {
+            return -1;
+        } else
+            return Integer.compare(this.id, other.id);
     }
 }
