@@ -1,12 +1,15 @@
 package edu.itmo.piikt.validationModels;
 
+import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.Status;
 import edu.itmo.piikt.reader.InputReader;
 
 public class ValidationStatus {
+    private IOProvider io;
     private InputReader scanner;
-    public ValidationStatus(){
+    public ValidationStatus(IOProvider io){
         this.scanner = InputReader.getInstance();
+        this.io = io;
     }
 
     public Status status() {

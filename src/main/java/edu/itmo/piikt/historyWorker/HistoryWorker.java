@@ -1,5 +1,6 @@
 package edu.itmo.piikt.historyWorker;
 
+import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.Address;
 import edu.itmo.piikt.models.Organization;
 import edu.itmo.piikt.models.OrganizationType;
@@ -12,21 +13,23 @@ import edu.itmo.piikt.validationModels.ValidationWorker;
 import java.util.*;
 
 public class HistoryWorker {
+    private IOProvider io;
     private static HistoryWorker instance;
     private Date data;
     private ValidationWorker worker;
     private ValidationOrganization organization;
     LinkedList<Worker> listWorker = new LinkedList<>();
 
-    private HistoryWorker() {
+    private HistoryWorker(IOProvider io) {
+        this.io = io;
         this.data = new Date();
-        this.worker = new ValidationWorker();
-        this.organization = new ValidationOrganization();
+        this.worker = new ValidationWorker(io);
+        this.organization = new ValidationOrganization(io);
     }
 
-    public static HistoryWorker getInstance() {
+    public static HistoryWorker getInstance(IOProvider io) {
         if (instance == null) {
-            instance = new HistoryWorker();
+            instance = new HistoryWorker(io);
         }
         return instance;
     }
@@ -59,9 +62,8 @@ public class HistoryWorker {
         }
     }
 
-    public void printName() {
+    public void printName(String nameConsole) {
         Iterator<Worker> iterator = listWorker.iterator();
-        String nameConsole = InputReader.getInstance().nextLine();
         while (iterator.hasNext()) {
             Worker worker = iterator.next();
             String name = worker.getName();
@@ -76,12 +78,9 @@ public class HistoryWorker {
                 + data + "\nКолличество эллиментов: " + listWorker.size());
     }
 
-    public void removeId() {
+    public void removeId(int idConsole) {
         Iterator<Worker> iterator = listWorker.iterator();
         try {
-            String input = InputReader.getInstance().nextLine();
-            int idConsole = Integer.parseInt(input);
-            InputReader.getInstance().nextLine();
             while (iterator.hasNext()) {
                 Worker worker = iterator.next();
                 int id = worker.getId();
@@ -114,32 +113,6 @@ public class HistoryWorker {
         GeneratorId.getInstance().setStartId(idNewStart);
     }
 
-    /**public void countByOrganization() {
-        Iterator<Worker> iterator = listWorker.iterator();
-        LinkedList<Organization> listOrganization = new LinkedList<>();
-        class OraganizationConsole{
-         private int annualTurnoverConsole; //Значение поля должно быть больше 0
-         private OrganizationType typeConsole; //Поле не может быть null
-         private Address officialAddressConsole; //Поле не может быть null
-            public OraganizationConsole(int annualTurnoverConsole, OrganizationType typeConsole, Address officialAddressConsole){
-                this.annualTurnoverConsole = annualTurnoverConsole;
-                this.typeConsole =typeConsole;
-                this.officialAddressConsole =
-            }
-         }
-
-        if (iterator.hasNext()) {
-            Worker worker = iterator.next();
-            int annualTurnoverConsole = InputReader.getInstance().nextInt();
-            if (annualTurnoverConsole == worker.getOrganization().getAnnualTurnover()){
-                Organization typeConsole =  InputReader.getInstance().nextLine();
-                String type = (String) worker.getType
-                if (type == worker.getType)
-            }
-
-        }
-    }*/
-
     public void countByOrganization() {
         ArrayList<Worker> organizationArrayList = new ArrayList<>();
         Organization input = organization.organization();
@@ -158,7 +131,6 @@ public class HistoryWorker {
 
     public void removeLower() {
         System.out.println("Enter the id of the element to remove: ");
-        /**ArrayList<Integer> idWorker = new ArrayList<>();*/
         Iterator<Worker> iterator = listWorker.iterator();
         try {
             String input = InputReader.getInstance().nextLine();

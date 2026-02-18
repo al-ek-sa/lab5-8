@@ -1,30 +1,49 @@
 package edu.itmo.piikt.commands;
 
 import java.util.LinkedList;
+
+import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.reader.InputReader;
 
 public class ValidationCommand {
     private HistoryCommands historyCommands;
     private CommandFactory factory;
+    private IOProvider io;
 
-    public ValidationCommand() {
+    public ValidationCommand(IOProvider io) {
         this.historyCommands = HistoryCommands.getInstance();
-        this.factory = new CommandFactory();
+        this.factory = new CommandFactory(io);
+        this.io = io;
     }
 
     public void validation(){
         while (true){
-            String nameCommands = InputReader.getInstance().nextLine();
+            String nameCommands = io.readLIne();
             String input = nameCommands.trim();
             historyCommands.add(input);
 
+            String[] parts = input.split("\\s+", 2);
+            String commandName = parts[0];
+            String argument = parts.length > 1 ? parts[1] : "";
+
+            ArgumentCommand argumentCommand = factory.getArgumentCommand(commandName);
+            if(argumentCommand != null){
+                if(argument == null || argument.trim().isEmpty()){
+                    io.printException("Команда должна содержать аргументы");
+                } else {
+                    argumentCommand.execute(argument);
+                }
+                continue;
+            }
+
             Commands command = factory.getCommand(input);
+
             if (command != null){
                 command.execute();
             } else if (input.equals("historyAll")) {
                 historyCommands.printHistory();
             } else {
-                System.out.println("Команда введена неверно");
+                io.printException("Команда введена неверно");
             }
         }
     }

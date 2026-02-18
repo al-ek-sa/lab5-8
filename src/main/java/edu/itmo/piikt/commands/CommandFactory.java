@@ -2,33 +2,43 @@ package edu.itmo.piikt.commands;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.itmo.piikt.io.IOProvider;
 
 public class CommandFactory {
     private Map<String, Commands> commands = new HashMap<>();
+    private Map<String, ArgumentCommand> argumentCommands = new HashMap<>();
 
-    public CommandFactory() {
+    public CommandFactory(IOProvider io) {
         HistoryCommands history = HistoryCommands.getInstance();
 
-        writeCommand(new AddCommand());
-        writeCommand(new HelpCommand());
-        writeCommand(new InfoCommand());
-        writeCommand(new ShowCommand());
-        writeCommand(new UpdateIdCommand());
-        writeCommand(new RemoveByIdCommand());
-        writeCommand(new ClearCommand());
-        writeCommand(new SaveCommand());
-        writeCommand(new ExecuteScriptCommand());
-        writeCommand(new ExitCommand());
-        writeCommand(new HeadCommand());
-        writeCommand(new RemoveLowerCommander());
-        writeCommand(new HistoryCommand());
-        writeCommand(new CountByOrganizationCommand());
-        writeCommand(new FilterContainsNameCommand());
-        writeCommand(new PrintFieldDescendingEndDataCommand());
+        writeCommand(new AddCommand(io));
+        writeCommand(new HelpCommand(io));
+        writeCommand(new InfoCommand(io));
+        writeCommand(new ShowCommand(io));
+        writeCommand(new UpdateIdCommand(io));
+        writeArgumentCommand(new RemoveByIdCommand(io));
+        writeCommand(new ClearCommand(io));
+        writeCommand(new SaveCommand(io));
+        writeArgumentCommand(new ExecuteScriptCommand(io));
+        writeCommand(new ExitCommand(io));
+        writeCommand(new HeadCommand(io));
+        writeCommand(new RemoveLowerCommander(io));
+        writeCommand(new HistoryCommand(io));
+        writeCommand(new CountByOrganizationCommand(io));
+        writeArgumentCommand(new FilterContainsNameCommand(io));
+        writeCommand(new PrintFieldDescendingEndDataCommand(io));
     }
 
     private void writeCommand(Commands command){
         commands.put(command.getName(), command);
+    }
+
+    private void writeArgumentCommand(ArgumentCommand argumentCommand){
+        argumentCommands.put(argumentCommand.getName(), argumentCommand);
+    }
+
+    public ArgumentCommand getArgumentCommand(String name){
+        return argumentCommands.get(name);
     }
 
     public Commands getCommand(String name){

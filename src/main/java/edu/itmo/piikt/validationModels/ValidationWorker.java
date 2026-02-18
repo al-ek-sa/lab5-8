@@ -1,5 +1,6 @@
 package edu.itmo.piikt.validationModels;
 
+import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.*;
 import edu.itmo.piikt.reader.InputReader;
 
@@ -10,14 +11,16 @@ import java.text.ParseException;
 import java.time.format.DateTimeParseException;
 
 public class ValidationWorker {
+    private IOProvider io;
     private ValidationCoordinates coordinates;
     private ValidationStatus status;
     private ValidationOrganization organization;
     private InputReader scanner;
-    public ValidationWorker(){
-        this.coordinates = new ValidationCoordinates();
-        this.status = new ValidationStatus();
-        this.organization = new ValidationOrganization();
+    public ValidationWorker(IOProvider io){
+        this.io = io;
+        this.coordinates = new ValidationCoordinates(io);
+        this.status = new ValidationStatus(io);
+        this.organization = new ValidationOrganization(io);
         this.scanner = InputReader.getInstance();
     }
 
@@ -33,19 +36,18 @@ public class ValidationWorker {
     }
 
     public Coordinates validationNullCoordinates(){
-        System.out.println("Enter coordinates");
+        io.print("Enter coordinates");
         while(true) {
             Coordinates coordinatesConsole = coordinates.сoordinates();
             if (coordinatesConsole != null) {
                 return coordinatesConsole;
-            } else System.out.println("Invalid coordinates, please try again");
-            System.out.println("Enter coordinates");
+            } else io.printException("Invalid coordinates, please try again");
         }
     }
 
     public Float validationSalary(){
         while (true){
-            System.out.println("Enter salary (value must be greater than 0)");
+            io.println("Enter salary (value must be greater than 0)");
             try {
                 String input = scanner.nextLine();
                     if (input.isEmpty()) {

@@ -1,14 +1,17 @@
 package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
+import edu.itmo.piikt.io.IOProvider;
 
 public class PrintFieldDescendingEndDataCommand extends  Commands {
-    public PrintFieldDescendingEndDataCommand() {
+    private IOProvider io;
+    public PrintFieldDescendingEndDataCommand(IOProvider io) {
         super("print_field_descending_end_date");
+        this.io = io;
     }
 
     @Override
     public void execute() {
-        HistoryWorker.getInstance().sort();
+        HistoryWorker.getInstance(io).sort();
     }
 }

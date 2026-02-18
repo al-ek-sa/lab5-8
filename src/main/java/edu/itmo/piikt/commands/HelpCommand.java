@@ -1,16 +1,22 @@
 package edu.itmo.piikt.commands;
 
+import edu.itmo.piikt.io.IOProvider;
+
 import java.util.LinkedList;
 
 //public class HelpCommand implements Command {
 public class HelpCommand extends Commands{
-    public HelpCommand(){
+    private IOProvider io;
+    public HelpCommand(IOProvider io){
         super("help");
+        this.io = io;
     }
 
     @Override
     public void execute() {
-        System.out.println("    help : display help on available commands\n" +
+        String input = "-".repeat(50);
+        io.println(input);
+        io.println("    help : display help on available commands\n" +
                 "    info : output information about the collection to stdout (type, initialization date, number of elements, etc.)\n" +
                 "    show : output all collection elements in string representation to stdout\n" +
                 "    add {element} : add a new element to the collection\n" +
@@ -26,5 +32,6 @@ public class HelpCommand extends Commands{
                 "    count_by_organization organization : output the number of elements whose organization field value is equal to the specified one\n" +
                 "    filter_contains_name name : output elements whose name field value contains the specified substring\n" +
                 "    print_field_descending_end_date : output the values of the endDate field of all elements in descending order");
+        io.println(input);
     }
 }

@@ -1,12 +1,13 @@
 package edu.itmo.piikt.validationModels;
 
+import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.Coordinates;
 import edu.itmo.piikt.reader.InputReader;
 
 public class ValidationCoordinates {
-    private InputReader scanner;
-    public ValidationCoordinates(){
-        this.scanner = InputReader.getInstance();
+    private IOProvider io;
+    public ValidationCoordinates(IOProvider io){
+        this.io =io;
     }
 
 
@@ -14,38 +15,40 @@ public class ValidationCoordinates {
         System.out.println("Enter the first coordinate X (value must not exceed 10)");
         while(true){
             try{
-                String input = scanner.nextLine().trim();
+                io.print("Enter the first coordinate X ");
+                io.println("(value must not exceed 10, required field)");
+                String input = io.readLIne().trim();
                 long xConsole = Long.parseLong(input);
                 if (xConsole <= 10) {
                     return xConsole;
-                } else System.out.println("Invalid coordinate. X must not exceed 10");
-                System.out.println("Enter the first coordinate X (value must not exceed 10)");
+                } else io.printException("Invalid coordinate. X must not exceed 10");
             } catch (RuntimeException e) {
-                System.out.println("Invalid coordinate. X must not exceed 10");
-                System.out.println("Enter the first coordinate X (value must not exceed 10)");
+                io.printException("ОБРАТИТЬ ВНИМАНИЕ МОЖЕТ БЫТЬ СТРОКОЙ А МОЖЕТ БЫТЬ NULL");
             }
         }
     }
 
 
     public long validatorY() {
-        System.out.println("Enter the second coordinate Y (value must be greater than -644)");
         while (true) {
-            try{
-                String input = scanner.nextLine().trim();
+            try {
+                io.print("Enter the second coordinate Y ");
+                io.println("(value must be greater than -644, required field)");
+                String input = io.readLIne().trim();
                 long yConsole = Long.parseLong(input);
                 if (yConsole > -644) {
                     return yConsole;
-                } else System.out.println("Incorrect coordinate. The Y value must be greater than -644");
-                System.out.println("Enter the second coordinate Y (value must be greater than -644)");
+                } else io.printException("Incorrect coordinate. The Y value must be greater than -644");
+            }catch (NullPointerException e){
+                io.printException("Строка не заполнена");
             } catch (RuntimeException e) {
-                System.out.println("Incorrect coordinate. The Y value must be greater than -644");
-                System.out.println("Enter the second coordinate Y (value must be greater than -644)");
+                io.printException("Строка содержит буквы");
             }
         }
     }
 
     public Coordinates сoordinates() {
+        io.println("All coordinate fields have been successfully filled");
         return new Coordinates(validatorX(),validatorY());
     }
 }

@@ -1,13 +1,16 @@
 package edu.itmo.piikt.validationModels;
 
+import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.OrganizationType;
 import edu.itmo.piikt.models.Status;
 import edu.itmo.piikt.reader.InputReader;
 
 public class ValidationOrganizationType {
     private InputReader scanner;
-    public ValidationOrganizationType(){
+    private IOProvider io;
+    public ValidationOrganizationType(IOProvider io){
         this.scanner = InputReader.getInstance();
+        this.io = io;
     }
 
     public OrganizationType organizationType(){
@@ -25,7 +28,7 @@ public class ValidationOrganizationType {
                     }
                 }
             } catch (RuntimeException e) {
-                System.out.println("Invalid input, please enter the value again");
+                io.printException("Invalid input, please enter the value again");
             }
         }
     }
