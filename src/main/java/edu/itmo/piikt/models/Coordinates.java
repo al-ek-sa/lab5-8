@@ -3,9 +3,9 @@ package edu.itmo.piikt.models;
 import com.opencsv.bean.CsvBindByPosition;
 
 public class Coordinates {
-    @CsvBindByPosition(position = 3)
+    @CsvBindByPosition(position = 2)
     private long x; //Максимальное значение поля: 10
-    @CsvBindByPosition(position = 4)
+    @CsvBindByPosition(position = 3)
     private float y; //Значение поля должно быть больше -644
     public Coordinates(long x, float y){
         this.x = x;

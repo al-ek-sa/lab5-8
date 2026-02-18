@@ -153,4 +153,8 @@ public class HistoryWorker {
         while (iterator.hasNext()) {
             System.out.println(iterator.next());}
     }
+
+    public LinkedList<Worker> getListWorker() {
+        return listWorker;
+    }
 }

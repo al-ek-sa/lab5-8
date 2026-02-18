@@ -1,9 +1,6 @@
 package edu.itmo.piikt.commands;
 
-import java.util.LinkedList;
-
 import edu.itmo.piikt.io.IOProvider;
-import edu.itmo.piikt.reader.InputReader;
 
 public class ValidationCommand {
     private HistoryCommands historyCommands;
@@ -18,7 +15,7 @@ public class ValidationCommand {
 
     public void validation(){
         while (true){
-            String nameCommands = io.readLIne();
+            String nameCommands = io.readLine();
             String input = nameCommands.trim();
             historyCommands.add(input);
 

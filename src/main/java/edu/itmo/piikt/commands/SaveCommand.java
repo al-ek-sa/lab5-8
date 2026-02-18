@@ -1,6 +1,7 @@
 package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.reader.CSVParser;
 
 public class SaveCommand extends Commands {
     private IOProvider io;
@@ -10,6 +11,7 @@ public class SaveCommand extends Commands {
     }
     @Override
     public void execute() {
-
+        CSVParser csvParser = new CSVParser(io);
+        csvParser.saveCollection();
     }
 }

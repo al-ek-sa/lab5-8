@@ -1,21 +1,20 @@
 package edu.itmo.piikt.io;
 
-import edu.itmo.piikt.reader.InputReader;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
-public class IOScanner implements IOProvider{
-    private InputReader scanner;
-    public IOScanner(){
-        this.scanner = InputReader.getInstance();
+public class IOFile implements  IOProvider {
+    private BufferedInputStream reading;
+    public IOFile(String nameFile) throws IOException {
+        FileInputStream file = new FileInputStream(nameFile);
+        this.reading = new BufferedInputStream(file);
     }
 
     @Override
     public void print(String message) {
         System.out.print(ANSI_ORANGE_256 + message + ANSI_RESET);
-    }
-
-    @Override
-    public String readLine() {
-        return scanner.nextLine();
     }
 
     @Override
@@ -31,5 +30,11 @@ public class IOScanner implements IOProvider{
     @Override
     public void println(String message) {
         System.out.println(ANSI_GREEN + message + ANSI_RESET);
+    }
+    int byteRead;
+
+    @Override
+    public String readLine() {
+        return "help";
     }
 }

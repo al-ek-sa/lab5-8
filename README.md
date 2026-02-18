@@ -102,4 +102,6 @@ public enum OrganizationType {
 ```bash
 mvn clean compile
 mvn package
-java -jar target/*.jar
+mkdir -p /home/xfiles/lab5/data/
+export WORKER_FILE="/home/xfiles/itmo/proga/2sem/lab5/workers.csv"
+java -jar target/lab5-1.0-SNAPSHOT-jar-with-dependencies.jar

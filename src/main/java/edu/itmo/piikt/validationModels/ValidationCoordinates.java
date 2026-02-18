@@ -2,7 +2,6 @@ package edu.itmo.piikt.validationModels;
 
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.Coordinates;
-import edu.itmo.piikt.reader.InputReader;
 
 public class ValidationCoordinates {
     private IOProvider io;
@@ -17,7 +16,7 @@ public class ValidationCoordinates {
             try{
                 io.print("Enter the first coordinate X ");
                 io.println("(value must not exceed 10, required field)");
-                String input = io.readLIne().trim();
+                String input = io.readLine().trim();
                 long xConsole = Long.parseLong(input);
                 if (xConsole <= 10) {
                     return xConsole;
@@ -34,7 +33,7 @@ public class ValidationCoordinates {
             try {
                 io.print("Enter the second coordinate Y ");
                 io.println("(value must be greater than -644, required field)");
-                String input = io.readLIne().trim();
+                String input = io.readLine().trim();
                 long yConsole = Long.parseLong(input);
                 if (yConsole > -644) {
                     return yConsole;

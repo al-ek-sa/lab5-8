@@ -5,7 +5,7 @@ import com.opencsv.bean.CsvBindByPosition;
 import java.util.Objects;
 
 public class Address {
-    @CsvBindByPosition(position = 12)
+    @CsvBindByPosition(position = 11)
      private String street; //Поле не может быть null
      public Address(String street){
      this.street = street;

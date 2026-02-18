@@ -6,9 +6,9 @@ import com.opencsv.bean.CsvRecurse;
 import java.util.Objects;
 
 final public class Organization {
-    @CsvBindByPosition(position = 10)
+    @CsvBindByPosition(position = 9)
     private int annualTurnover; //Значение поля должно быть больше 0
-    @CsvBindByPosition(position =11)
+    @CsvBindByPosition(position = 10)
     private OrganizationType type; //Поле не может быть null
     @CsvRecurse
     private Address officialAddress; //Поле не может быть null

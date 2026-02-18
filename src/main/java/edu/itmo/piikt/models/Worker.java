@@ -10,21 +10,21 @@ import edu.itmo.piikt.validationModels.GeneratorId;
 import edu.itmo.piikt.validationModels.ValidationWorker;
 
 public class Worker implements Comparable<Worker> {
-    @CsvBindByPosition(position = 1)
+    @CsvBindByPosition(position = 0)
     private int id;
-    @CsvBindByPosition(position = 2)//Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    @CsvBindByPosition(position = 1)//Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     @CsvRecurse
     private Coordinates coordinates; //Поле не может быть null
-    @CsvBindByPosition(position = 5)
+    @CsvBindByPosition(position = 4)
     private java.util.Date creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
-    @CsvBindByPosition(position = 6)
+    @CsvBindByPosition(position = 5)
     private Float salary; //Поле может быть null, Значение поля должно быть больше 0
-    @CsvBindByPosition(position = 7)
+    @CsvBindByPosition(position = 6)
     private java.util.Date startDate; //Поле не может быть null
-    @CsvBindByPosition(position = 8)
+    @CsvBindByPosition(position = 7)
     private java.time.ZonedDateTime endDate;
-    @CsvBindByPosition(position = 9)
+    @CsvBindByPosition(position = 8)
     private Status status; //Поле не может быть null
     @CsvRecurse
     private Organization organization;

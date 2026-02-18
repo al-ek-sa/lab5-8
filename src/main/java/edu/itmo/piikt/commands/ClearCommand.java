@@ -32,7 +32,7 @@ public class ClearCommand extends  Commands implements Confirmation {
     @Override
     public String confirmation(){
         while (true){
-            String  input = io.readLIne();
+            String  input = io.readLine();
             if (input.equals("yes")){
                 return "yes";
             } else if (input.equals("no")) {

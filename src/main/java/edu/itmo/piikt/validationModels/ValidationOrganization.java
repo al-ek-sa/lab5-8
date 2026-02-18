@@ -4,7 +4,6 @@ import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.Address;
 import edu.itmo.piikt.models.Organization;
 import edu.itmo.piikt.models.OrganizationType;
-import edu.itmo.piikt.reader.InputReader;
 
 public class ValidationOrganization {
     private ValidationOrganizationType type;
@@ -40,7 +39,7 @@ public class ValidationOrganization {
         System.out.println("Enter annual turnover (annual turnover must be an integer greater than 0)");
         while (true) {
             try{
-                String input = io.readLIne();
+                String input = io.readLine();
                 int annualTurnoverConsole = Integer.parseInt(input);
                 if (annualTurnoverConsole > 0) {
                     return annualTurnoverConsole;
