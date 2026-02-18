@@ -1,16 +1,21 @@
 package edu.itmo.piikt.validationModels;
 
+import edu.itmo.piikt.historyWorker.HistoryWorker;
+import edu.itmo.piikt.io.IOProvider;
+
 public class GeneratorId {
+    private IOProvider io;
     private static GeneratorId instance;
     private int startId;
 
-    private GeneratorId(){
-        this.startId = 1; /**потом изменить на значение из файла, если файл пустой, то будет начинаться с 1*/
+    private GeneratorId(IOProvider io){
+        this.startId = HistoryWorker.getInstance(io).tailWorked() + 1;
+        this.io = io;
     }
 
-    public static GeneratorId getInstance(){
+    public static GeneratorId getInstance(IOProvider io){
         if (instance == null) {
-            instance = new GeneratorId();
+            instance = new GeneratorId(io);
         } return  instance;
     }
 

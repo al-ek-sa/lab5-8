@@ -18,6 +18,7 @@ final public class Organization {
         this.type = type;
         this.officialAddress = officialAddress;
     }
+    public Organization(){}
 
     @Override
     public String toString() {

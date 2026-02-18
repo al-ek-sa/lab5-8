@@ -1,5 +1,6 @@
 package edu.itmo.piikt.reader;
 
+import com.opencsv.CSVReader;
 import com.opencsv.bean.*;
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
@@ -53,4 +54,23 @@ public class CSVParser {
             e.printStackTrace();
         }
     }
+
+    public void readFile(){
+        try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(fileName));
+             InputStreamReader reader = new InputStreamReader(input)) {
+             CsvToBean<Worker> csvReader = new CsvToBeanBuilder<Worker>(reader)
+                     .withType(Worker.class)
+                     .withSeparator(';')
+                     .withIgnoreLeadingWhiteSpace(true)
+                     .withIgnoreEmptyLine(true)
+                     .build();
+             List<Worker> workers = csvReader.parse();
+             HistoryWorker historyWorker = HistoryWorker.getInstance(io);
+             for(Worker worker : workers) {
+                 historyWorker.add(worker);
+             }
+
+        } catch (IOException e) {
+            io.printException("ошибка чтения файла");
+        }}
 }

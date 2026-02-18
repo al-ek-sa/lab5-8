@@ -12,6 +12,8 @@ public class Coordinates {
         this.y = y;
     }
 
+    public Coordinates() {}
+
     public void setY(float y) {
         this.y = y;
     }

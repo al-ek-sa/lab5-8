@@ -1,6 +1,7 @@
 package edu.itmo.piikt.models;
 
 import com.opencsv.bean.CsvBindByPosition;
+import jdk.jfr.DataAmount;
 
 import java.util.Objects;
 
@@ -10,6 +11,7 @@ public class Address {
      public Address(String street){
      this.street = street;
      }
+     public Address() {}
 
     @Override
     public String toString() {

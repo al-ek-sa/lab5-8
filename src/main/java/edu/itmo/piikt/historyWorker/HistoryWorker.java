@@ -108,9 +108,9 @@ public class HistoryWorker {
                 break;
             }
         }
-        GeneratorId.getInstance().setStartId(idConsole);
+        GeneratorId.getInstance(io).setStartId(idConsole);
         add(worker.worker());
-        GeneratorId.getInstance().setStartId(idNewStart);
+        GeneratorId.getInstance(io).setStartId(idNewStart);
     }
 
     public void countByOrganization() {
@@ -156,5 +156,9 @@ public class HistoryWorker {
 
     public LinkedList<Worker> getListWorker() {
         return listWorker;
+    }
+
+    public int tailWorked() {
+        return  listWorker.getLast().getId();
     }
 }

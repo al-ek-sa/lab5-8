@@ -5,11 +5,14 @@ import java.util.Date;
 import java.util.Comparator;
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvRecurse;
+import com.opencsv.bean.CsvDate;
 
+import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.validationModels.GeneratorId;
 import edu.itmo.piikt.validationModels.ValidationWorker;
 
 public class Worker implements Comparable<Worker> {
+    private IOProvider io;
     @CsvBindByPosition(position = 0)
     private int id;
     @CsvBindByPosition(position = 1)//Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
@@ -17,12 +20,15 @@ public class Worker implements Comparable<Worker> {
     @CsvRecurse
     private Coordinates coordinates; //Поле не может быть null
     @CsvBindByPosition(position = 4)
+    @CsvDate("yyyy-MM-dd HH:mm:ss")
     private java.util.Date creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
     @CsvBindByPosition(position = 5)
     private Float salary; //Поле может быть null, Значение поля должно быть больше 0
     @CsvBindByPosition(position = 6)
+    @CsvDate("yyyy-MM-dd HH:mm:ss")
     private java.util.Date startDate; //Поле не может быть null
     @CsvBindByPosition(position = 7)
+    @CsvDate("yyyy-MM-dd'T'HH:mm:ssXXX")
     private java.time.ZonedDateTime endDate;
     @CsvBindByPosition(position = 8)
     private Status status; //Поле не может быть null
@@ -32,7 +38,7 @@ public class Worker implements Comparable<Worker> {
     public Worker(String name, Coordinates coordinates, Float salary,
                   Date startDate, ZonedDateTime endDate, Status status,
                   Organization organization){
-        this.id = GeneratorId.getInstance().getId(); //генерация в отдельном классе
+        this.id = GeneratorId.getInstance(io).getId(); //генерация в отдельном классе
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = new Date();
@@ -41,6 +47,9 @@ public class Worker implements Comparable<Worker> {
         this.endDate = endDate;
         this.status = status;
         this.organization = organization;
+    }
+
+    public Worker() {
     }
 
     @Override
