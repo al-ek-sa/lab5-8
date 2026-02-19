@@ -16,7 +16,7 @@ public class ClearCommand extends  Commands implements Confirmation {
     public void execute() {
         String input = "-".repeat(50);
         io.println(input);
-        io.println("Are you sure you want to clear the collection? (yes/no)");
+        io.println("Are you sure you want to clear the collection? (yes/no)"); //Вы точно хотите очистить коллекцию? (да/нет)
         String consent = confirmation();
         if (consent.equals("yes")){
             io.println("Consent received, clearing collection");
@@ -37,7 +37,7 @@ public class ClearCommand extends  Commands implements Confirmation {
                 return "yes";
             } else if (input.equals("no")) {
                 return "no";
-            } io.println("Please enter 'yes' or 'no'");
+            } io.println("Please enter 'yes' or 'no'"); //пожалуйста введите да или нет
         }
     }
 }

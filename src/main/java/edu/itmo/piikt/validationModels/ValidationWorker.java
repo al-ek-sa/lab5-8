@@ -25,29 +25,33 @@ public class ValidationWorker {
     }
 
     public String validationName(){
-        System.out.println("Enter name");
+        //Введите имя (поле обязательно для заполнения)
+        io.printField("Enter name", "(field is required)");
         String nameConsole = scanner.nextLine();
         while(true) {
             if (!nameConsole.isBlank()) {
                 return nameConsole;
-            }else System.out.println("Invalid name, please try again");
-            System.out.println("Enter name");
+                //Поле не введено, повторите попытку
+            }else io.printException("Field not entered, please try again");
         }
     }
 
     public Coordinates validationNullCoordinates(){
-        io.print("Enter coordinates");
+        //Введите координаты (поле обязательно для заполнения)
+        io.printField("Enter coordinates", "(field is required)");
         while(true) {
             Coordinates coordinatesConsole = coordinates.сoordinates();
             if (coordinatesConsole != null) {
                 return coordinatesConsole;
-            } else io.printException("Invalid coordinates, please try again");
+                //Поле не введено, повторите попытку
+            } else io.printException("Field not entered, please try again");
         }
     }
 
     public Float validationSalary(){
         while (true){
-            io.println("Enter salary (value must be greater than 0)");
+            //Введите заработную плату (значение должно быть больше 0)
+            io.printField("Enter salary", "(value must be greater than 0)");
             try {
                 String input = scanner.nextLine();
                     if (input.isEmpty()) {
@@ -56,7 +60,8 @@ public class ValidationWorker {
                 float salaryConsole = Float.parseFloat(input);
                 if (salaryConsole > 0) {
                     return salaryConsole;
-                }else  System.out.println("Invalid input, please enter the value again");}
+                    //введенное значение не положительное, повторите попытку
+                }else  System.out.println("Entered value is not positive, please try again");}
             catch (RuntimeException e) {
                 System.out.println("Invalid input, please enter the value again");
             }}
@@ -64,7 +69,8 @@ public class ValidationWorker {
 
     public Date validationStartDate(){
         while (true){
-            System.out.println("Please enter the start date (format: dd-MM-yyyy)");
+            //Введите дату начала работу (формат: 30-01-2024, поле обязательно к заполнения)
+            io.printField("Enter start date", "(format: 30-01-2024, field is required)");
             String startDateConsole = scanner.nextLine();
             if (startDateConsole != null && !startDateConsole.isBlank()){
                 try {
@@ -77,9 +83,11 @@ public class ValidationWorker {
     }
 
     public ZonedDateTime validationEndDate(){
-        System.out.println("Enter the end date\nInput example: 2026-02-15");
         while(true){
-        String endDateConsole = scanner.nextLine();
+            //Введите дату увольнения (формат: 2026-02-15)
+            io.printField("Enter dismissal date", "(format: 2026-02-15)");
+
+            String endDateConsole = scanner.nextLine();
             if (endDateConsole == null || endDateConsole.isBlank()) {
                 return null;
             }
@@ -90,19 +98,20 @@ public class ValidationWorker {
                 ZonedDateTime dateTime = ZonedDateTime.of(date, timeNow, ZoneId.systemDefault());
                 return dateTime;
             } catch (DateTimeParseException e) {
-                System.out.println("The date could not be parsed into the required format");
-                System.out.println("Enter the end date\nInput example: 2026-02-15");}
+                System.out.println("The date could not be parsed into the required format");}
         }
     }
 
     public Status validationNullStatus(){
         System.out.println("Choose one of the statuses and write it in uppercase");
         while(true){
-        Status statusConsole = status.status();
-        if (statusConsole != null) {
-            return statusConsole;
-        }else System.out.println("Required field");
-        System.out.println("Choose one of the statuses and write it in uppercase");
+            //введите статус (поле обязательно к заполнению)
+            io.printField("Enter status", "(field is required)");
+            Status statusConsole = status.status();
+            if (statusConsole != null) {
+                return statusConsole;
+                //поле не заполнено, повторите попытку
+            }else io.printException("Field is empty, please try again");
         }
     }
 

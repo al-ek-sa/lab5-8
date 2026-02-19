@@ -13,5 +13,6 @@ public class SaveCommand extends Commands {
     public void execute() {
         CSVParser csvParser = new CSVParser(io);
         csvParser.saveCollection();
+        csvParser.saveCollection1();
     }
 }

@@ -16,19 +16,20 @@ public class ValidationOrganization {
     }
 
     public Address validationNullAddress(){
-        System.out.println("Enter the address");
         while (true){
-            io.println("Enter the address");
+            //Введите адрес (поле обязательно к заполнению)
+            io.printField("Enter the address", "(required field)");
             Address addressConsole = address.validationAddress();
             if (addressConsole != null ){
                 return addressConsole;
-            } else System.out.println("Required field");
-            System.out.println("Enter the address");
+                //поле не заполнено, повторите попытку
+            } else io.printException("Field is empty, please try again");
         }
     }
 
     public OrganizationType validationNullOrganizationType(){
-        System.out.println("Select the organization type from the suggested options and enter it in uppercase");
+        //Выберите тип организации
+        io.println("Select the organization type");
         OrganizationType organizationTypeConsole = type.organizationType();
         if (organizationTypeConsole != null ) {
             return organizationTypeConsole;
@@ -36,18 +37,18 @@ public class ValidationOrganization {
     }
 
     public int validationAnnualTurnover(){
-        System.out.println("Enter annual turnover (annual turnover must be an integer greater than 0)");
         while (true) {
             try{
+                //Введите годовой оборот (годовой оборот должен быть целым числом больше 0, поле обязательно к заполнению)
+                io.printField("Enter annual turnover", "(annual turnover must be an integer greater than 0. Field is required)");
                 String input = io.readLine();
                 int annualTurnoverConsole = Integer.parseInt(input);
                 if (annualTurnoverConsole > 0) {
                     return annualTurnoverConsole;
-                } else System.out.println("Invalid input, please enter the value again");
-                System.out.println("Enter annual turnover (annual turnover must be an integer greater than 0)");
+                    //Введено неположительное значение, повторите попытку
+                } else io.printException("A non-positive value has been entered, please try again");
         } catch (RuntimeException e) {
-                System.out.println("Invalid input, please enter the value again");
-                System.out.println("Enter annual turnover (annual turnover must be an integer greater than 0)");
+                io.printError("Invalid input, please enter the value again");
             }}
     }
 

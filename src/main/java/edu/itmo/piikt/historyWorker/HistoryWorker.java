@@ -159,6 +159,9 @@ public class HistoryWorker {
     }
 
     public int tailWorked() {
-        return  listWorker.getLast().getId();
+        if (listWorker.isEmpty()) {
+            return 0;
+        } else{
+        return  listWorker.getLast().getId();}
     }
 }

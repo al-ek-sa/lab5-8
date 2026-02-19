@@ -15,7 +15,8 @@ public class ValidationOrganizationType {
 
     public OrganizationType organizationType(){
         while (true){
-            System.out.println("Organization type options:");
+            //Выберите тип организации (введите ее номер)
+            io.printField("Select the organization type", "(enter its number)");
             for (OrganizationType type : OrganizationType.values()) {
                 System.out.println("(" + type.getId() +") " + type.name());
             }
@@ -28,7 +29,8 @@ public class ValidationOrganizationType {
                     }
                 }
             } catch (RuntimeException e) {
-                io.printException("Invalid input, please enter the value again");
+                //Либо ничего не введено либо цифры не те либо буквы
+                io.printError("Invalid input, please enter the value again");
             }
         }
     }
