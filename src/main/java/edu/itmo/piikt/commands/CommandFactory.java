@@ -7,9 +7,10 @@ import edu.itmo.piikt.io.IOProvider;
 public class CommandFactory {
     private Map<String, Commands> commands = new HashMap<>();
     private Map<String, ArgumentCommand> argumentCommands = new HashMap<>();
-
+    private IOProvider io;
     public CommandFactory(IOProvider io) {
         HistoryCommands history = HistoryCommands.getInstance();
+        this.io = io;
 
         writeCommand(new AddCommand(io));
         writeCommand(new HelpCommand(io));

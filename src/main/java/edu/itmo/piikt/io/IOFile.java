@@ -8,8 +8,7 @@ import java.io.IOException;
 public class IOFile implements  IOProvider {
     private BufferedInputStream reading;
     public IOFile(String nameFile) throws IOException {
-        FileInputStream file = new FileInputStream(nameFile);
-        this.reading = new BufferedInputStream(file);
+        this.reading = new BufferedInputStream(new FileInputStream(nameFile));
     }
 
     @Override
@@ -35,7 +34,27 @@ public class IOFile implements  IOProvider {
 
     @Override
     public String readLine() {
-        return "help";
+        try {
+            StringBuilder line = new StringBuilder();
+            int byteFile;
+
+            while ((byteFile = reading.read()) != -1){
+                if (byteFile == '\n'){
+                    break;
+                }
+
+                line.append((char) byteFile);
+            }
+
+            String command = line.toString();
+
+            if (byteFile == -1){
+                return  null;
+            }
+            return command;
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     @Override

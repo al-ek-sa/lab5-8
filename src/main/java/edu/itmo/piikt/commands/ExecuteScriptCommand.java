@@ -16,19 +16,13 @@ public class ExecuteScriptCommand extends ArgumentCommand {
 
     @Override
     public void execute(String argument) {
-       /** String fileName;
-        if (argument != null || !argument.isEmpty()){
-            fileName = argument;
-        } else {
-            io.printError("Enter script file name:");
-            fileName = io.readLine().trim();
+        try{
+            IOFile script = new IOFile(argument);
+            CommandFactory newFactory = new CommandFactory(script);
+            ValidationCommand scriptValidation = new ValidationCommand(script);
+            scriptValidation.validation();
+        } catch (IOException e) {
+            io.printError("ошибка в чтении скрипта");
         }
-
-        try (BufferedInputStream  = new BufferedInputStream(new FileInputStream(fileName))){
-            IOFile ioFile = new IOFile(fileName);
-
-            String command;
-            while ((command = scriptIO.line()))
-        }*/
     }
 }

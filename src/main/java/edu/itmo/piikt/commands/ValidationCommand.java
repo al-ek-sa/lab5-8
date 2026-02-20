@@ -16,6 +16,12 @@ public class ValidationCommand {
     public void validation(){
         while (true){
             String nameCommands = io.readLine();
+
+            if (nameCommands == null) {
+                io.println("файл прочитан");
+                break;
+            }
+
             String input = nameCommands.trim();
             historyCommands.add(input);
 
@@ -25,7 +31,7 @@ public class ValidationCommand {
 
             ArgumentCommand argumentCommand = factory.getArgumentCommand(commandName);
             if(argumentCommand != null){
-                if(argument == null || argument.trim().isEmpty()){
+                if(argument.trim().isEmpty()){
                     io.printException("Команда должна содержать аргументы");
                 } else {
                     argumentCommand.execute(argument);
