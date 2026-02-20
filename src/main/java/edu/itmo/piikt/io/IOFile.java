@@ -61,4 +61,9 @@ public class IOFile implements  IOProvider {
     public void printField(String message, String messageFiled) {
         System.out.println(ANSI_TURQUOISE_LIGHT + message + ANSI_RESET + " " + ANSI_LAVENDER_LIGHT + messageFiled + ANSI_RESET);
     }
+
+    @Override
+    public String name() {
+        return "File";
+    }
 }

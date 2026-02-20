@@ -16,12 +16,11 @@ public class AddCommand extends Commands {
 
     @Override
     public void execute() {
-        String input = "-".repeat(70);
-        io.println(input);
-        io.println("adding an element to the employee list");
-        HistoryWorker.getInstance(io).add(worker.worker());
-        io.println("command executed successfully, worker added to the collection");
-        io.println(input);
+        try {
+            HistoryWorker.getInstance(io).add(worker.worker());
+        } catch (RuntimeException e){
+            io.printError("в скрипте внесены неправильные данные");
+        }
     }
 
 }

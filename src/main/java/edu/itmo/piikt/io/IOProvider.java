@@ -15,4 +15,5 @@ public interface IOProvider {
     void printError(String message);
     void printField (String message, String messageField);
     String readLine();
+    String name();
 }

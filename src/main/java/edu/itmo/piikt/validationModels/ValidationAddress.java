@@ -10,12 +10,26 @@ public class ValidationAddress {
     }
 
     public Address validationAddress() {
-        while (true){
-            //Введите улицу, на которой проживает сотрудник (поле обязательно для заполнения)
-            io.printField("Enter the street where the employee lives", "(required field)");
+
+        if (io.name().equals("File")) {
             String streetConsole = io.readLine();
             if (!streetConsole.isBlank()){
                 return new Address(streetConsole);
-            }else io.printException("Field is empty, please try again");} //поле не заполнено, повторите попытку
+            }
+
+            if (streetConsole == null){
+                throw new RuntimeException("Field 'street' is empty in file");}
+        }
+
+        if(io.name().equals("Console")) {
+            while (true){
+                //Введите улицу, на которой проживает сотрудник (поле обязательно для заполнения)
+                io.printField("Enter the street where the employee lives", "(required field)");
+                String streetConsole = io.readLine();
+                if (!streetConsole.isBlank()){
+                    return new Address(streetConsole);
+                }else io.printException("Field is empty, please try again");} //поле не заполнено, повторите попытку
+        } else {
+            throw new RuntimeException("Field 'street' is empty in file");}
     }
 }
