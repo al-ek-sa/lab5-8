@@ -1,6 +1,7 @@
 package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.reader.HistorySave;
 
 public class ValidationCommand {
     private HistoryCommands historyCommands;
@@ -16,6 +17,7 @@ public class ValidationCommand {
     public void validation(){
         while (true){
             String nameCommands = io.readLine();
+            HistorySave.getInstance().saveCollection();
 
             if (nameCommands == null) {
                 io.println("файл прочитан");

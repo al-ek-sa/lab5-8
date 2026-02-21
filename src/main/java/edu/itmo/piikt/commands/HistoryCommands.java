@@ -1,5 +1,7 @@
 package edu.itmo.piikt.commands;
 
+import edu.itmo.piikt.reader.HistorySave;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -19,6 +21,7 @@ public class HistoryCommands{
 
     public void add(String command) {
         listCommands.addFirst(command);
+
     }
 
     public Iterator<String> getIterator(){
