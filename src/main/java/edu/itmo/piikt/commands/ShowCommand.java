@@ -14,6 +14,21 @@ public class ShowCommand extends Commands {
     }
     @Override
     public void execute() {
-        historyWorker.printHistoryWorker();
+        try {
+            io.printeDesign();
+            //отображение коллекции
+            io.println("Displaying collection");
+            io.printeDesign();
+            historyWorker.printHistoryWorker();
+            io.printeDesign();
+            //Displaying collection
+            io.println("Collection displayed");
+            io.printeDesign();
+        } catch (Exception e) {
+            io.printeDesign();
+            //Отображение коллекции прервано
+            io.printError("Displaying collection interrupted");
+            io.printeDesign();
+        }
     }
 }

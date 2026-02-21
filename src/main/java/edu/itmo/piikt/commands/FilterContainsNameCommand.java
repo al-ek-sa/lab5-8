@@ -13,11 +13,19 @@ public class FilterContainsNameCommand extends ArgumentCommand {
 
     @Override
     public void execute(String argument) {
-        String input = "-".repeat(50);
-        io.println(input);
-        io.println("Search users by name");
-        HistoryWorker.getInstance(io).printName(argument);
-        io.println("All users with the entered name have been displayed");
-        io.println(input);
+        try {
+            io.printeDesign();;
+            io.println("Search users by name");
+            io.printeDesign();
+            HistoryWorker.getInstance(io).printName(argument);
+            io.printeDesign();
+            io.println("All users with the entered name have been displayed");
+            io.printeDesign();
+        } catch (Exception e) {
+            io.printeDesign();
+            //поиск неудался
+            io.printError("Search failed");
+            io.printeDesign();
+        }
     }
 }

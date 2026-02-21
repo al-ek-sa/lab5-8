@@ -58,7 +58,6 @@ public class CSVParser {
 
         } catch (Exception e) {
             io.printError("Error saving CSV: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -95,26 +94,31 @@ public class CSVParser {
 
         } catch (Exception e) {
             io.printError("Error saving CSV: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
     public void readFile(){
-        try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(fileName));
-             InputStreamReader reader = new InputStreamReader(input)) {
-             CsvToBean<Worker> csvReader = new CsvToBeanBuilder<Worker>(reader)
-                     .withType(Worker.class)
-                     .withSeparator(';')
-                     .withIgnoreLeadingWhiteSpace(true)
-                     .withIgnoreEmptyLine(true)
-                     .build();
-             List<Worker> workers = csvReader.parse();
-             HistoryWorker historyWorker = HistoryWorker.getInstance(io);
-             for(Worker worker : workers) {
-                 historyWorker.add(worker);
-             }
+        try{
+            try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(fileName));
+                 InputStreamReader reader = new InputStreamReader(input)) {
+                 CsvToBean<Worker> csvReader = new CsvToBeanBuilder<Worker>(reader)
+                         .withType(Worker.class)
+                         .withSeparator(';')
+                         .withIgnoreLeadingWhiteSpace(true)
+                         .withIgnoreEmptyLine(true)
+                         .withThrowExceptions(false)
+                         .build();
+                 List<Worker> workers = csvReader.parse();
+                 HistoryWorker historyWorker = HistoryWorker.getInstance(io);
+                 for(Worker worker : workers) {
+                     historyWorker.add(worker);
+                 }
 
-        } catch (IOException e) {
-            io.printException("ошибка чтения файла");
-        }}
+            } catch (Exception e) {
+                io.printError("Error reading CSV" + e.getMessage());
+            }
+        }catch (Exception e) {
+            io.printError("Error reading CSV" + e.getMessage());
+        }
+    }
 }

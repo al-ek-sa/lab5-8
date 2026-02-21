@@ -13,16 +13,26 @@ public class ExitCommand extends Commands implements Confirmation {
 
     @Override
     public void execute() {
-        String input = "-".repeat(50);
-        io.println(input);
-        io.println("Are you sure you want to exit? (yes/no)");
-        String consent = confirmation();
-        if (consent.equals("yes")){
-            io.println("Exit application");
-            System.exit(0);
-        } else {
-            io.println("Command cancelled");
-            io.println(input);
+        try {
+            io.printeDesign();
+            //вы уверены, что хотите выйти?
+            io.println("Are you sure you want to exit? (yes/no)");
+            String consent = confirmation();
+            if (consent.equals("yes")) {
+                io.printeDesign();
+                io.println("Exit application");
+                io.printeDesign();
+                System.exit(0);
+            } else {
+                io.printeDesign();
+                io.println("Command cancelled");
+                io.printeDesign();
+            }
+        } catch (Exception e) {
+            io.printeDesign();
+            //команда не выполнена
+            io.printError("Command not executed");
+            io.printeDesign();
         }
     }
 

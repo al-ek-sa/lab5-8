@@ -17,15 +17,23 @@ public class HistoryCommand extends Commands {
 
     @Override
     public void execute() {
-        String input = "-".repeat(50);
-        io.println(input);
-        io.println("Displaying the last 14 commands");
-        Iterator<String> iterator = historyCommands.getIterator();
-        for (int i = 1; i <= 14 && iterator.hasNext(); i++) {
-            String command = iterator.next();
-            System.out.println(command);
+        try {
+            io.printeDesign();
+            io.println("Displaying the last 14 commands");
+            io.printeDesign();
+            Iterator<String> iterator = historyCommands.getIterator();
+            for (int i = 1; i <= 14 && iterator.hasNext(); i++) {
+                String command = iterator.next();
+                System.out.println(command);
+            }
+            io.printeDesign();
+            io.println("Commands displayed successfully");
+            io.printeDesign();
+        } catch (Exception e) {
+            io.printeDesign();
+            //команда не выполнена
+            io.printError("Command not executed");
+            io.printeDesign();
         }
-        io.println("Commands displayed successfully");
-        io.println(input);
     }
 }

@@ -16,30 +16,47 @@ public class ClearCommand extends Commands implements Confirmation {
 
     @Override
     public void execute() {
-        String input = "-".repeat(50);
-        io.println(input);
+        io.printeDesign();
         io.println("Are you sure you want to clear the collection? (yes/no)"); //Вы точно хотите очистить коллекцию? (да/нет)
+        io.printeDesign();
         String consent = confirmation();
         if (consent.equals("yes")){
             io.println("Consent received, clearing collection");
             historyWorker.clear();
             io.println("Collection cleared successfully");
-            io.println(input);
+            io.printeDesign();
         } else {
+            io.printeDesign();
             io.println("Command cancelled");
-            io.println(input);
+            io.printeDesign();
         }
     }
 
     @Override
     public String confirmation(){
-        while (true){
-            String  input = io.readLine();
-            if (input.equals("yes")){
-                return "yes";
-            } else if (input.equals("no")) {
-                return "no";
-            } io.println("Please enter 'yes' or 'no'"); //пожалуйста введите да или нет
+        try {
+            while (true) {
+                io.printeDesign();
+                //Команда начинает свое выполнение
+                io.println("The command is starting its execution");
+                String input = io.readLine();
+                if (input.equals("yes")) {
+                    return "yes";
+                } else if (input.equals("no")) {
+                    return "no";
+                }
+                io.println("Please enter 'yes' or 'no'"); //пожалуйста введите да или нет
+                io.printeDesign();
+                //коллекция успешно очищена
+                io.println("Collection successfully cleared");
+                io.printeDesign();
+            }
+        }catch (Exception e) {
+            io.printeDesign();
+            //очистка коллекции не удалась
+            io.printError("Failed to clear the collection");
+            io.printeDesign();
+            return null;
         }
     }
 }

@@ -13,11 +13,20 @@ public class CountByOrganizationCommand extends Commands {
 
     @Override
     public void execute() {
-        String input = "-".repeat(50);
-        io.println(input);
-        io.println("Enter all values for Organization");
-        HistoryWorker.getInstance(io).countByOrganization();
-        io.println("Number of elements displayed successfully");
-        io.println(input);
+        try {
+            io.printeDesign();
+            //Введите все значения для организации
+            io.println("Enter all values for Organization");
+            io.printeDesign();
+            HistoryWorker.getInstance(io).countByOrganization();
+            io.printeDesign();
+            io.println("Number of elements displayed successfully");
+            io.printeDesign();
+        } catch (RuntimeException e){
+            io.printeDesign();
+            //ошибка выполнения, элементы не выведены
+            io.printError("Execution error, elements not displayed");
+            io.printeDesign();
+        }
     }
 }

@@ -15,11 +15,19 @@ public class HeadCommand extends Commands {
 
     @Override
     public void execute() {
-        String input = "-".repeat(50);
-        io.println(input);
-        io.println("Displaying the last added element");
-        historyWorker.peekFirst();
-        io.println("Element displayed on the screen");
-        io.println(input);
+        try {
+            io.printeDesign();
+            io.println("Displaying the last added element");
+            io.printeDesign();
+            historyWorker.peekFirst();
+            io.printeDesign();
+            io.println("Element displayed on the screen");
+            io.printeDesign();
+        } catch (Exception e) {
+            io.printeDesign();
+            //команда не выполнена
+            io.printError("Command not executed");
+            io.printeDesign();
+        }
     }
 }

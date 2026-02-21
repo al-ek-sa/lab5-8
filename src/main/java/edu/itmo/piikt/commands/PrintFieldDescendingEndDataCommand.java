@@ -13,6 +13,21 @@ public class PrintFieldDescendingEndDataCommand extends Commands {
 
     @Override
     public void execute() {
-        HistoryWorker.getInstance(io).sort();
+        try {
+            io.printeDesign();
+            //сортировка по дате увольнения началась
+            io.println("Sorting by date of dismissal started");
+            io.printeDesign();
+            HistoryWorker.getInstance(io).sort();
+            io.printeDesign();
+            //сортировка успешно окончена
+            io.println("Sorting completed successfully");
+            io.printeDesign();
+        } catch (Exception e) {
+            io.printeDesign();
+            //не удалось произвести сортировку
+            io.printError("Failed to sort");
+            io.printeDesign();
+        }
     }
 }

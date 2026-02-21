@@ -18,12 +18,23 @@ public class ExecuteScriptCommand extends ArgumentCommand {
     @Override
     public void execute(String argument) {
         try{
+            io.printeDesign();
+            //начало чтения скрипта
+            io.println("Start of script reading");
+            io.printeDesign();
             IOFile script = new IOFile(argument);
             CommandFactory newFactory = new CommandFactory(script);
             ValidationCommand scriptValidation = new ValidationCommand(script);
             scriptValidation.validation();
+            io.printeDesign();
+            //скрипт успешно прочтен и выполнен
+            io.println("Script successfully read and executed");
+            io.printeDesign();
         } catch (IOException e) {
-            io.printError("ошибка в чтении скрипта");
+            io.printeDesign();
+            //Ошибка, скрипт не прочтен
+            io.printError("Error, script not read");
+            io.printeDesign();
         }
     }
 }

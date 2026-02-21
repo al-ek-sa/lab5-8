@@ -20,7 +20,6 @@ public class ValidationCommand {
             HistorySave.getInstance().saveCollection();
 
             if (nameCommands == null) {
-                io.println("файл прочитан");
                 break;
             }
 
@@ -34,7 +33,10 @@ public class ValidationCommand {
             ArgumentCommand argumentCommand = factory.getArgumentCommand(commandName);
             if(argumentCommand != null){
                 if(argument.trim().isEmpty()){
-                    io.printException("Команда должна содержать аргументы");
+                    io.printeDesign();
+                    //Команда должна содержать аргументы
+                    io.printException("The command must contain arguments");
+                    io.printeDesign();
                 } else {
                     argumentCommand.execute(argument);
                 }
@@ -48,7 +50,10 @@ public class ValidationCommand {
             } else if (input.equals("historyAll")) {
                 historyCommands.printHistory();
             } else {
-                io.printException("Команда введена неверно");
+                io.printeDesign();
+                //Команда введена неверно
+                io.printException("The command was entered incorrectly");
+                io.printeDesign();
             }
         }
     }

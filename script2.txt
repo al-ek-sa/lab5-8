@@ -1,7 +1,6 @@
 help
 show
 history
-historyAll
 add
 Masha
 1

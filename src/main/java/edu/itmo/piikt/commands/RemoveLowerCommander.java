@@ -12,6 +12,21 @@ public class RemoveLowerCommander extends ArgumentCommand {
     }
     @Override
     public void execute(String argument) {
-        HistoryWorker.getInstance(io).removeLower(argument);
+        try {
+            io.printeDesign();
+            //удаление элементов началось
+            io.println("Deletion of items started");
+            io.printeDesign();
+            HistoryWorker.getInstance(io).removeLower(argument);
+            io.printeDesign();
+            //элементы успешно удалены
+            io.println("Items successfully deleted");
+            io.printeDesign();
+        } catch (RuntimeException e){
+            io.printeDesign();
+            //отказано в удалении элементов
+            io.printError("Items deletion denied");
+            io.printeDesign();
+        }
     }
 }

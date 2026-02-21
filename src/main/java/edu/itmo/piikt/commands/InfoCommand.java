@@ -13,6 +13,20 @@ public class InfoCommand extends Commands {
 
     @Override
     public void execute() {
-        HistoryWorker.getInstance(io).infoLiat();
+        try {
+            io.printeDesign();
+            //отображение информации про коллекцию
+            io.println("Displaying information about the collection");
+            io.printeDesign();
+            HistoryWorker.getInstance(io).infoLiat();
+            io.printeDesign();
+            io.println("Information successfully displayed");
+            io.printeDesign();
+        } catch (Exception e) {
+            io.printeDesign();
+            //информация не отображена
+            io.printError("Information not displayed");
+            io.printeDesign();
+        }
     }
 }

@@ -13,10 +13,21 @@ public class RemoveByIdCommand extends ArgumentCommand {
     @Override
     public void execute(String argument) {
         try{
+            io.printeDesign();
+            //удаление элемента по id началось
+            io.println("Deletion of item by ID started");
+            io.printeDesign();
             int idConsole = Integer.parseInt(argument);
             HistoryWorker.getInstance(io).removeId(idConsole);
+            io.printeDesign();
+            //элемент успешно удален
+            io.println("Item successfully deleted");
+            io.printeDesign();
         } catch (RuntimeException e) {
-            io.printException("Extraneous characters entered in the argument, repeat the command (the argument can only contain integers greater than 0)");
+            io.printeDesign();
+            //В аргументе введены посторонние символы, повторите команду (аргумент может содержать только целые числа больше 0)
+            io.printError("Extraneous characters entered in the argument, repeat the command (the argument can only contain integers greater than 0)");
+            io.printeDesign();
         }
 
     }

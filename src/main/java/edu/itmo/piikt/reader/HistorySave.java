@@ -1,5 +1,6 @@
 package edu.itmo.piikt.reader;
 
+import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.HistoryCommands;
 
 import java.io.*;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class HistorySave {
+        private IOProvider io;
         private String fileName;
         private static HistorySave instance;
         private HistorySave() {
@@ -31,7 +33,7 @@ public class HistorySave {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                io.printError(e.getMessage());
             }
         }
 
@@ -41,7 +43,8 @@ public class HistorySave {
                     String line = scanner.nextLine();
                     HistoryCommands.getInstance().add(line);}
 
-            } catch (IOException e) {
+            } catch (Exception e) {
+                io.printError(e.getMessage());
             }
     }
 }

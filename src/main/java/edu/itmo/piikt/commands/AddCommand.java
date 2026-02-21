@@ -18,9 +18,20 @@ public class AddCommand extends Commands {
     @Override
     public void execute() {
         try {
+            io.printeDesign();
+            //Начало добавления элемента
+            io.println("Start adding an item");
+            io.printeDesign();
             HistoryWorker.getInstance(io).add(worker.worker());
+            io.printeDesign();
+            //Элемент успешно добавлен
+            io.println("Item successfully added");
+            io.printeDesign();
         } catch (RuntimeException e){
-            io.printError("в скрипте внесены неправильные данные");
+            io.printeDesign();
+            //добавить элемент не удалось
+            io.printError("Failed to add item");
+            io.printeDesign();
         }
     }
 

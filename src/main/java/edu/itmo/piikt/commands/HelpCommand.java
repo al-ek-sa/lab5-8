@@ -13,8 +13,7 @@ public class HelpCommand extends Commands {
 
     @Override
     public void execute() {
-        String input = "-".repeat(50);
-        io.println(input);
+        io.printeDesign();
         io.println("    help : display help on available commands\n" +
                 "    info : output information about the collection to stdout (type, initialization date, number of elements, etc.)\n" +
                 "    show : output all collection elements in string representation to stdout\n" +
@@ -31,6 +30,6 @@ public class HelpCommand extends Commands {
                 "    count_by_organization organization : output the number of elements whose organization field value is equal to the specified one\n" +
                 "    filter_contains_name name : output elements whose name field value contains the specified substring\n" +
                 "    print_field_descending_end_date : output the values of the endDate field of all elements in descending order");
-        io.println(input);
+        io.printeDesign();
     }
 }

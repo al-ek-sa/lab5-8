@@ -118,7 +118,8 @@ public class HistoryWorker {
                 listWorker.addAll(work);
                 GeneratorId.getInstance(io).setStartId(idNewStart);}
         } catch (RuntimeException e){
-            io.printError("индекс не найден");
+            //индекс не найден
+            io.printError("Index not found");
         }
 
 
@@ -160,7 +161,6 @@ public class HistoryWorker {
     }
 
     public void removeLower(String argument) {
-        System.out.println("Enter the id of the element to remove: ");
         Iterator<Worker> iterator = listWorker.iterator();
         try {
             int idConsole = Integer.parseInt(argument);
@@ -171,7 +171,7 @@ public class HistoryWorker {
                 }
             }
         } catch (RuntimeException e) {
-            System.out.println("Invalid input");
+            io.printException("Invalid input");
         }
     }
 

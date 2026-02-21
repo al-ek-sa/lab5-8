@@ -12,8 +12,22 @@ public class SaveCommand extends Commands {
     }
     @Override
     public void execute() {
-        CSVParser csvParser = new CSVParser(io);
-        csvParser.saveCollection();
-        csvParser.saveCollection1();
+        try {
+            io.printeDesign();
+            //сохранение данных в файл началось
+            io.println("Saving data to file started");
+            io.printeDesign();
+            CSVParser csvParser = new CSVParser(io);
+            csvParser.saveCollection();
+            csvParser.saveCollection1();
+            //данные сохраннены в файл
+            io.println("Data saved to file");
+            io.printeDesign();
+        } catch (Exception e) {
+            io.printeDesign();
+            //данные сохраннены в файл
+            io.printError("Data saved to file");
+            io.printeDesign();
+        }
     }
 }

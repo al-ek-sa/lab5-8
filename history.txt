@@ -1,3 +1,51 @@
+exit
+print_field_descending_end_date
+filter_contains_name Masha
+count_by_organization
+history
+remove_lower 3
+head
+save
+show
+save
+add
+show
+show
+1
+1
+1
+1
+
+add
+history
+show
+help
+execute_script script2.txt
+show
+save
+1
+1
+1
+1
+
+11-11-7
+1
+1
+add
+history
+show
+help
+execute_script script.txt
+clear
+remove_by_id 1
+update_id 1
+info
+add
+help
+info
+help
+clear
+фвв
 show
 1
 1
@@ -145,3 +193,22 @@ add
 add
 aadd
 ADD
+clear
+head
+ырщц
+clear
+rhwhw
+execute_script script2.txt
+help
+show
+history
+historyAll
+add
+
+1
+1
+1
+1
+show
+help
+show
