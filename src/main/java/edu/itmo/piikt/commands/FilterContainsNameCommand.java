@@ -2,6 +2,7 @@ package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.ArgumentCommand;
 
 public class FilterContainsNameCommand extends ArgumentCommand {
     private IOProvider io;

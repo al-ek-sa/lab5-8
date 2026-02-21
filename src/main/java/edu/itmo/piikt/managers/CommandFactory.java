@@ -1,7 +1,9 @@
-package edu.itmo.piikt.commands;
+package edu.itmo.piikt.managers;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import edu.itmo.piikt.commands.*;
 import edu.itmo.piikt.io.IOProvider;
 
 public class CommandFactory {
@@ -16,14 +18,14 @@ public class CommandFactory {
         writeCommand(new HelpCommand(io));
         writeCommand(new InfoCommand(io));
         writeCommand(new ShowCommand(io));
-        writeCommand(new UpdateIdCommand(io));
+        writeArgumentCommand(new UpdateIdCommand(io));
         writeArgumentCommand(new RemoveByIdCommand(io));
         writeCommand(new ClearCommand(io));
         writeCommand(new SaveCommand(io));
         writeArgumentCommand(new ExecuteScriptCommand(io));
         writeCommand(new ExitCommand(io));
         writeCommand(new HeadCommand(io));
-        writeCommand(new RemoveLowerCommander(io));
+        writeArgumentCommand(new RemoveLowerCommander(io));
         writeCommand(new HistoryCommand(io));
         writeCommand(new CountByOrganizationCommand(io));
         writeArgumentCommand(new FilterContainsNameCommand(io));

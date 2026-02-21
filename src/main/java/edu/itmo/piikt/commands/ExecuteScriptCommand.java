@@ -2,9 +2,10 @@ package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.io.IOFile;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.ArgumentCommand;
+import edu.itmo.piikt.managers.CommandFactory;
+import edu.itmo.piikt.managers.ValidationCommand;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.io.IOException;
 
 public class ExecuteScriptCommand extends ArgumentCommand {

@@ -1,10 +1,12 @@
 package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.Commands;
+import edu.itmo.piikt.managers.HistoryCommands;
 
 import java.util.Iterator;
 
-public class HistoryCommand extends Commands{
+public class HistoryCommand extends Commands {
     private HistoryCommands historyCommands;
     private IOProvider io;
     public HistoryCommand(IOProvider io){

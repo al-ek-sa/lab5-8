@@ -2,6 +2,7 @@ package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.Commands;
 import edu.itmo.piikt.validationModels.ValidationWorker;
 
 //public class AddCommand implements Command {

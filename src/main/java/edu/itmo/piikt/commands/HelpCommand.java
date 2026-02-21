@@ -1,11 +1,10 @@
 package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.io.IOProvider;
-
-import java.util.LinkedList;
+import edu.itmo.piikt.managers.Commands;
 
 //public class HelpCommand implements Command {
-public class HelpCommand extends Commands{
+public class HelpCommand extends Commands {
     private IOProvider io;
     public HelpCommand(IOProvider io){
         super("help");
@@ -20,7 +19,7 @@ public class HelpCommand extends Commands{
                 "    info : output information about the collection to stdout (type, initialization date, number of elements, etc.)\n" +
                 "    show : output all collection elements in string representation to stdout\n" +
                 "    add {element} : add a new element to the collection\n" +
-                "    update id {element} : update the value of the collection element whose id is equal to the specified one\n" +
+                "    update_id {element} : update the value of the collection element whose id is equal to the specified one\n" +
                 "    remove_by_id id : remove an element from the collection by its id\n" +
                 "    clear : clear the collection\n" +
                 "    save : save the collection to a file\n" +

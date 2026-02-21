@@ -1,4 +1,4 @@
-package edu.itmo.piikt.commands;
+package edu.itmo.piikt.managers;
 
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.reader.HistorySave;

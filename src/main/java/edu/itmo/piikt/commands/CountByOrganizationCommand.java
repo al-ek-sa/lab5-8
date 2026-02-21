@@ -2,8 +2,9 @@ package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.Commands;
 
-public class CountByOrganizationCommand extends Commands{
+public class CountByOrganizationCommand extends Commands {
     private IOProvider io;
     public  CountByOrganizationCommand(IOProvider io){
         super("count_by_organization");

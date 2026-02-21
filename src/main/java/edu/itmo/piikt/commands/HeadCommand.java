@@ -2,8 +2,9 @@ package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.Commands;
 
-public class HeadCommand extends Commands{
+public class HeadCommand extends Commands {
     private HistoryWorker historyWorker;
     private IOProvider io;
     public HeadCommand(IOProvider io){

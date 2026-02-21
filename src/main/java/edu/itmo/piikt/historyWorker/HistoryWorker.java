@@ -94,12 +94,12 @@ public class HistoryWorker {
         }
     }
 
-    public void update() {
+    public void update(String argument) {
         try {
             int idNewStart = listWorker.getLast().getId() + 1;
             LinkedList<Worker> work = new LinkedList<>();
             Iterator<Worker> iterator = listWorker.iterator();
-            String input = io.readLine();
+            String input = argument;
             int idConsole = Integer.parseInt(input);
             if ((idNewStart - 1) >= idConsole){
                 while (iterator.hasNext()) {
@@ -159,12 +159,11 @@ public class HistoryWorker {
         organizationArrayList.clear();
     }
 
-    public void removeLower() {
+    public void removeLower(String argument) {
         System.out.println("Enter the id of the element to remove: ");
         Iterator<Worker> iterator = listWorker.iterator();
         try {
-            String input = InputReader.getInstance().nextLine();
-            int idConsole = Integer.parseInt(input);
+            int idConsole = Integer.parseInt(argument);
             while(iterator.hasNext()){
                 Worker worker = iterator.next();
                 if(idConsole > worker.getId()){

@@ -1,11 +1,6 @@
 package edu.itmo.piikt.reader;
 
-import com.opencsv.bean.*;
-import edu.itmo.piikt.commands.Commands;
-import edu.itmo.piikt.commands.HistoryCommands;
-import edu.itmo.piikt.historyWorker.HistoryWorker;
-import edu.itmo.piikt.io.IOProvider;
-import edu.itmo.piikt.models.Worker;
+import edu.itmo.piikt.managers.HistoryCommands;
 
 import java.io.*;
 import java.util.List;

@@ -1,6 +1,4 @@
-package edu.itmo.piikt.commands;
-
-import edu.itmo.piikt.reader.HistorySave;
+package edu.itmo.piikt.managers;
 
 import java.util.Iterator;
 import java.util.LinkedList;

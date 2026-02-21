@@ -2,8 +2,9 @@ package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.ArgumentCommand;
 
-public class RemoveByIdCommand extends ArgumentCommand{
+public class RemoveByIdCommand extends ArgumentCommand {
     private IOProvider io;
     public RemoveByIdCommand(IOProvider io){
         super("remove_by_id");

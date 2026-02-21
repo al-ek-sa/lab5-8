@@ -1,4 +1,4 @@
-package edu.itmo.piikt.commands;
+package edu.itmo.piikt.managers;
 
 public abstract class ArgumentCommand {
     private String name;

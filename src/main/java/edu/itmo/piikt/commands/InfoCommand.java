@@ -2,8 +2,9 @@ package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.Commands;
 
-public class InfoCommand extends Commands{
+public class InfoCommand extends Commands {
     private IOProvider io;
     public InfoCommand(IOProvider io){
         super("info");

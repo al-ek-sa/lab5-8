@@ -1,8 +1,10 @@
 package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.Commands;
+import edu.itmo.piikt.managers.Confirmation;
 
-public class ExitCommand extends Commands implements Confirmation{
+public class ExitCommand extends Commands implements Confirmation {
     private IOProvider io;
     public ExitCommand(IOProvider io){
         super("exit");

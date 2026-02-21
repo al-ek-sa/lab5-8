@@ -1,3 +1,58 @@
+save
+print_field_descending_end_date
+filter_contains_name Masha
+count_by_organization
+history
+j
+remove_lower 5
+remove_lower
+head
+show
+add
+historyAll
+history
+show
+help
+execute_script script2.txt
+show
+add
+historyAll
+history
+show
+help
+execute_script script.txt
+clear
+save
+show
+add
+historyAll
+history
+show
+help
+execute_script script2.txt
+show
+add
+historyAll
+history
+show
+help
+execute_script script.txt
+show
+remove_by_id 1
+update_id 1
+update_id 5
+f
+update_id 2
+show
+info
+save
+add
+1
+add
+info
+help
+3
+update_id 2
 update id
 show
 show
@@ -15,3 +70,14 @@ update id
 d
 show
 update 11
+update id
+help
+info
+show
+add
+show
+update_id 6
+show
+remove_by_id
+remove_by_id 5
+show
