@@ -4,7 +4,7 @@ history
 historyAll
 add
 Kat
-1
+gg
 1
 1
 11-11-7
@@ -13,5 +13,6 @@ Kat
 1
 1
 1
+save
 show
 execute_script script2.txt

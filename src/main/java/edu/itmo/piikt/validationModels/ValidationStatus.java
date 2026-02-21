@@ -1,8 +1,11 @@
 package edu.itmo.piikt.validationModels;
 
+import edu.itmo.piikt.exception.*;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.Status;
 import edu.itmo.piikt.reader.InputReader;
+
+import java.math.BigInteger;
 
 public class ValidationStatus {
     private IOProvider io;
@@ -32,24 +35,41 @@ public class ValidationStatus {
                 //выберите статус (введите его номер)
                 io.printField("Select the status", "(enter its number)");
                 for (Status status : Status.values()) {
-                    System.out.println("(" + status.getId() + ") " + status.name());
+                    io.println("(" + status.getId() + ") " + status.name());
                 }
                 try {
                     String idStatus = io.readLine();
+
+                    if (idStatus.equals("null") || idStatus.trim().isEmpty()) {
+                        throw new ExceptionNull();
+                    }
+
+                    BigInteger bigInteger = new BigInteger(idStatus);
+
+                    if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1 || bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) == -1) {
+                        throw new ExceptionEnum();
+                    }
                     int id = Integer.parseInt(idStatus);
+
+                    if (id <1 || id >4){
+                        throw new ExceptionEnum();
+                    }
+
                     for (Status status : Status.values()) {
                         if (status.getId() == id) {
                             return status;
                         }
                     }
-                } catch (RuntimeException e) {
-
-                    //тоже самое что и в типе
-                    System.out.println("Invalid input, please enter the value again");
+                }catch (ExceptionNull e) {
+                    io.printException(e.getMessage());
+                }catch (ExceptionEnum e) {
+                    io.printException(e.getMessage());
+                } catch (RuntimeException e){
+                    io.printException("The string contains symbols, please try again.");
                 }
             }
         } else {
-            throw new RuntimeException("ошибочка");
+            throw new RuntimeException("Unknown reading type");
         }
     }
 }

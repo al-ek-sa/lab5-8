@@ -1,3 +1,61 @@
+show
+1
+1
+1
+1
+
+add
+historyAll
+history
+show
+help
+execute_script script2.txt
+show
+save
+1
+1
+1
+1
+
+11-11-7
+1
+1
+add
+historyAll
+history
+show
+help
+execute_script script.txt
+show
+1
+1
+1
+1
+
+add
+historyAll
+history
+show
+help
+execute_script script2.txt
+show
+1
+1
+1
+1
+
+11-11-7
+1
+1
+add
+historyAll
+history
+show
+help
+execute_script script.txt
+save
+add
+add
 save
 print_field_descending_end_date
 filter_contains_name Masha
@@ -81,3 +139,9 @@ show
 remove_by_id
 remove_by_id 5
 show
+фв
+фвв
+add
+add
+aadd
+ADD

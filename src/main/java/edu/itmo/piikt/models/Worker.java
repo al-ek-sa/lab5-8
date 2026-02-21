@@ -1,5 +1,6 @@
 package edu.itmo.piikt.models;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Comparator;
@@ -25,8 +26,8 @@ public class Worker implements Comparable<Worker> {
     @CsvBindByPosition(position = 5)
     private Float salary; //Поле может быть null, Значение поля должно быть больше 0
     @CsvBindByPosition(position = 6)
-    @CsvDate("yyyy-MM-dd HH:mm:ss")
-    private java.util.Date startDate; //Поле не может быть null
+    @CsvDate("yyyy-MM-dd")
+    private java.time.LocalDate startDate; //Поле не может быть null
     @CsvBindByPosition(position = 7)
     @CsvDate("yyyy-MM-dd'T'HH:mm:ssXXX")
     private java.time.ZonedDateTime endDate;
@@ -36,7 +37,7 @@ public class Worker implements Comparable<Worker> {
     private Organization organization;
 
     public Worker(String name, Coordinates coordinates, Float salary,
-                  Date startDate, ZonedDateTime endDate, Status status,
+                  LocalDate startDate, ZonedDateTime endDate, Status status,
                   Organization organization){
         this.id = GeneratorId.getInstance(io).getId(); //генерация в отдельном классе
         this.name = name;
@@ -80,7 +81,7 @@ public class Worker implements Comparable<Worker> {
         return creationDate;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
@@ -124,7 +125,7 @@ public class Worker implements Comparable<Worker> {
         this.status = status;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 

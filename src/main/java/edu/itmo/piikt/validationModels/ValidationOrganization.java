@@ -1,9 +1,12 @@
 package edu.itmo.piikt.validationModels;
 
+import edu.itmo.piikt.exception.*;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.Address;
 import edu.itmo.piikt.models.Organization;
 import edu.itmo.piikt.models.OrganizationType;
+
+import java.math.BigInteger;
 
 public class ValidationOrganization {
     private ValidationOrganizationType type;
@@ -70,19 +73,43 @@ public class ValidationOrganization {
                     //Введите годовой оборот (годовой оборот должен быть целым числом больше 0, поле обязательно к заполнению)
                     io.printField("Enter annual turnover", "(annual turnover must be an integer greater than 0. Field is required)");
                     String input = io.readLine();
+
+                    if (input.equals("null") || input.trim().isEmpty()) {
+                        throw new ExceptionNull();
+                    }
+
+                    BigInteger bigInteger = new BigInteger(input);
+
+                    if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
+                        throw new ExceptionBigIntegerMAX_INTEGER();
+                    }
+
+                    if (bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) == -1) {
+                        throw new ExceptionAnnualTunover();
+                    }
+
                     int annualTurnoverConsole = Integer.parseInt(input);
                     if (annualTurnoverConsole > 0) {
                         return annualTurnoverConsole;
                         //Введено неположительное значение, повторите попытку
                     } else {
-                        throw new RuntimeException("A non-positive value has been entered, please try again");
+                        throw new ExceptionAnnualTunover();
                     }
-                } catch (RuntimeException e) {
-                    throw new RuntimeException("Invalid input, please enter the value again");
+                } catch (ExceptionNull e) {
+                    io.printException(e.getMessage());
+                } catch (ExceptionBigIntegerMAX_INTEGER e){
+                    io.printException(e.getMessage());
+                } catch (ExceptionBigIntegerMIN_INTEGER e) {
+                    io.printException(e.getMessage());
+                }catch (ExceptionAnnualTunover e) {
+                    io.printException(e.getMessage());
+                }
+                catch (RuntimeException e) {
+                    io.printException("The string contains symbols, please try again");
                 }
             }
         }else {
-            throw new RuntimeException("A non-positive value has been entered, please try again");
+            throw new RuntimeException("Unknown reading type");
         }
     }
 
