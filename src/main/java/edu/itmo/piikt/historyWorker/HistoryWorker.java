@@ -95,6 +95,36 @@ public class HistoryWorker {
     }
 
     public void update() {
+        try {
+            int idNewStart = listWorker.getLast().getId() + 1;
+            LinkedList<Worker> work = new LinkedList<>();
+            Iterator<Worker> iterator = listWorker.iterator();
+            String input = io.readLine();
+            int idConsole = Integer.parseInt(input);
+            if ((idNewStart - 1) >= idConsole){
+                while (iterator.hasNext()) {
+                    Worker workerObject = iterator.next();
+                    int id = workerObject.getId();
+                    if (id > idConsole) {
+                        work.add(workerObject);
+                        iterator.remove();
+                    }
+                    if (id == idConsole) {
+                        iterator.remove();
+                    }
+                }
+                GeneratorId.getInstance(io).setStartId(idConsole);
+                listWorker.add(worker.worker());
+                listWorker.addAll(work);
+                GeneratorId.getInstance(io).setStartId(idNewStart);}
+        } catch (RuntimeException e){
+            io.printError("индекс не найден");
+        }
+
+
+
+
+        /**
         Worker lastElement = listWorker.getLast();
         int idNewStart = lastElement.getId() + 1;
         Iterator<Worker> iterator = listWorker.iterator();
@@ -110,7 +140,7 @@ public class HistoryWorker {
         }
         GeneratorId.getInstance(io).setStartId(idConsole);
         add(worker.worker());
-        GeneratorId.getInstance(io).setStartId(idNewStart);
+        GeneratorId.getInstance(io).setStartId(idNewStart);*/
     }
 
     public void countByOrganization() {
