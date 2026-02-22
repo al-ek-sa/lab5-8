@@ -2,16 +2,6 @@ help
 show
 history
 add
-Kat
-gg
-1
-1
-11-11-7
-
-1
-1
-1
-1
 save
 show
 execute_script script2.txt

@@ -1,3 +1,69 @@
+execute_script script.txt
+show
+add
+history
+show
+info
+help
+execute_script script2.txt
+add
+history
+show
+help
+execute_script script.txt
+execute_script script.txt
+show
+add
+history
+show
+info
+help
+execute_script script2.txt
+add
+history
+show
+help
+execute_script script.txt
+
+execute_script script.txt
+show
+add
+history
+show
+info
+help
+execute_script script2.txt
+show
+save
+1
+1
+1
+1
+
+11-11-7
+1
+1
+add
+history
+show
+help
+execute_script script.txt
+execute_script script2.txt
+show
+add
+history
+show
+info
+help
+execute_script script2.txt
+show
+add
+history
+show
+info
+help
+execute_script script2.txt
+
 held
 hehh
 hel
@@ -387,3 +453,36 @@ mvn clean compile
 mvn package
 START="java -jar target/lab5-1.0-SNAPSHOT-jar-with-dependencies.jar"
 ру�
+фв
+inf
+nfo
+ino
+execute_script script2.txt
+help
+info
+show
+history
+add
+show
+execute_script script2.txt
+execute_script script2.txt
+help
+info
+show
+history
+add
+show
+execute_script script2.txt
+execute_script script.txt
+help
+show
+history
+add
+execute_script script2.txt
+help
+info
+show
+history
+add
+show
+execute_script script.txt
