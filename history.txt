@@ -1,3 +1,6 @@
+remove_lower 3
+show
+remove_lower 1
 execute_script script.txt
 show
 add
@@ -486,3 +489,12 @@ history
 add
 show
 execute_script script.txt
+show
+add
+add
+show
+remove_lower 1
+remove_lower
+remove_lower 1
+print_field_descending_end_date
+remove_lower 4

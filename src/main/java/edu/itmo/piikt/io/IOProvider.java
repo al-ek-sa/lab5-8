@@ -21,4 +21,7 @@ public interface IOProvider {
     void printField (String message, String messageField);
     String readLine();
     String name();
+    default void printlnInt(Integer message){
+        System.out.println(ANSI_GREEN + message + ANSI_BRIGHT_BLUE);
+    }
 }

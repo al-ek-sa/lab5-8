@@ -156,7 +156,7 @@ public class HistoryWorker {
             }
         }
         int size = organizationArrayList.size();
-        System.out.println(size);
+        io.printlnInt(size);
         organizationArrayList.clear();
     }
 
@@ -164,9 +164,11 @@ public class HistoryWorker {
         Iterator<Worker> iterator = listWorker.iterator();
         try {
             int idConsole = Integer.parseInt(argument);
+            Worker tip = new Worker();
+            tip.setId(idConsole);
             while(iterator.hasNext()){
                 Worker worker = iterator.next();
-                if(idConsole > worker.getId()){
+                if(worker.compareTo(tip) < 0){
                     iterator.remove();
                 }
             }
@@ -177,10 +179,26 @@ public class HistoryWorker {
 
     public void sort(){
         LinkedList<Worker> sortedList = new LinkedList<>(listWorker);
-        sortedList.sort(null);
+
+        Comparator<Worker> workerDate = new Comparator<Worker>() {
+            @Override
+            public int compare(Worker worker, Worker worker1) {
+                if (worker.getEndDate() != null && worker1.getEndDate() != null) {
+                    return worker.getEndDate().compareTo(worker1.getEndDate());
+                } else if (worker1.getEndDate() == null) {
+                    return 1;
+                } else if (worker.getEndDate() == null) {
+                    return -1;
+                } else
+                    return Integer.compare(worker.getId(), worker1.getId());
+            }
+        };
+
+        sortedList.sort(workerDate);
         Iterator<Worker> iterator = sortedList.descendingIterator();
         while (iterator.hasNext()) {
-            System.out.println(iterator.next());}
+            io.println(iterator.next().toString());
+        }
     }
 
     public LinkedList<Worker> getListWorker() {

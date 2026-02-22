@@ -136,13 +136,6 @@ public class Worker implements Comparable<Worker> {
 
     @Override
     public int compareTo(Worker other) {
-        if (this.endDate != null && other.endDate != null) {
-            return this.endDate.compareTo(other.endDate);
-        } else if (other.endDate == null) {
-            return 1;
-        } else if (this.endDate == null) {
-            return -1;
-        } else
-            return Integer.compare(this.id, other.id);
+        return Integer.compare(this.id, other.id);
     }
 }
