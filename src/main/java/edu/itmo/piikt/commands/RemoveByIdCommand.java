@@ -7,7 +7,7 @@ import edu.itmo.piikt.managers.ArgumentCommand;
 public class RemoveByIdCommand extends ArgumentCommand {
     private IOProvider io;
     public RemoveByIdCommand(IOProvider io){
-        super("remove_by_id");
+        super("remove_by_id id");
         this.io = io;
     }
     @Override

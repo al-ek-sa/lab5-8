@@ -57,7 +57,7 @@ public class Worker implements Comparable<Worker> {
     public String toString() {
         return "id: " + id +", name: " + name + ", координаты: " + coordinates.toString() +
                 ", дата идентификации: " + creationDate + ", заработная плата: " + salary +
-                ", дата начала работы: " + startDate + ", дата увольнения: " + endDate +
+                ", \nдата начала работы: " + startDate + ", дата увольнения: " + endDate +
                 ", статус: " + status.toString() + ", организация: " + organization.toString() + "\n";
     }
 

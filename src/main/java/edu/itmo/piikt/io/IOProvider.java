@@ -9,9 +9,10 @@ public interface IOProvider {
     public static final String ANSI_TURQUOISE_LIGHT = "\u001B[38;5;86m";
     public static final String ANSI_LAVENDER_LIGHT = "\u001B[38;5;189m";
     public static final String ANSI_BRIGHT_PINK = "\u001B[38;5;205m";
+    public static final String ANSI_BRIGHT_BLUE = "\u001B[1;35m";
 
     default void printeDesign(){
-        System.out.println(ANSI_BRIGHT_PINK + (("-").repeat(150)) + ANSI_RESET);
+        System.out.println(ANSI_BRIGHT_PINK + (("-").repeat(150)) + ANSI_BRIGHT_BLUE);
     }
     void print(String message);
     void println(String message);

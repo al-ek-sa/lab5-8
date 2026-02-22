@@ -22,7 +22,7 @@ public class HelpCommand extends Commands {
                 "    remove_by_id id : remove an element from the collection by its id\n" +
                 "    clear : clear the collection\n" +
                 "    save : save the collection to a file\n" +
-                "    execute_script file_name : read and execute a script from the specified file. The script contains commands in the same form as the user enters them in interactive mode\n" +
+                "    execute_script file_name : read and execute a script from the specified file. The script contains commands in the\n same form as the user enters them in interactive mode\n" +
                 "    exit : terminate the program (without saving to file)\n" +
                 "    head : output the first element of the collection\n" +
                 "    remove_lower {element} : remove all elements from the collection that are less than the specified one\n" +

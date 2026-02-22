@@ -50,7 +50,7 @@ public class HistoryWorker {
         Iterator<Worker> iterator = listWorker.iterator();
         for (int i = 1; i <= 1 && iterator.hasNext(); i++) {
             Worker worker1 = iterator.next();
-            System.out.println(worker1);
+            io.println(worker1.toString());
         }
     }
 
@@ -58,7 +58,7 @@ public class HistoryWorker {
         Iterator<Worker> iterator = listWorker.iterator();
         while (iterator.hasNext()) {
             Worker worker = iterator.next();
-            System.out.println(worker.toString());
+            io.println(worker.toString());
         }
     }
 
@@ -74,7 +74,7 @@ public class HistoryWorker {
     }
 
     public void infoLiat() {
-        System.out.println("Тип коллекции: " + listWorker.getClass() + "\nВремя идентификации: "
+        io.println("Тип коллекции: " + listWorker.getClass() + "\nВремя идентификации: "
                 + data + "\nКолличество эллиментов: " + listWorker.size());
     }
 
@@ -90,7 +90,7 @@ public class HistoryWorker {
                 }
             }
         } catch (RuntimeException e) {
-            System.out.println("Invalid input");
+            io.printException("Invalid input");
         }
     }
 
@@ -119,7 +119,7 @@ public class HistoryWorker {
                 GeneratorId.getInstance(io).setStartId(idNewStart);}
         } catch (RuntimeException e){
             //индекс не найден
-            io.printError("Index not found");
+            io.printException("Index not found");
         }
 
 

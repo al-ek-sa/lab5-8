@@ -7,7 +7,7 @@ import edu.itmo.piikt.managers.ArgumentCommand;
 public class UpdateIdCommand extends ArgumentCommand {
     private IOProvider io;
     public UpdateIdCommand(IOProvider io){
-        super("update_id");
+        super("update id");
         this.io = io;
     }
     @Override

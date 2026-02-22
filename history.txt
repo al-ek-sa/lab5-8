@@ -1,3 +1,66 @@
+show
+add
+history
+show
+help
+execute_script script2.txt
+show
+1
+COMMERCIAL
+1
+add
+history
+show
+help
+execute_script script2.txt
+show
+1
+COMMERCIAL
+1
+add
+history
+show
+help
+execute_script script2.txt
+history
+historyAll
+show
+}
+1
+
+
+COMMERCIAL
+
+
+1
+
+
+FIRED
+
+
+
+
+
+1111-11-11
+
+
+1.0
+
+
+1.0
+
+
+1
+
+
+f
+add
+history
+show
+help
+execute_script script2.txt
+show
+remove_by_id id 1
 svsmb'
 info
 exit
@@ -215,3 +278,89 @@ show
 help
 show
 
+info
+mvn clean compile
+mvn package
+START="java -jar target/lab5-1.0-SNAPSHOT-jar-with-dependencies.jar"
+eval $STARTexit
+
+
+�
+ф
+add
+save
+remove_by_id id 1
+update id 1
+фвв
+add
+filter_contains_name wefvwf
+remove_by_id id 1
+remove_by_id id 4
+�
+execute_script script2.txt
+help
+show
+history
+add
+f
+;
+1
+;
+1.0
+;
+1.0
+;
+1111-11-11
+;
+
+;
+FIRED
+;
+1
+;
+COMMERCIAL
+;
+1
+}
+show
+
+execute_script script2.txt
+help
+show
+history
+add
+f
+;
+1
+;
+1.0
+;
+1.0
+;
+1111-11-11
+;
+
+;
+FIRED
+;
+1
+;
+COMMERCIAL
+;
+1
+}
+show
+execute_script script2.txt
+khos
+vkrz
+klvwru|
+dgg#}%i%>%4%>%413%>%413%>%4444044044%>%%>%ILUHG%>%4%>%FRPPHUFLDO%>%4%
+vkrz
+show
+execute_script script2.txt
+khos
+vkrz
+klvwru|
+dgg#}%gyheqhlqr%>%4%>%413%>%413%>%4444044044%>%%>%ILUHG%>%4%>%FRPPHUFLDO%>%4%
+vkrz
+show

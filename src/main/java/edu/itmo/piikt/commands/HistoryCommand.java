@@ -24,7 +24,7 @@ public class HistoryCommand extends Commands {
             Iterator<String> iterator = historyCommands.getIterator();
             for (int i = 1; i <= 14 && iterator.hasNext(); i++) {
                 String command = iterator.next();
-                System.out.println(command);
+                io.println(command);
             }
             io.printeDesign();
             io.println("Commands displayed successfully");
