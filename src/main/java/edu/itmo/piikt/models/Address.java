@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class Address {
     @CsvBindByPosition(position = 11)
-     private String street; //Поле не может быть null
+     private String street;
      public Address(String street){
      this.street = street;
      }

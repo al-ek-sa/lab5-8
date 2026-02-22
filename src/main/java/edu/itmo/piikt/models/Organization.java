@@ -7,11 +7,11 @@ import java.util.Objects;
 
 final public class Organization {
     @CsvBindByPosition(position = 9)
-    private int annualTurnover; //Значение поля должно быть больше 0
+    private int annualTurnover;
     @CsvBindByPosition(position = 10)
-    private OrganizationType type; //Поле не может быть null
+    private OrganizationType type;
     @CsvRecurse
-    private Address officialAddress; //Поле не может быть null
+    private Address officialAddress;
 
     public Organization(int annualTurnover, OrganizationType type, Address officialAddress) {
         this.annualTurnover = annualTurnover;

@@ -1,3 +1,9 @@
+held
+hehh
+hel
+рудз
+help
+hel
 show
 add
 history
@@ -364,3 +370,20 @@ klvwru|
 dgg#}%gyheqhlqr%>%4%>%413%>%413%>%4444044044%>%%>%ILUHG%>%4%>%FRPPHUFLDO%>%4%
 vkrz
 show
+help
+info
+show
+add
+help
+update_id 3
+3
+update id
+g
+w
+update id 3
+remove_by_id id
+help
+mvn clean compile
+mvn package
+START="java -jar target/lab5-1.0-SNAPSHOT-jar-with-dependencies.jar"
+ру�
