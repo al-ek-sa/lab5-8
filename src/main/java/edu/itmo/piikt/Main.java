@@ -1,5 +1,6 @@
 package edu.itmo.piikt;
 import edu.itmo.piikt.commands.HelpCommand;
+import edu.itmo.piikt.commands.HelpEnteringCommand;
 import edu.itmo.piikt.managers.ValidationCommand;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.io.IOScanner;
@@ -22,6 +23,8 @@ public class Main {
         csvParser.readFile();
         HelpCommand help = new HelpCommand(io);
         help.execute();
+        HelpEnteringCommand helpEnteringCommand = new HelpEnteringCommand(io);
+        helpEnteringCommand.execute();
         ValidationCommand validationCommand = new ValidationCommand(io);
         validationCommand.validation();
     }

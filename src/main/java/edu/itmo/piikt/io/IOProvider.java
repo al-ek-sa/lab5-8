@@ -12,7 +12,7 @@ public interface IOProvider {
     public static final String ANSI_BRIGHT_BLUE = "\u001B[1;35m";
 
     default void printeDesign(){
-        System.out.println(ANSI_BRIGHT_PINK + (("-").repeat(150)) + ANSI_BRIGHT_BLUE);
+        System.out.println(ANSI_BRIGHT_PINK + (("-").repeat(210)) + ANSI_BRIGHT_BLUE);
     }
     void print(String message);
     void println(String message);

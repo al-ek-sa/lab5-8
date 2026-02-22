@@ -30,6 +30,7 @@ public class CommandFactory {
         writeCommand(new CountByOrganizationCommand(io));
         writeArgumentCommand(new FilterContainsNameCommand(io));
         writeCommand(new PrintFieldDescendingEndDataCommand(io));
+        writeCommand(new HelpEnteringCommand(io));
     }
 
     private void writeCommand(Commands command){

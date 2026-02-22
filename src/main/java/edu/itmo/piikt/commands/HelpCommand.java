@@ -18,7 +18,7 @@ public class HelpCommand extends Commands {
                 "    info : output information about the collection to stdout (type, initialization date, number of elements, etc.)\n" +
                 "    show : output all collection elements in string representation to stdout\n" +
                 "    add {element} : add a new element to the collection\n" +
-                "    update_id {element} : update the value of the collection element whose id is equal to the specified one\n" +
+                "    update id {element} : update the value of the collection element whose id is equal to the specified one\n" +
                 "    remove_by_id id : remove an element from the collection by its id\n" +
                 "    clear : clear the collection\n" +
                 "    save : save the collection to a file\n" +
@@ -29,7 +29,9 @@ public class HelpCommand extends Commands {
                 "    history : output the last 14 commands (without their arguments)\n" +
                 "    count_by_organization organization : output the number of elements whose organization field value is equal to the specified one\n" +
                 "    filter_contains_name name : output elements whose name field value contains the specified substring\n" +
-                "    print_field_descending_end_date : output the values of the endDate field of all elements in descending order");
+                "    print_field_descending_end_date : output the values of the endDate field of all elements in descending order\n" +
+                "    help_entering_command : display help on entering available commands");
+        //Вывести справку по вводу доступных команд
         io.printeDesign();
     }
 }
