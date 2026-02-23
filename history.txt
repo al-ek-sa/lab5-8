@@ -1,3 +1,67 @@
+update 2
+execute_script script2.txt
+1
+1
+1
+1
+
+1111-11-11
+2
+2
+2
+hh
+update 1
+execute_script script2.txt
+show
+update 2
+show
+update 3
+show
+save
+update 1
+add
+show
+add
+show
+update 2
+execute_script script2.txt
+show
+update 2
+show
+update 1
+execute_script script2.txt
+show
+add
+cave
+clear
+show
+update 1
+execute_script script2.txt
+
+add
+update 1
+execute_script script2.txt
+update 1
+execute_script script2.txt
+{"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
+1
+1
+1
+1
+
+1111-11-11
+2
+2
+2
+hh
+update 46
+execute_script script2.txt
+{"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
+add
+execute_script script2.txt
+add {"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
+execute_script script2.txt
+с
 remove_lower 45
 remove_lower null
 remove_lower
@@ -853,3 +917,64 @@ show
 remove_lower dvav
 remove_lower 8888888888888888888888888888888888888888888888888888888888888888888888888888888888
 remove_lower -888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+show
+execute_script script2.txt
+update 46
+{"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
+execute_script script2.txt
+add
+show
+mvn clean compile
+mvn package
+START="java -jar target/lab5-1.0-SNAPSHOT-jar-with-dependencies.jar"
+
+execute_script script2.txtexecute_script script2.txt
+execute_script script_simple_command.txt
+help
+help ihohho
+help 5555
+help null
+info
+info sfbsb
+info 555
+info null
+show
+show sfbs
+show 5555
+show null
+save
+save 4444
+save uboug
+save null
+print_field_descending_end_date
+print_field_descending_end_date 8888888
+print_field_descending_end_date iugbi
+print_field_descending_end_date null
+execute_script script2.txt
+update 46
+{"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
+show
+clear
+show
+add
+mvn clean compile
+mvn package
+START="java -jar target/lab5-1.0-SNAPSHOT-jar-with-dependencies.jar"
+ырщ
+show
+add
+execute_script script2.txt
+update 2
+execute_script script2.txt
+update 1
+show
+execute_script script2.txt
+update 1
+show
+add
+save
+show
+update 3
+ырщц
+show
+update 3

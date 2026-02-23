@@ -15,14 +15,12 @@ public class HistoryWorker {
     private IOProvider io;
     private static HistoryWorker instance;
     private Date data;
-    private ValidationWorker worke;
     private ValidationOrganization organization;
     LinkedList<Worker> listWorker = new LinkedList<>();
 
     private HistoryWorker(IOProvider io) {
         this.io = io;
         this.data = new Date();
-        this.worke = new ValidationWorker(io);
         this.organization = new ValidationOrganization(io);
     }
 
@@ -116,7 +114,7 @@ public class HistoryWorker {
         }
     }
 
-    public void update(String argument) {
+    public void update(String argument, ValidationWorker worker) {
         try {
             int idNewStart = listWorker.getLast().getId() + 1;
             LinkedList<Worker> work = new LinkedList<>();
@@ -143,7 +141,7 @@ public class HistoryWorker {
                     } else if (id == idConsole) {
                         iterator.remove();
                         GeneratorId.getInstance(io).setStartId(idConsole);
-                        work.add(worke.worker());
+                        work.add(worker.worker());
                     }
                 }
                 listWorker.addAll(work);
