@@ -14,26 +14,36 @@ public class ExitCommand extends Commands implements Confirmation {
     @Override
     public void execute() {
         try {
-            io.printeDesign();
-            //вы уверены, что хотите выйти?
-            io.println("Are you sure you want to exit? (yes/no)");
-            String consent = confirmation();
-            if (consent.equals("yes")) {
+            if(io.name().equals("Console")){
                 io.printeDesign();
-                io.println("Exit application");
+                //вы уверены, что хотите выйти?
+                io.printlnCommand("Are you sure you want to exit? (yes/no)");
                 io.printeDesign();
+                String consent = confirmation();
+                if (consent.equals("yes")) {
+                    io.printeDesign();
+                    io.printlnCommand("Exit application");
+                    io.printeDesign();
+                    System.exit(0);
+                } else {
+                    io.printeDesign();
+                    io.printlnCommand("Command cancelled");
+                    io.printeDesign();
+                }
+            }
+
+            if (io.name().equals("File")){
+                io.printeDesign();
+                io.printlnCommand("Exit application");
                 System.exit(0);
-            } else {
+            }
+
+            } catch (Exception e) {
                 io.printeDesign();
-                io.println("Command cancelled");
+                //команда не выполнена
+                io.printException("Command not executed");
                 io.printeDesign();
             }
-        } catch (Exception e) {
-            io.printeDesign();
-            //команда не выполнена
-            io.printError("Command not executed");
-            io.printeDesign();
-        }
     }
 
     @Override
@@ -44,7 +54,10 @@ public class ExitCommand extends Commands implements Confirmation {
                 return "yes";
             } else if (input.equals("no")) {
                 return "no";
-            } io.println("Please enter 'yes' or 'no'");
+            }
+            io.printeDesign();
+            io.printlnCommand("Please enter 'yes' or 'no'");
+            io.printeDesign();
         }
     }
 }

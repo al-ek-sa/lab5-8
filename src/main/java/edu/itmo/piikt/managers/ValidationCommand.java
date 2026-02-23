@@ -4,6 +4,7 @@ import edu.itmo.piikt.algorithms.DamerauLevenshteinDistance;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.reader.HistorySave;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,16 +39,35 @@ public class ValidationCommand {
             historyCommands.add(input);
 
 
-            String[] parts = input.split("\\s+");
+            String[] parts1 = input.split("\\s+");
+
+            List<String> parts2 = new ArrayList<>();
+            for (String element: parts1){
+                if (!element.equals("null")){
+                    parts2.add(element);
+                }
+            }
+
+            String[] parts = parts2.toArray(new String[0]);
+
 
             if (parts.length == 1) {
-                for (String com1 : oneWord){
-                    if (DamerauLevenshteinDistance.distance(input, com1) <= 1){
-                        input = com1;
+
+                for(String com2 : twoWords) {
+                    if (DamerauLevenshteinDistance.distance(parts[0], com2) <=1){
+                        io.printeDesign();
+                        io.printException("The command (" + com2 + ") must contain arguments");
                     }
                 }
 
-                Commands command = factory.getCommand(input);
+
+                for (String com1 : oneWord){
+                    if (DamerauLevenshteinDistance.distance(parts[0], com1) <= 1){
+                        parts[0] = com1;
+                    }
+                }
+
+                Commands command = factory.getCommand(parts[0]);
                 if (command != null) {
                     command.execute();
                 } else if (input.equals("historyAll")) {
@@ -61,6 +81,14 @@ public class ValidationCommand {
             } else if (parts.length == 2) {
                 String commandName = parts[0];
                 String argument = parts[1];
+
+                for(String com1 : oneWord) {
+                    if (DamerauLevenshteinDistance.distance(commandName, com1) <=1){
+                        io.printeDesign();
+                        io.printException("The command (" + com1 + ") must not contain arguments");
+                        io.printeDesign();
+                    }
+                }
 
                 for(String com2 : twoWords) {
                     if (DamerauLevenshteinDistance.distance(commandName, com2) <=1){
@@ -79,7 +107,7 @@ public class ValidationCommand {
                         argumentCommand.execute(argument);
                     }
                 }
-            } else if (parts.length == 3) {
+            /**}else if (parts.length == 3) {
                 String nameCommand = (parts[0] + " " + parts[1]);
                 String  argument = parts[2];
 
@@ -98,7 +126,7 @@ public class ValidationCommand {
                         } else {
                             argumentCommand.execute(argument);
                         }
-                }
+                }*/
             }else {
                 io.printeDesign();
                 //Команда введена неверно

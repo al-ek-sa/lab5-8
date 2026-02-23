@@ -10,6 +10,7 @@ public interface IOProvider {
     public static final String ANSI_LAVENDER_LIGHT = "\u001B[38;5;189m";
     public static final String ANSI_BRIGHT_PINK = "\u001B[38;5;205m";
     public static final String ANSI_BRIGHT_BLUE = "\u001B[1;35m";
+    public static final String ANSI_PINK_225 = "\u001B[38;5;225m";
 
     default void printeDesign(){
         System.out.println(ANSI_BRIGHT_PINK + (("-").repeat(210)) + ANSI_BRIGHT_BLUE);
@@ -23,5 +24,8 @@ public interface IOProvider {
     String name();
     default void printlnInt(Integer message){
         System.out.println(ANSI_GREEN + message + ANSI_BRIGHT_BLUE);
+    }
+    default void printlnCommand(String message){
+        System.out.println(ANSI_PINK_225 + message + ANSI_PINK_225);
     }
 }

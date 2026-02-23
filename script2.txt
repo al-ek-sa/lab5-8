@@ -1,7 +1,1 @@
-help
-info
-show
-history
-add {"dvebneino";"1";"1.0";"1.0";"1111-11-11";"";"1";"1";"1";"1"}
-show
-execute_script script.txt
+remove_lower 43

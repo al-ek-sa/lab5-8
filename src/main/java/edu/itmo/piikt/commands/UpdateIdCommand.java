@@ -15,16 +15,17 @@ public class UpdateIdCommand extends ArgumentCommand {
         try {
             io.printeDesign();
             //начало обновления данных
-            io.println("Start of data update");
+            io.printlnCommand("Start of data update");
+            HistoryWorker.getInstance(io).idMatches(argument);
             HistoryWorker.getInstance(io).update(argument);
             io.printeDesign();
             //данные успешно обновлены
-            io.println("Data successfully updated");
+            io.printlnCommand("Data successfully updated");
             io.printeDesign();
         } catch (RuntimeException e){
             io.printeDesign();
             //Обновление данных прервано
-            io.printError("Data update interrupted");
+            io.printException("Data update interrupted");
             io.printeDesign();
         }
     }

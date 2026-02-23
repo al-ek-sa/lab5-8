@@ -22,7 +22,7 @@ final public class Organization {
 
     @Override
     public String toString() {
-        return " годовой оборот: " + annualTurnover + ", тип: " + type.toString() + ", адрес: " + officialAddress.toString();
+        return " annualTurnover: " + annualTurnover + ", type: " + type.toString() + ", officialAddress: " + officialAddress.toString();
     }
 
     @Override

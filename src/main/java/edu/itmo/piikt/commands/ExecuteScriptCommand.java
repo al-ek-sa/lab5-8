@@ -25,11 +25,11 @@ public class ExecuteScriptCommand extends ArgumentCommand {
         try{
             io.printeDesign();
             //начало чтения скрипта
-            io.println("Start of script reading");
+            io.printlnCommand("Start of script reading");
             io.printeDesign();
             for (String nameFile :name){
                 if (nameFile.equals(argument)){
-                    io.printError("Error in file:" + name.getLast());
+                    io.printException("Error in file:" + name.getLast());
                     name.clear();
                     throw new ExceptionScript();
                 }
@@ -41,14 +41,14 @@ public class ExecuteScriptCommand extends ArgumentCommand {
             name.clear();
             io.printeDesign();
             //скрипт успешно прочтен и выполнен
-            io.println("Script successfully read and executed");
+            io.printlnCommand("Script successfully read and executed");
             io.printeDesign();
         }catch (ExceptionScript e){
             io.printError(e.getMessage() + argument + ")");
         } catch (IOException e) {
             io.printeDesign();
             //Ошибка, скрипт не прочтен
-            io.printError("Error, script not read");
+            io.printException("Error, script not read");
             io.printeDesign();
         } catch (Exception e) {
             io.printError(e.getMessage());

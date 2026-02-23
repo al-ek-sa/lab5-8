@@ -14,17 +14,17 @@ public class FilterContainsNameCommand extends ArgumentCommand {
     @Override
     public void execute(String argument) {
         try {
-            io.printeDesign();;
-            io.println("Search users by name");
+            io.printeDesign();
+            io.printlnCommand("Search users by name");
             io.printeDesign();
             HistoryWorker.getInstance(io).printName(argument);
             io.printeDesign();
-            io.println("All users with the entered name have been displayed");
+            io.printlnCommand("All users with the entered name have been displayed");
             io.printeDesign();
         } catch (Exception e) {
             io.printeDesign();
             //поиск неудался
-            io.printError("Search failed");
+            io.printException("Search failed");
             io.printeDesign();
         }
     }

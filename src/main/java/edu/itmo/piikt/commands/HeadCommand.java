@@ -17,16 +17,16 @@ public class HeadCommand extends Commands {
     public void execute() {
         try {
             io.printeDesign();
-            io.println("Displaying the last added element");
+            io.printlnCommand("Displaying the last added element");
             io.printeDesign();
             historyWorker.peekFirst();
             io.printeDesign();
-            io.println("Element displayed on the screen");
+            io.printlnCommand("Element displayed on the screen");
             io.printeDesign();
         } catch (Exception e) {
             io.printeDesign();
             //команда не выполнена
-            io.printError("Command not executed");
+            io.printException("Command not executed");
             io.printeDesign();
         }
     }

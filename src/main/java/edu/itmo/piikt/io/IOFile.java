@@ -1,5 +1,7 @@
 package edu.itmo.piikt.io;
 
+import edu.itmo.piikt.commands.UpdateIdCommand;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +12,7 @@ import java.util.Queue;
 public class IOFile implements  IOProvider {
     private BufferedInputStream reading;
     private Queue<String> dataQueue = new LinkedList<>();
+    private String argument;
     public IOFile(String nameFile) throws IOException {
         this.reading = new BufferedInputStream(new FileInputStream(nameFile));
     }
@@ -61,8 +64,7 @@ public class IOFile implements  IOProvider {
                 return  null;
             }
 
-            if (command.startsWith("add") && command.contains("{") ||
-                    command.startsWith("update id") && command.contains("{")){
+            if (command.startsWith("add") && command.contains("{") ){
                 int ind = command.indexOf("{") -1;
                 String commandArgument = command.substring(0, ind);
                 String dataLIne = command.substring(ind +1);
@@ -70,6 +72,15 @@ public class IOFile implements  IOProvider {
                 return commandArgument;
 
             }
+
+            /**if (command.startsWith("count_by_organization" ) && command.contains("{")){
+                int ind = command.indexOf("{") -1;
+                String commandArgument = command.substring(0, ind);
+                String dataLIne = command.substring(ind +1);
+                data(dataLIne);
+                return commandArgument;
+
+            }*/
             return command;
         } catch (IOException e) {
             return null;

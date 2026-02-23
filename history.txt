@@ -1,3 +1,180 @@
+remove_lower 45
+remove_lower null
+remove_lower
+remove_lower 0
+execute_script script.txt
+count_by_organization
+execute_script script.txt
+add
+execute_script script2.txt
+execute_script scriptюе.txt
+count_by_organization
+execute_script script.txt
+add
+execute_script script2.txt
+execute_script scriptюе.txt
+add
+execute_script script2.txt
+execute_script script.txt
+count_by_organization
+add
+count_by_organization
+save
+clear
+clear
+save null
+save uboug
+save 4444
+save
+show null
+show 5555
+show sfbs
+show
+info null
+info 555
+info sfbsb
+info
+help null
+help 5555
+help ihohho
+help
+execute_script script_simple_command.txt
+save null
+save uboug
+save 4444
+save
+show null
+show 5555
+show sfbs
+show
+info null
+info 555
+info sfbsb
+info
+help null
+help 5555
+help ihohho
+help
+execute_script script_simple_command.txt
+exit dfvw
+clear
+
+
+save null
+save uboug
+save 4444
+save
+show null
+show 5555
+show sfbs
+show
+info null
+info 555
+info sfbsb
+info
+help null
+help 5555
+help ihohho
+help
+execute_script script_simple_command.txt
+help null
+remove_by_id 7.8
+remove_by_id null
+remove_by_id
+remove_by_id 9999999999999999999999999999999999999999999999999
+remove_by_id -8888888888888888888888888888888888888888888888
+remove_by_id 0
+execute_script script_remove_by_id.txt
+remove_by_id 5.5
+remove_by_id null
+remove_by_id 888888888888888888888888888888888888888888888888888888888
+remove_by_id
+remove_by_id 88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+
+remove_by_id sdfse
+remove_by_id
+update 37
+update 1
+update sva
+update 37
+show
+update 1
+update 1
+show
+show svz
+info dgs
+help g1
+execute_script script.txt
+info dvsw
+info 9
+help 1
+show
+save
+add
+add
+add
+add
+add
+add
+add
+add
+add
+execute_script script2.txt
+
+clear
+save
+add
+execute_script script2.txt
+save
+add
+
+execute_script script2.txt
+save
+add
+save
+1
+1
+1
+1
+
+add
+
+execute_script script2.txt
+save
+1
+1
+1
+1
+
+add
+add
+add
+add
+add
+add
+add
+add
+add
+execute_script script2.txt
+show
+execute_script script.txt
+info
+execute_script script.txt
+
+info
+execute_script script.txt
+help
+execute_script script.txt
+save
+add
+
+execute_script script2.txt
+info
+help
+execute_script script.txt
+info
+help
+рудз
 remove_lower 3
 show
 remove_lower 1
@@ -502,3 +679,177 @@ remove_lower 4
 dad
 save
 he
+
+sa
+svae
+evev
+asd
+info
+show
+execute_script script.txt
+help
+info
+show
+execute_script script.txt
+help g1
+info dgs
+show svz
+execute_script script.txt
+help g1
+info dgs
+show svz
+hel oo
+add
+execute_script script2.txt
+add
+add
+1.0
+1.0
+1111-11-11
+1111-11-11
+1
+1
+1
+1
+add
+add
+add
+add
+add
+add
+add
+execute_script script2.txt
+add
+add
+add
+add
+add
+add
+add
+add
+ad
+save
+update 2
+update 1
+sho
+update 40
+update 1
+update 1
+update 1
+update efbqi
+show
+execute_script script2.txt
+add
+add
+add
+add
+add
+add
+add
+add
+add
+save
+
+
+update 1 {"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
+update avoiiv {"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
+update 40 {"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
+execute_script script2.txt
+update 1 {"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
+execute_script script2.txt
+update 43 {"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
+show
+remove_by_id 49
+show
+remove_by_id 53
+remove_by_id
+remove_by_id
+remove_by_id bserhsh
+remove_by_id 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+remove_by_id -88888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+remove_by_id 1
+remove_by_id -888888888888888888888888888888888888888888
+remove_by_id 0
+execute_script script_simple_command.txt
+help
+help ihohho
+help 5555
+help null
+info
+info sfbsb
+info 555
+info null
+show
+show sfbs
+show 5555
+show null
+save
+save 4444
+save uboug
+save null
+s
+execute_script script.txt
+head
+show
+print_field_descending_end_date
+clear
+show
+head
+print_field_descending_end_date
+add
+show
+info
+save
+head
+show
+save
+add
+clear
+head
+hep
+hel
+show
+print_field_descending_end_date 666666666666666666666
+filter_contains_name
+filter_contains_name 8888888888888888888888888888888
+filter_contains_name Masha
+show
+filter_contains_name Ivan
+clear
+filter_contains_name
+count_by_organization
+execute_script script.txt
+execute_script script.txt
+execute_script script.txt
+execute_script script.txt
+count_by_organization
+1
+1
+execute_script script.txt
+execute_script script.txt
+execute_script script2.txt
+add
+execute_script script.txt
+count_by_organization
+execute_script script.txt
+count_by_organization
+execute_script script.txt
+мум
+execute_script script.txt
+count_by_organization
+execute_script script.txt
+count_by_organization
+execute_script script.txt
+count_by_organization
+execute_script script.txt
+count_by_organization
+execute_script script.txt
+count_by_organization
+execute_script script.txt
+count_by_organization
+execute_script script2.txt
+remove_lower 43
+show
+remove_lower dvav
+remove_lower 8888888888888888888888888888888888888888888888888888888888888888888888888888888888
+remove_lower -888888888888888888888888888888888888888888888888888888888888888888888888888888888888888

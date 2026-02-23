@@ -55,10 +55,10 @@ public class Worker implements Comparable<Worker> {
 
     @Override
     public String toString() {
-        return "id: " + id +", name: " + name + ", координаты: " + coordinates.toString() +
-                ", дата идентификации: " + creationDate + ", заработная плата: " + salary +
-                ", \nдата начала работы: " + startDate + ", дата увольнения: " + endDate +
-                ", статус: " + status.toString() + ", организация: " + organization.toString() + "\n";
+        return "id: " + id +", name: " + name + ", coordinates: " + coordinates.toString() +
+                ", creationDate: " + creationDate + ", salary: " + salary +
+                ", \nstartDate: " + startDate + ", endDate: " + endDate +
+                ", status: " + status.toString() + ", organization: " + organization.toString() + "\n";
     }
 
     public String getName() {

@@ -19,7 +19,7 @@ public class HistoryCommand extends Commands {
     public void execute() {
         try {
             io.printeDesign();
-            io.println("Displaying the last 14 commands");
+            io.printlnCommand("Displaying the last 14 commands");
             io.printeDesign();
             Iterator<String> iterator = historyCommands.getIterator();
             for (int i = 1; i <= 14 && iterator.hasNext(); i++) {
@@ -27,12 +27,12 @@ public class HistoryCommand extends Commands {
                 io.println(command);
             }
             io.printeDesign();
-            io.println("Commands displayed successfully");
+            io.printlnCommand("Commands displayed successfully");
             io.printeDesign();
         } catch (Exception e) {
             io.printeDesign();
             //команда не выполнена
-            io.printError("Command not executed");
+            io.printException("Command not executed");
             io.printeDesign();
         }
     }

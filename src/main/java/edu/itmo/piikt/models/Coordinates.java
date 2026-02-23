@@ -19,9 +19,6 @@ public class Coordinates {
     }
 
     public void setX(long x) {
-        if (x>10){
-            System.out.println("х введен некорректно: ");
-        }
         this.x = x;
     }
 
@@ -35,6 +32,6 @@ public class Coordinates {
 
     @Override
     public String toString() {
-        return " координата х: " + x + ", координата у: " + y;
+        return " coordinate х: " + x + ", coordinate у: " + y;
     }
 }

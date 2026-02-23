@@ -15,7 +15,7 @@ public class Address {
 
     @Override
     public String toString() {
-        return " улица: " + street;
+        return " street: " + street;
     }
 
     @Override

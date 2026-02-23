@@ -17,17 +17,17 @@ public class ShowCommand extends Commands {
         try {
             io.printeDesign();
             //отображение коллекции
-            io.println("Displaying collection");
+            io.printlnCommand("Displaying collection");
             io.printeDesign();
             historyWorker.printHistoryWorker();
             io.printeDesign();
             //Displaying collection
-            io.println("Collection displayed");
+            io.printlnCommand("Collection displayed");
             io.printeDesign();
         } catch (Exception e) {
             io.printeDesign();
             //Отображение коллекции прервано
-            io.printError("Displaying collection interrupted");
+            io.printException("Displaying collection interrupted");
             io.printeDesign();
         }
     }

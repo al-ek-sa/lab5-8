@@ -20,17 +20,17 @@ public class AddCommand extends Commands {
         try {
             io.printeDesign();
             //Начало добавления элемента
-            io.println("Start adding an item");
+            io.printlnCommand("Start adding an item");
             io.printeDesign();
             HistoryWorker.getInstance(io).add(worker.worker());
             io.printeDesign();
             //Элемент успешно добавлен
-            io.println("Item successfully added");
+            io.printlnCommand("Item successfully added");
             io.printeDesign();
         } catch (RuntimeException e){
             io.printeDesign();
             //добавить элемент не удалось
-            io.printError("Failed to add item");
+            io.printException("Failed to add item");
             io.printeDesign();
         }
     }

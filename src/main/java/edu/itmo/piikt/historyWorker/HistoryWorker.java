@@ -1,29 +1,28 @@
 package edu.itmo.piikt.historyWorker;
 
+import edu.itmo.piikt.exception.*;
 import edu.itmo.piikt.io.IOProvider;
-import edu.itmo.piikt.models.Address;
-import edu.itmo.piikt.models.Organization;
-import edu.itmo.piikt.models.OrganizationType;
-import edu.itmo.piikt.models.Worker;
+import edu.itmo.piikt.models.*;
 import edu.itmo.piikt.reader.InputReader;
 import edu.itmo.piikt.validationModels.GeneratorId;
 import edu.itmo.piikt.validationModels.ValidationOrganization;
 import edu.itmo.piikt.validationModels.ValidationWorker;
 
+import java.math.BigInteger;
 import java.util.*;
 
 public class HistoryWorker {
     private IOProvider io;
     private static HistoryWorker instance;
     private Date data;
-    private ValidationWorker worker;
+    private ValidationWorker worke;
     private ValidationOrganization organization;
     LinkedList<Worker> listWorker = new LinkedList<>();
 
     private HistoryWorker(IOProvider io) {
         this.io = io;
         this.data = new Date();
-        this.worker = new ValidationWorker(io);
+        this.worke = new ValidationWorker(io);
         this.organization = new ValidationOrganization(io);
     }
 
@@ -47,6 +46,11 @@ public class HistoryWorker {
     }
 
     public void peekFirst() {
+        if (listWorker.isEmpty()){
+            //не найдено зарегистрированных работников
+            io.println("No registered employees found");
+        }
+
         Iterator<Worker> iterator = listWorker.iterator();
         for (int i = 1; i <= 1 && iterator.hasNext(); i++) {
             Worker worker1 = iterator.next();
@@ -55,6 +59,10 @@ public class HistoryWorker {
     }
 
     public void printHistoryWorker() {
+        if (listWorker.isEmpty()){
+            //не найдено зарегистрированных работников
+            io.println("No registered employees found");
+        }
         Iterator<Worker> iterator = listWorker.iterator();
         while (iterator.hasNext()) {
             Worker worker = iterator.next();
@@ -63,19 +71,33 @@ public class HistoryWorker {
     }
 
     public void printName(String nameConsole) {
+        boolean flag = false;
+        for (Worker work : listWorker){
+            if (work.getName().equals(nameConsole)){
+                flag = true;
+            }
+        }
+
+        if (flag == false) {
+            //работников с таким именем не найдено
+            io.println("No employees found with that name");
+        } else {
+            flag = false;
+        }
+
         Iterator<Worker> iterator = listWorker.iterator();
         while (iterator.hasNext()) {
             Worker worker = iterator.next();
             String name = worker.getName();
             if (nameConsole.equals(name)) {
-                System.out.println(worker.toString());
+                io.println(worker.toString());
             }
         }
     }
 
     public void infoLiat() {
-        io.println("Тип коллекции: " + listWorker.getClass() + "\nВремя идентификации: "
-                + data + "\nКолличество эллиментов: " + listWorker.size());
+        io.println("Collection type: " + listWorker.getClass() + "\nIdentification time: "
+                + data + "\nNumber of elements: " + listWorker.size());
     }
 
     public void removeId(int idConsole) {
@@ -99,8 +121,18 @@ public class HistoryWorker {
             int idNewStart = listWorker.getLast().getId() + 1;
             LinkedList<Worker> work = new LinkedList<>();
             Iterator<Worker> iterator = listWorker.iterator();
-            String input = argument;
-            int idConsole = Integer.parseInt(input);
+
+            BigInteger bigInteger = new BigInteger(argument);
+
+            if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+                throw new ExceptionBigIntegerMAX_INTEGER();
+            }
+
+            if (bigInteger.compareTo(BigInteger.valueOf(0)) < 0) {
+                throw new ExceptionId();
+            }
+
+            int idConsole = Integer.parseInt(argument);
             if ((idNewStart - 1) >= idConsole){
                 while (iterator.hasNext()) {
                     Worker workerObject = iterator.next();
@@ -108,21 +140,24 @@ public class HistoryWorker {
                     if (id > idConsole) {
                         work.add(workerObject);
                         iterator.remove();
-                    }
-                    if (id == idConsole) {
+                    } else if (id == idConsole) {
                         iterator.remove();
+                        GeneratorId.getInstance(io).setStartId(idConsole);
+                        work.add(worke.worker());
                     }
                 }
-                GeneratorId.getInstance(io).setStartId(idConsole);
-                listWorker.add(worker.worker());
                 listWorker.addAll(work);
-                GeneratorId.getInstance(io).setStartId(idNewStart);}
-        } catch (RuntimeException e){
-            //индекс не найден
-            io.printException("Index not found");
+                GeneratorId.getInstance(io).setStartId(idNewStart);
+            }
+        } catch (ExceptionNull e) {
+            io.printError(e.getMessage());
+        } catch (ExceptionBigIntegerMAX_INTEGER e){
+            io.printError(e.getMessage());
+        } catch (ExceptionId e) {
+            io.printError(e.getMessage());
+        } catch (RuntimeException e) {
+            io.printException("The string contains symbols, please try again");
         }
-
-
 
 
         /**
@@ -144,25 +179,32 @@ public class HistoryWorker {
         GeneratorId.getInstance(io).setStartId(idNewStart);*/
     }
 
-    public void countByOrganization() {
+    public void countByOrganization(Organization organization) {
         ArrayList<Worker> organizationArrayList = new ArrayList<>();
-        Organization input = organization.organization();
-        Iterator<Worker> iterator = listWorker.iterator();
-
-        if (iterator.hasNext()){
-            Worker worker = iterator.next();
-            if (worker.getOrganization().equals(input)){
-                organizationArrayList.add(worker);
+        for (Worker worker1 : listWorker){
+            if (worker1.getOrganization() != null && worker1.getOrganization().equals(organization)){
+                organizationArrayList.add(worker1);
             }
         }
-        int size = organizationArrayList.size();
-        io.printlnInt(size);
+
+        io.printeDesign();
+        io.printlnInt(organizationArrayList.size());
         organizationArrayList.clear();
     }
 
     public void removeLower(String argument) {
         Iterator<Worker> iterator = listWorker.iterator();
         try {
+            BigInteger bigInteger = new BigInteger(argument);
+
+            if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+                throw new ExceptionBigIntegerMAX_INTEGER();
+            }
+
+            if (bigInteger.compareTo(BigInteger.valueOf(0)) <= 0) {
+                throw new ExceptionId();
+            }
+
             int idConsole = Integer.parseInt(argument);
             Worker tip = new Worker();
             tip.setId(idConsole);
@@ -172,12 +214,20 @@ public class HistoryWorker {
                     iterator.remove();
                 }
             }
+        } catch (ExceptionBigIntegerMAX_INTEGER e){
+            io.printError(e.getMessage());
+        } catch (ExceptionId e) {
+            io.printError(e.getMessage());
         } catch (RuntimeException e) {
-            io.printException("Invalid input");
+            io.printException("The string contains symbols, please try again");
         }
     }
 
     public void sort(){
+        if (listWorker.isEmpty()){
+            //не найдено зарегистрированных работников
+            io.println("No registered employees found");
+        }
         LinkedList<Worker> sortedList = new LinkedList<>(listWorker);
 
         Comparator<Worker> workerDate = new Comparator<Worker>() {
@@ -210,5 +260,45 @@ public class HistoryWorker {
             return 0;
         } else{
         return  listWorker.getLast().getId();}
+    }
+
+    public void idMatches(String argument) {
+        LinkedList<Worker> workId = new LinkedList<>();
+        try {
+            BigInteger bigInteger = new BigInteger(argument);
+
+            if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+                throw new ExceptionBigIntegerMAX_INTEGER();
+            }
+
+            if (bigInteger.compareTo(BigInteger.valueOf(0)) < 0) {
+                throw new ExceptionId();
+            }
+
+            int idConsole = Integer.parseInt(argument);
+
+                for (Worker worker : listWorker){
+                    if (idConsole == worker.getId()){
+                        workId.add(worker);
+                    }
+                }
+
+
+            if (workId.isEmpty()){
+                io.printException("No employee with this ID");
+
+            } else {
+                workId.clear();
+            }
+
+        } catch (ExceptionNull ignored) {
+            //ignored
+        } catch (ExceptionBigIntegerMAX_INTEGER ignored){
+            //ignored
+        } catch (ExceptionId ignored) {
+            //ignored
+        } catch (RuntimeException ignored) {
+            //ignored
+        }
     }
 }

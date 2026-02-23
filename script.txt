@@ -1,7 +1,1 @@
-help
-show
-history
-add
-save
-show
-execute_script script2.txt
+count_by_organization  {"1";"1";"1"}

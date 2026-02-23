@@ -16,17 +16,17 @@ public class PrintFieldDescendingEndDataCommand extends Commands {
         try {
             io.printeDesign();
             //сортировка по дате увольнения началась
-            io.println("Sorting by date of dismissal started");
+            io.printlnCommand("Sorting by date of dismissal started");
             io.printeDesign();
             HistoryWorker.getInstance(io).sort();
             io.printeDesign();
             //сортировка успешно окончена
-            io.println("Sorting completed successfully");
+            io.printlnCommand("Sorting completed successfully");
             io.printeDesign();
         } catch (Exception e) {
             io.printeDesign();
             //не удалось произвести сортировку
-            io.printError("Failed to sort");
+            io.printException("Failed to sort");
             io.printeDesign();
         }
     }
