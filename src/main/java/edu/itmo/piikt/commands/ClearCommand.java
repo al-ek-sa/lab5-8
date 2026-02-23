@@ -45,21 +45,7 @@ public class ClearCommand extends Commands implements Confirmation {
             GeneratorId.getInstance(io).setStartId(1);
             io.printlnCommand("Collection cleared successfully");
             io.printeDesign();
-        }
 
-
-
-
-        io.printeDesign();
-        io.printlnCommand("Are you sure you want to clear the collection? (yes/no)"); //Вы точно хотите очистить коллекцию? (да/нет)
-        io.printeDesign();
-        String consent = confirmation();
-        if (consent.equals("yes")){
-            io.printeDesign();
-            io.printlnCommand("Consent received, clearing collection");
-            historyWorker.clear();
-            GeneratorId.getInstance(io).setStartId(1);
-            io.printeDesign();
         } else {
             io.printeDesign();
             io.printlnCommand("Command cancelled");

@@ -64,14 +64,14 @@ public class IOFile implements  IOProvider {
                 return  null;
             }
 
-            /**if (command.startsWith("add") && command.contains("{") ){
+            if (command.startsWith("add") && command.contains("{") ){
                 int ind = command.indexOf("{") -1;
                 String commandArgument = command.substring(0, ind);
                 String dataLIne = command.substring(ind +1);
                 data(dataLIne);
                 return commandArgument;
 
-            }*/
+            }
 
             /**if (command.startsWith("count_by_organization" ) && command.contains("{")){
                 int ind = command.indexOf("{") -1;
