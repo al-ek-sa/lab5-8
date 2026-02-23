@@ -11,14 +11,14 @@ import sun.misc.SignalHandler;
 
 public class Main {
     public static void main(String[] args) {
-        Signal.handle(new Signal("INT"), new SignalHandler () {
+       /** Signal.handle(new Signal("INT"), new SignalHandler () {
             public void handle(Signal sig) {}
         });
         Signal.handle(new Signal("TSTP"), new SignalHandler () {
             public void handle(Signal sig) {}
-        });
+        });*/
         IOProvider io = new IOScanner();
-        HistorySave.getInstance().readFile();
+        //HistorySave.getInstance().readFile();
         CSVParser csvParser = new CSVParser(io);
         csvParser.readFile();
         HelpCommand help = new HelpCommand(io);

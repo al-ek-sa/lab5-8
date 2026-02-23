@@ -23,26 +23,33 @@ public class ExecuteScriptCommand extends ArgumentCommand {
     @Override
     public void execute(String argument) {
         try{
-            io.printeDesign();
-            //начало чтения скрипта
-            io.printlnCommand("Start of script reading");
-            io.printeDesign();
-            for (String nameFile :name){
-                if (nameFile.equals(argument)){
-                    io.printException("Error in file:" + name.getLast());
-                    name.clear();
-                    throw new ExceptionScript();
-                }
+            if(io.name().equals("File")) {
+                //из скрипта нельзя вызывать другой скрипт
+                io.printException("You cannot call one script from another");
             }
-            name.add(argument);
-            IOFile script = new IOFile(argument);
-            ValidationCommand scriptValidation = new ValidationCommand(script);
-            scriptValidation.validation();
-            name.clear();
-            io.printeDesign();
-            //скрипт успешно прочтен и выполнен
-            io.printlnCommand("Script successfully read and executed");
-            io.printeDesign();
+
+            if (io.name().equals("Console")){
+                io.printeDesign();
+                //начало чтения скрипта
+                io.printlnCommand("Start of script reading");
+                io.printeDesign();
+                for (String nameFile : name){
+                    if (nameFile.equals(argument)){
+                        io.printException("Error in file:" + name.getLast());
+                        name.clear();
+                        throw new ExceptionScript();
+                    }
+                }
+                name.add(argument);
+                IOFile script = new IOFile(argument);
+                ValidationCommand scriptValidation = new ValidationCommand(script);
+                scriptValidation.validation();
+                name.clear();
+                io.printeDesign();
+                //скрипт успешно прочтен и выполнен
+                io.printlnCommand("Script successfully read and executed");
+                io.printeDesign();
+            }
         }catch (ExceptionScript e){
             io.printError(e.getMessage() + argument + ")");
         } catch (IOException e) {

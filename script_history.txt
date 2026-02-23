@@ -1,0 +1,4 @@
+history
+history sdfghjkl;
+history dfghj fghjkl
+history null

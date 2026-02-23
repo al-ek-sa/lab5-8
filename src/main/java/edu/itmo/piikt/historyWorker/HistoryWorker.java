@@ -126,7 +126,7 @@ public class HistoryWorker {
                 throw new ExceptionBigIntegerMAX_INTEGER();
             }
 
-            if (bigInteger.compareTo(BigInteger.valueOf(0)) < 0) {
+            if (bigInteger.compareTo(BigInteger.valueOf(0)) <=0) {
                 throw new ExceptionId();
             }
 
@@ -142,39 +142,32 @@ public class HistoryWorker {
                         iterator.remove();
                         GeneratorId.getInstance(io).setStartId(idConsole);
                         work.add(worker.worker());
+                        io.printeDesign();
+                        //данные успешно обновлены
+                        io.printlnCommand("Data successfully updated");
+                        io.printeDesign();
                     }
                 }
                 listWorker.addAll(work);
                 GeneratorId.getInstance(io).setStartId(idNewStart);
             }
         } catch (ExceptionNull e) {
-            io.printError(e.getMessage());
+            io.printeDesign();
+            io.printException(e.getMessage());
+            io.printeDesign();
         } catch (ExceptionBigIntegerMAX_INTEGER e){
-            io.printError(e.getMessage());
+            io.printeDesign();
+            io.printException(e.getMessage());
+            io.printeDesign();
         } catch (ExceptionId e) {
-            io.printError(e.getMessage());
+            io.printeDesign();
+            io.printException(e.getMessage());
+            io.printeDesign();
         } catch (RuntimeException e) {
+            io.printeDesign();
             io.printException("The string contains symbols, please try again");
+            io.printeDesign();
         }
-
-
-        /**
-        Worker lastElement = listWorker.getLast();
-        int idNewStart = lastElement.getId() + 1;
-        Iterator<Worker> iterator = listWorker.iterator();
-        int idConsole = InputReader.getInstance().nextInt();
-        InputReader.getInstance().nextLine();
-        while (iterator.hasNext()) {
-            Worker workerObject = iterator.next();
-            int id = workerObject.getId();
-            if (idConsole == id) {
-                iterator.remove();
-                break;
-            }
-        }
-        GeneratorId.getInstance(io).setStartId(idConsole);
-        add(worker.worker());
-        GeneratorId.getInstance(io).setStartId(idNewStart);*/
     }
 
     public void countByOrganization(Organization organization) {
@@ -213,11 +206,17 @@ public class HistoryWorker {
                 }
             }
         } catch (ExceptionBigIntegerMAX_INTEGER e){
-            io.printError(e.getMessage());
+            io.printeDesign();
+            io.printException(e.getMessage());
+            io.printeDesign();
         } catch (ExceptionId e) {
-            io.printError(e.getMessage());
+            io.printeDesign();
+            io.printException(e.getMessage());
+            io.printeDesign();
         } catch (RuntimeException e) {
+            io.printeDesign();
             io.printException("The string contains symbols, please try again");
+            io.printeDesign();
         }
     }
 
@@ -269,7 +268,7 @@ public class HistoryWorker {
                 throw new ExceptionBigIntegerMAX_INTEGER();
             }
 
-            if (bigInteger.compareTo(BigInteger.valueOf(0)) < 0) {
+            if (bigInteger.compareTo(BigInteger.valueOf(0)) <= 0) {
                 throw new ExceptionId();
             }
 

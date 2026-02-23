@@ -22,10 +22,6 @@ public class UpdateIdCommand extends ArgumentCommand {
             io.printlnCommand("Start of data update");
             HistoryWorker.getInstance(io).idMatches(argument);
             HistoryWorker.getInstance(io).update(argument, worker);
-            io.printeDesign();
-            //данные успешно обновлены
-            io.printlnCommand("Data successfully updated");
-            io.printeDesign();
         } catch (RuntimeException e){
             io.printeDesign();
             //Обновление данных прервано

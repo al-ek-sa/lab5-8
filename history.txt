@@ -1,147 +1,441 @@
-update 2
-execute_script script2.txt
-1
-1
-1
-1
+filter_contains_name null Kira
+filter_contains_name 11
+filter_contains_name null
+filter_contains_name
+filter_contains_name Kira
+execute_script script.txt
+execute_script script_filter_contains_name.txt
+execute_script script_filter_contains_name.txt
+execute_script script_filter_contains_name.txt
+filter_contains_name null Kira
+filter_contains_name null
+filter_contains_name 11
+filter_contains_name
+filter_contains_name ggg
+filter_contains_name Kira
+-8
+-8
+count_by_organization
+count_by_organization 1 1 1
+count_by_organization
+execute_script script_count_by_organization.txt
+-8
+-8
+count_by_organization
+count_by_organization 1 1 1
 
+execute_script script_count_by_organization.txt
+-8
+-8
+count_by_organization
+count_by_organization 1 1 1
+count_by_organization
+execute_script script_count_by_organization.txt
+count_by_organization
+count_by_organization
+print_field_descending_end_date
+execute_script script_print_field_descending_end_date.txt
+execute_script script_print_field_descending_end_date.txt
+print_field_descending_end_date
+save
+add
+add
+print_field_descending_end_date
+print_field_descending_end_date hh hh
+print_field_descending_end_date 7
+print_field_descending_end_date 444
+show
+Len
+2
+123467
+3
 1111-11-11
+2323-11-11
+222
 2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
 2
-2
-hh
-update 1
-execute_script script2.txt
-show
-update 2
-show
-update 3
-show
-save
-update 1
-add
-show
-add
-show
-update 2
-execute_script script2.txt
-show
-update 2
-show
-update 1
-execute_script script2.txt
-show
-add
-cave
-clear
-show
-update 1
-execute_script script2.txt
-
-add
-update 1
-execute_script script2.txt
-update 1
-execute_script script2.txt
-{"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
-1
-1
-1
-1
-
+123467
+3
 1111-11-11
+2323-11-11
+222
 2
-2
-2
-hh
-update 46
-execute_script script2.txt
-{"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
+dfghjkl;
+add null
+add sdfghjkl
 add
-execute_script script2.txt
-add {"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
-execute_script script2.txt
-с
-remove_lower 45
-remove_lower null
-remove_lower
-remove_lower 0
-execute_script script.txt
-count_by_organization
-execute_script script.txt
 add
-execute_script script2.txt
-execute_script scriptюе.txt
-count_by_organization
-execute_script script.txt
-add
-execute_script script2.txt
-execute_script scriptюе.txt
-add
-execute_script script2.txt
-execute_script script.txt
-count_by_organization
-add
-count_by_organization
-save
-clear
-clear
-save null
-save uboug
-save 4444
-save
-show null
-show 5555
-show sfbs
+execute_script script_add.txt
 show
-info null
-info 555
-info sfbsb
-info
-help null
-help 5555
-help ihohho
-help
-execute_script script_simple_command.txt
-save null
-save uboug
-save 4444
-save
-show null
-show 5555
-show sfbs
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
 show
-info null
-info 555
-info sfbsb
-info
-help null
-help 5555
-help ihohho
-help
-execute_script script_simple_command.txt
-exit dfvw
-clear
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
 
 
-save null
-save uboug
-save 4444
-save
-show null
-show 5555
-show sfbs
 show
-info null
-info 555
-info sfbsb
-info
-help null
-help 5555
-help ihohho
-help
-execute_script script_simple_command.txt
-help null
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+clear
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+clear
+clear null
+clear 555
+clear xcfvhjk
+execute_script script_clear.txt
+show
+remove_by_id 43
+remove_by_id -999999999999999999999999999
+remove_by_id 0
+remove_by_id 99
+remove_by_id 7777777777777777777777777777
+show
+remove_by_id 42
 remove_by_id 7.8
 remove_by_id null
 remove_by_id
@@ -149,832 +443,393 @@ remove_by_id 9999999999999999999999999999999999999999999999999
 remove_by_id -8888888888888888888888888888888888888888888888
 remove_by_id 0
 execute_script script_remove_by_id.txt
-remove_by_id 5.5
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+execute_script script_add.txtexecute_script script_add.txtexecute_script script_add.txtexecute_script script_add.txtexecute_script script_add.tx
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+remove_by_id 32
+remove_by_id 7.8
 remove_by_id null
-remove_by_id 888888888888888888888888888888888888888888888888888888888
 remove_by_id
-remove_by_id 88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-
-remove_by_id sdfse
-remove_by_id
-update 37
-update 1
-update sva
-update 37
-show
-update 1
-update 1
-show
-show svz
-info dgs
-help g1
-execute_script script.txt
-info dvsw
-info 9
-help 1
-show
-save
-add
-add
-add
-add
-add
-add
-add
-add
-add
-execute_script script2.txt
-
-clear
-save
-add
-execute_script script2.txt
-save
-add
-
-execute_script script2.txt
-save
-add
-save
-1
-1
-1
-1
-
-add
-
-execute_script script2.txt
-save
-1
-1
-1
-1
-
-add
-add
-add
-add
-add
-add
-add
-add
-add
-execute_script script2.txt
-show
-execute_script script.txt
-info
-execute_script script.txt
-
-info
-execute_script script.txt
-help
-execute_script script.txt
-save
-add
-
-execute_script script2.txt
-info
-help
-execute_script script.txt
-info
-help
-рудз
-remove_lower 3
-show
-remove_lower 1
-execute_script script.txt
-show
-add
-history
-show
-info
-help
-execute_script script2.txt
-add
-history
-show
-help
-execute_script script.txt
-execute_script script.txt
-show
-add
-history
-show
-info
-help
-execute_script script2.txt
-add
-history
-show
-help
-execute_script script.txt
-
-execute_script script.txt
-show
-add
-history
-show
-info
-help
-execute_script script2.txt
-show
-save
-1
-1
-1
-1
-
-11-11-7
-1
-1
-add
-history
-show
-help
-execute_script script.txt
-execute_script script2.txt
-show
-add
-history
-show
-info
-help
-execute_script script2.txt
-show
-add
-history
-show
-info
-help
-execute_script script2.txt
-
-held
-hehh
-hel
-рудз
-help
-hel
-show
-add
-history
-show
-help
-execute_script script2.txt
-show
-1
-COMMERCIAL
-1
-add
-history
-show
-help
-execute_script script2.txt
-show
-1
-COMMERCIAL
-1
-add
-history
-show
-help
-execute_script script2.txt
-history
-historyAll
-show
-}
-1
-
-
-COMMERCIAL
-
-
-1
-
-
-FIRED
-
-
-
-
-
-1111-11-11
-
-
-1.0
-
-
-1.0
-
-
-1
-
-
-f
-add
-history
-show
-help
-execute_script script2.txt
-show
-remove_by_id id 1
-svsmb'
-info
-exit
-print_field_descending_end_date
-filter_contains_name Masha
-count_by_organization
-history
-remove_lower 3
-head
-save
-show
-save
-add
-show
-show
-1
-1
-1
-1
-
-add
-history
-show
-help
-execute_script script2.txt
-show
-save
-1
-1
-1
-1
-
-11-11-7
-1
-1
-add
-history
-show
-help
-execute_script script.txt
-clear
-remove_by_id 1
-update_id 1
-info
-add
-help
-info
-help
-clear
-фвв
-show
-1
-1
-1
-1
-
-add
-historyAll
-history
-show
-help
-execute_script script2.txt
-show
-save
-1
-1
-1
-1
-
-11-11-7
-1
-1
-add
-historyAll
-history
-show
-help
-execute_script script.txt
-show
-1
-1
-1
-1
-
-add
-historyAll
-history
-show
-help
-execute_script script2.txt
-show
-1
-1
-1
-1
-
-11-11-7
-1
-1
-add
-historyAll
-history
-show
-help
-execute_script script.txt
-save
-add
-add
-save
-print_field_descending_end_date
-filter_contains_name Masha
-count_by_organization
-history
-j
-remove_lower 5
-remove_lower
-head
-show
-add
-historyAll
-history
-show
-help
-execute_script script2.txt
-show
-add
-historyAll
-history
-show
-help
-execute_script script.txt
-clear
-save
-show
-add
-historyAll
-history
-show
-help
-execute_script script2.txt
-show
-add
-historyAll
-history
-show
-help
-execute_script script.txt
-show
-remove_by_id 1
-update_id 1
-update_id 5
-f
-update_id 2
-show
-info
-save
-add
-1
-add
-info
-help
-3
-update_id 2
-update id
-show
-show
-update id
-show
-update id 1
-update id j
-show
-ырщц
-add
-save
-show
-update id 11
-update id
-d
-show
-update 11
-update id
-help
-info
-show
-add
-show
-update_id 6
-show
-remove_by_id
-remove_by_id 5
-show
-фв
-фвв
-add
-add
-aadd
-ADD
-clear
-head
-ырщц
-clear
-rhwhw
-execute_script script2.txt
-help
-show
-history
-historyAll
-add
-
-1
-1
-1
-1
-show
-help
-show
-
-info
-mvn clean compile
-mvn package
-START="java -jar target/lab5-1.0-SNAPSHOT-jar-with-dependencies.jar"
-eval $STARTexit
-
-
-�
-ф
-add
-save
-remove_by_id id 1
-update id 1
-фвв
-add
-filter_contains_name wefvwf
-remove_by_id id 1
-remove_by_id id 4
-�
-execute_script script2.txt
-help
-show
-history
-add
-f
-;
-1
-;
-1.0
-;
-1.0
-;
-1111-11-11
-;
-
-;
-FIRED
-;
-1
-;
-COMMERCIAL
-;
-1
-}
-show
-
-execute_script script2.txt
-help
-show
-history
-add
-f
-;
-1
-;
-1.0
-;
-1.0
-;
-1111-11-11
-;
-
-;
-FIRED
-;
-1
-;
-COMMERCIAL
-;
-1
-}
-show
-execute_script script2.txt
-khos
-vkrz
-klvwru|
-dgg#}%i%>%4%>%413%>%413%>%4444044044%>%%>%ILUHG%>%4%>%FRPPHUFLDO%>%4%
-vkrz
-show
-execute_script script2.txt
-khos
-vkrz
-klvwru|
-dgg#}%gyheqhlqr%>%4%>%413%>%413%>%4444044044%>%%>%ILUHG%>%4%>%FRPPHUFLDO%>%4%
-vkrz
-show
-help
-info
-show
-add
-help
-update_id 3
-3
-update id
-g
-w
-update id 3
-remove_by_id id
-help
-mvn clean compile
-mvn package
-START="java -jar target/lab5-1.0-SNAPSHOT-jar-with-dependencies.jar"
-ру�
-фв
-inf
-nfo
-ino
-execute_script script2.txt
-help
-info
-show
-history
-add
-show
-execute_script script2.txt
-execute_script script2.txt
-help
-info
-show
-history
-add
-show
-execute_script script2.txt
-execute_script script.txt
-help
-show
-history
-add
-execute_script script2.txt
-help
-info
-show
-history
-add
-show
-execute_script script.txt
-show
-add
-add
-show
-remove_lower 1
-remove_lower
-remove_lower 1
-print_field_descending_end_date
-remove_lower 4
-ф
-dad
-save
-he
-
-sa
-svae
-evev
-asd
-info
-show
-execute_script script.txt
-help
-info
-show
-execute_script script.txt
-help g1
-info dgs
-show svz
-execute_script script.txt
-help g1
-info dgs
-show svz
-hel oo
-add
-execute_script script2.txt
-add
-add
-1.0
-1.0
-1111-11-11
-1111-11-11
-1
-1
-1
-1
-add
-add
-add
-add
-add
-add
-add
-execute_script script2.txt
-add
-add
-add
-add
-add
-add
-add
-add
-ad
-save
-update 2
-update 1
-sho
-update 40
-update 1
-update 1
-update 1
-update efbqi
-show
-execute_script script2.txt
-add
-add
-add
-add
-add
-add
-add
-add
-add
-save
-
-
-update 1 {"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
-update avoiiv {"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
-update 40 {"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
-execute_script script2.txt
-update 1 {"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
-execute_script script2.txt
-update 43 {"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
-show
-remove_by_id 49
-show
-remove_by_id 53
-remove_by_id
-remove_by_id
-remove_by_id bserhsh
-remove_by_id 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-remove_by_id -88888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-remove_by_id 1
-remove_by_id -888888888888888888888888888888888888888888
+remove_by_id 9999999999999999999999999999999999999999999999999
+remove_by_id -8888888888888888888888888888888888888888888888
 remove_by_id 0
-execute_script script_simple_command.txt
-help
-help ihohho
-help 5555
-help null
-info
-info sfbsb
-info 555
-info null
+execute_script script_remove_by_id.txt
 show
-show sfbs
-show 5555
-show null
-save
-save 4444
-save uboug
-save null
-s
-execute_script script.txt
-head
+remove_lower 1
+remove_lower 9999999
+remove_lower null 2
+remove_lower ffffffffffff ffffffffffff fffffffffffff
+remove_lower sddddddddddddddddd
+remove_lower -999999999999999999999999999999999999999999999999999999999999
+remove_lower 0
+remove_lower 888888888888888888888888888888888888888888888888888888888888888888
+execute_script script_remove_lower.txt
 show
-print_field_descending_end_date
-clear
+remove_lower null 15
 show
-head
-print_field_descending_end_date
+remove_lower null 2
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
 add
-show
-info
-save
-head
-show
-save
 add
-clear
-head
-hep
-hel
-show
-print_field_descending_end_date 666666666666666666666
-filter_contains_name
-filter_contains_name 8888888888888888888888888888888
-filter_contains_name Masha
-show
-filter_contains_name Ivan
-clear
-filter_contains_name
-count_by_organization
-execute_script script.txt
-execute_script script.txt
-execute_script script.txt
-execute_script script.txt
-count_by_organization
-1
-1
-execute_script script.txt
-execute_script script.txt
-execute_script script2.txt
-add
-execute_script script.txt
-count_by_organization
-execute_script script.txt
-count_by_organization
-execute_script script.txt
-мум
-execute_script script.txt
-count_by_organization
-execute_script script.txt
-count_by_organization
-execute_script script.txt
-count_by_organization
-execute_script script.txt
-count_by_organization
-execute_script script.txt
-count_by_organization
-execute_script script.txt
-count_by_organization
-execute_script script2.txt
-remove_lower 43
-show
-remove_lower dvav
-remove_lower 8888888888888888888888888888888888888888888888888888888888888888888888888888888888
-remove_lower -888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-show
-execute_script script2.txt
-update 46
-{"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
-execute_script script2.txt
-add
-show
-mvn clean compile
-mvn package
-START="java -jar target/lab5-1.0-SNAPSHOT-jar-with-dependencies.jar"
+execute_script script_add.txt
+execute_script script_add.txtexecute_script script_add.txt
 
-execute_script script2.txtexecute_script script2.txt
-execute_script script_simple_command.txt
-help
-help ihohho
-help 5555
-help null
-info
-info sfbsb
-info 555
-info null
+execute_script script_add.txtexecute_script script_add.txt
+
 show
-show sfbs
-show 5555
-show null
-save
-save 4444
-save uboug
-save null
-print_field_descending_end_date
-print_field_descending_end_date 8888888
-print_field_descending_end_date iugbi
-print_field_descending_end_date null
-execute_script script2.txt
-update 46
-{"Kat";"2";"1.0";"1.0";"1111-11-11";"1111-11-11";"1";"1";"1";"1"}
-show
-clear
-show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
 add
-mvn clean compile
-mvn package
-START="java -jar target/lab5-1.0-SNAPSHOT-jar-with-dependencies.jar"
-ырщ
-show
 add
-execute_script script2.txt
-update 2
-execute_script script2.txt
-update 1
+execute_script script_add.txt
 show
-execute_script script2.txt
-update 1
-show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
 add
-save
+add
+execute_script script_add.txt
 show
-update 3
-ырщц
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
 show
-update 3
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+show
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+dfghjkl;
+add null
+add sdfghjkl
+add
+add
+execute_script script_add.txt
+remove_lower 2
