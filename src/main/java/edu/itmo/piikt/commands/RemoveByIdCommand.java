@@ -10,6 +10,13 @@ import edu.itmo.piikt.managers.ArgumentCommand;
 
 import java.math.BigInteger;
 
+/**
+ * The class implements the command remove_by_id id : remove an element from the collection by its id.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class RemoveByIdCommand extends ArgumentCommand {
     private IOProvider io;
     public RemoveByIdCommand(IOProvider io){

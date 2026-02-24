@@ -4,6 +4,13 @@ import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
 
+/**
+ * The class implements the command info : output information about the collection to the standard output stream (type, initialization date, number of elements, etc.).
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class InfoCommand extends Commands {
     private IOProvider io;
     public InfoCommand(IOProvider io){

@@ -1,6 +1,14 @@
 package edu.itmo.piikt.reader;
 import java.util.Scanner;
 
+/**
+ * The class implements parsing a collection containing employee data into CSV format, saving to a file,
+ * and reading data from a file.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class InputReader {
     private Scanner scanner;
     private static InputReader instance;
@@ -15,6 +23,12 @@ public class InputReader {
         }
         return instance;
     }
+
+    /**
+     *The method reads data from the console.
+     *
+     * @return data
+     */
 
     public String nextLine() {
         return scanner.nextLine();

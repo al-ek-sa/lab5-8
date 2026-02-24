@@ -6,6 +6,13 @@ import edu.itmo.piikt.managers.HistoryCommands;
 
 import java.util.Iterator;
 
+/**
+ * The class implements the command history : output the last 14 commands (without their arguments).
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class HistoryCommand extends Commands {
     private HistoryCommands historyCommands;
     private IOProvider io;

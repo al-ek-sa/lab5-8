@@ -5,6 +5,13 @@ import com.opencsv.bean.CsvRecurse;
 
 import java.util.Objects;
 
+/**
+ * The class of the Organization type object.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 final public class Organization {
     @CsvBindByPosition(position = 9)
     private int annualTurnover;
@@ -19,6 +26,14 @@ final public class Organization {
         this.officialAddress = officialAddress;
     }
     public Organization(){}
+
+    /**
+     * Returns a brief description of this Organization. The exact details
+     * of the representation are unspecified and subject to change,
+     * but the following may be regarded as typical:
+     *
+     * "annualTurnover: annualTurnover, type: type, officialAddress: officialAddress"
+     */
 
     @Override
     public String toString() {

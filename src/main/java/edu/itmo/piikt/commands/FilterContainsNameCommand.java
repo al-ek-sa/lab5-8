@@ -4,6 +4,13 @@ import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.ArgumentCommand;
 
+/**
+ * The class implements the command filter_contains_name name : output elements whose name field value contains the specified substring.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class FilterContainsNameCommand extends ArgumentCommand {
     private IOProvider io;
     public FilterContainsNameCommand(IOProvider io){

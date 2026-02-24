@@ -9,6 +9,14 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * A class that inherits from the IOProvider interface implements data output to
+ * the console and reading from a file.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class IOFile implements  IOProvider {
     private BufferedInputStream reading;
     private Queue<String> dataQueue = new LinkedList<>();
@@ -37,6 +45,15 @@ public class IOFile implements  IOProvider {
         System.out.println(ANSI_GREEN + message + ANSI_BRIGHT_BLUE);
     }
     int byteRead;
+
+
+    /**
+     *The method reads data from a script. The data is read character by character and converted into words.
+     *
+     *
+     * @throws IOException If file system errors occurred.
+     * @return command
+     */
 
     @Override
     public String readLine() {
@@ -73,14 +90,6 @@ public class IOFile implements  IOProvider {
 
             }
 
-            /**if (command.startsWith("count_by_organization" ) && command.contains("{")){
-                int ind = command.indexOf("{") -1;
-                String commandArgument = command.substring(0, ind);
-                String dataLIne = command.substring(ind +1);
-                data(dataLIne);
-                return commandArgument;
-
-            }*/
             return command;
         } catch (IOException e) {
             return null;
@@ -96,6 +105,12 @@ public class IOFile implements  IOProvider {
     public String name() {
         return "File";
     }
+
+    /**
+     *A method that adds data entered after the command, in curly braces, to a queue.
+     *
+     * @param data A string with data is passed as parameters to the method.
+     */
 
     private void data(String data){
         if (data.startsWith("{") && data.endsWith("}")){

@@ -5,6 +5,13 @@ import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
 import edu.itmo.piikt.validationModels.ValidationOrganization;
 
+/**
+ * The class implements the command  count_by_organization organization : output the number of elements whose organization field value is equal to the specified one.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class CountByOrganizationCommand extends Commands {
     private IOProvider io;
     private ValidationOrganization organization;

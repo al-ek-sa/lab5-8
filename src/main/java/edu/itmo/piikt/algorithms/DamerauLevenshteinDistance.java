@@ -2,6 +2,13 @@ package edu.itmo.piikt.algorithms;
 
 import edu.itmo.piikt.io.IOProvider;
 
+/**
+ * The class implements the Damerau-Levenshtein algorithm.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class DamerauLevenshteinDistance {
     private IOProvider io;
     public DamerauLevenshteinDistance(IOProvider io){

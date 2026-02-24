@@ -8,10 +8,17 @@ import edu.itmo.piikt.models.Worker;
 import java.io.*;
 import java.util.List;
 
+/**
+ * The class implements parsing a collection containing employee data into CSV format, saving to a file,
+ * and reading data from a file.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class CSVParser {
     private IOProvider io;
     private String fileName;
-    private String fileName1;
     public CSVParser(IOProvider io) {
         this.io = io;
         this.fileName = System.getenv("WORKER_FILE");
@@ -19,6 +26,12 @@ public class CSVParser {
             this.fileName = "workers.csv";
         }
     }
+
+    /**
+     *The method implements parsing employee data with saving to a file.
+     *
+     * @throws Exception If file system errors occurred.
+     */
 
     public void saveCollection() {
         List<Worker> workers = HistoryWorker.getInstance(io).getListWorker();
@@ -56,6 +69,11 @@ public class CSVParser {
         }
     }
 
+    /**
+     *The method reads employee data from a file in CSV format.
+     *
+     * @throws Exception If file system errors occurred.
+     */
     public void readFile(){
         try{
             try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(fileName));

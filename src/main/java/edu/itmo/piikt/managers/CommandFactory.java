@@ -6,6 +6,13 @@ import java.util.Map;
 import edu.itmo.piikt.commands.*;
 import edu.itmo.piikt.io.IOProvider;
 
+/**
+ * A factory class for storing registered commands.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class CommandFactory {
     private Map<String, Commands> commands = new HashMap<>();
     private Map<String, ArgumentCommand> argumentCommands = new HashMap<>();
@@ -33,9 +40,20 @@ public class CommandFactory {
         writeCommand(new HelpEnteringCommand(io));
     }
 
+    /**
+     *A method for registering commands without arguments.
+     *
+     * @param command The parameter accepts command objects that are subclasses of the Command class.
+     */
     private void writeCommand(Commands command){
         commands.put(command.getName(), command);
     }
+
+    /**
+     * A method for registering commands with an argument.
+     *
+     * @param argumentCommand The parameter accepts command objects that are subclasses of the ArgumentCommand class.
+     */
 
     private void writeArgumentCommand(ArgumentCommand argumentCommand){
         argumentCommands.put(argumentCommand.getName(), argumentCommand);

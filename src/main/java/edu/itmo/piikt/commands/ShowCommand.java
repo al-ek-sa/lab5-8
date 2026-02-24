@@ -4,6 +4,13 @@ import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
 
+/**
+ * The class implements the command show : output all elements of the collection in string representation to the standard output stream.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class ShowCommand extends Commands {
     private IOProvider io;
     private HistoryWorker historyWorker;

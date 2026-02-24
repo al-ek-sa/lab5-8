@@ -4,6 +4,13 @@ import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
 
+/**
+ * The class implements the command print_field_descending_end_date : output the endDate field values of all elements in descending order.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class PrintFieldDescendingEndDataCommand extends Commands {
     private IOProvider io;
     public PrintFieldDescendingEndDataCommand(IOProvider io) {

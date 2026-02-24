@@ -8,6 +8,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The main class of the program. The class determines which command was called.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class ValidationCommand {
     private HistoryCommands historyCommands;
     private CommandFactory factory;
@@ -18,13 +25,19 @@ public class ValidationCommand {
     private static final List<String> twoWords = Arrays.asList("remove_by_id", "execute_script",
             "filter_contains_name", "remove_lower", "update");
 
-    private static final List<String> threeWords = Arrays.asList();
-
     public ValidationCommand(IOProvider io) {
         this.historyCommands = HistoryCommands.getInstance();
         this.factory = new CommandFactory(io);
         this.io = io;
     }
+
+    /**
+     * The method selects from the registered commands the command that the user entered. When entering,
+     * the user can make a mistake once.
+     *
+     * Attention! The command handles only single-word commands without arguments and
+     * single-word commands with one argument.
+     */
 
     public void validation() {
         while (true) {
@@ -107,26 +120,6 @@ public class ValidationCommand {
                         argumentCommand.execute(argument);
                     }
                 }
-            /**}else if (parts.length == 3) {
-                String nameCommand = (parts[0] + " " + parts[1]);
-                String  argument = parts[2];
-
-                for (String com3 : threeWords){
-                    if (DamerauLevenshteinDistance.distance(nameCommand, com3) <= 1){
-                        nameCommand = com3;
-                    }
-                }
-                    ArgumentCommand argumentCommand = factory.getArgumentCommand(nameCommand);
-                    if (argument != null){
-                        if (argument.trim().isEmpty()) {
-                            io.printeDesign();
-                            //Команда должна содержать аргументы
-                            io.printException("The command must contain arguments");
-                            io.printeDesign();
-                        } else {
-                            argumentCommand.execute(argument);
-                        }
-                }*/
             }else {
                 io.printeDesign();
                 //Команда введена неверно

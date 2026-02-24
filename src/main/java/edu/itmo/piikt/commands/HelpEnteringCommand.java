@@ -3,6 +3,13 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
 
+/**
+ * The class implements the command help_entering_command : display help on entering available commands
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class HelpEnteringCommand extends Commands {
     private IOProvider io;
     public HelpEnteringCommand(IOProvider io){
@@ -13,33 +20,24 @@ public class HelpEnteringCommand extends Commands {
     @Override
     public void execute() {
         io.printeDesign();
-        io.println("   >>> help: In both console and script modes, the command is entered without arguments (\"help\") \n" +
-                "   >>> info: In both console and script modes, the command is entered without arguments (\"info\")\n"+
-                "   >>> show: In both console and script modes, the command is entered without arguments (\"show\")\n" +
-                "   >>> add: In the console, only the command is entered without arguments (\"add\"). \nIn script mode, the data can be entered either as a single CSV line \n(add {\"name\";\"x\";\"y\";\"salary\";\"startDate\";\"endDate\";status\";\"annual turnover\";\"organization type\";\"street\"}), or line by line in the same order.\n" +
-                "   >>> update: In both console and script modes, the command is entered on a single line with one argument - the employee's personal ID (\"update id _______\")\n" +
-                "   >>> remove_by_id: In both console and script modes, the command is entered on a single line with one argument - the employee's personal ID (\"remove_by_id _______\")\n" +
-                "   >>> clear: \n" +
-                "   >>> save: In both console and script modes, the command is entered without arguments (\"save\")\n" +
-                "   >>> execute_script: \n" +
-                "   >>> exit: \n" +
-                "   >>> head: In both console and script modes, the command is entered without arguments (\"head\")\n" +
-                "   >>> remove_lower: \n"+
-                "   >>> history: \n" +
-                "   >>> count_by_organization: \n" +
-                "   >>> filter_contains_name \n" +
-                "   >>> print_field_descending_end_date: In both console and script modes, the command is entered without \narguments (\"print_field_descending_end_date\")\n" +
-                "   >>> help_entering_command: ");
+        io.println("   >>> help: Both in the console and in the script, the command is entered as a single word without arguments. (\"help\") \n" +
+                "   >>> info: Both in the console and in the script, the command is entered as a single word without arguments. (\"info\")\n"+
+                "   >>> show: Both in the console and in the script, the command is entered as a single word without arguments. (\"show\")\n" +
+                "   >>> add: In the console, only the command is entered without arguments (\"add\"). \n    In script mode, the data can be entered either as a single CSV line \n    (add {\"name\";\"x\";\"y\";\"salary\";\"startDate\";\"endDate\";status\";\"annual turnover\";\"organization type\";\"street\"}), or line by line in the same order.\n" +
+                "   >>> update: In the console, the command is entered together with the id on one line\n   (\"update _____\"). In the script, the command is entered together with the\n    id on one line (\"update _____\"), and then the data is entered line by line, in the same order as the add command.\n" +
+                "   >>> remove_by_id: Both in the console and in the script, the command is entered and \n    then the id is specified on the same line. (\"remove_by_id _____\")\n" +
+                "   >>> clear: Both in the console and in the script, the command is entered as a single word without arguments.(\"clear\")\n" +
+                "   >>> save: Both in the console and in the script, the command is entered as a single word without arguments. (\"save\")\n" +
+                "   >>> execute_script: Both in the console and in the script, the command is entered on one line (\"execute_script _____\").\n" +
+                "   >>> exit: Both in the console and in the script, the command is entered as a single word without arguments.(\"exit\")\n" +
+                "   >>> head: Both in the console and in the script, the command is entered as a single word without arguments. (\"head\")\n" +
+                "   >>> remove_lower: Both in the console and in the script, the command is entered and then the id is specified on the same line. (\"remove_lower _____\")\n"+
+                "   >>> history: Both in the console and in the script, the command is entered as a single word without arguments. (\"history\")\n" +
+                "   >>> count_by_organization: In the console, only the command name is entered\n    (\"count_by_organization\"), while in the script, the command is entered, and\n    then the data is entered line by line in the following order (annual turnover; type; street).\n" +
+                "   >>> filter_contains_name: Both in the console and in the script, the command is entered, and then the employee's name is entered on the same line. (\"filter_contains_name _____\"). \n" +
+                "   >>> print_field_descending_end_date: Both in the console and in the script, the command is entered as a single \n    word without arguments.(\"print_field_descending_end_date\")\n" +
+                "   >>> help_entering_command: Both in the console and in the script, the command is entered as a single word without arguments. (\"help_entering_command\")\n" +
+                "   >>> ATTENTION! When writing a script, the last line in the file must remain empty.");
         io.printeDesign();
     }
 }
-
-/**
- *help и info и show: и в консоли, и в скрипте вводиться просто команда без аргументов (help)
-add: В консоли вводится только команда без аргументов ("add").
- В скрипте вводится либо в одну строку в формате csv (add {"name";"x";"y";"salary";"startDate";"endDate";status";"annual turnover";"organization type";"street"),
- либо вводятся с новой строки в том же порядке.
- update id: и в консоли, и в скрипте команда вводиться в одну строку с одним аргументом. В аргумент передаеться личный id работника("update id _______").
- remove_by_id:и в консоли, и в скрипте команда вводиться в одну строку с одним аргументом. В аргумент передаеться личный id работника("remove_by_id _______").
-
- */

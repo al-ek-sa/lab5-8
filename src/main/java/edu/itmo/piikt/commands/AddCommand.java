@@ -5,6 +5,13 @@ import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
 import edu.itmo.piikt.validationModels.ValidationWorker;
 
+/**
+ * The class implements the command add {element} : add a new element to the collection.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 //public class AddCommand implements Command {
 public class AddCommand extends Commands {
     private IOProvider io;

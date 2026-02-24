@@ -1,5 +1,12 @@
 package edu.itmo.piikt.exception;
 
+/**
+ * The class for outputting errors if the variable value exceeds Float_MAX. The class extends RuntimeException.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class ExceptionBigDecimalMAX_FLOAT extends RuntimeException {
     public ExceptionBigDecimalMAX_FLOAT() {}
 

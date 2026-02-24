@@ -3,6 +3,12 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
+/**
+ * The class implements the command head : output the first element of the collection.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 
 public class HeadCommand extends Commands {
     private HistoryWorker historyWorker;

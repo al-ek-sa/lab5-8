@@ -2,6 +2,13 @@ package edu.itmo.piikt.models;
 
 import com.opencsv.bean.CsvBindByPosition;
 
+/**
+ * The class of the Coordinates type object.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class Coordinates {
     @CsvBindByPosition(position = 2)
     private long x;
@@ -29,6 +36,14 @@ public class Coordinates {
     public long getX() {
         return x;
     }
+
+    /**
+     * Returns a brief description of this Coordinates. The exact details
+     * of the representation are unspecified and subject to change,
+     * but the following may be regarded as typical:
+     *
+     * "coordinate х: x, coordinate у: y"
+     */
 
     @Override
     public String toString() {

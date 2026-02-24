@@ -3,11 +3,8 @@ import edu.itmo.piikt.commands.HelpCommand;
 import edu.itmo.piikt.commands.HelpEnteringCommand;
 import edu.itmo.piikt.managers.ValidationCommand;
 import edu.itmo.piikt.io.IOProvider;
-import edu.itmo.piikt.io.IOScanner;
+import edu.itmo.piikt.io.IOConsole;
 import edu.itmo.piikt.reader.CSVParser;
-import edu.itmo.piikt.reader.HistorySave;
-import sun.misc.Signal;
-import sun.misc.SignalHandler;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,7 +14,7 @@ public class Main {
         Signal.handle(new Signal("TSTP"), new SignalHandler () {
             public void handle(Signal sig) {}
         });*/
-        IOProvider io = new IOScanner();
+        IOProvider io = new IOConsole();
         //HistorySave.getInstance().readFile();
         CSVParser csvParser = new CSVParser(io);
         csvParser.readFile();

@@ -7,13 +7,36 @@ import edu.itmo.piikt.models.Coordinates;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+/**
+ * The class generates Coordinates with the specified fields:
+ *
+ * <ul>
+ * <li>private long x; //Maximum field value: 10</li>
+ * <li>private float y; //The field value must be greater than -644</li>
+ * </ul>
+ *
+ * <p>The class provides methods that validate the field values.</p>
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class ValidationCoordinates {
     private IOProvider io;
     public ValidationCoordinates(IOProvider io){
         this.io =io;
     }
 
-
+    /**
+     *The method validates the X field value.
+     *
+     * @throws RuntimeException The method may throw an exception if the reading type is unknown.
+     * @throws ExceptionCoordinataX If the X value entered in the file is greater than 10,
+     * or if the value entered in the console exceeds the long range or is greater than 10.
+     * @throws ExceptionNull When no value is entered into the console.
+     * @throws ExceptionBigIntegerMIN_LONG If the entered value is less than the minimum value of the Float type.
+     * @throws RuntimeException If the entered value could not be parsed into the Long type.
+     * @return x
+     */
     public Long validatorX() {
 
         if (io.name().equals("File")) {
@@ -46,11 +69,11 @@ public class ValidationCoordinates {
 
                     BigInteger bigInteger = new BigInteger(input);
 
-                    if (bigInteger.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) == 1) {
+                    if (bigInteger.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0) {
                         throw new ExceptionCoordinataX();
                     }
 
-                    if (bigInteger.compareTo(BigInteger.valueOf(Long.MIN_VALUE)) == -1) {
+                    if (bigInteger.compareTo(BigInteger.valueOf(Long.MIN_VALUE)) < 0) {
                         throw new ExceptionBigIntegerMIN_LONG();
                     }
 
@@ -81,6 +104,18 @@ public class ValidationCoordinates {
         }
     }
 
+    /**
+     *The method validates the Y field value.
+     *
+     * @throws RuntimeException The method may throw an exception if the reading type is unknown.
+     * @throws RuntimeException If the value entered in the file does not match the expected value or nothing is entered.
+     * @throws ExceptionNull When no value is entered into the console.
+     * @throws ExceptionBigDecimalMAX_FLOAT If the value entered in the console exceeds the maximum value of the Float type.
+     * @throws ExceptionCoordinateY If the value entered in the console either exceeds the minimum value of the Float type
+     * or the value is less than or equal to -644.
+     * @throws RuntimeException Error parsing the value entered in the console into the Float type.
+     * @return x
+     */
 
     public Float validatorY() {
 
@@ -144,6 +179,11 @@ public class ValidationCoordinates {
         }
     }
 
+    /**
+     *The method returns a Coordinates object with validated fields.
+     *
+     * @return Coordinates
+     */
     public Coordinates сoordinates() {
         return new Coordinates(validatorX(),validatorY());
     }

@@ -5,6 +5,13 @@ import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.ArgumentCommand;
 import edu.itmo.piikt.validationModels.ValidationWorker;
 
+/**
+ * The class implements the command update id {element} : update the value of the collection element whose id is equal to the specified one.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class UpdateIdCommand extends ArgumentCommand {
     private IOProvider io;
     private ValidationWorker worker;

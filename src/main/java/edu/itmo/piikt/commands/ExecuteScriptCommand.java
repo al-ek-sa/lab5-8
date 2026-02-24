@@ -12,6 +12,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The class implements the command execute_script file_name : read and execute a script from the specified file.
+ * The script contains commands in the same format as the user enters them in interactive mode.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class ExecuteScriptCommand extends ArgumentCommand {
     private IOProvider io;
     private static final List<String> name = new ArrayList<>();

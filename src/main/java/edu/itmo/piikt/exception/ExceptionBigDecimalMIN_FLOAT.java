@@ -1,5 +1,12 @@
 package edu.itmo.piikt.exception;
 
+/**
+ * The class for outputting errors if the variable value is less than Float_MIN. The class extends RuntimeException.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class ExceptionBigDecimalMIN_FLOAT extends RuntimeException {
     public ExceptionBigDecimalMIN_FLOAT() {}
 

@@ -3,6 +3,13 @@ package edu.itmo.piikt.managers;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+/**
+ * A class for storing all entered commands.
+ * The class is a singleton.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 
 public class HistoryCommands{
     private LinkedList<String> listCommands = new LinkedList<>();

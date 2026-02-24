@@ -7,6 +7,14 @@ import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * The class saves the history of all entered commands to a file, and also
+ * reads commands from a file.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class HistorySave {
         private IOProvider io;
         private String fileName;
@@ -24,7 +32,12 @@ public class HistorySave {
             }
             return instance;}
 
-        public void saveCollection() {
+
+    /**
+     *The method saves all entered commands to a file.
+     * @throws Exception If file system errors occurred.
+     */
+    public void saveCollection() {
             List<String> commands = HistoryCommands.getInstance().getLinkedList();
 
             try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
@@ -36,6 +49,11 @@ public class HistorySave {
                 io.printError(e.getMessage());
             }
         }
+
+    /**
+     *The method reads data about entered commands from a file and writes them to the HistoryCommands collection.
+     * @throws Exception If file system errors occurred.
+     */
 
         public void readFile(){
             try (Scanner scanner = new Scanner(new File(fileName))){

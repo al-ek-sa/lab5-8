@@ -6,6 +6,13 @@ import edu.itmo.piikt.managers.Commands;
 import edu.itmo.piikt.managers.Confirmation;
 import edu.itmo.piikt.validationModels.GeneratorId;
 
+/**
+ * The class implements the command clear : clear the collection.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class ClearCommand extends Commands implements Confirmation {
     private IOProvider io;
     private HistoryWorker historyWorker;

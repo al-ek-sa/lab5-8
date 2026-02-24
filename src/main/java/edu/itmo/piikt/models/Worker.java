@@ -12,6 +12,13 @@ import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.validationModels.GeneratorId;
 import edu.itmo.piikt.validationModels.ValidationWorker;
 
+/**
+ * The class of the Worker type object.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class Worker implements Comparable<Worker> {
     private IOProvider io;
     @CsvBindByPosition(position = 0)
@@ -52,6 +59,15 @@ public class Worker implements Comparable<Worker> {
 
     public Worker() {
     }
+
+    /**
+     * Returns a brief description of this Worker. The exact details
+     * of the representation are unspecified and subject to change,
+     * but the following may be regarded as typical:
+     *
+     * "id: id, name: name, coordinates: coordinates, creationDate: creationDate, salary: salary,
+     * startDate: startDate, endDate: endDate, status: status, organization: organization"
+     */
 
     @Override
     public String toString() {

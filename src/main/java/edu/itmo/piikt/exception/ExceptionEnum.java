@@ -1,5 +1,12 @@
 package edu.itmo.piikt.exception;
 
+/**
+ * The class for outputting an error when selecting an Enum instance value. The class extends RuntimeException.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class ExceptionEnum extends RuntimeException {
     public ExceptionEnum() {}
 

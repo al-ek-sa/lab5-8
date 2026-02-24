@@ -1,5 +1,12 @@
 package edu.itmo.piikt.exception;
 
+/**
+ * The class for outputting errors if the variable value is less than Integer_MIN. The class extends RuntimeException.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class ExceptionBigIntegerMIN_INTEGER extends RuntimeException {
     public ExceptionBigIntegerMIN_INTEGER() {}
 

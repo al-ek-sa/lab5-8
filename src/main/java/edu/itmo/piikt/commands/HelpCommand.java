@@ -3,6 +3,13 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
 
+/**
+ * The class implements the command help : display help on available commands.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 //public class HelpCommand implements Command {
 public class HelpCommand extends Commands {
     private IOProvider io;
@@ -22,7 +29,7 @@ public class HelpCommand extends Commands {
                 "    remove_by_id id : remove an element from the collection by its id\n" +
                 "    clear : clear the collection\n" +
                 "    save : save the collection to a file\n" +
-                "    execute_script file_name : read and execute a script from the specified file. The script contains commands in the\n same form as the user enters them in interactive mode\n" +
+                "    execute_script file_name : read and execute a script from the specified file. The script contains commands in the\n     same form as the user enters them in interactive mode\n" +
                 "    exit : terminate the program (without saving to file)\n" +
                 "    head : output the first element of the collection\n" +
                 "    remove_lower {element} : remove all elements from the collection that are less than the specified one\n" +

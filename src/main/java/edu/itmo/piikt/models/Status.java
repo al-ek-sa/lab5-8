@@ -1,5 +1,12 @@
 package edu.itmo.piikt.models;
 
+/**
+ * The Enum class contains instances of possible statuses.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public enum Status {
     FIRED(1),
     HIRED(2),

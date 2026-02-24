@@ -1,5 +1,12 @@
 package edu.itmo.piikt.exception;
 
+/**
+ * The class for outputting the date value error. The class extends RuntimeException.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class ExceptionDate extends RuntimeException {
     public ExceptionDate() {}
 

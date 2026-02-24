@@ -1,5 +1,13 @@
 package edu.itmo.piikt.io;
 
+/**
+ * An interface that is required for outputting data to the console, as well as implementing data reading.
+ * When outputting, the data is provided in color.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public interface IOProvider {
     public static final String ANSI_ORANGE_256 = "\u001B[38;5;216m";
     public static final String ANSI_RESET = "\u001B[0m";

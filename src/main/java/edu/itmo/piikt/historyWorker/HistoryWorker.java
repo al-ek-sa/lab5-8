@@ -11,6 +11,14 @@ import edu.itmo.piikt.validationModels.ValidationWorker;
 import java.math.BigInteger;
 import java.util.*;
 
+/**
+ * A class for storing a collection with registered employees.
+ * The class is a singleton.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class HistoryWorker {
     private IOProvider io;
     private static HistoryWorker instance;
@@ -43,6 +51,9 @@ public class HistoryWorker {
         listWorker.clear();
     }
 
+    /**
+     * The method outputs the data of the first element in the collection.
+     */
     public void peekFirst() {
         if (listWorker.isEmpty()){
             //не найдено зарегистрированных работников
@@ -56,6 +67,9 @@ public class HistoryWorker {
         }
     }
 
+    /**
+     * The method outputs data of all registered employees.
+     */
     public void printHistoryWorker() {
         if (listWorker.isEmpty()){
             //не найдено зарегистрированных работников
@@ -68,6 +82,11 @@ public class HistoryWorker {
         }
     }
 
+    /**
+     *The method outputs all employees with the same name as entered by the user.
+     *
+     * @param nameConsole The name entered by the user.
+     */
     public void printName(String nameConsole) {
         boolean flag = false;
         for (Worker work : listWorker){
@@ -93,11 +112,19 @@ public class HistoryWorker {
         }
     }
 
+    /**
+     * The method outputs data about the collection.
+     */
     public void infoLiat() {
         io.println("Collection type: " + listWorker.getClass() + "\nIdentification time: "
                 + data + "\nNumber of elements: " + listWorker.size());
     }
 
+    /**
+     *The method removes from the collection the element whose id is specified by the user.
+     *
+     * @param idConsole The argument passed is the argument entered by the user.
+     */
     public void removeId(int idConsole) {
         Iterator<Worker> iterator = listWorker.iterator();
         try {
@@ -114,6 +141,15 @@ public class HistoryWorker {
         }
     }
 
+    /**
+     * The method replaces the element whose id is equal to the id specified by the user.
+     *
+     * @throws RuntimeException If the user entered the id in an incorrect format.
+     * @throws ExceptionBigIntegerMAX_INTEGER If the user entered a number that exceeds the upper limit of the Integer type.
+     * @throws ExceptionId If the user entered id <= 0 or if the number exceeded the lower limit of the Integer type.
+     * @param argument The element's id is passed.
+     * @param worker A new employee object.
+     */
     public void update(String argument, ValidationWorker worker) {
         try {
             int idNewStart = listWorker.getLast().getId() + 1;
@@ -170,6 +206,11 @@ public class HistoryWorker {
         }
     }
 
+    /**
+     *The method outputs the number of elements whose Organization parameter is equal to what the user enters.
+     *
+     * @param organization A new Organization type object created by the user is passed as a parameter.
+     */
     public void countByOrganization(Organization organization) {
         ArrayList<Worker> organizationArrayList = new ArrayList<>();
         for (Worker worker1 : listWorker){
@@ -183,6 +224,14 @@ public class HistoryWorker {
         organizationArrayList.clear();
     }
 
+    /**
+     * The method removes elements from the collection with an id less than the one specified by the user.
+     *
+     * @throws ExceptionId If the entered id value is less than 0 or exceeds the lower bound of the Integer type.
+     * @throws ExceptionBigIntegerMAX_INTEGER If the entered value exceeds the upper bound of the Integer type.
+     * @throws RuntimeException If the user entered the id incorrectly.
+     * @param argument The argument passed is the argument entered by the user.
+     */
     public void removeLower(String argument) {
         Iterator<Worker> iterator = listWorker.iterator();
         try {
@@ -220,6 +269,9 @@ public class HistoryWorker {
         }
     }
 
+    /**
+     * The method sorts employees by endDate; if the data matches, employees are sorted by id.
+     */
     public void sort(){
         if (listWorker.isEmpty()){
             //не найдено зарегистрированных работников
@@ -252,6 +304,10 @@ public class HistoryWorker {
         return listWorker;
     }
 
+    /**
+     * The method returns the id of the last employee in the list.
+     * @return id
+     */
     public int tailWorked() {
         if (listWorker.isEmpty()) {
             return 0;
@@ -259,6 +315,14 @@ public class HistoryWorker {
         return  listWorker.getLast().getId();}
     }
 
+    /**
+     *A method that checks if there are elements in the collection with the same id
+     *  as the id entered by the user.
+     *
+     * @param argument The employee's id is passed as an argument.
+     * Attention! The method contains ignored exceptions, as the command works in
+     * symbiosis with other commands that do not ignore similar exceptions.
+     */
     public void idMatches(String argument) {
         LinkedList<Worker> workId = new LinkedList<>();
         try {

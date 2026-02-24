@@ -4,6 +4,13 @@ import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
 import edu.itmo.piikt.managers.Confirmation;
 
+/**
+ * The class implements the command exit : terminate the program (without saving to a file).
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class ExitCommand extends Commands implements Confirmation {
     private IOProvider io;
     public ExitCommand(IOProvider io){

@@ -8,6 +8,20 @@ import edu.itmo.piikt.models.OrganizationType;
 
 import java.math.BigInteger;
 
+/**
+ * The class generates an Organization with the specified conditions:
+ *
+ * <ul>
+ * <li>private int annualTurnover; //Значение поля должно быть больше 0</li>
+ * <li>private OrganizationType type; //Поле не может быть null</li>
+ * <li>private Address officialAddress; //Поле не может быть null</li>
+ * </ul>
+ *
+ * <p>The class provides a method that validates the field values.</p>
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class ValidationOrganization {
     private ValidationOrganizationType type;
     private ValidationAddress address;
@@ -18,6 +32,13 @@ public class ValidationOrganization {
         this.io = io;
     }
 
+    /**
+     *The method returns an Address object.
+     *
+     * @throws RuntimeException If the object value is null.
+     * @throws RuntimeException The method may throw an exception if the reading type is unknown.
+     * @return Address
+     */
     public Address validationNullAddress(){
 
         if (io.name().equals("File")){
@@ -47,6 +68,11 @@ public class ValidationOrganization {
         }
     }
 
+    /**
+     *The method checks if the OrganizationType enum instance value is null.
+     *
+     * @return OrganizationType
+     */
     public OrganizationType validationNullOrganizationType(){
         OrganizationType organizationTypeConsole = type.organizationType();
         if (organizationTypeConsole != null ) {
@@ -54,6 +80,15 @@ public class ValidationOrganization {
         } return validationNullOrganizationType();
     }
 
+    /**
+     *The method validates the annualTurnover value.
+     *
+     * @throws RuntimeException The method may throw an exception if the reading type is unknown.
+     * @throws RuntimeException If an incorrect value is entered in the file.
+     * @throws ExceptionBigIntegerMAX_INTEGER If the value entered in the console exceeds the upper limit of the int type.
+     * @throws ExceptionAnnualTunover If the value entered in the console is not greater than zero or falls below the lower limit of the int type range.
+     * @return annualTurnover
+     */
     public int validationAnnualTurnover() {
 
         if (io.name().equals("File")) {
@@ -80,11 +115,11 @@ public class ValidationOrganization {
 
                     BigInteger bigInteger = new BigInteger(input);
 
-                    if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
+                    if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
                         throw new ExceptionBigIntegerMAX_INTEGER();
                     }
 
-                    if (bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) == -1) {
+                    if (bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0) {
                         throw new ExceptionAnnualTunover();
                     }
 
@@ -113,6 +148,11 @@ public class ValidationOrganization {
         }
     }
 
+    /**
+     *The method returns an Organization object with validated fields.
+     *
+     * @return Organization
+     */
     public Organization organization(){
         return new Organization(validationAnnualTurnover(), validationNullOrganizationType(), validationNullAddress());
     }

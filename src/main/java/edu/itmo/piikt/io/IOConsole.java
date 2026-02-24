@@ -2,9 +2,17 @@ package edu.itmo.piikt.io;
 
 import edu.itmo.piikt.reader.InputReader;
 
-public class IOScanner implements IOProvider{
+/**
+ * A class that inherits from the IOProvider interface
+ * implements data output to the console and reading from the console.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
+public class IOConsole implements IOProvider{
     private InputReader scanner;
-    public IOScanner(){
+    public IOConsole(){
         this.scanner = InputReader.getInstance();
     }
 
