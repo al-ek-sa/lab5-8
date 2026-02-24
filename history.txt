@@ -1,549 +1,23 @@
-filter_contains_name null Kira
-filter_contains_name 11
-filter_contains_name null
-filter_contains_name
-filter_contains_name Kira
-execute_script script.txt
+exit dfgh dfgh fghj fghj
+exit 234567890
+exit sdfghjkl;
+execute_script script_exit.txt
 execute_script script_filter_contains_name.txt
-execute_script script_filter_contains_name.txt
-execute_script script_filter_contains_name.txt
-filter_contains_name null Kira
-filter_contains_name null
-filter_contains_name 11
-filter_contains_name
-filter_contains_name ggg
-filter_contains_name Kira
 -8
 -8
 count_by_organization
 count_by_organization 1 1 1
 count_by_organization
 execute_script script_count_by_organization.txt
--8
--8
-count_by_organization
-count_by_organization 1 1 1
-
-execute_script script_count_by_organization.txt
--8
--8
-count_by_organization
-count_by_organization 1 1 1
-count_by_organization
-execute_script script_count_by_organization.txt
-count_by_organization
-count_by_organization
+print_field_descending_end_date null
+print_field_descending_end_date 55
 print_field_descending_end_date
 execute_script script_print_field_descending_end_date.txt
-execute_script script_print_field_descending_end_date.txt
-print_field_descending_end_date
-save
-add
-add
-print_field_descending_end_date
-print_field_descending_end_date hh hh
-print_field_descending_end_date 7
-print_field_descending_end_date 444
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-
-
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-clear
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
 clear
 clear null
 clear 555
 clear xcfvhjk
 execute_script script_clear.txt
-show
-remove_by_id 43
-remove_by_id -999999999999999999999999999
-remove_by_id 0
-remove_by_id 99
-remove_by_id 7777777777777777777777777777
-show
-remove_by_id 42
-remove_by_id 7.8
-remove_by_id null
-remove_by_id
-remove_by_id 9999999999999999999999999999999999999999999999999
-remove_by_id -8888888888888888888888888888888888888888888888
-remove_by_id 0
-execute_script script_remove_by_id.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-execute_script script_add.txtexecute_script script_add.txtexecute_script script_add.txtexecute_script script_add.txtexecute_script script_add.tx
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-remove_by_id 32
-remove_by_id 7.8
-remove_by_id null
-remove_by_id
-remove_by_id 9999999999999999999999999999999999999999999999999
-remove_by_id -8888888888888888888888888888888888888888888888
-remove_by_id 0
-execute_script script_remove_by_id.txt
-show
 remove_lower 1
 remove_lower 9999999
 remove_lower null 2
@@ -554,9 +28,59 @@ remove_lower 0
 remove_lower 888888888888888888888888888888888888888888888888888888888888888888
 execute_script script_remove_lower.txt
 show
-remove_lower null 15
+update 0
+update 345678900 555555555
+update 88888888888888888888888888888888888
+update -99999999999999999999999999999999999
+update 0
+update sdfghjkl
+update 4
+Len
+2
+123467
+3
+1111-11-11
+2323-11-11
+222
+2
+2
+Misha
+update 6 sdfghjkl
+execute_script script_update.txt
+execute_script script_head.txt
+execute_script script_add.txt
+head dfghjk dfghjkl
+head dfghjk
+head null
+heafd
+execute_script script_head.txt
+show null
+show dfghjk cvhjkl
+show dfghjkl;
 show
-remove_lower null 2
+execute_script script_show.txt
+history null
+history dfghj fghjkl
+history sdfghjkl;
+history
+execute_script script_history.txt
+execute_script script_script.txt
+save 234567890-
+save asdfghjkl
+save null
+save
+execute_script script_save.txt
+inf
+info null
+info 777777777777
+info sdfghjkl
+info
+execute_script script_info.txt
+help 5555
+help null
+help ihohho
+help
+execute_script script_help.txt
 show
 Len
 2
@@ -572,264 +96,18 @@ add sdfghjkl
 add
 add
 execute_script script_add.txt
-execute_script script_add.txtexecute_script script_add.txt
-
-execute_script script_add.txtexecute_script script_add.txt
-
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-show
-Len
-2
-123467
-3
-1111-11-11
-2323-11-11
-222
-2
-dfghjkl;
-add null
-add sdfghjkl
-add
-add
-execute_script script_add.txt
-remove_lower 2
+filter_contains_name null Kira
+filter_contains_name 11
+filter_contains_name null
+filter_contains_name
+filter_contains_name Kira
+execute_script script.txt
+remove_by_id 42
+remove_by_id 7.8
+remove_by_id null
+remove_by_id
+remove_by_id 9999999999999999999999999999999999999999999999999
+remove_by_id -8888888888888888888888888888888888888888888888
+remove_by_id 0
+execute_script script_remove_by_id.txt
+execute_script script_script.txt

@@ -24,11 +24,27 @@ public class ExecuteScriptCommand extends ArgumentCommand {
     public void execute(String argument) {
         try{
             if(io.name().equals("File")) {
-                //из скрипта нельзя вызывать другой скрипт
-                io.printException("You cannot call one script from another");
+                io.printeDesign();
+                //начало чтения скрипта
+                io.printlnCommand("Start of script reading");
+                io.printeDesign();
+                for (String nameFile : name){
+                    if (nameFile.equals(argument)){
+                        throw new ExceptionScript();
+                    }
+                }
+                name.add(argument);
+                IOFile script = new IOFile(argument);
+                ValidationCommand scriptValidation = new ValidationCommand(script);
+                scriptValidation.validation();
+                io.printeDesign();
+                //скрипт успешно прочтен и выполнен
+                io.printlnCommand("Script successfully read and executed");
+                io.printeDesign();
             }
 
             if (io.name().equals("Console")){
+                name.clear();
                 io.printeDesign();
                 //начало чтения скрипта
                 io.printlnCommand("Start of script reading");
@@ -36,7 +52,6 @@ public class ExecuteScriptCommand extends ArgumentCommand {
                 for (String nameFile : name){
                     if (nameFile.equals(argument)){
                         io.printException("Error in file:" + name.getLast());
-                        name.clear();
                         throw new ExceptionScript();
                     }
                 }
