@@ -9,6 +9,8 @@ import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.ArgumentCommand;
 
 import java.math.BigInteger;
+import java.util.logging.Logger;import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The class implements the command remove_by_id id : remove an element from the collection by its id.
@@ -19,6 +21,7 @@ import java.math.BigInteger;
 
 public class RemoveByIdCommand extends ArgumentCommand {
     private IOProvider io;
+    Logger logger = Logger.getLogger(RemoveByIdCommand.class.getName());
     public RemoveByIdCommand(IOProvider io){
         super("remove_by_id");
         this.io = io;
@@ -37,30 +40,29 @@ public class RemoveByIdCommand extends ArgumentCommand {
                 throw new ExceptionId();
             }
 
+            int idConsole = Integer.parseInt(argument);
             io.printeDesign();
             //удаление элемента по id началось
-            io.printlnCommand("Deletion of item by ID started");
+            logger.log(Level.INFO,"Deletion of item by ID started");
             io.printeDesign();
-
-            int idConsole = Integer.parseInt(argument);
             HistoryWorker.getInstance(io).idMatches(argument);
             HistoryWorker.getInstance(io).removeId(idConsole);
             io.printeDesign();
             //элемент успешно удален
-            io.printlnCommand("Item successfully deleted");
+            logger.log(Level.INFO,"Item successfully deleted");
             io.printeDesign();
         } catch (ExceptionBigIntegerMAX_INTEGER e){
             io.printeDesign();
-            io.printException(e.getMessage());
+            logger.log(Level.INFO,e.getMessage());
             io.printeDesign();
         } catch (ExceptionId e) {
             io.printeDesign();
-            io.printException(e.getMessage());
+            logger.log(Level.INFO,e.getMessage());
             io.printeDesign();
         } catch (RuntimeException e) {
             io.printeDesign();
             //В аргументе введены посторонние символы, повторите команду (аргумент может содержать только целые числа больше 0)
-            io.printException("Extraneous characters entered in the argument, repeat the command (the argument can only contain integers greater than 0)");
+            logger.log(Level.INFO,"Extraneous characters entered in the argument, repeat the command (the argument can only contain integers greater than 0)");
             io.printeDesign();
         }
 

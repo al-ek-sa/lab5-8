@@ -4,6 +4,9 @@ import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
 
+import java.util.logging.Logger;import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * The class implements the command print_field_descending_end_date : output the endDate field values of all elements in descending order.
  *
@@ -13,6 +16,7 @@ import edu.itmo.piikt.managers.Commands;
 
 public class PrintFieldDescendingEndDataCommand extends Commands {
     private IOProvider io;
+    Logger logger = Logger.getLogger(PrintFieldDescendingEndDataCommand.class.getName());
     public PrintFieldDescendingEndDataCommand(IOProvider io) {
         super("print_field_descending_end_date");
         this.io = io;
@@ -23,12 +27,12 @@ public class PrintFieldDescendingEndDataCommand extends Commands {
         try {
             io.printeDesign();
             //сортировка по дате увольнения началась
-            io.printlnCommand("Sorting by date of dismissal started");
+            logger.log(Level.INFO,"Sorting by date of dismissal started");
             io.printeDesign();
             HistoryWorker.getInstance(io).sort();
             io.printeDesign();
             //сортировка успешно окончена
-            io.printlnCommand("Sorting completed successfully");
+            logger.log(Level.INFO,"Sorting completed successfully");
             io.printeDesign();
         } catch (Exception e) {
             io.printeDesign();

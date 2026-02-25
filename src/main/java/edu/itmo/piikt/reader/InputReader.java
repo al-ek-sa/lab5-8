@@ -24,15 +24,41 @@ public class InputReader {
         return instance;
     }
 
+    public String nextLine() {
+            String input;
+            if (scanner.hasNext()) {
+                input = scanner.nextLine();
+            } else {
+                instance = null;
+                input = null;
+            }
+            if (input == null){
+                getInstance();
+            }
+            return input;
+    }
+
+   /** public String nextLine() {
+        String input;
+        if (scanner.hasNext()) {
+            input = scanner.nextLine();
+        } else {
+            instance = null;
+            input = null;
+        }
+        if (input == null){
+            getInstance();
+        }
+        return input;
+    }*/
+
     /**
      *The method reads data from the console.
      *
      * @return data
      */
 
-    public String nextLine() {
-        return scanner.nextLine();
-    }
+
 
     public int nextInt() {
         return scanner.nextInt();
@@ -46,3 +72,50 @@ public class InputReader {
         return scanner.nextFloat();
     }
 }
+
+
+/**public class InputReader {
+    private Scanner scanner;
+    /**private static InputReader instance;*/
+    /**private InputReader(){
+        this.scanner = new Scanner(System.in);
+    }*/
+
+    /**public static InputReader getInstance(){
+        if (instance == null){
+            InputReader inputReader = new InputReader();
+            instance = inputReader;
+        }
+        return instance;
+    }
+
+    public String nextLine() {
+        if (scanner.hasNext()) {
+            return scanner.nextLine();
+        } else {
+            scanner.close();
+            Scanner scanner1 = new Scanner(System.in);
+            return "";
+        }
+    }*/
+
+    /**
+     *The method reads data from the console.
+     *
+     * @return data
+     */
+
+
+
+    /**public int nextInt() {
+        return scanner.nextInt();
+    }
+
+    public long nextLong(){
+        return  scanner.nextLong();
+    }
+
+    public  float nextFloat(){
+        return scanner.nextFloat();
+    }
+}*/

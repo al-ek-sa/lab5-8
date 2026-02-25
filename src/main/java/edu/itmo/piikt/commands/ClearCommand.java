@@ -6,6 +6,9 @@ import edu.itmo.piikt.managers.Commands;
 import edu.itmo.piikt.managers.Confirmation;
 import edu.itmo.piikt.validationModels.GeneratorId;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * The class implements the command clear : clear the collection.
  *
@@ -16,6 +19,7 @@ import edu.itmo.piikt.validationModels.GeneratorId;
 public class ClearCommand extends Commands implements Confirmation {
     private IOProvider io;
     private HistoryWorker historyWorker;
+    Logger logger = Logger.getLogger(ClearCommand.class.getName());
     public ClearCommand(IOProvider io){
         super("clear");
         this.historyWorker = HistoryWorker.getInstance(io);
@@ -31,16 +35,16 @@ public class ClearCommand extends Commands implements Confirmation {
             String consent = confirmation();
             if (consent.equals("yes")){
                 io.printeDesign();
-                io.printlnCommand("Consent received, clearing collection");
+                logger.log(Level.INFO,"Consent received, clearing collection");
                 io.printeDesign();
                 historyWorker.clear();
                 GeneratorId.getInstance(io).setStartId(1);
                 io.printeDesign();
-                io.printlnCommand("Collection cleared successfully");
+                logger.log(Level.INFO,"Collection cleared successfully");
                 io.printeDesign();
             } else {
                 io.printeDesign();
-                io.printlnCommand("Consent received, clearing collection");
+                logger.log(Level.INFO,"Consent received, clearing collection");
                 GeneratorId.getInstance(io).setStartId(1);
                 io.printeDesign();
             }

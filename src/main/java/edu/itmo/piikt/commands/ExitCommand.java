@@ -4,6 +4,9 @@ import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
 import edu.itmo.piikt.managers.Confirmation;
 
+import java.util.logging.Logger;import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * The class implements the command exit : terminate the program (without saving to a file).
  *
@@ -13,6 +16,7 @@ import edu.itmo.piikt.managers.Confirmation;
 
 public class ExitCommand extends Commands implements Confirmation {
     private IOProvider io;
+    Logger logger = Logger.getLogger(ExitCommand.class.getName());
     public ExitCommand(IOProvider io){
         super("exit");
         this.io = io;
@@ -29,19 +33,19 @@ public class ExitCommand extends Commands implements Confirmation {
                 String consent = confirmation();
                 if (consent.equals("yes")) {
                     io.printeDesign();
-                    io.printlnCommand("Exit application");
+                    logger.log(Level.INFO,"Exit application");
                     io.printeDesign();
                     System.exit(0);
                 } else {
                     io.printeDesign();
-                    io.printlnCommand("Command cancelled");
+                    logger.log(Level.INFO,"Command cancelled");
                     io.printeDesign();
                 }
             }
 
             if (io.name().equals("File")){
                 io.printeDesign();
-                io.printlnCommand("Exit application");
+                logger.log(Level.INFO,"Exit application");
                 System.exit(0);
             }
 

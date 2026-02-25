@@ -1,7 +1,7 @@
 count_by_organization
-1
-1
-1
+8520
+3
+Kirova
 count_by_organization 1 1 1
 count_by_organization
 -8

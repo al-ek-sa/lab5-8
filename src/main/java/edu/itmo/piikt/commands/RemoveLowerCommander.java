@@ -4,6 +4,9 @@ import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.ArgumentCommand;
 
+import java.util.logging.Logger;import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * The class implements the command remove_lower {element} : remove from the collection all
  * elements that are lower than the specified one.
@@ -14,6 +17,7 @@ import edu.itmo.piikt.managers.ArgumentCommand;
 
 public class RemoveLowerCommander extends ArgumentCommand {
     private IOProvider io;
+    Logger logger = Logger.getLogger(RemoveLowerCommander.class.getName());
     public RemoveLowerCommander(IOProvider io){
         super("remove_lower");
         this.io = io;
@@ -21,19 +25,15 @@ public class RemoveLowerCommander extends ArgumentCommand {
     @Override
     public void execute(String argument) {
         try {
-            io.printeDesign();
-            //удаление элементов началось
-            io.printlnCommand("Deletion of items started");
-            io.printeDesign();
             HistoryWorker.getInstance(io).removeLower(argument);
             io.printeDesign();
             //элементы успешно удалены
-            io.printlnCommand("Items successfully deleted");
+            logger.log(Level.INFO,"Items successfully deleted");
             io.printeDesign();
         } catch (RuntimeException e){
             io.printeDesign();
             //отказано в удалении элементов
-            io.printException("Items deletion denied");
+            logger.log(Level.INFO,"Items deletion denied");
             io.printeDesign();
         }
     }

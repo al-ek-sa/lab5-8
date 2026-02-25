@@ -3,6 +3,7 @@ package edu.itmo.piikt.managers;
 import edu.itmo.piikt.algorithms.DamerauLevenshteinDistance;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.reader.HistorySave;
+import edu.itmo.piikt.reader.InputReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ public class ValidationCommand {
     private HistoryCommands historyCommands;
     private CommandFactory factory;
     private IOProvider io;
+
     private static final List<String> oneWord = Arrays.asList("save", "help", "show", "info", "add",
             "clear", "count_by_organization", "exit", "head", "history", "print_field_descending_end_date", "help_entering_command");
 
@@ -30,7 +32,6 @@ public class ValidationCommand {
         this.factory = new CommandFactory(io);
         this.io = io;
     }
-
     /**
      * The method selects from the registered commands the command that the user entered. When entering,
      * the user can make a mistake once.

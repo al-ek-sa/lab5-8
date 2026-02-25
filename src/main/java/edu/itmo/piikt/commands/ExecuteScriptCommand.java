@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The class implements the command execute_script file_name : read and execute a script from the specified file.
@@ -23,6 +25,7 @@ import java.util.List;
 public class ExecuteScriptCommand extends ArgumentCommand {
     private IOProvider io;
     private static final List<String> name = new ArrayList<>();
+    Logger logger = Logger.getLogger(ExecuteScriptCommand.class.getName());
     public ExecuteScriptCommand(IOProvider io){
         super("execute_script");
         this.io = io;
@@ -34,7 +37,7 @@ public class ExecuteScriptCommand extends ArgumentCommand {
             if(io.name().equals("File")) {
                 io.printeDesign();
                 //начало чтения скрипта
-                io.printlnCommand("Start of script reading");
+                logger.log(Level.INFO,"Start of script reading");
                 io.printeDesign();
                 for (String nameFile : name){
                     if (nameFile.equals(argument)){
@@ -47,7 +50,7 @@ public class ExecuteScriptCommand extends ArgumentCommand {
                 scriptValidation.validation();
                 io.printeDesign();
                 //скрипт успешно прочтен и выполнен
-                io.printlnCommand("Script successfully read and executed");
+                logger.log(Level.INFO,"Script successfully read and executed");
                 io.printeDesign();
             }
 

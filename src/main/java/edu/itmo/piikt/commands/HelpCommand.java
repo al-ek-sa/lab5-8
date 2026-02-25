@@ -3,6 +3,9 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
 
+import java.util.logging.Logger;import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * The class implements the command help : display help on available commands.
  *
@@ -13,6 +16,7 @@ import edu.itmo.piikt.managers.Commands;
 //public class HelpCommand implements Command {
 public class HelpCommand extends Commands {
     private IOProvider io;
+    Logger logger = Logger.getLogger(HelpCommand.class.getName());
     public HelpCommand(IOProvider io){
         super("help");
         this.io = io;

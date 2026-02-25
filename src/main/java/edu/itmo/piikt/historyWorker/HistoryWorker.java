@@ -1,5 +1,6 @@
 package edu.itmo.piikt.historyWorker;
 
+import edu.itmo.piikt.commands.UpdateIdCommand;
 import edu.itmo.piikt.exception.*;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.*;
@@ -10,6 +11,8 @@ import edu.itmo.piikt.validationModels.ValidationWorker;
 
 import java.math.BigInteger;
 import java.util.*;
+import java.util.logging.Logger;import java.util.logging.Logger;import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A class for storing a collection with registered employees.
@@ -25,7 +28,7 @@ public class HistoryWorker {
     private Date data;
     private ValidationOrganization organization;
     LinkedList<Worker> listWorker = new LinkedList<>();
-
+    Logger logger = Logger.getLogger(HistoryWorker.class.getName());
     private HistoryWorker(IOProvider io) {
         this.io = io;
         this.data = new Date();
@@ -57,7 +60,7 @@ public class HistoryWorker {
     public void peekFirst() {
         if (listWorker.isEmpty()){
             //не найдено зарегистрированных работников
-            io.println("No registered employees found");
+            logger.log(Level.INFO,"No registered employees found");
         }
 
         Iterator<Worker> iterator = listWorker.iterator();
@@ -73,7 +76,7 @@ public class HistoryWorker {
     public void printHistoryWorker() {
         if (listWorker.isEmpty()){
             //не найдено зарегистрированных работников
-            io.println("No registered employees found");
+            logger.log(Level.INFO,"No registered employees found");
         }
         Iterator<Worker> iterator = listWorker.iterator();
         while (iterator.hasNext()) {
@@ -97,7 +100,7 @@ public class HistoryWorker {
 
         if (flag == false) {
             //работников с таким именем не найдено
-            io.println("No employees found with that name");
+            logger.log(Level.INFO,"No employees found with that name");
         } else {
             flag = false;
         }
@@ -137,7 +140,7 @@ public class HistoryWorker {
                 }
             }
         } catch (RuntimeException e) {
-            io.printException("Invalid input");
+            logger.log(Level.INFO,"Invalid input");
         }
     }
 
@@ -152,7 +155,9 @@ public class HistoryWorker {
      */
     public void update(String argument, ValidationWorker worker) {
         try {
+            // TODO
             int idNewStart = listWorker.getLast().getId() + 1;
+            //может бросить исключение
             LinkedList<Worker> work = new LinkedList<>();
             Iterator<Worker> iterator = listWorker.iterator();
 
@@ -167,6 +172,9 @@ public class HistoryWorker {
             }
 
             int idConsole = Integer.parseInt(argument);
+            io.printeDesign();
+            //начало обновления данных
+            logger.log(Level.INFO,"Start of data update");
             if ((idNewStart - 1) >= idConsole){
                 while (iterator.hasNext()) {
                     Worker workerObject = iterator.next();
@@ -180,7 +188,7 @@ public class HistoryWorker {
                         work.add(worker.worker());
                         io.printeDesign();
                         //данные успешно обновлены
-                        io.printlnCommand("Data successfully updated");
+                        logger.log(Level.INFO,"Data successfully updated");
                         io.printeDesign();
                     }
                 }
@@ -189,19 +197,19 @@ public class HistoryWorker {
             }
         } catch (ExceptionNull e) {
             io.printeDesign();
-            io.printException(e.getMessage());
+            logger.log(Level.INFO,e.getMessage());
             io.printeDesign();
         } catch (ExceptionBigIntegerMAX_INTEGER e){
             io.printeDesign();
-            io.printException(e.getMessage());
+            logger.log(Level.INFO,e.getMessage());
             io.printeDesign();
         } catch (ExceptionId e) {
             io.printeDesign();
-            io.printException(e.getMessage());
+            logger.log(Level.INFO,e.getMessage());
             io.printeDesign();
         } catch (RuntimeException e) {
             io.printeDesign();
-            io.printException("The string contains symbols, please try again");
+            logger.log(Level.INFO,"The string contains symbols, please try again");
             io.printeDesign();
         }
     }
@@ -212,6 +220,8 @@ public class HistoryWorker {
      * @param organization A new Organization type object created by the user is passed as a parameter.
      */
     public void countByOrganization(Organization organization) {
+        // todo
+        //LinkedList
         ArrayList<Worker> organizationArrayList = new ArrayList<>();
         for (Worker worker1 : listWorker){
             if (worker1.getOrganization() != null && worker1.getOrganization().equals(organization)){
@@ -246,6 +256,10 @@ public class HistoryWorker {
             }
 
             int idConsole = Integer.parseInt(argument);
+            io.printeDesign();
+            //удаление элементов началось
+            logger.log(Level.INFO,"Deletion of items started");
+            io.printeDesign();
             Worker tip = new Worker();
             tip.setId(idConsole);
             while(iterator.hasNext()){
@@ -254,17 +268,19 @@ public class HistoryWorker {
                     iterator.remove();
                 }
             }
+            // todo
+            //
         } catch (ExceptionBigIntegerMAX_INTEGER e){
             io.printeDesign();
-            io.printException(e.getMessage());
+            logger.log(Level.INFO,e.getMessage());
             io.printeDesign();
         } catch (ExceptionId e) {
             io.printeDesign();
-            io.printException(e.getMessage());
+            logger.log(Level.INFO,e.getMessage());
             io.printeDesign();
         } catch (RuntimeException e) {
             io.printeDesign();
-            io.printException("The string contains symbols, please try again");
+            logger.log(Level.INFO,"The string contains symbols, please try again");
             io.printeDesign();
         }
     }
@@ -275,10 +291,13 @@ public class HistoryWorker {
     public void sort(){
         if (listWorker.isEmpty()){
             //не найдено зарегистрированных работников
-            io.println("No registered employees found");
+            logger.log(Level.INFO,"No registered employees found");
         }
         LinkedList<Worker> sortedList = new LinkedList<>(listWorker);
 
+
+        // todo
+        //вынести с метода
         Comparator<Worker> workerDate = new Comparator<Worker>() {
             @Override
             public int compare(Worker worker, Worker worker1) {
@@ -346,7 +365,7 @@ public class HistoryWorker {
 
 
             if (workId.isEmpty()){
-                io.printException("No employee with this ID");
+                logger.log(Level.INFO,"No employee with this ID");
 
             } else {
                 workId.clear();

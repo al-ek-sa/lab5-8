@@ -4,6 +4,8 @@ import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
 import edu.itmo.piikt.validationModels.ValidationOrganization;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The class implements the command  count_by_organization organization : output the number of elements whose organization field value is equal to the specified one.
@@ -15,6 +17,7 @@ import edu.itmo.piikt.validationModels.ValidationOrganization;
 public class CountByOrganizationCommand extends Commands {
     private IOProvider io;
     private ValidationOrganization organization;
+    Logger logger = Logger.getLogger(CountByOrganizationCommand.class.getName());
     public  CountByOrganizationCommand(IOProvider io){
         super("count_by_organization");
         this.io =io;
@@ -26,16 +29,16 @@ public class CountByOrganizationCommand extends Commands {
         try {
             io.printeDesign();
             //Введите все значения для организации
-            io.printlnCommand("Enter all values for Organization");
+            logger.log(Level.INFO,"Enter all values for Organization");
             io.printeDesign();
             HistoryWorker.getInstance(io).countByOrganization(organization.organization());
             io.printeDesign();
-            io.printlnCommand("Number of elements displayed successfully");
+            logger.log(Level.INFO,"Number of elements displayed successfully");
             io.printeDesign();
         } catch (RuntimeException e){
             io.printeDesign();
             //ошибка выполнения, элементы не выведены
-            io.printException("Execution error, elements not displayed");
+            logger.log(Level.INFO,"Execution error, elements not displayed");
             io.printeDesign();
         }
     }

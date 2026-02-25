@@ -7,6 +7,7 @@ import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.Worker;
 import java.io.*;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * The class implements parsing a collection containing employee data into CSV format, saving to a file,
@@ -36,6 +37,7 @@ public class CSVParser {
     public void saveCollection() {
         List<Worker> workers = HistoryWorker.getInstance(io).getListWorker();
 
+
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
 
             ColumnPositionMappingStrategy<Worker> mappingStrategy = new ColumnPositionMappingStrategy<>();
@@ -64,6 +66,13 @@ public class CSVParser {
 
             beanWriter.write(workers);
 
+            //данные сохраннены в файл
+            io.printlnCommand("Data saved to file");
+            io.printeDesign();
+
+
+        } catch (FileNotFoundException e) {
+            io.printError("нет прав доступа в файл");
         } catch (Exception e) {
             io.printError("Error saving CSV: " + e.getMessage());
         }
@@ -91,6 +100,8 @@ public class CSVParser {
                      historyWorker.add(worker);
                  }
 
+            } catch (FileNotFoundException e) {
+                io.printError("нет прав доступа в файл");
             } catch (Exception e) {
                 io.printError("Error reading CSV" + e.getMessage());
             }

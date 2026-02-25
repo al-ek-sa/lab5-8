@@ -4,6 +4,8 @@ import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
 import edu.itmo.piikt.validationModels.ValidationWorker;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * The class implements the command add {element} : add a new element to the collection.
@@ -16,6 +18,7 @@ import edu.itmo.piikt.validationModels.ValidationWorker;
 public class AddCommand extends Commands {
     private IOProvider io;
     private ValidationWorker worker;
+    Logger logger = Logger.getLogger(AddCommand.class.getName());
     public AddCommand(IOProvider io){
         super("add");
         this.io = io;
@@ -27,17 +30,18 @@ public class AddCommand extends Commands {
         try {
             io.printeDesign();
             //Начало добавления элемента
-            io.printlnCommand("Start adding an item");
+            logger.log(Level.INFO,"Start adding an item");
+
             io.printeDesign();
             HistoryWorker.getInstance(io).add(worker.worker());
             io.printeDesign();
             //Элемент успешно добавлен
-            io.printlnCommand("Item successfully added");
+            logger.log(Level.INFO,"Item successfully added");
             io.printeDesign();
         } catch (RuntimeException e){
             io.printeDesign();
             //добавить элемент не удалось
-            io.printException("Failed to add item");
+            logger.log(Level.INFO,"Failed to add item");
             io.printeDesign();
         }
     }

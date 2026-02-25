@@ -4,6 +4,9 @@ import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Commands;
 
+import java.util.logging.Logger;import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * The class implements the command show : output all elements of the collection in string representation to the standard output stream.
  *
@@ -14,6 +17,7 @@ import edu.itmo.piikt.managers.Commands;
 public class ShowCommand extends Commands {
     private IOProvider io;
     private HistoryWorker historyWorker;
+    Logger logger = Logger.getLogger(ShowCommand.class.getName());
     public ShowCommand(IOProvider io){
         super("show");
         this.historyWorker = HistoryWorker.getInstance(io);
@@ -24,17 +28,17 @@ public class ShowCommand extends Commands {
         try {
             io.printeDesign();
             //отображение коллекции
-            io.printlnCommand("Displaying collection");
+            logger.log(Level.INFO,"Displaying collection");
             io.printeDesign();
             historyWorker.printHistoryWorker();
             io.printeDesign();
             //Displaying collection
-            io.printlnCommand("Collection displayed");
+            logger.log(Level.INFO,"Collection displayed");
             io.printeDesign();
         } catch (Exception e) {
             io.printeDesign();
             //Отображение коллекции прервано
-            io.printException("Displaying collection interrupted");
+            logger.log(Level.INFO,"Displaying collection interrupted");
             io.printeDesign();
         }
     }

@@ -5,6 +5,8 @@ import edu.itmo.piikt.managers.Commands;
 import edu.itmo.piikt.managers.HistoryCommands;
 
 import java.util.Iterator;
+import java.util.logging.Logger;import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The class implements the command history : output the last 14 commands (without their arguments).
@@ -16,6 +18,7 @@ import java.util.Iterator;
 public class HistoryCommand extends Commands {
     private HistoryCommands historyCommands;
     private IOProvider io;
+    Logger logger = Logger.getLogger(HistoryCommand.class.getName());
     public HistoryCommand(IOProvider io){
         super("history");
         this.historyCommands = HistoryCommands.getInstance();

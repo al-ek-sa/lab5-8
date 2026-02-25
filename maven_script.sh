@@ -4,3 +4,4 @@ touch workers.csv
 touch .workers.csv
 export WORKER_FILE="/home/xfiles/itmo/proga/2sem/lab5/workers.csv"
 export HISTORY_FILE="/home/xfiles/itmo/proga/2sem/lab5/history.txt"
+echo $WORKER_FILE
