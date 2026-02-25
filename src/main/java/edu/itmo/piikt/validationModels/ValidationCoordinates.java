@@ -149,14 +149,12 @@ public class ValidationCoordinates {
 
                     BigDecimal bigDecimal = new BigDecimal(inputFloat);
 
-                    if (bigDecimal.compareTo(BigDecimal.valueOf(Float.MAX_VALUE)) == 1) {
+                    if (bigDecimal.compareTo(BigDecimal.valueOf(Float.MAX_VALUE)) >0) {
                         throw new ExceptionBigDecimalMAX_FLOAT();
                     }
 
 
-                    if (bigDecimal.compareTo(BigDecimal.valueOf(Float.MIN_VALUE)) == -1){
-                        throw new ExceptionCoordinateY();
-                    }
+
 
                     float yConsole = Float.parseFloat(inputFloat);
                     if (yConsole > -644) {
