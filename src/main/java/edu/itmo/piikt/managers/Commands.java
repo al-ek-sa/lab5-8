@@ -1,4 +1,11 @@
-package edu.itmo.piikt.commands;
+package edu.itmo.piikt.managers;
+
+/**
+ An abstract class that is the common parent for commands without arguments.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 
 public abstract class Commands {
     private String name;

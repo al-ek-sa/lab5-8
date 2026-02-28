@@ -1,30 +1,48 @@
 package edu.itmo.piikt.commands;
 
-import java.util.LinkedList;
+import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.Commands;
+
+import java.util.logging.Logger;import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * The class implements the command help : display help on available commands.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 
 //public class HelpCommand implements Command {
-public class HelpCommand extends Commands{
-    public HelpCommand(){
+public class HelpCommand extends Commands {
+    private IOProvider io;
+    Logger logger = Logger.getLogger(HelpCommand.class.getName());
+    public HelpCommand(IOProvider io){
         super("help");
+        this.io = io;
     }
 
     @Override
     public void execute() {
-        System.out.println("    help : вывести справку по доступным командам\n" +
-                "    info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)\n" +
-                "    show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении\n" +
-                "    add {element} : добавить новый элемент в коллекцию\n" +
-                "    update id {element} : обновить значение элемента коллекции, id которого равен заданному\n" +
-                "    remove_by_id id : удалить элемент из коллекции по его id\n" +
-                "    clear : очистить коллекцию\n" +
-                "    save : сохранить коллекцию в файл\n" +
-                "    execute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.\n" +
-                "    exit : завершить программу (без сохранения в файл)\n" +
-                "    head : вывести первый элемент коллекции\n" +
-                "    remove_lower {element} : удалить из коллекции все элементы, меньшие, чем заданный\n" +
-                "    history : вывести последние 14 команд (без их аргументов)\n" +
-                "    count_by_organization organization : вывести количество элементов, значение поля organization которых равно заданному\n" +
-                "    filter_contains_name name : вывести элементы, значение поля name которых содержит заданную подстроку\n" +
-                "    print_field_descending_end_date : вывести значения поля endDate всех элементов в порядке убывания");
+        io.printeDesign();
+        io.println("    help : display help on available commands\n" +
+                "    info : output information about the collection to stdout (type, initialization date, number of elements, etc.)\n" +
+                "    show : output all collection elements in string representation to stdout\n" +
+                "    add {element} : add a new element to the collection\n" +
+                "    update id {element} : update the value of the collection element whose id is equal to the specified one\n" +
+                "    remove_by_id id : remove an element from the collection by its id\n" +
+                "    clear : clear the collection\n" +
+                "    save : save the collection to a file\n" +
+                "    execute_script file_name : read and execute a script from the specified file. The script contains commands in the\n     same form as the user enters them in interactive mode\n" +
+                "    exit : terminate the program (without saving to file)\n" +
+                "    head : output the first element of the collection\n" +
+                "    remove_lower {element} : remove all elements from the collection that are less than the specified one\n" +
+                "    history : output the last 14 commands (without their arguments)\n" +
+                "    count_by_organization organization : output the number of elements whose organization field value is equal to the specified one\n" +
+                "    filter_contains_name name : output elements whose name field value contains the specified substring\n" +
+                "    print_field_descending_end_date : output the values of the endDate field of all elements in descending order\n" +
+                "    help_entering_command : display help on entering available commands");
+        //Вывести справку по вводу доступных команд
+        io.printeDesign();
     }
 }

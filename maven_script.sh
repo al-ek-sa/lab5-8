@@ -1,6 +1,7 @@
 #!/bin/bash
-sed -i '/export WORKER_FILE=/d' ~/.bashrc
-sed -i '/export HISTORY_FILE=/d' ~/.bashrc
-echo 'export WORKER_FILE="$HOME/lab5/data/workers.csv"' >> ~/.bashrc
-echo 'export HISTORY_FILE="$HOME/lab5/data/history.csv"' >> ~/.bashrc
-source ~/.bashrc
+mkdir -p /home/xfiles/lab5/
+touch workers.csv
+touch .workers.csv
+export WORKER_FILE="/home/xfiles/itmo/proga/2sem/lab5/workers.csv"
+export HISTORY_FILE="/home/xfiles/itmo/proga/2sem/lab5/history.txt"
+echo $WORKER_FILE

@@ -1,23 +1,52 @@
 package edu.itmo.piikt.models;
 
+import com.opencsv.bean.CsvBindByPosition;
+
+/**
+ * The class of the Coordinates type object.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 public class Coordinates {
-    private long x; //Максимальное значение поля: 10
-    private float y; //Значение поля должно быть больше -644
+    @CsvBindByPosition(position = 2)
+    private long x;
+    @CsvBindByPosition(position = 3)
+    private float y;
     public Coordinates(long x, float y){
-        this.x = validationX();
-        this.y = validationsY();
+        this.x = x;
+        this.y = y;
     }
 
-    private long validationX(){
-        if (x>10){
-            System.out.println("Значение больше 10: х =" + x);
-        }
+    public Coordinates() {}
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public void setX(long x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public long getX() {
         return x;
     }
 
-    private float validationsY(){
-        if (y<=-644) {
-            System.out.println("Значение y меньше либо равно -644: y = " + y);
-        } return y;
+    /**
+     * Returns a brief description of this Coordinates. The exact details
+     * of the representation are unspecified and subject to change,
+     * but the following may be regarded as typical:
+     *
+     * "coordinate х: x, coordinate у: y"
+     */
+
+    @Override
+    public String toString() {
+        return " coordinate х: " + x + ", coordinate у: " + y;
     }
 }

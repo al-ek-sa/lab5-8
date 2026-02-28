@@ -1,14 +1,49 @@
 package edu.itmo.piikt.commands;
 
+import edu.itmo.piikt.historyWorker.HistoryWorker;
+import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.Commands;
+import edu.itmo.piikt.validationModels.ValidationWorker;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
+/**
+ * The class implements the command add {element} : add a new element to the collection.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+
 //public class AddCommand implements Command {
 public class AddCommand extends Commands {
-    public AddCommand(){
+    private IOProvider io;
+    private ValidationWorker worker;
+    Logger logger = Logger.getLogger(AddCommand.class.getName());
+    public AddCommand(IOProvider io){
         super("add");
+        this.io = io;
+        this.worker = new ValidationWorker(io);
     }
 
     @Override
     public void execute() {
-        System.out.println("работает");
+        try {
+            io.printeDesign();
+            //Начало добавления элемента
+            logger.log(Level.INFO,"Start adding an item");
+
+            io.printeDesign();
+            HistoryWorker.getInstance(io).add(worker.worker());
+            io.printeDesign();
+            //Элемент успешно добавлен
+            logger.log(Level.INFO,"Item successfully added");
+            io.printeDesign();
+        } catch (RuntimeException e){
+            io.printeDesign();
+            //добавить элемент не удалось
+            logger.log(Level.INFO,"Failed to add item");
+            io.printeDesign();
+        }
     }
 
 }
