@@ -1,4 +1,7 @@
 package edu.itmo.piikt.reader;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 /**
@@ -6,14 +9,14 @@ import java.util.Scanner;
  * and reading data from a file.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 
 public class InputReader {
-    private Scanner scanner;
+    private BufferedReader reader;
     private static InputReader instance;
     private InputReader(){
-        this.scanner = new Scanner(System.in);
+        this.reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
     public static InputReader getInstance(){
@@ -24,98 +27,31 @@ public class InputReader {
         return instance;
     }
 
-    public String nextLine() {
-            String input;
-            if (scanner.hasNext()) {
-                input = scanner.nextLine();
-            } else {
-                instance = null;
-                input = null;
-            }
-            if (input == null){
-                getInstance();
-            }
-            return input;
+    private BufferedReader newReader() {
+        return new BufferedReader(new InputStreamReader(System.in));
     }
 
-   /** public String nextLine() {
-        String input;
-        if (scanner.hasNext()) {
-            input = scanner.nextLine();
-        } else {
-            instance = null;
-            input = null;
-        }
-        if (input == null){
-            getInstance();
+
+    /**
+     *The method reads data from the console.
+     *
+     * @return data
+     */
+    
+    public String nextLine() {
+        String input = read();
+        while (input == null) {
+            this.reader = newReader();
+            input = read();
         }
         return input;
-    }*/
-
-    /**
-     *The method reads data from the console.
-     *
-     * @return data
-     */
-
-
-
-    public int nextInt() {
-        return scanner.nextInt();
     }
 
-    public long nextLong(){
-        return  scanner.nextLong();
-    }
-
-    public  float nextFloat(){
-        return scanner.nextFloat();
+    private String read() {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            return null;
+        }
     }
 }
-
-
-/**public class InputReader {
-    private Scanner scanner;
-    /**private static InputReader instance;*/
-    /**private InputReader(){
-        this.scanner = new Scanner(System.in);
-    }*/
-
-    /**public static InputReader getInstance(){
-        if (instance == null){
-            InputReader inputReader = new InputReader();
-            instance = inputReader;
-        }
-        return instance;
-    }
-
-    public String nextLine() {
-        if (scanner.hasNext()) {
-            return scanner.nextLine();
-        } else {
-            scanner.close();
-            Scanner scanner1 = new Scanner(System.in);
-            return "";
-        }
-    }*/
-
-    /**
-     *The method reads data from the console.
-     *
-     * @return data
-     */
-
-
-
-    /**public int nextInt() {
-        return scanner.nextInt();
-    }
-
-    public long nextLong(){
-        return  scanner.nextLong();
-    }
-
-    public  float nextFloat(){
-        return scanner.nextFloat();
-    }
-}*/

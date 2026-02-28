@@ -2,12 +2,14 @@ package edu.itmo.piikt.reader;
 
 import com.opencsv.CSVReader;
 import com.opencsv.bean.*;
+import edu.itmo.piikt.commands.AddCommand;
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.Worker;
 import java.io.*;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * The class implements parsing a collection containing employee data into CSV format, saving to a file,
@@ -20,6 +22,7 @@ import java.util.logging.Logger;
 public class CSVParser {
     private IOProvider io;
     private String fileName;
+    Logger logger = Logger.getLogger(CSVParser.class.getName());
     public CSVParser(IOProvider io) {
         this.io = io;
         this.fileName = System.getenv("WORKER_FILE");
@@ -67,7 +70,7 @@ public class CSVParser {
             beanWriter.write(workers);
 
             //данные сохраннены в файл
-            io.printlnCommand("Data saved to file");
+            logger.log(Level.INFO,"Data saved to file");
             io.printeDesign();
 
 

@@ -20,7 +20,6 @@ public class CommandFactory {
     private Map<String, ArgumentCommand> argumentCommands = new HashMap<>();
     private IOProvider io;
     public CommandFactory(IOProvider io) {
-        HistoryCommands history = HistoryCommands.getInstance();
         this.io = io;
 
         writeCommand(new AddCommand(io));
@@ -67,5 +66,13 @@ public class CommandFactory {
 
     public Commands getCommand(String name){
         return  commands.get(name);
+    }
+
+    public Map<String, ArgumentCommand> getArgumentMap(){
+        return argumentCommands;
+    }
+
+    public Map<String, Commands> getCommandsMap(){
+        return commands;
     }
 }

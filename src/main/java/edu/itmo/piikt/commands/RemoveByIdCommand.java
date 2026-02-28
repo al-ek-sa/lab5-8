@@ -47,10 +47,6 @@ public class RemoveByIdCommand extends ArgumentCommand {
             io.printeDesign();
             HistoryWorker.getInstance(io).idMatches(argument);
             HistoryWorker.getInstance(io).removeId(idConsole);
-            io.printeDesign();
-            //элемент успешно удален
-            logger.log(Level.INFO,"Item successfully deleted");
-            io.printeDesign();
         } catch (ExceptionBigIntegerMAX_INTEGER e){
             io.printeDesign();
             logger.log(Level.INFO,e.getMessage());

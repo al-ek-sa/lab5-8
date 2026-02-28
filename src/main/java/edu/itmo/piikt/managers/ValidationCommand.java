@@ -21,12 +21,6 @@ public class ValidationCommand {
     private CommandFactory factory;
     private IOProvider io;
 
-    private static final List<String> oneWord = Arrays.asList("save", "help", "show", "info", "add",
-            "clear", "count_by_organization", "exit", "head", "history", "print_field_descending_end_date", "help_entering_command");
-
-    private static final List<String> twoWords = Arrays.asList("remove_by_id", "execute_script",
-            "filter_contains_name", "remove_lower", "update");
-
     public ValidationCommand(IOProvider io) {
         this.historyCommands = HistoryCommands.getInstance();
         this.factory = new CommandFactory(io);
@@ -67,7 +61,7 @@ public class ValidationCommand {
 
             if (parts.length == 1) {
 
-                for(String com2 : twoWords) {
+                for(String com2 : factory.getArgumentMap().keySet()) {
                     if (DamerauLevenshteinDistance.distance(parts[0], com2) <=1){
                         io.printeDesign();
                         io.printException("The command (" + com2 + ") must contain arguments");
@@ -75,7 +69,7 @@ public class ValidationCommand {
                 }
 
 
-                for (String com1 : oneWord){
+                for (String com1 : factory.getCommandsMap().keySet()){
                     if (DamerauLevenshteinDistance.distance(parts[0], com1) <= 1){
                         parts[0] = com1;
                     }
@@ -96,7 +90,7 @@ public class ValidationCommand {
                 String commandName = parts[0];
                 String argument = parts[1];
 
-                for(String com1 : oneWord) {
+                for(String com1 : factory.getCommandsMap().keySet()) {
                     if (DamerauLevenshteinDistance.distance(commandName, com1) <=1){
                         io.printeDesign();
                         io.printException("The command (" + com1 + ") must not contain arguments");
@@ -104,7 +98,7 @@ public class ValidationCommand {
                     }
                 }
 
-                for(String com2 : twoWords) {
+                for(String com2 : factory.getArgumentMap().keySet()) {
                     if (DamerauLevenshteinDistance.distance(commandName, com2) <=1){
                         commandName =com2;
                     }

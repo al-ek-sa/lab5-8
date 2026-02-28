@@ -68,6 +68,9 @@ public class HistoryWorker {
             Worker worker1 = iterator.next();
             io.println(worker1.toString());
         }
+        io.printeDesign();
+        logger.log(Level.INFO,"Element displayed on the screen");
+        io.printeDesign();
     }
 
     /**
@@ -113,6 +116,9 @@ public class HistoryWorker {
                 io.println(worker.toString());
             }
         }
+        io.printeDesign();
+        logger.log(Level.INFO,"All users with the entered name have been displayed");
+        io.printeDesign();
     }
 
     /**
@@ -139,6 +145,10 @@ public class HistoryWorker {
                     break;
                 }
             }
+            io.printeDesign();
+            //элемент успешно удален
+            logger.log(Level.INFO,"Item successfully deleted");
+            io.printeDesign();
         } catch (RuntimeException e) {
             logger.log(Level.INFO,"Invalid input");
         }
@@ -268,6 +278,10 @@ public class HistoryWorker {
                     iterator.remove();
                 }
             }
+            io.printeDesign();
+            //элементы успешно удалены
+            logger.log(Level.INFO,"Items successfully deleted");
+            io.printeDesign();
             // todo
             //
         } catch (ExceptionBigIntegerMAX_INTEGER e){
@@ -317,6 +331,10 @@ public class HistoryWorker {
         while (iterator.hasNext()) {
             io.println(iterator.next().toString());
         }
+        io.printeDesign();
+        //сортировка успешно окончена
+        logger.log(Level.INFO,"Sorting completed successfully");
+        io.printeDesign();
     }
 
     public LinkedList<Worker> getListWorker() {

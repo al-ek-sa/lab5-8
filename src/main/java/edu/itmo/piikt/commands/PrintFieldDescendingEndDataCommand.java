@@ -30,10 +30,6 @@ public class PrintFieldDescendingEndDataCommand extends Commands {
             logger.log(Level.INFO,"Sorting by date of dismissal started");
             io.printeDesign();
             HistoryWorker.getInstance(io).sort();
-            io.printeDesign();
-            //сортировка успешно окончена
-            logger.log(Level.INFO,"Sorting completed successfully");
-            io.printeDesign();
         } catch (Exception e) {
             io.printeDesign();
             //не удалось произвести сортировку

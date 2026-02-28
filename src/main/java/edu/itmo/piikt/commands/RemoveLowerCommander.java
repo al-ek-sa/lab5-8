@@ -26,10 +26,6 @@ public class RemoveLowerCommander extends ArgumentCommand {
     public void execute(String argument) {
         try {
             HistoryWorker.getInstance(io).removeLower(argument);
-            io.printeDesign();
-            //элементы успешно удалены
-            logger.log(Level.INFO,"Items successfully deleted");
-            io.printeDesign();
         } catch (RuntimeException e){
             io.printeDesign();
             //отказано в удалении элементов

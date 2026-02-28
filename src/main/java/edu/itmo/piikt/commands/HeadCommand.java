@@ -28,9 +28,6 @@ public class HeadCommand extends Commands {
             logger.log(Level.INFO,"Displaying the last added element");
             io.printeDesign();
             historyWorker.peekFirst();
-            io.printeDesign();
-            logger.log(Level.INFO,"Element displayed on the screen");
-            io.printeDesign();
         } catch (Exception e) {
             io.printeDesign();
             //команда не выполнена

@@ -13,9 +13,9 @@ import java.util.logging.Logger;
 
 public class Main {
     public static void main(String[] args) {
-        /**Signal.handle(new Signal("INT"), new SignalHandler () {
+        Signal.handle(new Signal("INT"), new SignalHandler () {
             public void handle(Signal sig) {}
-        });*/
+        });
         Signal.handle(new Signal("TSTP"), new SignalHandler () {
             public void handle(Signal sig) {}
         });

@@ -29,9 +29,6 @@ public class FilterContainsNameCommand extends ArgumentCommand {
             logger.log(Level.INFO,"Search users by name");
             io.printeDesign();
             HistoryWorker.getInstance(io).printName(argument);
-            io.printeDesign();
-            logger.log(Level.INFO,"All users with the entered name have been displayed");
-            io.printeDesign();
         } catch (Exception e) {
             io.printeDesign();
             //поиск неудался
