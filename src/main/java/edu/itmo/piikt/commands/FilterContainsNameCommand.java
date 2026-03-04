@@ -14,26 +14,16 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 
-public class FilterContainsNameCommand extends ArgumentCommand {
-    private IOProvider io;
+public class FilterContainsNameCommand {
     Logger logger = Logger.getLogger(FilterContainsNameCommand.class.getName());
-    public FilterContainsNameCommand(IOProvider io){
-        super("filter_contains_name");
-        this.io = io;
-    }
+    public FilterContainsNameCommand(){}
 
-    @Override
-    public void execute(String argument) {
+    public void execute(IOProvider io, String argument) {
         try {
-            io.printeDesign();
             logger.log(Level.INFO,"Search users by name");
-            io.printeDesign();
             HistoryWorker.getInstance(io).printName(argument);
         } catch (Exception e) {
-            io.printeDesign();
-            //поиск неудался
             logger.log(Level.INFO,"Search failed");
-            io.printeDesign();
         }
     }
 }

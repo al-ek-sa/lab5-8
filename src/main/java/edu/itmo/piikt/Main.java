@@ -24,10 +24,10 @@ public class Main {
         //HistorySave.getInstance().readFile();
         CSVParser csvParser = new CSVParser(io);
         csvParser.readFile();
-        HelpCommand help = new HelpCommand(io);
-        help.execute();
-        HelpEnteringCommand helpEnteringCommand = new HelpEnteringCommand(io);
-        helpEnteringCommand.execute();
+        HelpCommand help = new HelpCommand();
+        help.execute(io);
+        HelpEnteringCommand helpEnteringCommand = new HelpEnteringCommand();
+        helpEnteringCommand.execute(io);
         ValidationCommand validationCommand = new ValidationCommand(io);
         validationCommand.validation();
     }

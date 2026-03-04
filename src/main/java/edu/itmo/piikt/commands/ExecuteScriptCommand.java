@@ -22,23 +22,15 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 
-public class ExecuteScriptCommand extends ArgumentCommand {
-    private IOProvider io;
+public class ExecuteScriptCommand {
     private static final List<String> name = new ArrayList<>();
     Logger logger = Logger.getLogger(ExecuteScriptCommand.class.getName());
-    public ExecuteScriptCommand(IOProvider io){
-        super("execute_script");
-        this.io = io;
-    }
+    public ExecuteScriptCommand(){}
 
-    @Override
-    public void execute(String argument) {
+    public void execute(IOProvider io, String argument) {
         try{
             if(io.name().equals("File")) {
-                io.printeDesign();
-                //начало чтения скрипта
                 logger.log(Level.INFO,"Start of script reading");
-                io.printeDesign();
                 for (String nameFile : name){
                     if (nameFile.equals(argument)){
                         throw new ExceptionScript();
@@ -48,18 +40,12 @@ public class ExecuteScriptCommand extends ArgumentCommand {
                 IOFile script = new IOFile(argument);
                 ValidationCommand scriptValidation = new ValidationCommand(script);
                 scriptValidation.validation();
-                io.printeDesign();
-                //скрипт успешно прочтен и выполнен
                 logger.log(Level.INFO,"Script successfully read and executed");
-                io.printeDesign();
             }
 
             if (io.name().equals("Console")){
                 name.clear();
-                io.printeDesign();
-                //начало чтения скрипта
                 io.printlnCommand("Start of script reading");
-                io.printeDesign();
                 for (String nameFile : name){
                     if (nameFile.equals(argument)){
                         io.printException("Error in file:" + name.getLast());
@@ -71,18 +57,12 @@ public class ExecuteScriptCommand extends ArgumentCommand {
                 ValidationCommand scriptValidation = new ValidationCommand(script);
                 scriptValidation.validation();
                 name.clear();
-                io.printeDesign();
-                //скрипт успешно прочтен и выполнен
                 io.printlnCommand("Script successfully read and executed");
-                io.printeDesign();
             }
         }catch (ExceptionScript e){
             io.printError(e.getMessage() + argument + ")");
         } catch (IOException e) {
-            io.printeDesign();
-            //Ошибка, скрипт не прочтен
             io.printException("Error, script not read");
-            io.printeDesign();
         } catch (Exception e) {
             io.printError(e.getMessage());
         }

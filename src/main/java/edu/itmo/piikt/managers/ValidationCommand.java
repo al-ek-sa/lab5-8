@@ -75,9 +75,9 @@ public class ValidationCommand {
                     }
                 }
 
-                Commands command = factory.getCommand(parts[0]);
+                Command command = factory.getCommand(parts[0]);
                 if (command != null) {
-                    command.execute();
+                    command.execute(io);
                 } else if (input.equals("historyAll")) {
                     historyCommands.printHistory();
                 } else {
@@ -112,7 +112,7 @@ public class ValidationCommand {
                         io.printException("The command must contain arguments");
                         io.printeDesign();
                     } else {
-                        argumentCommand.execute(argument);
+                        argumentCommand.execute(io, argument);
                     }
                 }
             }else {

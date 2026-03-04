@@ -16,57 +16,38 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 
-public class ClearCommand extends Commands implements Confirmation {
-    private IOProvider io;
-    private HistoryWorker historyWorker;
+public class ClearCommand implements Confirmation {
     Logger logger = Logger.getLogger(ClearCommand.class.getName());
-    public ClearCommand(IOProvider io){
-        super("clear");
-        this.historyWorker = HistoryWorker.getInstance(io);
-        this.io = io;
-    }
+    public ClearCommand(){}
 
-    @Override
-    public void execute() {
+    public void execute(IOProvider io) {
         if(io.name().equals("Console")){
-            io.printeDesign();
-            io.printlnCommand("Are you sure you want to clear the collection? (yes/no)"); //Вы точно хотите очистить коллекцию? (да/нет)
-            io.printeDesign();
-            String consent = confirmation();
+            io.printlnCommand("Are you sure you want to clear the collection? (yes/no)");
+            String consent = confirmation(io);
             if (consent.equals("yes")){
-                io.printeDesign();
                 logger.log(Level.INFO,"Consent received, clearing collection");
-                io.printeDesign();
-                historyWorker.clear();
+                HistoryWorker.getInstance(io).clear();
                 GeneratorId.getInstance(io).setStartId(1);
-                io.printeDesign();
                 logger.log(Level.INFO,"Collection cleared successfully");
-                io.printeDesign();
             } else {
-                io.printeDesign();
                 logger.log(Level.INFO,"Consent received, clearing collection");
                 GeneratorId.getInstance(io).setStartId(1);
-                io.printeDesign();
             }
         }
 
         if (io.name().equals("File")){
-            io.printeDesign();
             io.printlnCommand("Consent received, clearing collection");
-            historyWorker.clear();
+            HistoryWorker.getInstance(io).clear();
             GeneratorId.getInstance(io).setStartId(1);
             io.printlnCommand("Collection cleared successfully");
-            io.printeDesign();
 
         } else {
-            io.printeDesign();
             io.printlnCommand("Command cancelled");
-            io.printeDesign();
         }
     }
 
     @Override
-    public String confirmation(){
+    public String confirmation(IOProvider io){
         try {
             while (true) {
                 String input = io.readLine();
@@ -75,16 +56,11 @@ public class ClearCommand extends Commands implements Confirmation {
                 } else if (input.equals("no")) {
                     return "no";
                 }
+                io.printException("Please enter 'yes' or 'no'");
                 io.printeDesign();
-                io.printException("Please enter 'yes' or 'no'"); //пожалуйста введите да или нет
-                io.printeDesign();
-                //коллекция успешно очищена
                 io.printlnCommand("Collection successfully cleared");
-                io.printeDesign();
             }
         }catch (Exception e) {
-            io.printeDesign();
-            //очистка коллекции не удалась
             io.printException("Failed to clear the collection");
             io.printeDesign();
             return null;

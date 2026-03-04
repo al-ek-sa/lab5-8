@@ -15,22 +15,15 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 
-public class RemoveLowerCommander extends ArgumentCommand {
-    private IOProvider io;
+public class RemoveLowerCommander {
     Logger logger = Logger.getLogger(RemoveLowerCommander.class.getName());
-    public RemoveLowerCommander(IOProvider io){
-        super("remove_lower");
-        this.io = io;
-    }
-    @Override
-    public void execute(String argument) {
+    public RemoveLowerCommander(){}
+
+    public void execute(IOProvider io, String argument) {
         try {
             HistoryWorker.getInstance(io).removeLower(argument);
         } catch (RuntimeException e){
-            io.printeDesign();
-            //отказано в удалении элементов
             logger.log(Level.INFO,"Items deletion denied");
-            io.printeDesign();
         }
     }
 }

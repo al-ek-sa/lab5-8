@@ -14,32 +14,19 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 
-public class CountByOrganizationCommand extends Commands {
-    private IOProvider io;
-    private ValidationOrganization organization;
+public class CountByOrganizationCommand {
     Logger logger = Logger.getLogger(CountByOrganizationCommand.class.getName());
-    public  CountByOrganizationCommand(IOProvider io){
-        super("count_by_organization");
-        this.io =io;
-        this.organization = new ValidationOrganization(io);
+    public  CountByOrganizationCommand(){
     }
 
-    @Override
-    public void execute() {
+    public void execute(IOProvider io) {
         try {
-            io.printeDesign();
-            //Введите все значения для организации
+            ValidationOrganization organization = new ValidationOrganization(io);
             logger.log(Level.INFO,"Enter all values for Organization");
-            io.printeDesign();
             HistoryWorker.getInstance(io).countByOrganization(organization.organization());
-            io.printeDesign();
             logger.log(Level.INFO,"Number of elements displayed successfully");
-            io.printeDesign();
         } catch (RuntimeException e){
-            io.printeDesign();
-            //ошибка выполнения, элементы не выведены
             logger.log(Level.INFO,"Execution error, elements not displayed");
-            io.printeDesign();
         }
     }
 }

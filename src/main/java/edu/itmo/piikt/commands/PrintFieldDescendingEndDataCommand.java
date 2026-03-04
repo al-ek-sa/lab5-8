@@ -14,27 +14,17 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 
-public class PrintFieldDescendingEndDataCommand extends Commands {
-    private IOProvider io;
+public class PrintFieldDescendingEndDataCommand {
     Logger logger = Logger.getLogger(PrintFieldDescendingEndDataCommand.class.getName());
-    public PrintFieldDescendingEndDataCommand(IOProvider io) {
-        super("print_field_descending_end_date");
-        this.io = io;
+    public PrintFieldDescendingEndDataCommand() {
     }
 
-    @Override
-    public void execute() {
+    public void execute(IOProvider io) {
         try {
-            io.printeDesign();
-            //сортировка по дате увольнения началась
             logger.log(Level.INFO,"Sorting by date of dismissal started");
-            io.printeDesign();
             HistoryWorker.getInstance(io).sort();
         } catch (Exception e) {
-            io.printeDesign();
-            //не удалось произвести сортировку
             io.printException("Failed to sort");
-            io.printeDesign();
         }
     }
 }

@@ -14,28 +14,18 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 
-public class SaveCommand extends Commands {
-    private IOProvider io;
+public class SaveCommand {
     Logger logger = Logger.getLogger(SaveCommand.class.getName());
-    public SaveCommand(IOProvider io){
-        super("save");
-        this.io = io;
-    }
-    @Override
-    public void execute() {
+    public SaveCommand(){}
+
+    public void execute(IOProvider io) {
         try {
-            io.printeDesign();
-            //сохранение данных в файл началось
             logger.log(Level.INFO,"Saving data to file started");
             io.printeDesign();
             CSVParser csvParser = new CSVParser(io);
             csvParser.saveCollection();
-
         } catch (Exception e) {
-            io.printeDesign();
-            //данные сохраннены в файл
             logger.log(Level.INFO,"Data saved to file");
-            io.printeDesign();
         }
     }
 }

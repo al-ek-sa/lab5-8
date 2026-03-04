@@ -15,34 +15,18 @@ import java.util.logging.Level;
  */
 
 //public class AddCommand implements Command {
-public class AddCommand extends Commands {
-    private IOProvider io;
-    private ValidationWorker worker;
+public class AddCommand {
     Logger logger = Logger.getLogger(AddCommand.class.getName());
-    public AddCommand(IOProvider io){
-        super("add");
-        this.io = io;
-        this.worker = new ValidationWorker(io);
-    }
+    public AddCommand(){}
 
-    @Override
-    public void execute() {
+    public void execute(IOProvider io) {
+        ValidationWorker worker = new ValidationWorker(io);
         try {
-            io.printeDesign();
-            //Начало добавления элемента
             logger.log(Level.INFO,"Start adding an item");
-
-            io.printeDesign();
             HistoryWorker.getInstance(io).add(worker.worker());
-            io.printeDesign();
-            //Элемент успешно добавлен
             logger.log(Level.INFO,"Item successfully added");
-            io.printeDesign();
         } catch (RuntimeException e){
-            io.printeDesign();
-            //добавить элемент не удалось
             logger.log(Level.INFO, e.getMessage());
-            io.printeDesign();
         }
     }
 

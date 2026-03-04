@@ -1,5 +1,7 @@
 package edu.itmo.piikt.managers;
 
+import edu.itmo.piikt.io.IOProvider;
+
 /**
  * An interface that must be inherited if the command adds some conditions for execution.
  *
@@ -8,5 +10,5 @@ package edu.itmo.piikt.managers;
  */
 
 public interface Confirmation {
-    String confirmation();
+    String confirmation(IOProvider io);
 }

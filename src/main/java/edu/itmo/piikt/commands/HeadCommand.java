@@ -11,28 +11,17 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 
-public class HeadCommand extends Commands {
-    private HistoryWorker historyWorker;
-    private IOProvider io;
+public class HeadCommand {
     Logger logger = Logger.getLogger(HeadCommand.class.getName());
-    public HeadCommand(IOProvider io){
-        super("head");
-        this.historyWorker = HistoryWorker.getInstance(io);
-        this.io = io;
+    public HeadCommand(){
     }
 
-    @Override
-    public void execute() {
+    public void execute(IOProvider io) {
         try {
-            io.printeDesign();
             logger.log(Level.INFO,"Displaying the last added element");
-            io.printeDesign();
-            historyWorker.peekFirst();
+            HistoryWorker.getInstance(io).peekFirst();
         } catch (Exception e) {
-            io.printeDesign();
-            //команда не выполнена
             io.printException("Command not executed");
-            io.printeDesign();
         }
     }
 }

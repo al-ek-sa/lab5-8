@@ -19,15 +19,11 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 
-public class RemoveByIdCommand extends ArgumentCommand {
-    private IOProvider io;
+public class RemoveByIdCommand {
     Logger logger = Logger.getLogger(RemoveByIdCommand.class.getName());
-    public RemoveByIdCommand(IOProvider io){
-        super("remove_by_id");
-        this.io = io;
-    }
-    @Override
-    public void execute(String argument) {
+    public RemoveByIdCommand(){}
+
+    public void execute(IOProvider io, String argument) {
         try{
 
             BigInteger bigInteger = new BigInteger(argument);
@@ -41,25 +37,15 @@ public class RemoveByIdCommand extends ArgumentCommand {
             }
 
             int idConsole = Integer.parseInt(argument);
-            io.printeDesign();
-            //удаление элемента по id началось
             logger.log(Level.INFO,"Deletion of item by ID started");
-            io.printeDesign();
             HistoryWorker.getInstance(io).idMatches(argument);
             HistoryWorker.getInstance(io).removeId(idConsole);
         } catch (ExceptionBigIntegerMAX_INTEGER e){
-            io.printeDesign();
             logger.log(Level.INFO,e.getMessage());
-            io.printeDesign();
         } catch (ExceptionId e) {
-            io.printeDesign();
             logger.log(Level.INFO,e.getMessage());
-            io.printeDesign();
         } catch (RuntimeException e) {
-            io.printeDesign();
-            //В аргументе введены посторонние символы, повторите команду (аргумент может содержать только целые числа больше 0)
             logger.log(Level.INFO,"Extraneous characters entered in the argument, repeat the command (the argument can only contain integers greater than 0)");
-            io.printeDesign();
         }
 
     }

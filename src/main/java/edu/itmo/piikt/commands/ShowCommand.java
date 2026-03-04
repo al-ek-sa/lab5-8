@@ -14,32 +14,17 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 
-public class ShowCommand extends Commands {
-    private IOProvider io;
-    private HistoryWorker historyWorker;
+public class ShowCommand {
     Logger logger = Logger.getLogger(ShowCommand.class.getName());
-    public ShowCommand(IOProvider io){
-        super("show");
-        this.historyWorker = HistoryWorker.getInstance(io);
-        this.io = io;
-    }
-    @Override
-    public void execute() {
+    public ShowCommand(){}
+
+    public void execute(IOProvider io) {
         try {
-            io.printeDesign();
-            //отображение коллекции
             logger.log(Level.INFO,"Displaying collection");
-            io.printeDesign();
-            historyWorker.printHistoryWorker();
-            io.printeDesign();
-            //Displaying collection
+            HistoryWorker.getInstance(io).printHistoryWorker();
             logger.log(Level.INFO,"Collection displayed");
-            io.printeDesign();
         } catch (Exception e) {
-            io.printeDesign();
-            //Отображение коллекции прервано
             logger.log(Level.INFO,"Displaying collection interrupted");
-            io.printeDesign();
         }
     }
 }

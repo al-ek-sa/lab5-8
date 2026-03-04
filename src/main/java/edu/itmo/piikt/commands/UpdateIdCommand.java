@@ -15,27 +15,17 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 
-public class UpdateIdCommand extends ArgumentCommand {
-    private IOProvider io;
-    private ValidationWorker worker;
+public class UpdateIdCommand {
     Logger logger = Logger.getLogger(UpdateIdCommand.class.getName());
-    public UpdateIdCommand(IOProvider io){
-        super("update");
-        this.io = io;
-        this.worker = new ValidationWorker(io);
-    }
+    public UpdateIdCommand(){}
 
-    @Override
-    public void execute(String argument) {
+    public void execute(IOProvider io, String argument) {
+        ValidationWorker worker = new ValidationWorker(io);
         try {
-
             HistoryWorker.getInstance(io).idMatches(argument);
             HistoryWorker.getInstance(io).update(argument, worker);
         } catch (RuntimeException e){
-            io.printeDesign();
-            //Обновление данных прервано
             logger.log(Level.INFO,"Data update interrupted");
-            io.printeDesign();
         }
     }
 }

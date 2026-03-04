@@ -14,30 +14,17 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 
-public class InfoCommand extends Commands {
-    private IOProvider io;
+public class InfoCommand {
     Logger logger = Logger.getLogger(InfoCommand.class.getName());
-    public InfoCommand(IOProvider io){
-        super("info");
-        this.io = io;
-    }
+    public InfoCommand(){}
 
-    @Override
-    public void execute() {
+    public void execute(IOProvider io) {
         try {
-            io.printeDesign();
-            //отображение информации про коллекцию
             logger.log(Level.INFO,"Displaying information about the collection");
-            io.printeDesign();
             HistoryWorker.getInstance(io).infoLiat();
-            io.printeDesign();
             logger.log(Level.INFO,"Information successfully displayed");
-            io.printeDesign();
         } catch (Exception e) {
-            io.printeDesign();
-            //информация не отображена
             io.printException("Information not displayed");
-            io.printeDesign();
         }
     }
 }

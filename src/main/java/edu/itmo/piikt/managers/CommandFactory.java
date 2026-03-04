@@ -1,9 +1,6 @@
 package edu.itmo.piikt.managers;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import edu.itmo.piikt.commands.*;
 import edu.itmo.piikt.io.IOProvider;
@@ -16,55 +13,43 @@ import edu.itmo.piikt.io.IOProvider;
  */
 
 public class CommandFactory {
-    private Map<String, Commands> commands = new HashMap<>();
+    private Map<String, Command> commands = new HashMap<>();
     private Map<String, ArgumentCommand> argumentCommands = new HashMap<>();
     private IOProvider io;
     public CommandFactory(IOProvider io) {
         this.io = io;
-
-        writeCommand(new AddCommand(io));
-        writeCommand(new HelpCommand(io));
-        writeCommand(new InfoCommand(io));
-        writeCommand(new ShowCommand(io));
-        writeArgumentCommand(new UpdateIdCommand(io));
-        writeArgumentCommand(new RemoveByIdCommand(io));
-        writeCommand(new ClearCommand(io));
-        writeCommand(new SaveCommand(io));
-        writeArgumentCommand(new ExecuteScriptCommand(io));
-        writeCommand(new ExitCommand(io));
-        writeCommand(new HeadCommand(io));
-        writeArgumentCommand(new RemoveLowerCommander(io));
-        writeCommand(new HistoryCommand(io));
-        writeCommand(new CountByOrganizationCommand(io));
-        writeArgumentCommand(new FilterContainsNameCommand(io));
-        writeCommand(new PrintFieldDescendingEndDataCommand(io));
-        writeCommand(new HelpEnteringCommand(io));
+        simpleCommand(Commands.ADD, new AddCommand()::execute);
+        simpleCommand(Commands.CLEAR, new ClearCommand()::execute);
+        simpleCommand(Commands.EXIT, new ExitCommand()::execute);
+        simpleCommand(Commands.HEAD, new HeadCommand()::execute);
+        simpleCommand(Commands.COUNT_BY_ORGANIZATION, new CountByOrganizationCommand()::execute);
+        simpleCommand(Commands.HELP_ENTERING_COMMAND, new HelpEnteringCommand()::execute);
+        simpleCommand(Commands.HELP, new HelpCommand()::execute);
+        simpleCommand(Commands.HISTORY, new HistoryCommand()::execute);
+        simpleCommand(Commands.SAVE, new SaveCommand()::execute);
+        simpleCommand(Commands.INFO, new InfoCommand()::execute);
+        simpleCommand(Commands.SHOW, new ShowCommand()::execute);
+        argumentCommand (Commands.FILTER_CONTAINS_NAME, (i, arg) -> new FilterContainsNameCommand().execute(i, arg));
+        argumentCommand(Commands.REMOVE_BY_ID, (i, arg) -> new RemoveByIdCommand().execute(i,arg));
+        argumentCommand(Commands.UPDATE, (i, arg) -> new UpdateIdCommand().execute(i, arg));
+        argumentCommand(Commands.REMOVE_LOWER, (i, arg) -> new RemoveLowerCommander().execute(i, arg));
+        argumentCommand(Commands.EXECUTE_SCRIPT, (i, arg) -> new ExecuteScriptCommand().execute(i, arg));
+        simpleCommand(Commands.PRINT_FIELD_DESCENDING_END_DATE, new PrintFieldDescendingEndDataCommand()::execute);
     }
 
-    /**
-     *A method for registering commands without arguments.
-     *
-     * @param command The parameter accepts command objects that are subclasses of the Command class.
-     */
-    private void writeCommand(Commands command){
-        commands.put(command.getName(), command);
+    private void simpleCommand (Commands com, Command command) {
+        commands.put(com.getName(), command);
     }
 
-    /**
-     * A method for registering commands with an argument.
-     *
-     * @param argumentCommand The parameter accepts command objects that are subclasses of the ArgumentCommand class.
-     */
-
-    private void writeArgumentCommand(ArgumentCommand argumentCommand){
-        argumentCommands.put(argumentCommand.getName(), argumentCommand);
+    private void argumentCommand (Commands com, ArgumentCommand argumentCommand) {
+        argumentCommands.put(com.getName(),argumentCommand);
     }
 
     public ArgumentCommand getArgumentCommand(String name){
         return argumentCommands.get(name);
     }
 
-    public Commands getCommand(String name){
+    public Command getCommand(String name){
         return  commands.get(name);
     }
 
@@ -72,7 +57,8 @@ public class CommandFactory {
         return argumentCommands;
     }
 
-    public Map<String, Commands> getCommandsMap(){
+    public Map<String, Command> getCommandsMap(){
         return commands;
     }
+
 }
