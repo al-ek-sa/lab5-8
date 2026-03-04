@@ -10,9 +10,7 @@ import edu.itmo.piikt.io.IOProvider;
  */
 
 public class DamerauLevenshteinDistance {
-    private IOProvider io;
-    public DamerauLevenshteinDistance(IOProvider io){
-        this.io = io;
+    public DamerauLevenshteinDistance(){
     }
     public static int distance(String s1, String s2) {
 

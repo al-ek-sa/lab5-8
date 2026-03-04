@@ -19,7 +19,7 @@ import java.math.BigInteger;
  *
  * <p>The class provides a method that validates the field values.</p>
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 
 public class ValidationOrganization {
@@ -33,54 +33,6 @@ public class ValidationOrganization {
     }
 
     /**
-     *The method returns an Address object.
-     *
-     * @throws RuntimeException If the object value is null.
-     * @throws RuntimeException The method may throw an exception if the reading type is unknown.
-     * @return Address
-     */
-    public Address validationNullAddress(){
-
-        if (io.name().equals("File")){
-            Address addressConsole = address.validationAddress();
-            if (addressConsole != null ){
-                return addressConsole;
-                //поле не заполнено, повторите попытку
-            } else {
-                throw new RuntimeException("Field is empty, please try again");}
-        }
-
-
-        if(io.name().equals("Console")) {
-            while (true) {
-                //Введите адрес (поле обязательно к заполнению)
-                io.printField("Enter the address", "(required field)");
-                Address addressConsole = address.validationAddress();
-                if (addressConsole != null) {
-                    return addressConsole;
-                    //поле не заполнено, повторите попытку
-                } else {
-                    throw new RuntimeException("Field is empty, please try again");
-                }
-            }
-        }else {
-            throw new RuntimeException("Field is empty, please try again");
-        }
-    }
-
-    /**
-     *The method checks if the OrganizationType enum instance value is null.
-     *
-     * @return OrganizationType
-     */
-    public OrganizationType validationNullOrganizationType(){
-        OrganizationType organizationTypeConsole = type.organizationType();
-        if (organizationTypeConsole != null ) {
-            return organizationTypeConsole;
-        } return validationNullOrganizationType();
-    }
-
-    /**
      *The method validates the annualTurnover value.
      *
      * @throws RuntimeException The method may throw an exception if the reading type is unknown.
@@ -90,61 +42,58 @@ public class ValidationOrganization {
      * @return annualTurnover
      */
     public int validationAnnualTurnover() {
-
-        if (io.name().equals("File")) {
-            String input = io.readLine();
-            int annualTurnoverConsole = Integer.parseInt(input);
-            if (annualTurnoverConsole > 0) {
-                return annualTurnoverConsole;
-                //Введено неположительное значение, повторите попытку
-            } else {
-                throw new RuntimeException("A non-positive value has been entered, please try again");
-            }
-        }
-
-        if (io.name().equals("Console")) {
-            while (true) {
-                try {
-                    //Введите годовой оборот (годовой оборот должен быть целым числом больше 0, поле обязательно к заполнению)
-                    io.printField("Enter annual turnover", "(annual turnover must be an integer greater than 0. Field is required)");
-                    String input = io.readLine();
-
-                    if (input.equals("null") || input.trim().isEmpty()) {
+        while (true) {
+            try {
+                io.printField("Enter annual turnover", "(annual turnover must be an integer greater than 0. Field is required)");
+                String input = io.readLine();
+                if (input.equals("null") || input.trim().isEmpty()) {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("_____________________");
+                    } else {
                         throw new ExceptionNull();
                     }
-
-                    BigInteger bigInteger = new BigInteger(input);
-
-                    if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+                }
+                BigInteger bigInteger = new BigInteger(input);
+                if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("_____________________");
+                    } else {
                         throw new ExceptionBigIntegerMAX_INTEGER();
                     }
-
-                    if (bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0) {
-                        throw new ExceptionAnnualTunover();
-                    }
-
-                    int annualTurnoverConsole = Integer.parseInt(input);
-                    if (annualTurnoverConsole > 0) {
-                        return annualTurnoverConsole;
-                        //Введено неположительное значение, повторите попытку
+                }
+                if (bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0) {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("_____________________");
                     } else {
                         throw new ExceptionAnnualTunover();
                     }
-                } catch (ExceptionNull e) {
-                    io.printException(e.getMessage());
-                } catch (ExceptionBigIntegerMAX_INTEGER e){
-                    io.printException(e.getMessage());
-                } catch (ExceptionBigIntegerMIN_INTEGER e) {
-                    io.printException(e.getMessage());
-                }catch (ExceptionAnnualTunover e) {
-                    io.printException(e.getMessage());
                 }
-                catch (RuntimeException e) {
+                int annualTurnoverConsole = Integer.parseInt(input);
+                if (annualTurnoverConsole > 0) {
+                    return annualTurnoverConsole;
+                } else {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("_____________________");
+                    } else {
+                        throw new ExceptionAnnualTunover();
+                    }
+                }
+            } catch (ExceptionNull e) {
+                io.printException(e.getMessage());
+            } catch (ExceptionBigIntegerMAX_INTEGER e){
+                io.printException(e.getMessage());
+            } catch (ExceptionBigIntegerMIN_INTEGER e) {
+                io.printException(e.getMessage());
+            }catch (ExceptionAnnualTunover e) {
+                io.printException(e.getMessage());
+            }
+            catch (RuntimeException e) {
+                if (io.name().equals("File")) {
+                    throw new RuntimeException();
+                } else {
                     io.printException("The string contains symbols, please try again");
                 }
             }
-        }else {
-            throw new RuntimeException("Unknown reading type");
         }
     }
 
@@ -154,6 +103,6 @@ public class ValidationOrganization {
      * @return Organization
      */
     public Organization organization(){
-        return new Organization(validationAnnualTurnover(), validationNullOrganizationType(), validationNullAddress());
+        return new Organization(validationAnnualTurnover(), type.organizationType(), address.validationAddress());
     }
 }

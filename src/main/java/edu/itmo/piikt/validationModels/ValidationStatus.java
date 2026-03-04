@@ -11,7 +11,7 @@ import java.math.BigInteger;
  * The class returns the selected instance of the enum Status.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 
 public class ValidationStatus {
@@ -33,23 +33,6 @@ public class ValidationStatus {
      * @return Status
      */
     public Status status() {
-        if (io.name().equals("File")){
-            try {
-                String idStatus = io.readLine();
-                int id = Integer.parseInt(idStatus);
-                for (Status status : Status.values()) {
-                    if (status.getId() == id) {
-                        return status;
-                    }
-                }
-            } catch (RuntimeException e) {
-                //тоже самое что и в типе
-                throw new RuntimeException("Invalid input, please enter the value again");
-            }
-        }
-
-
-        if (io.name().equals("Console")) {
             while (true) {
                 //выберите статус (введите его номер)
                 io.printField("Select the status", "(enter its number)");
@@ -60,18 +43,30 @@ public class ValidationStatus {
                     String idStatus = io.readLine();
 
                     if (idStatus.equals("null") || idStatus.trim().isEmpty()) {
-                        throw new ExceptionNull();
+                        if (io.name().equals("File")) {
+                            throw new RuntimeException("_______________________________");
+                        } else {
+                            throw new ExceptionNull();
+                        }
                     }
 
                     BigInteger bigInteger = new BigInteger(idStatus);
 
                     if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0 || bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) <0) {
-                        throw new ExceptionEnum();
+                        if (io.name().equals("File")) {
+                            throw new RuntimeException("__________________________________");
+                        } else {
+                            throw new ExceptionEnum();
+                        }
                     }
                     int id = Integer.parseInt(idStatus);
 
-                    if (id <1 || id >4){
-                        throw new ExceptionEnum();
+                    if (id < 1 || id > Status.values().length){
+                        if (io.name().equals("File")) {
+                            throw new RuntimeException("________________________________");
+                        } else {
+                            throw new ExceptionEnum();
+                        }
                     }
 
                     for (Status status : Status.values()) {
@@ -84,11 +79,13 @@ public class ValidationStatus {
                 }catch (ExceptionEnum e) {
                     io.printException(e.getMessage());
                 } catch (RuntimeException e){
-                    io.printException("The string contains symbols, please try again.");
-                }
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("___________________________________");
+                    } else {
+                        io.printException("The string contains symbols, please try again.");
+                    }
+
             }
-        } else {
-            throw new RuntimeException("Unknown reading type");
         }
     }
 }

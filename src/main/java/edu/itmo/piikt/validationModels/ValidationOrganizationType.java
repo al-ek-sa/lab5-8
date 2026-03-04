@@ -21,22 +21,6 @@ public class ValidationOrganizationType {
         this.io = io;
     }
 
-    public OrganizationType organizationType(){
-        if (io.name().equals("File")){
-            try {
-                String idStatus = io.readLine();
-                int id = Integer.parseInt(idStatus);
-                for (OrganizationType type : OrganizationType.values()) {
-                    if (type.getId() == id) {
-                        return type;
-                    }
-                }
-            } catch (RuntimeException e) {
-                //Либо ничего не введено либо цифры не те либо буквы
-                throw  new RuntimeException("Invalid input, please enter the value again");
-            }
-        }
-
         /**
          *The method returns an instance of the enum OrganizationType based on the entered instance number.
          *
@@ -49,46 +33,53 @@ public class ValidationOrganizationType {
          * @throws RuntimeException When there are errors parsing the value entered into the console into an int.
          * @return OrganizationType
          */
-        if (io.name().equals("Console")) {
-            while (true) {
-                //Выберите тип организации (введите ее номер)
-                io.printField("Select the organization type", "(enter its number)");
-                for (OrganizationType type : OrganizationType.values()) {
-                    io.println("(" + type.getId() + ") " + type.name());
-                }
-                try {
-                    String idStatus = io.readLine();
-
-                    if (idStatus.equals("null")|| idStatus.trim().isEmpty()) {
+    public OrganizationType organizationType(){
+        while (true) {
+            io.printField("Select the organization type", "(enter its number)");
+            for (OrganizationType type : OrganizationType.values()) {
+                io.println("(" + type.getId() + ") " + type.name());
+            }
+            try {
+                String idStatus = io.readLine();
+                if (idStatus.equals("null")|| idStatus.trim().isEmpty()) {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("_____________________");
+                    } else {
                         throw new ExceptionNull();
                     }
-
-                    BigInteger bigInteger = new BigInteger(idStatus);
-
-                    if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1 || bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) == -1) {
+                }
+                BigInteger bigInteger = new BigInteger(idStatus);
+                if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0 || bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0) {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("_____________________");
+                    } else {
                         throw new ExceptionEnum();
                     }
-
-                    int id = Integer.parseInt(idStatus);
-
-                    if (id <1 || id >5){
+                }
+                int id = Integer.parseInt(idStatus);
+                if (id <1 || id > OrganizationType.values().length){
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("_____________________");
+                    } else {
                         throw new ExceptionEnum();
                     }
-                    for (OrganizationType type : OrganizationType.values()) {
-                        if (type.getId() == id) {
-                            return type;
-                        }
+                }
+                for (OrganizationType type : OrganizationType.values()) {
+                    if (type.getId() == id) {
+                        return type;
                     }
-                }catch (ExceptionNull e) {
-                    io.printException(e.getMessage());
-                }catch (ExceptionEnum e) {
-                    io.printException(e.getMessage());
-                }catch (RuntimeException e){
+                }
+            }catch (ExceptionNull e) {
+                io.printException(e.getMessage());
+            }catch (ExceptionEnum e) {
+                io.printException(e.getMessage());
+            }catch (RuntimeException e){
+                if (io.name().equals("File")) {
+                    throw new RuntimeException();
+                } else {
                     io.printException("The string contains symbols, please try again.");
                 }
             }
-        } else {
-            throw new RuntimeException("Unknown reading type");
         }
     }
 }

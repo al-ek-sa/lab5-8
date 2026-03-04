@@ -27,7 +27,6 @@ public class IOFile implements  IOProvider {
 
     @Override
     public void print(String message) {
-        System.out.print(ANSI_ORANGE_256 + message + ANSI_BRIGHT_BLUE);
     }
 
     @Override
@@ -44,8 +43,6 @@ public class IOFile implements  IOProvider {
     public void println(String message) {
         System.out.println(ANSI_GREEN + message + ANSI_BRIGHT_BLUE);
     }
-    int byteRead;
-
 
     /**
      *The method reads data from a script. The data is read character by character and converted into words.
@@ -58,7 +55,6 @@ public class IOFile implements  IOProvider {
     @Override
     public String readLine() {
         try {
-
             if ( !dataQueue.isEmpty()) {
                 return dataQueue.poll();
             }
@@ -97,9 +93,7 @@ public class IOFile implements  IOProvider {
     }
 
     @Override
-    public void printField(String message, String messageFiled) {
-        System.out.println(ANSI_TURQUOISE_LIGHT + message + ANSI_RESET + " " + ANSI_LAVENDER_LIGHT + messageFiled + ANSI_BRIGHT_BLUE);
-    }
+    public void printField(String message, String messageFiled) {}
 
     @Override
     public String name() {

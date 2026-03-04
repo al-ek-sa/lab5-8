@@ -86,49 +86,6 @@ public class ValidationWorker {
     }
 
     /**
-     *The method checks if the coordinates object is null.
-     *
-     * @throws RuntimeException When reading a file, if the object is null
-     * @throws ExceptionNull When reading from the console, if the object is null
-     * @throws RuntimeException The method may throw an exception if the reading type is unknown.
-     * @return Coordinates
-     */
-    public Coordinates validationNullCoordinates(){
-        if (io.name().equals("File")){
-            Coordinates coordinatesConsole = coordinates.сoordinates();
-            if (coordinatesConsole != null) {
-                return coordinatesConsole;
-                //Поле не введено, повторите попытку
-            } else {
-                throw new RuntimeException("Field not entered, please try again");
-            }
-        }
-
-
-
-        if (io.name().equals("Console")) {
-            while (true) {
-                try {
-                    //Введите координаты (поле обязательно для заполнения)
-                    io.printField("Enter coordinates", "(field is required)");
-                    Coordinates coordinatesConsole = coordinates.сoordinates();
-                    if (coordinatesConsole != null) {
-                        return coordinatesConsole;
-                        //Поле не введено, повторите попытку
-                    } else {
-                        throw new ExceptionNull();
-                    }
-                }catch (ExceptionNull e) {
-                    io.printException(e.getMessage());
-                }
-            }
-        }else {
-            throw new RuntimeException("Unknown reading type");
-        }
-    }
-
-
-    /**
      *The method validates the salary value.
      *
      * @throws RuntimeException The method may throw an exception if the reading type is unknown.
@@ -140,68 +97,53 @@ public class ValidationWorker {
      * @return salary
      */
     public Float validationSalary(){
-        if (io.name().equals("File")){
+        while (true) {
+            io.printField("Enter salary", "(value must be greater than 0)");
             try {
                 String input = io.readLine();
                 if (input.isEmpty() || input.equals("null")) {
                     return null;
                 }
-
                 String inputFloat = input.replace(',', '.');
-                float salaryConsole = Float.parseFloat(inputFloat);
-                if (salaryConsole > 0) {
-                    return salaryConsole;
-                    //введенное значение не положительное, повторите попытку
-                }else  {
-                    throw new RuntimeException("Entered value is not positive, please try again");
-                }
-            } catch (RuntimeException e) {
-                throw new RuntimeException("Invalid input, please enter the value again");
-            }
-        }
-
-
-        if (io.name().equals("Console")) {
-            while (true) {
-                //Введите заработную плату (значение должно быть больше 0)
-                io.printField("Enter salary", "(value must be greater than 0)");
-                try {
-                    String input = io.readLine();
-                    if (input.isEmpty() || input.equals("null")) {
-                        return null;
-                    }
-
-                    String inputFloat = input.replace(',', '.');
-
-                    BigDecimal bigDecimal = new BigDecimal(inputFloat);
-
-                    if (bigDecimal.compareTo(BigDecimal.valueOf(Float.MAX_VALUE)) == 1) {
+                BigDecimal bigDecimal = new BigDecimal(inputFloat);
+                if (bigDecimal.compareTo(BigDecimal.valueOf(Float.MAX_VALUE)) > 0) {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException();
+                    } else {
                         throw new ExceptionBigDecimalMAX_FLOAT();
                     }
-
-                    if (bigDecimal.compareTo(BigDecimal.valueOf(Float.MIN_VALUE)) == -1) {
-                        throw new ExceptionSalary();
-                    }
-
-                    float salaryConsole = Float.parseFloat(inputFloat);
-                    if (salaryConsole > 0) {
-                        return salaryConsole;
-                        //введенное значение не положительное, повторите попытку
+                }
+                if (bigDecimal.compareTo(BigDecimal.valueOf(Float.MIN_VALUE)) <0) {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException();
                     } else {
                         throw new ExceptionSalary();
                     }
-                }catch (ExceptionBigDecimalMAX_FLOAT e) {
-                    io.printException(e.getMessage());
-                }catch (ExceptionSalary e) {
-                    io.printException(e.getMessage());
-                } catch (RuntimeException e) {
+                }
+                float salaryConsole = Float.parseFloat(inputFloat);
+                if (salaryConsole > 0) {
+                    return salaryConsole;
+                } else {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException();
+                    } else {
+                        throw new ExceptionSalary();
+                    }
+                }
+            }catch (ExceptionBigDecimalMAX_FLOAT e) {
+                io.printException(e.getMessage());
+            }catch (ExceptionSalary e) {
+                io.printException(e.getMessage());
+            } catch (RuntimeException e) {
+                if (io.name().equals("File")) {
+                    throw new RuntimeException();
+                } else {
                     io.printException("The string contains symbols, please try again");
                 }
             }
-        } else {
-            throw new RuntimeException("Unknown reading type");
         }
     }
+
 
     /**
      *The method validates the startDate values.
@@ -214,52 +156,49 @@ public class ValidationWorker {
      */
 
     public LocalDate validationStartDate(){
-        if (io.name().equals("File")){
-            String startDateConsole = io.readLine();
-            if (!startDateConsole.equals("null") && !startDateConsole.isBlank()){
-                try {
-                    LocalDate format = LocalDate.parse(startDateConsole);
-                    return format;
-                } catch (DateTimeParseException e) {
-                    throw new RuntimeException("Invalid input, please enter the value again");
-                }
-            }else {
-                throw new RuntimeException("Invalid input, please enter the value again");
-            }
-        }
-
-
-        if (io.name().equals("Console")) {
-            while (true) {
-                try {
-                    //Введите дату начала работу (формат: 30-01-2024, поле обязательно к заполнения)
-                    io.printField("Enter start date", "(format: 2024-01-15, field is required)");
-                    String startDateConsole = io.readLine();
-
-                    if (startDateConsole.equals("null") || startDateConsole.isBlank()){
+        while (true) {
+            try {
+                io.printField("Enter start date", "(format: 2024-01-15, field is required)");
+                String startDateConsole = io.readLine();
+                if (startDateConsole.equals("null") || startDateConsole.isBlank()){
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException();
+                    } else {
                         throw new ExceptionNull();
                     }
-
-                    if (!startDateConsole.equals("null") && !startDateConsole.isBlank()) {
-                        try {
-                            LocalDate format = LocalDate.parse(startDateConsole);
-                            return format;
-                        } catch (DateTimeParseException e) {
+                }
+                if (!startDateConsole.equals("null") && !startDateConsole.isBlank()) {
+                    try {
+                        LocalDate format = LocalDate.parse(startDateConsole);
+                        return format;
+                    } catch (DateTimeParseException e) {
+                        if (io.name().equals("File")) {
+                            throw new RuntimeException();
+                        } else {
                             io.printException("Invalid input, please enter the value again");
                         }
+                    }
+                } else {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException();
                     } else {
                         throw new ExceptionDate();
                     }
-                }catch (ExceptionNull e){
-                    io.printException(e.getMessage());
-                } catch (ExceptionDate e) {
-                    io.printException(e.getMessage());
+                }
+            }catch (ExceptionNull e){
+                io.printException(e.getMessage());
+            } catch (ExceptionDate e) {
+                io.printException(e.getMessage());
+            } catch (RuntimeException e) {
+                if (io.name().equals("File")) {
+                    throw new RuntimeException();
+                } else {
+                    io.printException("__________");
                 }
             }
-        } else {
-            throw new RuntimeException("Unknown reading type");
         }
     }
+
 
 
     /**
@@ -270,94 +209,43 @@ public class ValidationWorker {
      * @return endDate
      */
     public ZonedDateTime validationEndDate(){
-        if (io.name().equals("File")){
-            String endDateConsole = io.readLine();
-            if (endDateConsole.equals("null") || endDateConsole.isBlank()) {
-                return null;
-            }
-
-            try{
-                LocalTime timeNow = LocalTime.now();
-                LocalDate date = LocalDate.parse(endDateConsole);
-                return ZonedDateTime.of(date, timeNow, ZoneId.systemDefault());
-            } catch (DateTimeParseException e) {
-                throw new RuntimeException("The date could not be parsed into the required format");}
-        }
-
-
-        if (io.name().equals("Console")) {
-            while (true) {
-
+        while (true) {
+            try {
+                io.printField("Enter dismissal date", "(format: 2026-02-15)");
+                String endDateConsole = io.readLine();
+                if (endDateConsole.equals("null") || endDateConsole.isBlank()) {
+                    return null;
+                }
                 try {
-                    //Введите дату увольнения (формат: 2026-02-15)
-                    io.printField("Enter dismissal date", "(format: 2026-02-15)");
-
-                    String endDateConsole = io.readLine();
-
-                    if (endDateConsole.equals("null") || endDateConsole.isBlank()) {
-                        return null;
-                    }
-
-                    try {
-                        LocalTime timeNow = LocalTime.now();
-                        LocalDate date = LocalDate.parse(endDateConsole);
-                        return ZonedDateTime.of(date, timeNow, ZoneId.systemDefault());
-                    } catch (DateTimeParseException e) {
+                    LocalTime timeNow = LocalTime.now();
+                    LocalDate date = LocalDate.parse(endDateConsole);
+                    return ZonedDateTime.of(date, timeNow, ZoneId.systemDefault());
+                } catch (DateTimeParseException e) {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException();
+                    } else {
                         io.printException("The date could not be parsed into the required format");
                     }
-                }catch (RuntimeException e) {
+                }
+            }catch (RuntimeException e) {
+                if (io.name().equals("File")) {
+                    throw new RuntimeException();
+                } else {
                     io.printException(e.getMessage());
                 }
             }
-        }else {
-            throw new RuntimeException("Unknown reading type");
         }
     }
 
 
-    /**
-     * The method checks if the Status object is null.
-     *
-     * @throws RuntimeException When reading a file, if the object is null
-     * @throws RuntimeException When reading from the console, if the object is null
-     * @throws RuntimeException The method may throw an exception if the reading type is unknown.
-     * @return Status
-     */
-    public Status validationNullStatus(){
-        if (io.name().equals("File")){
-            Status statusConsole = status.status();
-            if (statusConsole != null) {
-                return statusConsole;
-                //поле не заполнено, повторите попытку
-            }else{
-                throw new RuntimeException("Field is empty, please try again");
-            }
-        }
-
-        if (io.name().equals("Console")) {
-            while (true) {
-                //введите статус (поле обязательно к заполнению)
-                io.printField("Enter status", "(field is required)");
-                Status statusConsole = status.status();
-                if (statusConsole != null) {
-                    return statusConsole;
-                    //поле не заполнено, повторите попытку
-                } else {
-                    throw new RuntimeException("Field is empty, please try again");
-                }
-            }
-        }else{
-            throw new RuntimeException("Unknown reading type");
-        }
-    }
 
     /**
      * The method creates an employee considering all validations.
      * @return Worker
      */
     public Worker worker(){
-        return  new Worker(validationName(), validationNullCoordinates(),
+        return  new Worker(validationName(), coordinates.coordinates(),
                 validationSalary(), validationStartDate(), validationEndDate(),
-                validationNullStatus(), organization.organization());
+                status.status(), organization.organization());
     }
 }

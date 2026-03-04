@@ -41,7 +41,7 @@ public class AddCommand extends Commands {
         } catch (RuntimeException e){
             io.printeDesign();
             //добавить элемент не удалось
-            logger.log(Level.INFO,"Failed to add item");
+            logger.log(Level.INFO, e.getMessage());
             io.printeDesign();
         }
     }

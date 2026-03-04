@@ -17,7 +17,7 @@ import java.math.BigInteger;
  *
  * <p>The class provides methods that validate the field values.</p>
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 
 public class ValidationCoordinates {
@@ -38,69 +38,57 @@ public class ValidationCoordinates {
      * @return x
      */
     public Long validatorX() {
-
-        if (io.name().equals("File")) {
+        while (true) {
             try {
+                io.printField("Enter the first coordinate X", "(value must not exceed 10, required field)");
                 String input = io.readLine().trim();
+                if (input.equals("null") || input.trim().isEmpty()) {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("_____________________");
+                    } else {
+                        throw new ExceptionNull();
+                    }
+                }
+                BigInteger bigInteger = new BigInteger(input);
+                if (bigInteger.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0) {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("_____________________");
+                    } else {
+                        throw new ExceptionCoordinataX();
+                    }
+                }
+                if (bigInteger.compareTo(BigInteger.valueOf(Long.MIN_VALUE)) < 0) {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("_____________________");
+                    } else {
+                        throw new ExceptionBigIntegerMIN_LONG();
+                    }
+                }
                 long xConsole = Long.parseLong(input);
                 if (xConsole <= 10) {
                     return xConsole;
                 } else {
-                    throw new ExceptionCoordinataX();
-                }
-            } catch (ExceptionCoordinataX e){
-                e.getMessage();
-            } catch (RuntimeException e) {
-                throw new RuntimeException("The string contains symbols, please try again");
-            }
-        }
-
-
-        if (io.name().equals("Console")){
-            while (true) {
-                try {
-                    //Введите первую координату(значение не должно превышать 10, поле обязательно к заполнению)
-                    io.printField("Enter the first coordinate X", "(value must not exceed 10, required field)");
-                    String input = io.readLine().trim();
-
-                    if (input.equals("null") || input.trim().isEmpty()) {
-                        throw new ExceptionNull();
-                    }
-
-                    BigInteger bigInteger = new BigInteger(input);
-
-                    if (bigInteger.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0) {
-                        throw new ExceptionCoordinataX();
-                    }
-
-                    if (bigInteger.compareTo(BigInteger.valueOf(Long.MIN_VALUE)) < 0) {
-                        throw new ExceptionBigIntegerMIN_LONG();
-                    }
-
-                    long xConsole = Long.parseLong(input);
-
-
-                    if (xConsole <= 10) {
-                        return xConsole;
-                        //Введенное значение некорректно. Х не должно превышать 10
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("_____________________");
                     } else {
                         throw new ExceptionCoordinataX();
                     }
-                } catch (ExceptionNull e) {
-                    io.printException(e.getMessage());
-                } catch (ExceptionBigIntegerMAX_LONG e) {
-                    io.printException(e.getMessage());
-                }catch (ExceptionBigIntegerMIN_LONG e){
-                    io.printException(e.getMessage());
-                }catch (ExceptionCoordinataX e) {
-                    io.printException(e.getMessage());
-                } catch (RuntimeException e){
+                }
+            } catch (ExceptionNull e) {
+                io.printException(e.getMessage());
+            } catch (ExceptionBigIntegerMAX_LONG e) {
+                io.printException(e.getMessage());
+            }catch (ExceptionBigIntegerMIN_LONG e){
+                io.printException(e.getMessage());
+            }catch (ExceptionCoordinataX e) {
+                io.printException(e.getMessage());
+            } catch (RuntimeException e){
+                if (io.name().equals("File")) {
+                    throw new RuntimeException();
+                } else {
                     io.printException("The string contains symbols, please try again");
                 }
             }
-        } else {
-            //неизвестный тип чтения
-            throw new RuntimeException("Unknown reading type");
         }
     }
 
@@ -118,62 +106,49 @@ public class ValidationCoordinates {
      */
 
     public Float validatorY() {
-
-        if (io.name().equals("File")) {
+        while (true) {
             try {
+                io.printField("Enter the second coordinate Y", "(value must be greater than -644, required field)");
                 String input = io.readLine().trim();
+                if (input.equals("null") || input.trim().isEmpty()) {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("_____________________");
+                    } else {
+                        throw new ExceptionNull();
+                    }
+                }
                 String inputFloat = input.replace(',', '.');
+                BigDecimal bigDecimal = new BigDecimal(inputFloat);
+                if (bigDecimal.compareTo(BigDecimal.valueOf(Float.MAX_VALUE)) > 0) {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("_____________________");
+                    } else {
+                        throw new ExceptionBigDecimalMAX_FLOAT();
+                    }
+                }
                 float yConsole = Float.parseFloat(inputFloat);
                 if (yConsole > -644) {
                     return yConsole;
-                } //Значение введено некорректно, значение должно быть больше -644
-                else {
-                    throw new RuntimeException("Incorrect coordinate. The Y value must be greater than -644");
-                }
-            } catch (RuntimeException e) {
-                throw new RuntimeException("The string contains symbols, please try again");
-            }}
-
-        if (io.name().equals("Console")){
-            while (true) {
-                try {
-                    //Введите вторую координату У (значение должно быть больше -644, поле обязательно к заполнению)
-                    io.printField("Enter the second coordinate Y", "(value must be greater than -644, required field)");
-                    String input = io.readLine().trim();
-
-                    if (input.equals("null") || input.trim().isEmpty()){
-                        throw new ExceptionNull();
-                    }
-
-                    String inputFloat = input.replace(',', '.');
-
-                    BigDecimal bigDecimal = new BigDecimal(inputFloat);
-
-                    if (bigDecimal.compareTo(BigDecimal.valueOf(Float.MAX_VALUE)) >0) {
-                        throw new ExceptionBigDecimalMAX_FLOAT();
-                    }
-
-
-
-
-                    float yConsole = Float.parseFloat(inputFloat);
-                    if (yConsole > -644) {
-                        return yConsole;
+                } else {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException("_____________________");
                     } else {
                         throw new ExceptionCoordinateY();
                     }
-                }catch (ExceptionNull e) {
-                    io.printException(e.getMessage());
-                } catch (ExceptionBigDecimalMAX_FLOAT e) {
-                    io.printException(e.getMessage());
-                } catch (ExceptionCoordinateY e) {
-                    io.printException(e.getMessage());
-                } catch (RuntimeException e) {
+                }
+            } catch (ExceptionNull e) {
+                io.printException(e.getMessage());
+            } catch (ExceptionBigDecimalMAX_FLOAT e) {
+                io.printException(e.getMessage());
+            } catch (ExceptionCoordinateY e) {
+                io.printException(e.getMessage());
+            } catch (RuntimeException e) {
+                if (io.name().equals("File")) {
+                    throw new RuntimeException();
+                } else {
                     io.printException("The string contains symbols, please try again");
                 }
             }
-        } else {
-            throw new RuntimeException("Unknown reading type");
         }
     }
 
@@ -182,7 +157,7 @@ public class ValidationCoordinates {
      *
      * @return Coordinates
      */
-    public Coordinates сoordinates() {
+    public Coordinates coordinates() {
         return new Coordinates(validatorX(),validatorY());
     }
 }
