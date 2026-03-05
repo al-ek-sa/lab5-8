@@ -40,9 +40,7 @@ public class IOFile implements  IOProvider {
     }
 
     @Override
-    public void println(String message) {
-        System.out.println(ANSI_GREEN + message + ANSI_BRIGHT_BLUE);
-    }
+    public void println(String message) {}
 
     /**
      *The method reads data from a script. The data is read character by character and converted into words.

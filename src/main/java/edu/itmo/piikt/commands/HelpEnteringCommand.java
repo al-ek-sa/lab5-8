@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * The class implements the command help_entering_command : display help on entering available commands
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 
 public class HelpEnteringCommand {

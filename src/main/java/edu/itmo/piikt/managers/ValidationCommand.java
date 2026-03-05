@@ -3,10 +3,8 @@ package edu.itmo.piikt.managers;
 import edu.itmo.piikt.algorithms.DamerauLevenshteinDistance;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.reader.HistorySave;
-import edu.itmo.piikt.reader.InputReader;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,13 +17,26 @@ import java.util.List;
 public class ValidationCommand {
     private HistoryCommands historyCommands;
     private CommandFactory factory;
-    private IOProvider io;
+    private boolean flag;
+    private static ValidationCommand instance;
 
-    public ValidationCommand(IOProvider io) {
+    private ValidationCommand() {
         this.historyCommands = HistoryCommands.getInstance();
-        this.factory = new CommandFactory(io);
-        this.io = io;
+        this.factory = new CommandFactory();
+        this.flag = true;
     }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    public static ValidationCommand getInstance() {
+        if (instance == null) {
+            instance = new ValidationCommand();
+        }
+        return instance;
+    }
+
     /**
      * The method selects from the registered commands the command that the user entered. When entering,
      * the user can make a mistake once.
@@ -34,8 +45,8 @@ public class ValidationCommand {
      * single-word commands with one argument.
      */
 
-    public void validation() {
-        while (true) {
+    public void validation(IOProvider io) {
+        while (flag) {
             String nameCommands = io.readLine();
             HistorySave.getInstance().saveCollection();
 
@@ -75,14 +86,13 @@ public class ValidationCommand {
                     }
                 }
 
-                Command command = factory.getCommand(parts[0]);
+                SimpleCommand command = factory.getCommand(parts[0]);
                 if (command != null) {
                     command.execute(io);
                 } else if (input.equals("historyAll")) {
                     historyCommands.printHistory();
                 } else {
                     io.printeDesign();
-                    //Команда введена неверно
                     io.printException("The command was entered incorrectly");
                     io.printeDesign();
                 }

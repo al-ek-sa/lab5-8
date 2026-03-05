@@ -23,8 +23,8 @@ public class ClearCommand implements Confirmation {
     public void execute(IOProvider io) {
         if(io.name().equals("Console")){
             io.printlnCommand("Are you sure you want to clear the collection? (yes/no)");
-            String consent = confirmation(io);
-            if (consent.equals("yes")){
+            Boolean consent = confirmation(io);
+            if (consent == true) {
                 logger.log(Level.INFO,"Consent received, clearing collection");
                 HistoryWorker.getInstance(io).clear();
                 GeneratorId.getInstance(io).setStartId(1);
@@ -43,27 +43,6 @@ public class ClearCommand implements Confirmation {
 
         } else {
             io.printlnCommand("Command cancelled");
-        }
-    }
-
-    @Override
-    public String confirmation(IOProvider io){
-        try {
-            while (true) {
-                String input = io.readLine();
-                if (input.equals("yes")) {
-                    return "yes";
-                } else if (input.equals("no")) {
-                    return "no";
-                }
-                io.printException("Please enter 'yes' or 'no'");
-                io.printeDesign();
-                io.printlnCommand("Collection successfully cleared");
-            }
-        }catch (Exception e) {
-            io.printException("Failed to clear the collection");
-            io.printeDesign();
-            return null;
         }
     }
 }

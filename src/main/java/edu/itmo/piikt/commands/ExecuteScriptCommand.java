@@ -38,8 +38,7 @@ public class ExecuteScriptCommand {
                 }
                 name.add(argument);
                 IOFile script = new IOFile(argument);
-                ValidationCommand scriptValidation = new ValidationCommand(script);
-                scriptValidation.validation();
+                ValidationCommand.getInstance().validation(script);
                 logger.log(Level.INFO,"Script successfully read and executed");
             }
 
@@ -54,8 +53,7 @@ public class ExecuteScriptCommand {
                 }
                 name.add(argument);
                 IOFile script = new IOFile(argument);
-                ValidationCommand scriptValidation = new ValidationCommand(script);
-                scriptValidation.validation();
+                ValidationCommand.getInstance().validation(script);
                 name.clear();
                 io.printlnCommand("Script successfully read and executed");
             }

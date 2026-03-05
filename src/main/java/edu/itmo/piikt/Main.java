@@ -28,7 +28,7 @@ public class Main {
         help.execute(io);
         HelpEnteringCommand helpEnteringCommand = new HelpEnteringCommand();
         helpEnteringCommand.execute(io);
-        ValidationCommand validationCommand = new ValidationCommand(io);
-        validationCommand.validation();
+        ValidationCommand validationCommand = ValidationCommand.getInstance();
+        validationCommand.validation(io);
     }
 }

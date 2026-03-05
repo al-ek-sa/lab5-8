@@ -9,15 +9,13 @@ import edu.itmo.piikt.io.IOProvider;
  * A factory class for storing registered commands.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 
 public class CommandFactory {
-    private Map<String, Command> commands = new HashMap<>();
+    private Map<String, SimpleCommand> commands = new HashMap<>();
     private Map<String, ArgumentCommand> argumentCommands = new HashMap<>();
-    private IOProvider io;
-    public CommandFactory(IOProvider io) {
-        this.io = io;
+    public CommandFactory() {
         simpleCommand(Commands.ADD, new AddCommand()::execute);
         simpleCommand(Commands.CLEAR, new ClearCommand()::execute);
         simpleCommand(Commands.EXIT, new ExitCommand()::execute);
@@ -29,7 +27,7 @@ public class CommandFactory {
         simpleCommand(Commands.SAVE, new SaveCommand()::execute);
         simpleCommand(Commands.INFO, new InfoCommand()::execute);
         simpleCommand(Commands.SHOW, new ShowCommand()::execute);
-        argumentCommand (Commands.FILTER_CONTAINS_NAME, (i, arg) -> new FilterContainsNameCommand().execute(i, arg));
+        argumentCommand(Commands.FILTER_CONTAINS_NAME, (i, arg) -> new FilterContainsNameCommand().execute(i, arg));
         argumentCommand(Commands.REMOVE_BY_ID, (i, arg) -> new RemoveByIdCommand().execute(i,arg));
         argumentCommand(Commands.UPDATE, (i, arg) -> new UpdateIdCommand().execute(i, arg));
         argumentCommand(Commands.REMOVE_LOWER, (i, arg) -> new RemoveLowerCommander().execute(i, arg));
@@ -37,7 +35,7 @@ public class CommandFactory {
         simpleCommand(Commands.PRINT_FIELD_DESCENDING_END_DATE, new PrintFieldDescendingEndDataCommand()::execute);
     }
 
-    private void simpleCommand (Commands com, Command command) {
+    private void simpleCommand (Commands com, SimpleCommand command) {
         commands.put(com.getName(), command);
     }
 
@@ -49,7 +47,7 @@ public class CommandFactory {
         return argumentCommands.get(name);
     }
 
-    public Command getCommand(String name){
+    public SimpleCommand getCommand(String name){
         return  commands.get(name);
     }
 
@@ -57,8 +55,7 @@ public class CommandFactory {
         return argumentCommands;
     }
 
-    public Map<String, Command> getCommandsMap(){
+    public Map<String, SimpleCommand> getCommandsMap(){
         return commands;
     }
-
 }
