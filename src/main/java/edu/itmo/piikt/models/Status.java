@@ -6,14 +6,11 @@ package edu.itmo.piikt.models;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-
 public enum Status {
-    FIRED(1),
-    HIRED(2),
-    RECOMMENDED_FOR_PROMOTION(3),
-    PROBATION(4);
+    FIRED(1), HIRED(2), RECOMMENDED_FOR_PROMOTION(3), PROBATION(4);
     private final int id;
-    Status(int id){
+
+    Status(int id) {
         this.id = id;
     }
 

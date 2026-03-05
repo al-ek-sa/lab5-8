@@ -1,17 +1,15 @@
 package edu.itmo.piikt.algorithms;
 
-import edu.itmo.piikt.io.IOProvider;
-
 /**
  * The class implements the Damerau-Levenshtein algorithm.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-
 public class DamerauLevenshteinDistance {
-    public DamerauLevenshteinDistance(){
+    public DamerauLevenshteinDistance() {
     }
+
     public static int distance(String s1, String s2) {
         int length1 = s1.length();
         int length2 = s2.length();
@@ -27,13 +25,12 @@ public class DamerauLevenshteinDistance {
 
         for (int i = 1; i <= length1; i++) {
             for (int j = 1; j <= length2; j++) {
-                if (i > 1 && j > 1 && s1.charAt(i - 2) == s2.charAt(j - 1) &&
-                        s1.charAt(i - 1) == s2.charAt(j - 2)) {
+                if (i > 1 && j > 1 && s1.charAt(i - 2) == s2.charAt(j - 1) && s1.charAt(i - 1) == s2.charAt(j - 2)) {
                     if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
                         dl[i][j] = dl[i - 1][j - 1];
                     } else {
                         dl[i][j] = Math.min(Math.min(dl[i - 1][j], dl[i][j - 1]),
-                        Math.min(dl[i - 1][j - 1], dl[i - 2][j - 2])) + 1;
+                                Math.min(dl[i - 1][j - 1], dl[i - 2][j - 2])) + 1;
                     }
                 } else {
                     if (s1.charAt(i - 1) == s2.charAt(j - 1)) {

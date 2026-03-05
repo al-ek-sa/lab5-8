@@ -8,7 +8,6 @@ import edu.itmo.piikt.io.IOProvider;
  * @author Lishyk Aliaksandra
  * @version 2.0
  */
-
 @FunctionalInterface
 public interface ArgumentCommand {
     void execute(IOProvider io, String argument);

@@ -1,24 +1,22 @@
 package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.io.IOProvider;
-import edu.itmo.piikt.managers.Commands;
 import edu.itmo.piikt.managers.HistoryCommands;
-
 import java.util.Iterator;
-import java.util.logging.Logger;import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The class implements the command history : output the last 14 commands (without their arguments).
+ * The class implements the command history : output the last 14 commands
+ * (without their arguments).
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-
 public class HistoryCommand {
     private HistoryCommands historyCommands;
     Logger logger = Logger.getLogger(HistoryCommand.class.getName());
-    public HistoryCommand(){
+
+    public HistoryCommand() {
         this.historyCommands = HistoryCommands.getInstance();
     }
 

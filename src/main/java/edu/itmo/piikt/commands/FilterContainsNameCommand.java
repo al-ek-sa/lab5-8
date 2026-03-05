@@ -2,28 +2,28 @@ package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
-import edu.itmo.piikt.managers.ArgumentCommand;
-
-import java.util.logging.Logger;import java.util.logging.Level;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The class implements the command filter_contains_name name : output elements whose name field value contains the specified substring.
+ * The class implements the command filter_contains_name name : output elements
+ * whose name field value contains the specified substring.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-
 public class FilterContainsNameCommand {
     Logger logger = Logger.getLogger(FilterContainsNameCommand.class.getName());
-    public FilterContainsNameCommand(){}
+
+    public FilterContainsNameCommand() {
+    }
 
     public void execute(IOProvider io, String argument) {
         try {
-            logger.log(Level.INFO,"Search users by name");
+            logger.log(Level.INFO, "Search users by name");
             HistoryWorker.getInstance(io).printName(argument);
         } catch (Exception e) {
-            logger.log(Level.INFO,"Search failed");
+            logger.log(Level.INFO, "Search failed");
         }
     }
 }

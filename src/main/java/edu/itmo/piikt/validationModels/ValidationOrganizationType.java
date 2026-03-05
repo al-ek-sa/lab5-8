@@ -3,9 +3,6 @@ package edu.itmo.piikt.validationModels;
 import edu.itmo.piikt.exception.*;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.OrganizationType;
-import edu.itmo.piikt.models.Status;
-import edu.itmo.piikt.reader.InputReader;
-
 import java.math.BigInteger;
 
 /**
@@ -14,26 +11,35 @@ import java.math.BigInteger;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-
 public class ValidationOrganizationType {
     private IOProvider io;
-    public ValidationOrganizationType(IOProvider io){
+
+    public ValidationOrganizationType(IOProvider io) {
         this.io = io;
     }
 
-        /**
-         *The method returns an instance of the enum OrganizationType based on the entered instance number.
-         *
-         * @throws RuntimeException The method may throw an exception if the reading type is unknown.
-         * @throws RuntimeException When the number is not entered in the file, there are errors parsing the entered value into an int,
-         * or when the entered number is not found among the registered instance numbers.
-         * @throws ExceptionNull If no value is entered into the console or null is entered.
-         * @throws ExceptionEnum If the value entered into the console does not match the instance numbers,
-         * as well as when entering values outside the range of int.
-         * @throws RuntimeException When there are errors parsing the value entered into the console into an int.
-         * @return OrganizationType
-         */
-    public OrganizationType organizationType(){
+    /**
+     * The method returns an instance of the enum OrganizationType based on the
+     * entered instance number.
+     *
+     * @throws RuntimeException
+     *             The method may throw an exception if the reading type is unknown.
+     * @throws RuntimeException
+     *             When the number is not entered in the file, there are errors
+     *             parsing the entered value into an int, or when the entered number
+     *             is not found among the registered instance numbers.
+     * @throws ExceptionNull
+     *             If no value is entered into the console or null is entered.
+     * @throws ExceptionEnum
+     *             If the value entered into the console does not match the instance
+     *             numbers, as well as when entering values outside the range of
+     *             int.
+     * @throws RuntimeException
+     *             When there are errors parsing the value entered into the console
+     *             into an int.
+     * @return OrganizationType
+     */
+    public OrganizationType organizationType() {
         while (true) {
             io.printField("Select the organization type", "(enter its number)");
             for (OrganizationType type : OrganizationType.values()) {
@@ -41,7 +47,7 @@ public class ValidationOrganizationType {
             }
             try {
                 String idStatus = io.readLine();
-                if (idStatus.equals("null")|| idStatus.trim().isEmpty()) {
+                if (idStatus.equals("null") || idStatus.trim().isEmpty()) {
                     if (io.name().equals("File")) {
                         throw new RuntimeException("_____________________");
                     } else {
@@ -49,7 +55,8 @@ public class ValidationOrganizationType {
                     }
                 }
                 BigInteger bigInteger = new BigInteger(idStatus);
-                if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0 || bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0) {
+                if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0
+                        || bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0) {
                     if (io.name().equals("File")) {
                         throw new RuntimeException("_____________________");
                     } else {
@@ -57,7 +64,7 @@ public class ValidationOrganizationType {
                     }
                 }
                 int id = Integer.parseInt(idStatus);
-                if (id <1 || id > OrganizationType.values().length){
+                if (id < 1 || id > OrganizationType.values().length) {
                     if (io.name().equals("File")) {
                         throw new RuntimeException("_____________________");
                     } else {
@@ -69,11 +76,11 @@ public class ValidationOrganizationType {
                         return type;
                     }
                 }
-            }catch (ExceptionNull e) {
+            } catch (ExceptionNull e) {
                 io.printException(e.getMessage());
-            }catch (ExceptionEnum e) {
+            } catch (ExceptionEnum e) {
                 io.printException(e.getMessage());
-            }catch (RuntimeException e){
+            } catch (RuntimeException e) {
                 if (io.name().equals("File")) {
                     throw new RuntimeException();
                 } else {

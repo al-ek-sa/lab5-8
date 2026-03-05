@@ -1,10 +1,7 @@
 package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.io.IOProvider;
-import edu.itmo.piikt.managers.CommandFactory;
 import edu.itmo.piikt.managers.Commands;
-
-import java.util.logging.Logger;import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -14,13 +11,15 @@ import java.util.logging.Logger;
  * @version 2.0
  */
 
-//public class HelpCommand implements Command {
+// public class HelpCommand implements Command {
 public class HelpCommand {
     Logger logger = Logger.getLogger(HelpCommand.class.getName());
-    public HelpCommand(){}
+
+    public HelpCommand() {
+    }
 
     public void execute(IOProvider io) {
-        for (Commands commands : Commands.values()){
+        for (Commands commands : Commands.values()) {
             io.println(commands.getName() + ": " + commands.getDescription());
         }
     }

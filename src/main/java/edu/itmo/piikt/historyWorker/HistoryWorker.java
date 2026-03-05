@@ -1,27 +1,23 @@
 package edu.itmo.piikt.historyWorker;
 
-import edu.itmo.piikt.commands.UpdateIdCommand;
 import edu.itmo.piikt.exception.*;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.*;
-import edu.itmo.piikt.reader.InputReader;
 import edu.itmo.piikt.validationModels.GeneratorId;
 import edu.itmo.piikt.validationModels.ValidationOrganization;
 import edu.itmo.piikt.validationModels.ValidationWorker;
-
 import java.math.BigInteger;
 import java.util.*;
-import java.util.logging.Logger;import java.util.logging.Logger;import java.util.logging.Level;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A class for storing a collection with registered employees.
- * The class is a singleton.
+ * A class for storing a collection with registered employees. The class is a
+ * singleton.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-
 public class HistoryWorker {
     private IOProvider io;
     private static HistoryWorker instance;
@@ -29,6 +25,7 @@ public class HistoryWorker {
     private ValidationOrganization organization;
     LinkedList<Worker> listWorker = new LinkedList<>();
     Logger logger = Logger.getLogger(HistoryWorker.class.getName());
+
     private HistoryWorker(IOProvider io) {
         this.io = io;
         this.data = new Date();
@@ -54,13 +51,11 @@ public class HistoryWorker {
         listWorker.clear();
     }
 
-    /**
-     * The method outputs the data of the first element in the collection.
-     */
+    /** The method outputs the data of the first element in the collection. */
     public void peekFirst() {
-        if (listWorker.isEmpty()){
-            //не найдено зарегистрированных работников
-            logger.log(Level.INFO,"No registered employees found");
+        if (listWorker.isEmpty()) {
+            // не найдено зарегистрированных работников
+            logger.log(Level.INFO, "No registered employees found");
         }
 
         Iterator<Worker> iterator = listWorker.iterator();
@@ -69,17 +64,15 @@ public class HistoryWorker {
             io.println(worker1.toString());
         }
         io.printeDesign();
-        logger.log(Level.INFO,"Element displayed on the screen");
+        logger.log(Level.INFO, "Element displayed on the screen");
         io.printeDesign();
     }
 
-    /**
-     * The method outputs data of all registered employees.
-     */
+    /** The method outputs data of all registered employees. */
     public void printHistoryWorker() {
-        if (listWorker.isEmpty()){
-            //не найдено зарегистрированных работников
-            logger.log(Level.INFO,"No registered employees found");
+        if (listWorker.isEmpty()) {
+            // не найдено зарегистрированных работников
+            logger.log(Level.INFO, "No registered employees found");
         }
         Iterator<Worker> iterator = listWorker.iterator();
         while (iterator.hasNext()) {
@@ -89,21 +82,22 @@ public class HistoryWorker {
     }
 
     /**
-     *The method outputs all employees with the same name as entered by the user.
+     * The method outputs all employees with the same name as entered by the user.
      *
-     * @param nameConsole The name entered by the user.
+     * @param nameConsole
+     *            The name entered by the user.
      */
     public void printName(String nameConsole) {
         boolean flag = false;
-        for (Worker work : listWorker){
-            if (work.getName().equals(nameConsole)){
+        for (Worker work : listWorker) {
+            if (work.getName().equals(nameConsole)) {
                 flag = true;
             }
         }
 
         if (flag == false) {
-            //работников с таким именем не найдено
-            logger.log(Level.INFO,"No employees found with that name");
+            // работников с таким именем не найдено
+            logger.log(Level.INFO, "No employees found with that name");
         } else {
             flag = false;
         }
@@ -117,22 +111,22 @@ public class HistoryWorker {
             }
         }
         io.printeDesign();
-        logger.log(Level.INFO,"All users with the entered name have been displayed");
+        logger.log(Level.INFO, "All users with the entered name have been displayed");
         io.printeDesign();
     }
 
-    /**
-     * The method outputs data about the collection.
-     */
+    /** The method outputs data about the collection. */
     public void infoLiat() {
-        io.println("Collection type: " + listWorker.getClass() + "\nIdentification time: "
-                + data + "\nNumber of elements: " + listWorker.size());
+        io.println("Collection type: " + listWorker.getClass() + "\nIdentification time: " + data
+                + "\nNumber of elements: " + listWorker.size());
     }
 
     /**
-     *The method removes from the collection the element whose id is specified by the user.
+     * The method removes from the collection the element whose id is specified by
+     * the user.
      *
-     * @param idConsole The argument passed is the argument entered by the user.
+     * @param idConsole
+     *            The argument passed is the argument entered by the user.
      */
     public void removeId(int idConsole) {
         Iterator<Worker> iterator = listWorker.iterator();
@@ -146,28 +140,36 @@ public class HistoryWorker {
                 }
             }
             io.printeDesign();
-            //элемент успешно удален
-            logger.log(Level.INFO,"Item successfully deleted");
+            // элемент успешно удален
+            logger.log(Level.INFO, "Item successfully deleted");
             io.printeDesign();
         } catch (RuntimeException e) {
-            logger.log(Level.INFO,"Invalid input");
+            logger.log(Level.INFO, "Invalid input");
         }
     }
 
     /**
-     * The method replaces the element whose id is equal to the id specified by the user.
+     * The method replaces the element whose id is equal to the id specified by the
+     * user.
      *
-     * @throws RuntimeException If the user entered the id in an incorrect format.
-     * @throws ExceptionBigIntegerMAX_INTEGER If the user entered a number that exceeds the upper limit of the Integer type.
-     * @throws ExceptionId If the user entered id <= 0 or if the number exceeded the lower limit of the Integer type.
-     * @param argument The element's id is passed.
-     * @param worker A new employee object.
+     * @throws RuntimeException
+     *             If the user entered the id in an incorrect format.
+     * @throws ExceptionBigIntegerMAX_INTEGER
+     *             If the user entered a number that exceeds the upper limit of the
+     *             Integer type.
+     * @throws ExceptionId
+     *             If the user entered id <= 0 or if the number exceeded the lower
+     *             limit of the Integer type.
+     * @param argument
+     *            The element's id is passed.
+     * @param worker
+     *            A new employee object.
      */
     public void update(String argument, ValidationWorker worker) {
         try {
             // TODO
             int idNewStart = listWorker.getLast().getId() + 1;
-            //может бросить исключение
+            // может бросить исключение
             LinkedList<Worker> work = new LinkedList<>();
             Iterator<Worker> iterator = listWorker.iterator();
 
@@ -177,15 +179,15 @@ public class HistoryWorker {
                 throw new ExceptionBigIntegerMAX_INTEGER();
             }
 
-            if (bigInteger.compareTo(BigInteger.valueOf(0)) <=0) {
+            if (bigInteger.compareTo(BigInteger.valueOf(0)) <= 0) {
                 throw new ExceptionId();
             }
 
             int idConsole = Integer.parseInt(argument);
             io.printeDesign();
-            //начало обновления данных
-            logger.log(Level.INFO,"Start of data update");
-            if ((idNewStart - 1) >= idConsole){
+            // начало обновления данных
+            logger.log(Level.INFO, "Start of data update");
+            if ((idNewStart - 1) >= idConsole) {
                 while (iterator.hasNext()) {
                     Worker workerObject = iterator.next();
                     int id = workerObject.getId();
@@ -197,8 +199,8 @@ public class HistoryWorker {
                         GeneratorId.getInstance(io).setStartId(idConsole);
                         work.add(worker.worker());
                         io.printeDesign();
-                        //данные успешно обновлены
-                        logger.log(Level.INFO,"Data successfully updated");
+                        // данные успешно обновлены
+                        logger.log(Level.INFO, "Data successfully updated");
                         io.printeDesign();
                     }
                 }
@@ -207,34 +209,37 @@ public class HistoryWorker {
             }
         } catch (ExceptionNull e) {
             io.printeDesign();
-            logger.log(Level.INFO,e.getMessage());
+            logger.log(Level.INFO, e.getMessage());
             io.printeDesign();
-        } catch (ExceptionBigIntegerMAX_INTEGER e){
+        } catch (ExceptionBigIntegerMAX_INTEGER e) {
             io.printeDesign();
-            logger.log(Level.INFO,e.getMessage());
+            logger.log(Level.INFO, e.getMessage());
             io.printeDesign();
         } catch (ExceptionId e) {
             io.printeDesign();
-            logger.log(Level.INFO,e.getMessage());
+            logger.log(Level.INFO, e.getMessage());
             io.printeDesign();
         } catch (RuntimeException e) {
             io.printeDesign();
-            logger.log(Level.INFO,"The string contains symbols, please try again");
+            logger.log(Level.INFO, "The string contains symbols, please try again");
             io.printeDesign();
         }
     }
 
     /**
-     *The method outputs the number of elements whose Organization parameter is equal to what the user enters.
+     * The method outputs the number of elements whose Organization parameter is
+     * equal to what the user enters.
      *
-     * @param organization A new Organization type object created by the user is passed as a parameter.
+     * @param organization
+     *            A new Organization type object created by the user is passed as a
+     *            parameter.
      */
     public void countByOrganization(Organization organization) {
         // todo
-        //LinkedList
+        // LinkedList
         ArrayList<Worker> organizationArrayList = new ArrayList<>();
-        for (Worker worker1 : listWorker){
-            if (worker1.getOrganization() != null && worker1.getOrganization().equals(organization)){
+        for (Worker worker1 : listWorker) {
+            if (worker1.getOrganization() != null && worker1.getOrganization().equals(organization)) {
                 organizationArrayList.add(worker1);
             }
         }
@@ -245,12 +250,18 @@ public class HistoryWorker {
     }
 
     /**
-     * The method removes elements from the collection with an id less than the one specified by the user.
+     * The method removes elements from the collection with an id less than the one
+     * specified by the user.
      *
-     * @throws ExceptionId If the entered id value is less than 0 or exceeds the lower bound of the Integer type.
-     * @throws ExceptionBigIntegerMAX_INTEGER If the entered value exceeds the upper bound of the Integer type.
-     * @throws RuntimeException If the user entered the id incorrectly.
-     * @param argument The argument passed is the argument entered by the user.
+     * @throws ExceptionId
+     *             If the entered id value is less than 0 or exceeds the lower bound
+     *             of the Integer type.
+     * @throws ExceptionBigIntegerMAX_INTEGER
+     *             If the entered value exceeds the upper bound of the Integer type.
+     * @throws RuntimeException
+     *             If the user entered the id incorrectly.
+     * @param argument
+     *            The argument passed is the argument entered by the user.
      */
     public void removeLower(String argument) {
         Iterator<Worker> iterator = listWorker.iterator();
@@ -267,51 +278,51 @@ public class HistoryWorker {
 
             int idConsole = Integer.parseInt(argument);
             io.printeDesign();
-            //удаление элементов началось
-            logger.log(Level.INFO,"Deletion of items started");
+            // удаление элементов началось
+            logger.log(Level.INFO, "Deletion of items started");
             io.printeDesign();
             Worker tip = new Worker();
             tip.setId(idConsole);
-            while(iterator.hasNext()){
+            while (iterator.hasNext()) {
                 Worker worker = iterator.next();
-                if(worker.compareTo(tip) < 0){
+                if (worker.compareTo(tip) < 0) {
                     iterator.remove();
                 }
             }
             io.printeDesign();
-            //элементы успешно удалены
-            logger.log(Level.INFO,"Items successfully deleted");
+            // элементы успешно удалены
+            logger.log(Level.INFO, "Items successfully deleted");
             io.printeDesign();
             // todo
             //
-        } catch (ExceptionBigIntegerMAX_INTEGER e){
+        } catch (ExceptionBigIntegerMAX_INTEGER e) {
             io.printeDesign();
-            logger.log(Level.INFO,e.getMessage());
+            logger.log(Level.INFO, e.getMessage());
             io.printeDesign();
         } catch (ExceptionId e) {
             io.printeDesign();
-            logger.log(Level.INFO,e.getMessage());
+            logger.log(Level.INFO, e.getMessage());
             io.printeDesign();
         } catch (RuntimeException e) {
             io.printeDesign();
-            logger.log(Level.INFO,"The string contains symbols, please try again");
+            logger.log(Level.INFO, "The string contains symbols, please try again");
             io.printeDesign();
         }
     }
 
     /**
-     * The method sorts employees by endDate; if the data matches, employees are sorted by id.
+     * The method sorts employees by endDate; if the data matches, employees are
+     * sorted by id.
      */
-    public void sort(){
-        if (listWorker.isEmpty()){
-            //не найдено зарегистрированных работников
-            logger.log(Level.INFO,"No registered employees found");
+    public void sort() {
+        if (listWorker.isEmpty()) {
+            // не найдено зарегистрированных работников
+            logger.log(Level.INFO, "No registered employees found");
         }
         LinkedList<Worker> sortedList = new LinkedList<>(listWorker);
 
-
         // todo
-        //вынести с метода
+        // вынести с метода
         Comparator<Worker> workerDate = new Comparator<Worker>() {
             @Override
             public int compare(Worker worker, Worker worker1) {
@@ -332,8 +343,8 @@ public class HistoryWorker {
             io.println(iterator.next().toString());
         }
         io.printeDesign();
-        //сортировка успешно окончена
-        logger.log(Level.INFO,"Sorting completed successfully");
+        // сортировка успешно окончена
+        logger.log(Level.INFO, "Sorting completed successfully");
         io.printeDesign();
     }
 
@@ -343,22 +354,25 @@ public class HistoryWorker {
 
     /**
      * The method returns the id of the last employee in the list.
+     *
      * @return id
      */
     public int tailWorked() {
         if (listWorker.isEmpty()) {
             return 0;
-        } else{
-        return  listWorker.getLast().getId();}
+        } else {
+            return listWorker.getLast().getId();
+        }
     }
 
     /**
-     *A method that checks if there are elements in the collection with the same id
-     *  as the id entered by the user.
+     * A method that checks if there are elements in the collection with the same id
+     * as the id entered by the user.
      *
-     * @param argument The employee's id is passed as an argument.
-     * Attention! The method contains ignored exceptions, as the command works in
-     * symbiosis with other commands that do not ignore similar exceptions.
+     * @param argument
+     *            The employee's id is passed as an argument. Attention! The method
+     *            contains ignored exceptions, as the command works in symbiosis
+     *            with other commands that do not ignore similar exceptions.
      */
     public void idMatches(String argument) {
         LinkedList<Worker> workId = new LinkedList<>();
@@ -375,28 +389,27 @@ public class HistoryWorker {
 
             int idConsole = Integer.parseInt(argument);
 
-                for (Worker worker : listWorker){
-                    if (idConsole == worker.getId()){
-                        workId.add(worker);
-                    }
+            for (Worker worker : listWorker) {
+                if (idConsole == worker.getId()) {
+                    workId.add(worker);
                 }
+            }
 
-
-            if (workId.isEmpty()){
-                logger.log(Level.INFO,"No employee with this ID");
+            if (workId.isEmpty()) {
+                logger.log(Level.INFO, "No employee with this ID");
 
             } else {
                 workId.clear();
             }
 
         } catch (ExceptionNull ignored) {
-            //ignored
-        } catch (ExceptionBigIntegerMAX_INTEGER ignored){
-            //ignored
+            // ignored
+        } catch (ExceptionBigIntegerMAX_INTEGER ignored) {
+            // ignored
         } catch (ExceptionId ignored) {
-            //ignored
+            // ignored
         } catch (RuntimeException ignored) {
-            //ignored
+            // ignored
         }
     }
 }

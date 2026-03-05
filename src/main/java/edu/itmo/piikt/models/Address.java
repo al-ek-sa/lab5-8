@@ -1,8 +1,6 @@
 package edu.itmo.piikt.models;
 
 import com.opencsv.bean.CsvBindByPosition;
-import jdk.jfr.DataAmount;
-
 import java.util.Objects;
 
 /**
@@ -11,23 +9,25 @@ import java.util.Objects;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-
 public class Address {
     @CsvBindByPosition(position = 11)
-     private String street;
-     public Address(String street){
-     this.street = street;
-     }
-     public Address() {}
+    private String street;
 
-/**
- * Returns a brief description of this Address. The exact details
- * of the representation are unspecified and subject to change,
- * but the following may be regarded as typical:
- *
- * "street: street"
- */
+    public Address(String street) {
+        this.street = street;
+    }
 
+    public Address() {
+    }
+
+    /**
+     * Returns a brief description of this Address. The exact details of the
+     * representation are unspecified and subject to change, but the following may
+     * be regarded as typical:
+     *
+     * <p>
+     * "street: street"
+     */
     @Override
     public String toString() {
         return " street: " + street;
@@ -40,8 +40,10 @@ public class Address {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
         Address address = (Address) obj;
         return Objects.equals(street, address.street);
     }
@@ -53,5 +55,4 @@ public class Address {
     public void setStreet(String street) {
         this.street = street;
     }
-
 }

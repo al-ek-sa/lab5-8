@@ -2,7 +2,6 @@ package edu.itmo.piikt.models;
 
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvRecurse;
-
 import java.util.Objects;
 
 /**
@@ -11,12 +10,13 @@ import java.util.Objects;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-
-final public class Organization {
+public final class Organization {
     @CsvBindByPosition(position = 9)
     private int annualTurnover;
+
     @CsvBindByPosition(position = 10)
     private OrganizationType type;
+
     @CsvRecurse
     private Address officialAddress;
 
@@ -25,19 +25,23 @@ final public class Organization {
         this.type = type;
         this.officialAddress = officialAddress;
     }
-    public Organization(){}
+
+    public Organization() {
+    }
 
     /**
-     * Returns a brief description of this Organization. The exact details
-     * of the representation are unspecified and subject to change,
-     * but the following may be regarded as typical:
+     * Returns a brief description of this Organization. The exact details of the
+     * representation are unspecified and subject to change, but the following may
+     * be regarded as typical:
      *
-     * "annualTurnover: annualTurnover, type: type, officialAddress: officialAddress"
+     * <p>
+     * "annualTurnover: annualTurnover, type: type, officialAddress:
+     * officialAddress"
      */
-
     @Override
     public String toString() {
-        return " annualTurnover: " + annualTurnover + ", type: " + type.toString() + ", officialAddress: " + officialAddress.toString();
+        return " annualTurnover: " + annualTurnover + ", type: " + type.toString() + ", officialAddress: "
+                + officialAddress.toString();
     }
 
     @Override
@@ -47,11 +51,13 @@ final public class Organization {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() !=obj.getClass()) return  false;
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
         Organization organization = (Organization) obj;
-        return annualTurnover == organization.annualTurnover && Objects.equals(officialAddress, organization.officialAddress)
-                && type == organization.type;
+        return annualTurnover == organization.annualTurnover
+                && Objects.equals(officialAddress, organization.officialAddress) && type == organization.type;
     }
 
     public OrganizationType getType() {

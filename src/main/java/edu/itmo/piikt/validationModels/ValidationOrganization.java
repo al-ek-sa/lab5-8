@@ -2,49 +2,55 @@ package edu.itmo.piikt.validationModels;
 
 import edu.itmo.piikt.exception.*;
 import edu.itmo.piikt.io.IOProvider;
-import edu.itmo.piikt.models.Address;
 import edu.itmo.piikt.models.Organization;
-import edu.itmo.piikt.models.OrganizationType;
-
 import java.math.BigInteger;
 
 /**
  * The class generates an Organization with the specified conditions:
  *
  * <ul>
- * <li>private int annualTurnover; //Значение поля должно быть больше 0</li>
- * <li>private OrganizationType type; //Поле не может быть null</li>
- * <li>private Address officialAddress; //Поле не может быть null</li>
+ * <li>private int annualTurnover; //Значение поля должно быть больше 0
+ * <li>private OrganizationType type; //Поле не может быть null
+ * <li>private Address officialAddress; //Поле не может быть null
  * </ul>
  *
- * <p>The class provides a method that validates the field values.</p>
+ * <p>
+ * The class provides a method that validates the field values.
+ *
  * @author Lishyk Aliaksandra
  * @version 2.0
  */
-
 public class ValidationOrganization {
     private ValidationOrganizationType type;
     private ValidationAddress address;
     private IOProvider io;
-    public ValidationOrganization(IOProvider io){
+
+    public ValidationOrganization(IOProvider io) {
         this.type = new ValidationOrganizationType(io);
         this.address = new ValidationAddress(io);
         this.io = io;
     }
 
     /**
-     *The method validates the annualTurnover value.
+     * The method validates the annualTurnover value.
      *
-     * @throws RuntimeException The method may throw an exception if the reading type is unknown.
-     * @throws RuntimeException If an incorrect value is entered in the file.
-     * @throws ExceptionBigIntegerMAX_INTEGER If the value entered in the console exceeds the upper limit of the int type.
-     * @throws ExceptionAnnualTunover If the value entered in the console is not greater than zero or falls below the lower limit of the int type range.
+     * @throws RuntimeException
+     *             The method may throw an exception if the reading type is unknown.
+     * @throws RuntimeException
+     *             If an incorrect value is entered in the file.
+     * @throws ExceptionBigIntegerMAX_INTEGER
+     *             If the value entered in the console exceeds the upper limit of
+     *             the int type.
+     * @throws ExceptionAnnualTunover
+     *             If the value entered in the console is not greater than zero or
+     *             falls below the lower limit of the int type range.
      * @return annualTurnover
      */
     public int validationAnnualTurnover() {
         while (true) {
             try {
-                io.printField("Enter annual turnover", "(annual turnover must be an integer greater than 0. Field is required)");
+                io.printField("Enter annual turnover",
+                        "(annual turnover must be an integer greater than 0. Field is required)");
                 String input = io.readLine();
                 if (input.equals("null") || input.trim().isEmpty()) {
                     if (io.name().equals("File")) {
@@ -80,14 +86,13 @@ public class ValidationOrganization {
                 }
             } catch (ExceptionNull e) {
                 io.printException(e.getMessage());
-            } catch (ExceptionBigIntegerMAX_INTEGER e){
+            } catch (ExceptionBigIntegerMAX_INTEGER e) {
                 io.printException(e.getMessage());
             } catch (ExceptionBigIntegerMIN_INTEGER e) {
                 io.printException(e.getMessage());
-            }catch (ExceptionAnnualTunover e) {
+            } catch (ExceptionAnnualTunover e) {
                 io.printException(e.getMessage());
-            }
-            catch (RuntimeException e) {
+            } catch (RuntimeException e) {
                 if (io.name().equals("File")) {
                     throw new RuntimeException();
                 } else {
@@ -98,11 +103,11 @@ public class ValidationOrganization {
     }
 
     /**
-     *The method returns an Organization object with validated fields.
+     * The method returns an Organization object with validated fields.
      *
      * @return Organization
      */
-    public Organization organization(){
+    public Organization organization() {
         return new Organization(validationAnnualTurnover(), type.organizationType(), address.validationAddress());
     }
 }

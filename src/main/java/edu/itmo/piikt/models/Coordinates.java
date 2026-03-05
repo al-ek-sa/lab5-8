@@ -8,18 +8,20 @@ import com.opencsv.bean.CsvBindByPosition;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-
 public class Coordinates {
     @CsvBindByPosition(position = 2)
     private long x;
+
     @CsvBindByPosition(position = 3)
     private float y;
-    public Coordinates(long x, float y){
+
+    public Coordinates(long x, float y) {
         this.x = x;
         this.y = y;
     }
 
-    public Coordinates() {}
+    public Coordinates() {
+    }
 
     public void setY(float y) {
         this.y = y;
@@ -38,13 +40,13 @@ public class Coordinates {
     }
 
     /**
-     * Returns a brief description of this Coordinates. The exact details
-     * of the representation are unspecified and subject to change,
-     * but the following may be regarded as typical:
+     * Returns a brief description of this Coordinates. The exact details of the
+     * representation are unspecified and subject to change, but the following may
+     * be regarded as typical:
      *
+     * <p>
      * "coordinate х: x, coordinate у: y"
      */
-
     @Override
     public String toString() {
         return " coordinate х: " + x + ", coordinate у: " + y;

@@ -1,9 +1,6 @@
 package edu.itmo.piikt.io;
 
-import edu.itmo.piikt.commands.UpdateIdCommand;
-
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -16,11 +13,11 @@ import java.util.Queue;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-
-public class IOFile implements  IOProvider {
+public class IOFile implements IOProvider {
     private BufferedInputStream reading;
     private Queue<String> dataQueue = new LinkedList<>();
     private String argument;
+
     public IOFile(String nameFile) throws IOException {
         this.reading = new BufferedInputStream(new FileInputStream(nameFile));
     }
@@ -40,29 +37,29 @@ public class IOFile implements  IOProvider {
     }
 
     @Override
-    public void println(String message) {}
+    public void println(String message) {
+    }
 
     /**
-     *The method reads data from a script. The data is read character by character and converted into words.
+     * The method reads data from a script. The data is read character by character
+     * and converted into words.
      *
-     *
-     * @throws IOException If file system errors occurred.
+     * @throws IOException
+     *             If file system errors occurred.
      * @return command
      */
-
     @Override
     public String readLine() {
         try {
-            if ( !dataQueue.isEmpty()) {
+            if (!dataQueue.isEmpty()) {
                 return dataQueue.poll();
             }
-
 
             StringBuilder line = new StringBuilder();
             int byteFile;
 
-            while ((byteFile = reading.read()) != -1){
-                if (byteFile == '\n'){
+            while ((byteFile = reading.read()) != -1) {
+                if (byteFile == '\n') {
                     break;
                 }
 
@@ -71,17 +68,16 @@ public class IOFile implements  IOProvider {
 
             String command = line.toString();
 
-            if (byteFile == -1){
-                return  null;
+            if (byteFile == -1) {
+                return null;
             }
 
-            if (command.startsWith("add") && command.contains("{") ){
-                int ind = command.indexOf("{") -1;
+            if (command.startsWith("add") && command.contains("{")) {
+                int ind = command.indexOf("{") - 1;
                 String commandArgument = command.substring(0, ind);
-                String dataLIne = command.substring(ind +1);
+                String dataLIne = command.substring(ind + 1);
                 data(dataLIne);
                 return commandArgument;
-
             }
 
             return command;
@@ -91,7 +87,8 @@ public class IOFile implements  IOProvider {
     }
 
     @Override
-    public void printField(String message, String messageFiled) {}
+    public void printField(String message, String messageFiled) {
+    }
 
     @Override
     public String name() {
@@ -99,19 +96,20 @@ public class IOFile implements  IOProvider {
     }
 
     /**
-     *A method that adds data entered after the command, in curly braces, to a queue.
+     * A method that adds data entered after the command, in curly braces, to a
+     * queue.
      *
-     * @param data A string with data is passed as parameters to the method.
+     * @param data
+     *            A string with data is passed as parameters to the method.
      */
-
-    private void data(String data){
-        if (data.startsWith("{") && data.endsWith("}")){
-            data = data.substring(1,data.length()-1);
+    private void data(String data) {
+        if (data.startsWith("{") && data.endsWith("}")) {
+            data = data.substring(1, data.length() - 1);
         }
 
         String[] arguments = data.split(";");
-        for (String argument: arguments){
-            String dataEnd = argument.substring(1, argument.length()-1);
+        for (String argument : arguments) {
+            String dataEnd = argument.substring(1, argument.length() - 1);
             dataQueue.add(dataEnd);
         }
     }
