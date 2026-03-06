@@ -3,6 +3,8 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.interfaces.IdMatches;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.BaseArgumentCommand;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,25 +15,27 @@ import java.util.logging.Logger;
  * @author Lishyk Aliaksandra
  * @version 2.0
  */
-public class RemoveByIdCommand implements IdMatches {
+public final class RemoveByIdCommand implements IdMatches, BaseArgumentCommand {
     Logger logger = Logger.getLogger(RemoveByIdCommand.class.getName());
 
     public RemoveByIdCommand() {
     }
-
-    public void execute(IOProvider io, String argument) {
-        try {
-            logger.log(Level.INFO, "Deletion of item by ID started");
-            idMatches(argument, logger);
-            var listWorker = HistoryWorker.getInstance().getListWorker();
-            try {
-                listWorker.removeIf(worker -> worker.getId().equals(argument));
-            } catch (RuntimeException e) {
-                logger.log(Level.INFO, "Invalid input");
-            }
-        } catch (RuntimeException e) {
-            logger.log(Level.INFO,
-                    "Extraneous characters entered in the argument, repeat the command (the argument can only contain integers greater than 0)");
-        }
+    @Override
+    public void doExecute(IOProvider io, String argument) {
+        idMatches(argument, logger);
+        var listWorker = HistoryWorker.getInstance().getListWorker();
+        listWorker.removeIf(worker -> worker.getId().equals(argument));
     }
+
+    @Override
+    public void before() {
+        logger.log(Level.INFO, "Deletion of item by ID started");
+    }
+
+    @Override
+    public void onError(RuntimeException e) {
+        logger.log(Level.SEVERE,
+                "Extraneous characters entered in the argument, repeat the command (the argument can only contain integers greater than 0)");
+    }
+
 }

@@ -3,6 +3,7 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.interfaces.IdMatches;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.BaseArgumentCommand;
 import edu.itmo.piikt.models.Worker;
 import edu.itmo.piikt.validationModels.ValidationWorker;
 
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
  * @author Lishyk Aliaksandra
  * @version 2.0
  */
-public class UpdateIdCommand implements IdMatches {
+public final class UpdateIdCommand implements IdMatches, BaseArgumentCommand {
     Logger logger = Logger.getLogger(UpdateIdCommand.class.getName());
 
     public UpdateIdCommand() {
@@ -29,24 +30,28 @@ public class UpdateIdCommand implements IdMatches {
      * @throws RuntimeException
      *             If the user entered the id in an incorrect format.
      */
-    public void execute(IOProvider io, String argument) {
-        try {
-            UUID.fromString(argument);
+    @Override
+    public void doExecute(IOProvider io, String argument) {
+        UUID.fromString(argument);
+        idMatches(argument, logger);
+        var workers = HistoryWorker.getInstance().getListWorker();
+        workers.removeIf(w -> w.getId().equals(argument));
+        Worker newWorker = new ValidationWorker().worker(io);
+        HistoryWorker.getInstance().add(newWorker);
+    }
 
-            idMatches(argument, logger);
+    @Override
+    public void after() {
+        logger.log(Level.INFO, "Data successfully updated");
+    }
 
-            logger.log(Level.INFO, "Start of data update");
+    @Override
+    public void onError(RuntimeException e) {
+        logger.log(Level.SEVERE, "Invalid UUID format");
+    }
 
-            var workers = HistoryWorker.getInstance().getListWorker();
-            workers.removeIf(w -> w.getId().equals(argument));
-
-            Worker newWorker = new ValidationWorker().worker(io);
-            HistoryWorker.getInstance().add(newWorker);
-
-            logger.log(Level.INFO, "Data successfully updated");
-
-        } catch (IllegalArgumentException e) {
-            logger.log(Level.INFO, "Invalid UUID format");
-        }
+    @Override
+    public void before() {
+        logger.log(Level.INFO, "Start of data update");
     }
 }

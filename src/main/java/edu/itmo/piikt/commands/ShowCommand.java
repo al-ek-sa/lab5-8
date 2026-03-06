@@ -3,6 +3,8 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.interfaces.FindWorker;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.BaseSimpleCommand;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,22 +15,32 @@ import java.util.logging.Logger;
  * @author Lishyk Aliaksandra
  * @version 2.0
  */
-public class ShowCommand implements FindWorker {
+public final class ShowCommand implements FindWorker, BaseSimpleCommand {
     Logger logger = Logger.getLogger(ShowCommand.class.getName());
 
     public ShowCommand() {
     }
 
     /** The method outputs data of all registered employees. */
-    public void execute(IOProvider io) {
-        try {
-            var list = HistoryWorker.getInstance().getListWorker();
-            logger.log(Level.INFO, "Displaying collection");
-            findWorker(logger);
-            list.forEach(worker -> io.println(worker.toString()));
-            logger.log(Level.INFO, "Collection displayed");
-        } catch (Exception e) {
-            logger.log(Level.INFO, "Displaying collection interrupted");
-        }
+    @Override
+    public void doExecute(IOProvider io) {
+        var list = HistoryWorker.getInstance().getListWorker();
+        findWorker(logger);
+        list.forEach(worker -> io.println(worker.toString()));
+    }
+
+    @Override
+    public void before() {
+        logger.log(Level.INFO, "Displaying collection");
+    }
+
+    @Override
+    public void onError(RuntimeException e) {
+        logger.log(Level.SEVERE, "Displaying collection interrupted");
+    }
+
+    @Override
+    public void after() {
+        logger.log(Level.INFO, "Collection displayed");
     }
 }

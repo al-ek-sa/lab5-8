@@ -30,6 +30,6 @@ public class Main {
         HelpEnteringCommand helpEnteringCommand = new HelpEnteringCommand();
         helpEnteringCommand.execute(io);
         ValidationCommand validationCommand = ValidationCommand.getInstance();
-        validationCommand.validation(io);
+        validationCommand.validation(io, logger);
     }
 }

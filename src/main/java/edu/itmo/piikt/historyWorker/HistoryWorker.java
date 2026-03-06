@@ -2,7 +2,6 @@ package edu.itmo.piikt.historyWorker;
 
 import edu.itmo.piikt.exception.*;
 import edu.itmo.piikt.models.*;
-import edu.itmo.piikt.validationModels.ValidationOrganization;
 import java.util.*;
 import java.util.logging.Logger;
 

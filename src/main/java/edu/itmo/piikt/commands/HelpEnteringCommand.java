@@ -1,6 +1,7 @@
 package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.BaseSimpleCommand;
 import edu.itmo.piikt.managers.Commands;
 
 /**
@@ -10,11 +11,11 @@ import edu.itmo.piikt.managers.Commands;
  * @author Lishyk Aliaksandra
  * @version 2.0
  */
-public class HelpEnteringCommand {
+public final class HelpEnteringCommand implements BaseSimpleCommand {
     public HelpEnteringCommand() {
     }
-
-    public void execute(IOProvider io) {
+    @Override
+    public void doExecute(IOProvider io) {
         for (Commands commands : Commands.values()) {
             io.println(commands.getName() + ": " + commands.getHelp());
         }

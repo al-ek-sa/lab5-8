@@ -1,8 +1,9 @@
 package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.BaseSimpleCommand;
 import edu.itmo.piikt.managers.HistoryCommands;
-import java.util.Iterator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -10,26 +11,31 @@ import java.util.logging.Logger;
  * (without their arguments).
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
-public class HistoryCommand {
-    private HistoryCommands historyCommands;
+public final class HistoryCommand implements BaseSimpleCommand {
     Logger logger = Logger.getLogger(HistoryCommand.class.getName());
 
     public HistoryCommand() {
-        this.historyCommands = HistoryCommands.getInstance();
+    }
+    @Override
+    public void doExecute(IOProvider io) {
+        var history = HistoryCommands.getInstance().getLinkedList();
+        history.stream().limit(14).forEach(io::println);
     }
 
-    public void execute(IOProvider io) {
-        try {
-            io.printlnCommand("Displaying the last 14 commands");
-            Iterator<String> iterator = historyCommands.getIterator();
-            for (int i = 1; i <= 14 && iterator.hasNext(); i++) {
-                String command = iterator.next();
-            }
-            io.printlnCommand("Commands displayed successfully");
-        } catch (Exception e) {
-            io.printException("Command not executed");
-        }
+    @Override
+    public void before() {
+        logger.log(Level.INFO, "Displaying the last 14 commands");
+    }
+
+    @Override
+    public void after() {
+        logger.log(Level.INFO, "Commands displayed successfully");
+    }
+
+    @Override
+    public void onError(RuntimeException e) {
+        logger.log(Level.SEVERE, "Command not executed");
     }
 }

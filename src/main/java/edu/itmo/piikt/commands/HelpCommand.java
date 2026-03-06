@@ -1,6 +1,7 @@
 package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.BaseSimpleCommand;
 import edu.itmo.piikt.managers.Commands;
 import java.util.logging.Logger;
 
@@ -12,13 +13,13 @@ import java.util.logging.Logger;
  */
 
 // public class HelpCommand implements Command {
-public class HelpCommand {
+public final class HelpCommand implements BaseSimpleCommand {
     Logger logger = Logger.getLogger(HelpCommand.class.getName());
 
     public HelpCommand() {
     }
-
-    public void execute(IOProvider io) {
+    @Override
+    public void doExecute(IOProvider io) {
         for (Commands commands : Commands.values()) {
             io.println(commands.getName() + ": " + commands.getDescription());
         }

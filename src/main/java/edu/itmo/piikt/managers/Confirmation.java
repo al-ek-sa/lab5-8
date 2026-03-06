@@ -11,18 +11,29 @@ import edu.itmo.piikt.io.IOProvider;
  */
 public interface Confirmation {
     default Boolean confirmation(IOProvider io) {
-        while (true) {
-            String input = io.readLine();
-            for (Agreement agree : Agreement.values()) {
-                if (input.equals(agree.getName())) {
-                    return true;
+        if (io.name().equals("Console")) {
+            io.printeDesign();
+            question(io);
+            while (true) {
+                String input = io.readLine();
+                for (Agreement agree : Agreement.values()) {
+                    if (input.equals(agree.getName())) {
+                        return true;
+                    }
+                }
+                for (Refusal fals : Refusal.values()) {
+                    if (input.equals(fals.getName())) {
+                        refusal();
+                        return false;
+
+                    }
                 }
             }
-            for (Refusal fals : Refusal.values()) {
-                if (input.equals(fals.getName())) {
-                    return false;
-                }
-            }
+        } else {
+            return true;
         }
     }
+
+    void question(IOProvider io);
+    void refusal();
 }

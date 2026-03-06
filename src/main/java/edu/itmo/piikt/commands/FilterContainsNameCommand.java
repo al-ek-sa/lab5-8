@@ -2,6 +2,8 @@ package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.BaseArgumentCommand;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,7 +14,7 @@ import java.util.logging.Logger;
  * @author Lishyk Aliaksandra
  * @version 2.0
  */
-public class FilterContainsNameCommand {
+public final class FilterContainsNameCommand implements BaseArgumentCommand {
     Logger logger = Logger.getLogger(FilterContainsNameCommand.class.getName());
 
     public FilterContainsNameCommand() {
@@ -23,15 +25,26 @@ public class FilterContainsNameCommand {
      * @param argument
      *            The name entered by the user.
      */
-    public void execute(IOProvider io, String argument) {
-        try {
-            logger.log(Level.INFO, "Search users by name");
-            var list = HistoryWorker.getInstance().getListWorker();
-            list.stream().filter(worker -> worker.getName() != null).filter(worker -> worker.getName().equals(argument))
-                    .forEach(worker -> io.println(worker.toString()));
-            logger.log(Level.INFO, "All users with the entered name have been displayed");
-        } catch (Exception e) {
-            logger.log(Level.INFO, "Search failed");
-        }
+    @Override
+    public void doExecute(IOProvider io, String argument) {
+
+        var list = HistoryWorker.getInstance().getListWorker();
+        list.stream().filter(worker -> worker.getName() != null).filter(worker -> worker.getName().equals(argument))
+                .forEach(worker -> io.println(worker.toString()));
+    }
+
+    @Override
+    public void before() {
+        logger.log(Level.INFO, "Search users by name");
+    }
+
+    @Override
+    public void after() {
+        logger.log(Level.INFO, "All users with the entered name have been displayed");
+    }
+
+    @Override
+    public void onError(RuntimeException e) {
+        logger.log(Level.SEVERE, "Search failed");
     }
 }

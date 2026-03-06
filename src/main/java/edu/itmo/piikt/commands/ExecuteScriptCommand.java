@@ -3,6 +3,7 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.exception.ExceptionScript;
 import edu.itmo.piikt.io.IOFile;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.BaseArgumentCommand;
 import edu.itmo.piikt.managers.ValidationCommand;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,49 +19,45 @@ import java.util.logging.Logger;
  * @author Lishyk Aliaksandra
  * @version 2.0
  */
-public class ExecuteScriptCommand {
-    private static final List<String> name = new ArrayList<>();
+public final class ExecuteScriptCommand implements BaseArgumentCommand {
+    private final List<String> name = new ArrayList<>();
     Logger logger = Logger.getLogger(ExecuteScriptCommand.class.getName());
 
     public ExecuteScriptCommand() {
     }
-
-    public void execute(IOProvider io, String argument) {
+    @Override
+    public void doExecute(IOProvider io, String argument) {
         try {
-            if (io.name().equals("File")) {
-                logger.log(Level.INFO, "Start of script reading");
-                for (String nameFile : name) {
-                    if (nameFile.equals(argument)) {
-                        throw new ExceptionScript();
-                    }
-                }
-                name.add(argument);
-                IOFile script = new IOFile(argument);
-                ValidationCommand.getInstance().validation(script);
-                logger.log(Level.INFO, "Script successfully read and executed");
-            }
-
             if (io.name().equals("Console")) {
                 name.clear();
-                io.printlnCommand("Start of script reading");
-                for (String nameFile : name) {
-                    if (nameFile.equals(argument)) {
-                        io.printException("Error in file:" + name.getLast());
-                        throw new ExceptionScript();
-                    }
-                }
-                name.add(argument);
-                IOFile script = new IOFile(argument);
-                ValidationCommand.getInstance().validation(script);
-                name.clear();
-                io.printlnCommand("Script successfully read and executed");
             }
+            for (String nameFile : name) {
+                if (nameFile.equals(argument)) {
+                    throw new ExceptionScript();
+                }
+            }
+            name.add(argument);
+            IOFile script = new IOFile(argument);
+            ValidationCommand.getInstance().validation(script, logger);
         } catch (ExceptionScript e) {
-            io.printError(e.getMessage() + argument + ")");
+            logger.log(Level.SEVERE, e.getMessage() + argument);
         } catch (IOException e) {
-            io.printException("Error, script not read");
-        } catch (Exception e) {
-            io.printError(e.getMessage());
+            logger.log(Level.SEVERE, "Error, script not read");
         }
+    }
+
+    @Override
+    public void onError(RuntimeException e) {
+        logger.log(Level.SEVERE, e.getMessage());
+    }
+
+    @Override
+    public void before() {
+        logger.log(Level.INFO, "Start of script reading");
+    }
+
+    @Override
+    public void after() {
+        logger.log(Level.INFO, "Script successfully read and executed");
     }
 }

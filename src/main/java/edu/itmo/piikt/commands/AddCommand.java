@@ -2,6 +2,7 @@ package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.BaseSimpleCommand;
 import edu.itmo.piikt.validationModels.ValidationWorker;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,20 +16,29 @@ import java.util.logging.Logger;
  */
 
 // public class AddCommand implements Command {
-public class AddCommand {
+public final class AddCommand implements BaseSimpleCommand {
     Logger logger = Logger.getLogger(AddCommand.class.getName());
 
     public AddCommand() {
     }
-
-    public void execute(IOProvider io) {
+    @Override
+    public void doExecute(IOProvider io) {
         ValidationWorker worker = new ValidationWorker();
-        try {
-            logger.log(Level.INFO, "Start adding an item");
-            HistoryWorker.getInstance().add(worker.worker(io));
-            logger.log(Level.INFO, "Item successfully added");
-        } catch (RuntimeException e) {
-            logger.log(Level.INFO, e.getMessage());
-        }
+        HistoryWorker.getInstance().add(worker.worker(io));
+    }
+
+    @Override
+    public void before() {
+        logger.log(Level.INFO, "Item successfully added");
+    }
+
+    @Override
+    public void after() {
+        logger.log(Level.INFO, "Start adding an item");
+    }
+
+    @Override
+    public void onError(RuntimeException e) {
+        logger.log(Level.SEVERE, e.getMessage());
     }
 }

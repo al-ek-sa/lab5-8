@@ -2,6 +2,7 @@ package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.managers.BaseArgumentCommand;
 
 import java.util.UUID;
 import java.util.logging.Level;
@@ -12,27 +13,35 @@ import java.util.logging.Logger;
  * collection all elements that are lower than the specified one.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
-public class RemoveLowerCommander {
+public final class RemoveLowerCommander implements BaseArgumentCommand {
     Logger logger = Logger.getLogger(RemoveLowerCommander.class.getName());
 
     public RemoveLowerCommander() {
     }
-
-    public void execute(IOProvider io, String argument) {
+    @Override
+    public void doExecute(IOProvider io, String argument) {
         var listWorker = HistoryWorker.getInstance().getListWorker();
-        try {
-            UUID input = UUID.fromString(argument);
-            logger.log(Level.INFO, "Deletion of items started");
-            listWorker.removeIf(worker -> {
-                UUID workerUuid = UUID.fromString(worker.getId());
-                return workerUuid.compareTo(input) < 0;
-            });
-            logger.log(Level.INFO, "Items successfully deleted");
-            // todo
-        } catch (IllegalArgumentException e) {
-            logger.log(Level.INFO, "Invalid UUID format");
-        }
+        UUID input = UUID.fromString(argument);
+        listWorker.removeIf(worker -> {
+            UUID workerUuid = UUID.fromString(worker.getId());
+            return workerUuid.compareTo(input) < 0;
+        });
+    }
+
+    @Override
+    public void after() {
+        logger.log(Level.INFO, "Items successfully deleted");
+    }
+
+    @Override
+    public void onError(RuntimeException e) {
+        logger.log(Level.SEVERE, "Invalid UUID format");
+    }
+
+    @Override
+    public void before() {
+        logger.log(Level.INFO, "Deletion of items started");
     }
 }

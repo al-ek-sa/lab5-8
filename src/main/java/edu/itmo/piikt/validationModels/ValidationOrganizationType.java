@@ -51,6 +51,7 @@ public class ValidationOrganizationType {
                         throw new ExceptionNull();
                     }
                 }
+
                 BigInteger bigInteger = new BigInteger(idStatus);
                 if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0
                         || bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0) {
@@ -60,6 +61,7 @@ public class ValidationOrganizationType {
                         throw new ExceptionEnum();
                     }
                 }
+
                 int id = Integer.parseInt(idStatus);
                 if (id < 1 || id > OrganizationType.values().length) {
                     if (io.name().equals("File")) {
