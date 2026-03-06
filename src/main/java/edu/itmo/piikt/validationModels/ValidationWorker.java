@@ -64,9 +64,8 @@ public class ValidationWorker {
     public String validationName(IOProvider io) {
         if (io.name().equals("File")) {
             String nameConsole = io.readLine();
-            if (!nameConsole.isBlank() && !nameConsole.equals("null")) {
+            if (!(nameConsole == null || nameConsole.isBlank() || "null".equalsIgnoreCase(nameConsole.trim()))) {
                 return nameConsole;
-                // Поле не введено, повторите попытку
             } else {
                 throw new RuntimeException("Field not entered, please try again");
             }
@@ -75,7 +74,6 @@ public class ValidationWorker {
         if (io.name().equals("Console")) {
             while (true) {
                 try {
-                    // Введите имя (поле обязательно для заполнения)
                     io.printField("Enter name", "(field is required)");
                     String nameConsole = io.readLine();
                     if (!nameConsole.isBlank() && !nameConsole.equals("null")) {
@@ -117,7 +115,7 @@ public class ValidationWorker {
             io.printField("Enter salary", "(value must be greater than 0)");
             try {
                 String input = io.readLine();
-                if (input.isEmpty() || input.equals("null")) {
+                if (input == null || input.isBlank() || "null".equalsIgnoreCase(input.trim())) {
                     return null;
                 }
                 String inputFloat = input.replace(',', '.');
@@ -179,14 +177,13 @@ public class ValidationWorker {
             try {
                 io.printField("Enter start date", "(format: 2024-01-15, field is required)");
                 String startDateConsole = io.readLine();
-                if (startDateConsole.equals("null") || startDateConsole.isBlank()) {
+                if (startDateConsole == null || startDateConsole.isBlank() || "null".equalsIgnoreCase(startDateConsole.trim())) {
                     if (io.name().equals("File")) {
                         throw new RuntimeException();
                     } else {
                         throw new ExceptionNull();
                     }
                 }
-                if (!startDateConsole.equals("null") && !startDateConsole.isBlank()) {
                     try {
                         LocalDate format = LocalDate.parse(startDateConsole);
                         return format;
@@ -197,13 +194,6 @@ public class ValidationWorker {
                             io.printException("Invalid input, please enter the value again");
                         }
                     }
-                } else {
-                    if (io.name().equals("File")) {
-                        throw new RuntimeException();
-                    } else {
-                        throw new ExceptionDate();
-                    }
-                }
             } catch (ExceptionNull e) {
                 io.printException(e.getMessage());
             } catch (ExceptionDate e) {
@@ -232,7 +222,7 @@ public class ValidationWorker {
             try {
                 io.printField("Enter dismissal date", "(format: 2026-02-15)");
                 String endDateConsole = io.readLine();
-                if (endDateConsole.equals("null") || endDateConsole.isBlank()) {
+                if (endDateConsole == null || endDateConsole.isBlank() || "null".equalsIgnoreCase(endDateConsole.trim())) {
                     return null;
                 }
                 try {

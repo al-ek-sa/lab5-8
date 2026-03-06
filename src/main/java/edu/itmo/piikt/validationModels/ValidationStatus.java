@@ -38,24 +38,20 @@ public class ValidationStatus {
      */
     public Status status(IOProvider io) {
         while (true) {
-            // выберите статус (введите его номер)
             io.printField("Select the status", "(enter its number)");
             for (Status status : Status.values()) {
                 io.println("(" + status.getId() + ") " + status.name());
             }
             try {
                 String idStatus = io.readLine();
-
-                if (idStatus.equals("null") || idStatus.trim().isEmpty()) {
+                if (idStatus == null || idStatus.isBlank() || "null".equalsIgnoreCase(idStatus.trim())) {
                     if (io.name().equals("File")) {
                         throw new RuntimeException("_______________________________");
                     } else {
                         throw new ExceptionNull();
                     }
                 }
-
                 BigInteger bigInteger = new BigInteger(idStatus);
-
                 if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0
                         || bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0) {
                     if (io.name().equals("File")) {
@@ -65,7 +61,6 @@ public class ValidationStatus {
                     }
                 }
                 int id = Integer.parseInt(idStatus);
-
                 if (id < 1 || id > Status.values().length) {
                     if (io.name().equals("File")) {
                         throw new RuntimeException("________________________________");
@@ -73,7 +68,6 @@ public class ValidationStatus {
                         throw new ExceptionEnum();
                     }
                 }
-
                 for (Status status : Status.values()) {
                     if (status.getId() == id) {
                         return status;

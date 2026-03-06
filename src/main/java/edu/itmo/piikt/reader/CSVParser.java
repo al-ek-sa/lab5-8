@@ -76,9 +76,8 @@ public class CSVParser {
                         .withThrowExceptions(false).build();
                 List<Worker> workers = csvReader.parse();
                 HistoryWorker historyWorker = HistoryWorker.getInstance();
-                for (Worker worker : workers) {
-                    historyWorker.add(worker);
-                }
+
+                workers.forEach(historyWorker::add);
 
             } catch (FileNotFoundException e) {
                 io.printError("нет прав доступа в файл");

@@ -14,7 +14,6 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class HistorySave {
-    private IOProvider io;
     private String fileName;
     private static HistorySave instance;
 
@@ -38,14 +37,11 @@ public class HistorySave {
      * @throws Exception
      *             If file system errors occurred.
      */
-    public void saveCollection() {
-        List<String> commands = HistoryCommands.getInstance().getLinkedList();
+    public void saveCollection(IOProvider io) {
+        var commands = HistoryCommands.getInstance().getLinkedList();
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
-            for (String command : commands) {
-                writer.println(command);
-            }
-
+            commands.forEach(writer::println);
         } catch (Exception e) {
             io.printError(e.getMessage());
         }
@@ -58,7 +54,7 @@ public class HistorySave {
      * @throws Exception
      *             If file system errors occurred.
      */
-    public void readFile() {
+    public void readFile(IOProvider io) {
         try (Scanner scanner = new Scanner(new File(fileName))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();

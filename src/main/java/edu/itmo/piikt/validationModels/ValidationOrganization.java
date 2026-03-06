@@ -50,7 +50,7 @@ public class ValidationOrganization {
                 io.printField("Enter annual turnover",
                         "(annual turnover must be an integer greater than 0. Field is required)");
                 String input = io.readLine();
-                if (input.equals("null") || input.trim().isEmpty()) {
+                if (input == null || input.isBlank() || "null".equalsIgnoreCase(input.trim())) {
                     if (io.name().equals("File")) {
                         throw new RuntimeException("_____________________");
                     } else {

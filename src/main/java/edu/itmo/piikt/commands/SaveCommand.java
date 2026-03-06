@@ -19,8 +19,6 @@ public final class SaveCommand implements BaseSimpleCommand {
     }
     @Override
     public void doExecute(IOProvider io) {
-        logger.log(Level.INFO, "Saving data to file started");
-        io.printeDesign();
         CSVParser csvParser = new CSVParser();
         csvParser.saveCollection();
     }

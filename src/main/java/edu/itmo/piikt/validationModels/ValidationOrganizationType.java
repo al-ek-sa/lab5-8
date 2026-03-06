@@ -44,7 +44,7 @@ public class ValidationOrganizationType {
             }
             try {
                 String idStatus = io.readLine();
-                if (idStatus.equals("null") || idStatus.trim().isEmpty()) {
+                if (idStatus == null || idStatus.isBlank() || "null".equalsIgnoreCase(idStatus.trim())) {
                     if (io.name().equals("File")) {
                         throw new RuntimeException("_____________________");
                     } else {

@@ -48,9 +48,9 @@ public class ValidationCommand {
         while (flag) {
             try {
                 String nameCommands = io.readLine();
-                HistorySave.getInstance().saveCollection();
+                HistorySave.getInstance().saveCollection(io);
 
-                if (nameCommands == null) {
+                if (nameCommands == null || nameCommands.isBlank() || "null".equalsIgnoreCase(nameCommands.trim())) {
                     break;
                 }
 
@@ -66,47 +66,48 @@ public class ValidationCommand {
                     }
                 }
 
+                var argumentKey = factory.getArgumentMap().keySet();
+                var simpleKey = factory.getCommandsMap().keySet();
+
+
                 String[] parts = parts2.toArray(new String[0]);
 
                 if (parts.length == 1) {
-
-                    for (String com2 : factory.getArgumentMap().keySet()) {
+                    argumentKey.forEach(com2 ->{
                         if (DamerauLevenshteinDistance.distance(parts[0], com2) <= 1) {
                             io.printException("The command (" + com2 + ") must contain arguments");
                         }
-                    }
+                    });
 
-                    for (String com1 : factory.getCommandsMap().keySet()) {
+                    simpleKey.forEach(com1 ->{
                         if (DamerauLevenshteinDistance.distance(parts[0], com1) <= 1) {
                             parts[0] = com1;
                         }
-                    }
-
+                    });
                     SimpleCommand command = factory.getCommand(parts[0]);
                     if (command != null) {
-                        command.execute(io);
-                    } else if (input.equals("historyAll")) {
+                    command.execute(io);}
+                    else
+                    if (input.equals("historyAll")) {
                         historyCommands.printHistory();
                     } else {
                         io.printException("The command was entered incorrectly");
                     }
                 } else if (parts.length == 2) {
-                    String commandName = parts[0];
                     String argument = parts[1];
 
-                    for (String com1 : factory.getCommandsMap().keySet()) {
-                        if (DamerauLevenshteinDistance.distance(commandName, com1) <= 1) {
+                    argumentKey.forEach(com1 -> {
+                        if (DamerauLevenshteinDistance.distance(parts[0], com1) <= 1) {
                             io.printException("The command (" + com1 + ") must not contain arguments");
                         }
-                    }
+                    });
 
-                    for (String com2 : factory.getArgumentMap().keySet()) {
-                        if (DamerauLevenshteinDistance.distance(commandName, com2) <= 1) {
-                            commandName = com2;
+                    simpleKey.forEach(com2 -> {
+                        if (DamerauLevenshteinDistance.distance(parts[0], com2) <= 1) {
+                            parts[0] = com2;
                         }
-                    }
-
-                    ArgumentCommand argumentCommand = factory.getArgumentCommand(commandName);
+                    });
+                    ArgumentCommand argumentCommand = factory.getArgumentCommand(parts[0]);
                     if (argumentCommand != null) {
                         if (argument.trim().isEmpty()) {
                             io.printException("The command must contain arguments");

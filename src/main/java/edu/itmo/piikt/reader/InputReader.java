@@ -21,8 +21,7 @@ public class InputReader {
 
     public static InputReader getInstance() {
         if (instance == null) {
-            InputReader inputReader = new InputReader();
-            instance = inputReader;
+            instance = new InputReader();
         }
         return instance;
     }

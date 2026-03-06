@@ -31,11 +31,11 @@ public final class ExecuteScriptCommand implements BaseArgumentCommand {
             if (io.name().equals("Console")) {
                 name.clear();
             }
-            for (String nameFile : name) {
+            name.forEach(nameFile -> {
                 if (nameFile.equals(argument)) {
                     throw new ExceptionScript();
                 }
-            }
+            });
             name.add(argument);
             IOFile script = new IOFile(argument);
             ValidationCommand.getInstance().validation(script, logger);

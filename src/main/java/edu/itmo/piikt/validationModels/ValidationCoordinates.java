@@ -46,8 +46,8 @@ public class ValidationCoordinates {
         while (true) {
             try {
                 io.printField("Enter the first coordinate X", "(value must not exceed 10, required field)");
-                String input = io.readLine().trim();
-                if (input.equals("null") || input.trim().isEmpty()) {
+                String input = io.readLine();
+                if (input == null || input.isBlank() || "null".equalsIgnoreCase(input.trim())) {
                     if (io.name().equals("File")) {
                         throw new RuntimeException("_____________________");
                     } else {
@@ -123,8 +123,8 @@ public class ValidationCoordinates {
         while (true) {
             try {
                 io.printField("Enter the second coordinate Y", "(value must be greater than -644, required field)");
-                String input = io.readLine().trim();
-                if (input.equals("null") || input.trim().isEmpty()) {
+                String input = io.readLine();
+                if (input == null || input.isBlank() || "null".equalsIgnoreCase(input.trim())) {
                     if (io.name().equals("File")) {
                         throw new RuntimeException("_____________________");
                     } else {

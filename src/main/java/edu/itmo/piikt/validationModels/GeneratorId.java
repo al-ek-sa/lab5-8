@@ -23,7 +23,7 @@ public class GeneratorId {
     }
 
     /**
-     * The getter returns the ID and then increments it by 1.
+     * The getter returns the ID.
      *
      * @return id
      */
