@@ -2,6 +2,8 @@ package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
+
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,10 +21,18 @@ public class RemoveLowerCommander {
     }
 
     public void execute(IOProvider io, String argument) {
+        var listWorker = HistoryWorker.getInstance().getListWorker();
         try {
-            HistoryWorker.getInstance().removeLower(argument);
-        } catch (RuntimeException e) {
-            logger.log(Level.INFO, "Items deletion denied");
+            UUID input = UUID.fromString(argument);
+            logger.log(Level.INFO, "Deletion of items started");
+            listWorker.removeIf(worker -> {
+                UUID workerUuid = UUID.fromString(worker.getId());
+                return workerUuid.compareTo(input) < 0;
+            });
+            logger.log(Level.INFO, "Items successfully deleted");
+            // todo
+        } catch (IllegalArgumentException e) {
+            logger.log(Level.INFO, "Invalid UUID format");
         }
     }
 }

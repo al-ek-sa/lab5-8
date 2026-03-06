@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * format as the user enters them in interactive mode.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 public class ExecuteScriptCommand {
     private static final List<String> name = new ArrayList<>();

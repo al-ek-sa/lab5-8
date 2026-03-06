@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  * specified one.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 public class CountByOrganizationCommand {
     Logger logger = Logger.getLogger(CountByOrganizationCommand.class.getName());
@@ -20,11 +20,20 @@ public class CountByOrganizationCommand {
     public CountByOrganizationCommand() {
     }
 
+    /**
+     * The method outputs the number of elements whose Organization parameter is
+     * equal to what the user enters.
+     */
+
     public void execute(IOProvider io) {
         try {
             ValidationOrganization organization = new ValidationOrganization();
             logger.log(Level.INFO, "Enter all values for Organization");
-            HistoryWorker.getInstance().countByOrganization(organization.organization(io), io);
+            var listWorker = HistoryWorker.getInstance().getListWorker();
+            // todo
+            long size = listWorker.stream().filter(worker -> worker.getOrganization() != null)
+                    .filter(worker -> worker.getOrganization().equals(organization)).count();
+            io.printlnInt((int) size);
             logger.log(Level.INFO, "Number of elements displayed successfully");
         } catch (RuntimeException e) {
             logger.log(Level.INFO, "Execution error, elements not displayed");

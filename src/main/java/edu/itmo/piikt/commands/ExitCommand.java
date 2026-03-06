@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  * to a file).
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 public class ExitCommand implements SimpleCommand, Confirmation {
     Logger logger = Logger.getLogger(ExitCommand.class.getName());

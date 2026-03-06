@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * The class implements the command clear : clear the collection.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 public class ClearCommand implements Confirmation {
     Logger logger = Logger.getLogger(ClearCommand.class.getName());

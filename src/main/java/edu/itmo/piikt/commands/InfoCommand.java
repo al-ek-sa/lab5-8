@@ -11,18 +11,21 @@ import java.util.logging.Logger;
  * of elements, etc.).
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 public class InfoCommand {
     Logger logger = Logger.getLogger(InfoCommand.class.getName());
 
     public InfoCommand() {
     }
-
+    /** The method outputs data about the collection. */
     public void execute(IOProvider io) {
         try {
             logger.log(Level.INFO, "Displaying information about the collection");
-            HistoryWorker.getInstance().infoLiat(io);
+            var listWorker = HistoryWorker.getInstance().getListWorker();
+            var data = HistoryWorker.getInstance().getData();
+            io.println("Collection type: " + listWorker.getClass() + "\nIdentification time: " + data
+                    + "\nNumber of elements: " + listWorker.size());
             logger.log(Level.INFO, "Information successfully displayed");
         } catch (Exception e) {
             io.printException("Information not displayed");
