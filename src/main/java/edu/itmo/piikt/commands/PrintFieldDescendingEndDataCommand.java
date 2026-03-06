@@ -21,7 +21,7 @@ public class PrintFieldDescendingEndDataCommand {
     public void execute(IOProvider io) {
         try {
             logger.log(Level.INFO, "Sorting by date of dismissal started");
-            HistoryWorker.getInstance(io).sort();
+            HistoryWorker.getInstance().sort(io);
         } catch (Exception e) {
             io.printException("Failed to sort");
         }

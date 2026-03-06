@@ -3,7 +3,6 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.Confirmation;
-import edu.itmo.piikt.validationModels.GeneratorId;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,19 +24,16 @@ public class ClearCommand implements Confirmation {
             Boolean consent = confirmation(io);
             if (consent == true) {
                 logger.log(Level.INFO, "Consent received, clearing collection");
-                HistoryWorker.getInstance(io).clear();
-                GeneratorId.getInstance(io).setStartId(1);
+                HistoryWorker.getInstance().clear();
                 logger.log(Level.INFO, "Collection cleared successfully");
             } else {
                 logger.log(Level.INFO, "Consent received, clearing collection");
-                GeneratorId.getInstance(io).setStartId(1);
             }
         }
 
         if (io.name().equals("File")) {
             io.printlnCommand("Consent received, clearing collection");
-            HistoryWorker.getInstance(io).clear();
-            GeneratorId.getInstance(io).setStartId(1);
+            HistoryWorker.getInstance().clear();
             io.printlnCommand("Collection cleared successfully");
 
         } else {

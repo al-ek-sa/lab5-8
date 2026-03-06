@@ -19,7 +19,7 @@ public class Worker implements Comparable<Worker> {
     private IOProvider io;
 
     @CsvBindByPosition(position = 0)
-    private int id;
+    private String uuid;
 
     @CsvBindByPosition(position = 1)
     private String name;
@@ -50,7 +50,7 @@ public class Worker implements Comparable<Worker> {
 
     public Worker(String name, Coordinates coordinates, Float salary, LocalDate startDate, ZonedDateTime endDate,
             Status status, Organization organization) {
-        this.id = GeneratorId.getInstance(io).getId();
+        this.uuid = GeneratorId.getInstance().getId();
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = new Date();
@@ -76,7 +76,7 @@ public class Worker implements Comparable<Worker> {
      */
     @Override
     public String toString() {
-        return "id: " + id + ", name: " + name + ", coordinates: " + coordinates.toString() + ", creationDate: "
+        return "id: " + uuid + ", name: " + name + ", coordinates: " + coordinates.toString() + ", creationDate: "
                 + creationDate + ", salary: " + salary + ", \nstartDate: " + startDate + ", endDate: " + endDate
                 + ", status: " + status.toString() + ", organization: " + organization.toString() + "\n";
     }
@@ -125,10 +125,6 @@ public class Worker implements Comparable<Worker> {
         this.creationDate = creationDate;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setSalary(Float salary) {
         this.salary = salary;
     }
@@ -149,12 +145,12 @@ public class Worker implements Comparable<Worker> {
         this.startDate = startDate;
     }
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return uuid;
     }
 
     @Override
     public int compareTo(Worker other) {
-        return Integer.compare(this.id, other.id);
+        return this.uuid.compareTo(other.uuid);
     }
 }

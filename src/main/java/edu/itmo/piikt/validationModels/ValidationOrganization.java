@@ -23,12 +23,10 @@ import java.math.BigInteger;
 public class ValidationOrganization {
     private ValidationOrganizationType type;
     private ValidationAddress address;
-    private IOProvider io;
 
-    public ValidationOrganization(IOProvider io) {
-        this.type = new ValidationOrganizationType(io);
-        this.address = new ValidationAddress(io);
-        this.io = io;
+    public ValidationOrganization() {
+        this.type = new ValidationOrganizationType();
+        this.address = new ValidationAddress();
     }
 
     /**
@@ -46,7 +44,7 @@ public class ValidationOrganization {
      *             falls below the lower limit of the int type range.
      * @return annualTurnover
      */
-    public int validationAnnualTurnover() {
+    public int validationAnnualTurnover(IOProvider io) {
         while (true) {
             try {
                 io.printField("Enter annual turnover",
@@ -107,7 +105,7 @@ public class ValidationOrganization {
      *
      * @return Organization
      */
-    public Organization organization() {
-        return new Organization(validationAnnualTurnover(), type.organizationType(), address.validationAddress());
+    public Organization organization(IOProvider io) {
+        return new Organization(validationAnnualTurnover(io), type.organizationType(io), address.validationAddress(io));
     }
 }

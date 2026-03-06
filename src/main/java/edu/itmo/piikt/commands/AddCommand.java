@@ -22,10 +22,10 @@ public class AddCommand {
     }
 
     public void execute(IOProvider io) {
-        ValidationWorker worker = new ValidationWorker(io);
+        ValidationWorker worker = new ValidationWorker();
         try {
             logger.log(Level.INFO, "Start adding an item");
-            HistoryWorker.getInstance(io).add(worker.worker());
+            HistoryWorker.getInstance().add(worker.worker(io));
             logger.log(Level.INFO, "Item successfully added");
         } catch (RuntimeException e) {
             logger.log(Level.INFO, e.getMessage());

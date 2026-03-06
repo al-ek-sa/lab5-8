@@ -37,16 +37,14 @@ import java.time.format.DateTimeParseException;
  * @version 1.0
  */
 public class ValidationWorker {
-    private IOProvider io;
     private ValidationCoordinates coordinates;
     private ValidationStatus status;
     private ValidationOrganization organization;
 
-    public ValidationWorker(IOProvider io) {
-        this.io = io;
-        this.coordinates = new ValidationCoordinates(io);
-        this.status = new ValidationStatus(io);
-        this.organization = new ValidationOrganization(io);
+    public ValidationWorker() {
+        this.coordinates = new ValidationCoordinates();
+        this.status = new ValidationStatus();
+        this.organization = new ValidationOrganization();
     }
 
     /**
@@ -63,7 +61,7 @@ public class ValidationWorker {
      *             The method may throw an exception if the reading type is unknown.
      * @return name
      */
-    public String validationName() {
+    public String validationName(IOProvider io) {
         if (io.name().equals("File")) {
             String nameConsole = io.readLine();
             if (!nameConsole.isBlank() && !nameConsole.equals("null")) {
@@ -114,7 +112,7 @@ public class ValidationWorker {
      *             incorrect for the Float type.
      * @return salary
      */
-    public Float validationSalary() {
+    public Float validationSalary(IOProvider io) {
         while (true) {
             io.printField("Enter salary", "(value must be greater than 0)");
             try {
@@ -176,7 +174,7 @@ public class ValidationWorker {
      *             When the input format of the value in the console is incorrect.
      * @return startDate
      */
-    public LocalDate validationStartDate() {
+    public LocalDate validationStartDate(IOProvider io) {
         while (true) {
             try {
                 io.printField("Enter start date", "(format: 2024-01-15, field is required)");
@@ -229,7 +227,7 @@ public class ValidationWorker {
      *             When the date is entered incorrectly or not entered.
      * @return endDate
      */
-    public ZonedDateTime validationEndDate() {
+    public ZonedDateTime validationEndDate(IOProvider io) {
         while (true) {
             try {
                 io.printField("Enter dismissal date", "(format: 2026-02-15)");
@@ -263,8 +261,8 @@ public class ValidationWorker {
      *
      * @return Worker
      */
-    public Worker worker() {
-        return new Worker(validationName(), coordinates.coordinates(), validationSalary(), validationStartDate(),
-                validationEndDate(), status.status(), organization.organization());
+    public Worker worker(IOProvider io) {
+        return new Worker(validationName(io), coordinates.coordinates(io), validationSalary(io),
+                validationStartDate(io), validationEndDate(io), status.status(io), organization.organization(io));
     }
 }

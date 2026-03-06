@@ -21,7 +21,7 @@ public class HeadCommand {
     public void execute(IOProvider io) {
         try {
             logger.log(Level.INFO, "Displaying the last added element");
-            HistoryWorker.getInstance(io).peekFirst();
+            HistoryWorker.getInstance().peekFirst(io);
         } catch (Exception e) {
             io.printException("Command not executed");
         }

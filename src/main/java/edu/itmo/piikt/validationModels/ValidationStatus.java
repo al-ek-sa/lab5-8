@@ -12,10 +12,7 @@ import java.math.BigInteger;
  * @version 2.0
  */
 public class ValidationStatus {
-    private IOProvider io;
-
-    public ValidationStatus(IOProvider io) {
-        this.io = io;
+    public ValidationStatus() {
     }
 
     /**
@@ -39,7 +36,7 @@ public class ValidationStatus {
      *             into an int.
      * @return Status
      */
-    public Status status() {
+    public Status status(IOProvider io) {
         while (true) {
             // выберите статус (введите его номер)
             io.printField("Select the status", "(enter its number)");

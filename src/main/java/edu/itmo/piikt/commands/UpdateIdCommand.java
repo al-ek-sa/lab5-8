@@ -2,6 +2,7 @@ package edu.itmo.piikt.commands;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.models.Worker;
 import edu.itmo.piikt.validationModels.ValidationWorker;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,10 +21,11 @@ public class UpdateIdCommand {
     }
 
     public void execute(IOProvider io, String argument) {
-        ValidationWorker worker = new ValidationWorker(io);
+        ValidationWorker worker = new ValidationWorker();
+        Worker worker1 = worker.worker(io);
         try {
-            HistoryWorker.getInstance(io).idMatches(argument);
-            HistoryWorker.getInstance(io).update(argument, worker);
+            HistoryWorker.getInstance().idMatches(argument);
+            HistoryWorker.getInstance().update(argument, worker1);
         } catch (RuntimeException e) {
             logger.log(Level.INFO, "Data update interrupted");
         }

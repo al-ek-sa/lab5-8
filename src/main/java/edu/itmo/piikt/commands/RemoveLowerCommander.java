@@ -20,7 +20,7 @@ public class RemoveLowerCommander {
 
     public void execute(IOProvider io, String argument) {
         try {
-            HistoryWorker.getInstance(io).removeLower(argument);
+            HistoryWorker.getInstance().removeLower(argument);
         } catch (RuntimeException e) {
             logger.log(Level.INFO, "Items deletion denied");
         }

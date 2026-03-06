@@ -22,7 +22,7 @@ public class InfoCommand {
     public void execute(IOProvider io) {
         try {
             logger.log(Level.INFO, "Displaying information about the collection");
-            HistoryWorker.getInstance(io).infoLiat();
+            HistoryWorker.getInstance().infoLiat(io);
             logger.log(Level.INFO, "Information successfully displayed");
         } catch (Exception e) {
             io.printException("Information not displayed");

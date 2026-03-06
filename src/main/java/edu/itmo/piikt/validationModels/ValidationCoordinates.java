@@ -21,10 +21,7 @@ import java.math.BigInteger;
  * @version 2.0
  */
 public class ValidationCoordinates {
-    private IOProvider io;
-
-    public ValidationCoordinates(IOProvider io) {
-        this.io = io;
+    public ValidationCoordinates() {
     }
 
     /**
@@ -45,7 +42,7 @@ public class ValidationCoordinates {
      *             If the entered value could not be parsed into the Long type.
      * @return x
      */
-    public Long validatorX() {
+    public Long validatorX(IOProvider io) {
         while (true) {
             try {
                 io.printField("Enter the first coordinate X", "(value must not exceed 10, required field)");
@@ -122,7 +119,7 @@ public class ValidationCoordinates {
      *             type.
      * @return x
      */
-    public Float validatorY() {
+    public Float validatorY(IOProvider io) {
         while (true) {
             try {
                 io.printField("Enter the second coordinate Y", "(value must be greater than -644, required field)");
@@ -174,7 +171,7 @@ public class ValidationCoordinates {
      *
      * @return Coordinates
      */
-    public Coordinates coordinates() {
-        return new Coordinates(validatorX(), validatorY());
+    public Coordinates coordinates(IOProvider io) {
+        return new Coordinates(validatorX(io), validatorY(io));
     }
 }

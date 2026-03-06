@@ -21,7 +21,7 @@ public class ShowCommand {
     public void execute(IOProvider io) {
         try {
             logger.log(Level.INFO, "Displaying collection");
-            HistoryWorker.getInstance(io).printHistoryWorker();
+            HistoryWorker.getInstance().printHistoryWorker(io);
             logger.log(Level.INFO, "Collection displayed");
         } catch (Exception e) {
             logger.log(Level.INFO, "Displaying collection interrupted");

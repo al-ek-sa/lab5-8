@@ -12,10 +12,7 @@ import java.math.BigInteger;
  * @version 1.0
  */
 public class ValidationOrganizationType {
-    private IOProvider io;
-
-    public ValidationOrganizationType(IOProvider io) {
-        this.io = io;
+    public ValidationOrganizationType() {
     }
 
     /**
@@ -39,7 +36,7 @@ public class ValidationOrganizationType {
      *             into an int.
      * @return OrganizationType
      */
-    public OrganizationType organizationType() {
+    public OrganizationType organizationType(IOProvider io) {
         while (true) {
             io.printField("Select the organization type", "(enter its number)");
             for (OrganizationType type : OrganizationType.values()) {

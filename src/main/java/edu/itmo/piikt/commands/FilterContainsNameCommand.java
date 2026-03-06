@@ -21,7 +21,7 @@ public class FilterContainsNameCommand {
     public void execute(IOProvider io, String argument) {
         try {
             logger.log(Level.INFO, "Search users by name");
-            HistoryWorker.getInstance(io).printName(argument);
+            HistoryWorker.getInstance().printName(argument, io);
         } catch (Exception e) {
             logger.log(Level.INFO, "Search failed");
         }

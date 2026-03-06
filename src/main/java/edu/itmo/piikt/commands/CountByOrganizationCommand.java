@@ -22,9 +22,9 @@ public class CountByOrganizationCommand {
 
     public void execute(IOProvider io) {
         try {
-            ValidationOrganization organization = new ValidationOrganization(io);
+            ValidationOrganization organization = new ValidationOrganization();
             logger.log(Level.INFO, "Enter all values for Organization");
-            HistoryWorker.getInstance(io).countByOrganization(organization.organization());
+            HistoryWorker.getInstance().countByOrganization(organization.organization(io), io);
             logger.log(Level.INFO, "Number of elements displayed successfully");
         } catch (RuntimeException e) {
             logger.log(Level.INFO, "Execution error, elements not displayed");

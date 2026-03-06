@@ -21,7 +21,7 @@ public class SaveCommand {
         try {
             logger.log(Level.INFO, "Saving data to file started");
             io.printeDesign();
-            CSVParser csvParser = new CSVParser(io);
+            CSVParser csvParser = new CSVParser();
             csvParser.saveCollection();
         } catch (Exception e) {
             logger.log(Level.INFO, "Data saved to file");

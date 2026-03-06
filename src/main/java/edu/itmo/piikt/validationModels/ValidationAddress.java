@@ -18,10 +18,7 @@ import edu.itmo.piikt.models.Address;
  * @version 2.0
  */
 public class ValidationAddress {
-    private IOProvider io;
-
-    public ValidationAddress(IOProvider io) {
-        this.io = io;
+    public ValidationAddress() {
     }
 
     /**
@@ -35,7 +32,7 @@ public class ValidationAddress {
      *             When no value is entered into the console.
      * @return Address
      */
-    public Address validationAddress() {
+    public Address validationAddress(IOProvider io) {
         while (true) {
             try {
                 io.printField("Enter the street where the employee lives", "(required field)");

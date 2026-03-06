@@ -23,8 +23,8 @@ public class Main {
         Logger logger = Logger.getLogger(Main.class.getName());
         IOProvider io = new IOConsole();
         // HistorySave.getInstance().readFile();
-        CSVParser csvParser = new CSVParser(io);
-        csvParser.readFile();
+        CSVParser csvParser = new CSVParser();
+        csvParser.readFile(io);
         HelpCommand help = new HelpCommand();
         help.execute(io);
         HelpEnteringCommand helpEnteringCommand = new HelpEnteringCommand();

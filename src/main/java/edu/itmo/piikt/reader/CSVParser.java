@@ -17,12 +17,10 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 public class CSVParser {
-    private IOProvider io;
     private String fileName;
     Logger logger = Logger.getLogger(CSVParser.class.getName());
 
-    public CSVParser(IOProvider io) {
-        this.io = io;
+    public CSVParser() {
         this.fileName = System.getenv("WORKER_FILE");
         if (this.fileName == null || this.fileName.isEmpty()) {
             this.fileName = "workers.csv";
@@ -36,7 +34,7 @@ public class CSVParser {
      *             If file system errors occurred.
      */
     public void saveCollection() {
-        List<Worker> workers = HistoryWorker.getInstance(io).getListWorker();
+        List<Worker> workers = HistoryWorker.getInstance().getListWorker();
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
 
@@ -55,12 +53,11 @@ public class CSVParser {
 
             // данные сохраннены в файл
             logger.log(Level.INFO, "Data saved to file");
-            io.printeDesign();
 
         } catch (FileNotFoundException e) {
-            io.printError("нет прав доступа в файл");
+            logger.log(Level.INFO, "нет прав доступа в файл");
         } catch (Exception e) {
-            io.printError("Error saving CSV: " + e.getMessage());
+            logger.log(Level.INFO, "Error saving CSV: " + e.getMessage());
         }
     }
 
@@ -70,7 +67,7 @@ public class CSVParser {
      * @throws Exception
      *             If file system errors occurred.
      */
-    public void readFile() {
+    public void readFile(IOProvider io) {
         try {
             try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(fileName));
                     InputStreamReader reader = new InputStreamReader(input)) {
@@ -78,7 +75,7 @@ public class CSVParser {
                         .withSeparator(';').withIgnoreLeadingWhiteSpace(true).withIgnoreEmptyLine(true)
                         .withThrowExceptions(false).build();
                 List<Worker> workers = csvReader.parse();
-                HistoryWorker historyWorker = HistoryWorker.getInstance(io);
+                HistoryWorker historyWorker = HistoryWorker.getInstance();
                 for (Worker worker : workers) {
                     historyWorker.add(worker);
                 }

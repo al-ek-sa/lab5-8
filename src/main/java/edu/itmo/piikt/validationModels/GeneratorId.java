@@ -1,34 +1,23 @@
 package edu.itmo.piikt.validationModels;
 
-import edu.itmo.piikt.historyWorker.HistoryWorker;
-import edu.itmo.piikt.io.IOProvider;
+import java.util.UUID;
 
 /**
  * The class generates unique IDs for employees. The generator is a singleton.
  * The generation is not thread-safe.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 public class GeneratorId {
-    private IOProvider io;
     private static GeneratorId instance;
-    private int startId;
 
-    private GeneratorId(IOProvider io) {
-
-        /**
-         * The initial ID is set when the program starts. If the employee data file is
-         * empty, it is set to 1 by default; otherwise, the ID of the last employee in
-         * the file is taken and incremented by 1.
-         */
-        this.startId = HistoryWorker.getInstance(io).tailWorked() + 1;
-        this.io = io;
+    private GeneratorId() {
     }
 
-    public static GeneratorId getInstance(IOProvider io) {
+    public static GeneratorId getInstance() {
         if (instance == null) {
-            instance = new GeneratorId(io);
+            instance = new GeneratorId();
         }
         return instance;
     }
@@ -38,11 +27,7 @@ public class GeneratorId {
      *
      * @return id
      */
-    public int getId() {
-        return startId++;
-    }
-
-    public void setStartId(int startId) {
-        this.startId = startId;
+    public String getId() {
+        return UUID.randomUUID().toString();
     }
 }
