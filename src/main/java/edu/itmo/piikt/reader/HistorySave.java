@@ -3,7 +3,6 @@ package edu.itmo.piikt.reader;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.HistoryCommands;
 import java.io.*;
-import java.util.List;
 import java.util.Scanner;
 
 /**

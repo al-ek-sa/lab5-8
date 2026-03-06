@@ -1,9 +1,10 @@
 package edu.itmo.piikt.io;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.LinkedList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.*;
+import java.util.ArrayDeque;
 import java.util.Queue;
 
 /**
@@ -11,15 +12,16 @@ import java.util.Queue;
  * the console and reading from a file.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 public class IOFile implements IOProvider {
-    private BufferedInputStream reading;
-    private Queue<String> dataQueue = new LinkedList<>();
+    private static final Logger log = LogManager.getLogger(IOFile.class);
+    private final BufferedReader reader;
+    private final Queue<String> dataQueue = new ArrayDeque<>();
     private String argument;
-
+    java.util.logging.Logger logger = java.util.logging.Logger.getLogger(IOFile.class.getName());
     public IOFile(String nameFile) throws IOException {
-        this.reading = new BufferedInputStream(new FileInputStream(nameFile));
+        this.reader = new BufferedReader(new FileReader(nameFile));
     }
 
     @Override
@@ -50,39 +52,19 @@ public class IOFile implements IOProvider {
      */
     @Override
     public String readLine() {
+        String queued = dataQueue.poll();
+        if (queued != null) {
+            return queued;
+        }
+        final String commandLine;
         try {
-            if (!dataQueue.isEmpty()) {
-                return dataQueue.poll();
-            }
-
-            StringBuilder line = new StringBuilder();
-            int byteFile;
-
-            while ((byteFile = reading.read()) != -1) {
-                if (byteFile == '\n') {
-                    break;
-                }
-
-                line.append((char) byteFile);
-            }
-
-            String command = line.toString();
-
-            if (byteFile == -1) {
+            commandLine = reader.readLine();
+            if (commandLine == null) {
                 return null;
             }
-
-            if (command.startsWith("add") && command.contains("{")) {
-                int ind = command.indexOf("{") - 1;
-                String commandArgument = command.substring(0, ind);
-                String dataLIne = command.substring(ind + 1);
-                data(dataLIne);
-                return commandArgument;
-            }
-
-            return command;
+            return parseAndQueue(commandLine);
         } catch (IOException e) {
-            return null;
+            throw new RuntimeException("Error reading file: " + e.getMessage());
         }
     }
 
@@ -112,5 +94,19 @@ public class IOFile implements IOProvider {
             String dataEnd = argument.substring(1, argument.length() - 1);
             dataQueue.add(dataEnd);
         }
+    }
+
+    private String parseAndQueue(String line) {
+        int brace = line.indexOf('{');
+        if (brace < 0)
+            return line;
+
+        String left = line.substring(0, brace).trim();
+        if (!left.startsWith("add"))
+            return line;
+
+        String right = line.substring(brace + 1);
+        data(right);
+        return left;
     }
 }

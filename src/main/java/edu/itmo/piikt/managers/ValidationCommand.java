@@ -69,26 +69,24 @@ public class ValidationCommand {
                 var argumentKey = factory.getArgumentMap().keySet();
                 var simpleKey = factory.getCommandsMap().keySet();
 
-
                 String[] parts = parts2.toArray(new String[0]);
 
                 if (parts.length == 1) {
-                    argumentKey.forEach(com2 ->{
+                    argumentKey.forEach(com2 -> {
                         if (DamerauLevenshteinDistance.distance(parts[0], com2) <= 1) {
                             io.printException("The command (" + com2 + ") must contain arguments");
                         }
                     });
 
-                    simpleKey.forEach(com1 ->{
+                    simpleKey.forEach(com1 -> {
                         if (DamerauLevenshteinDistance.distance(parts[0], com1) <= 1) {
                             parts[0] = com1;
                         }
                     });
                     SimpleCommand command = factory.getCommand(parts[0]);
                     if (command != null) {
-                    command.execute(io);}
-                    else
-                    if (input.equals("historyAll")) {
+                        command.execute(io);
+                    } else if (input.equals("historyAll")) {
                         historyCommands.printHistory();
                     } else {
                         io.printException("The command was entered incorrectly");

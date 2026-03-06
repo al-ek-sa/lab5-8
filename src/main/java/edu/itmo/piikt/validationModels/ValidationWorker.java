@@ -177,23 +177,24 @@ public class ValidationWorker {
             try {
                 io.printField("Enter start date", "(format: 2024-01-15, field is required)");
                 String startDateConsole = io.readLine();
-                if (startDateConsole == null || startDateConsole.isBlank() || "null".equalsIgnoreCase(startDateConsole.trim())) {
+                if (startDateConsole == null || startDateConsole.isBlank()
+                        || "null".equalsIgnoreCase(startDateConsole.trim())) {
                     if (io.name().equals("File")) {
                         throw new RuntimeException();
                     } else {
                         throw new ExceptionNull();
                     }
                 }
-                    try {
-                        LocalDate format = LocalDate.parse(startDateConsole);
-                        return format;
-                    } catch (DateTimeParseException e) {
-                        if (io.name().equals("File")) {
-                            throw new RuntimeException();
-                        } else {
-                            io.printException("Invalid input, please enter the value again");
-                        }
+                try {
+                    LocalDate format = LocalDate.parse(startDateConsole);
+                    return format;
+                } catch (DateTimeParseException e) {
+                    if (io.name().equals("File")) {
+                        throw new RuntimeException();
+                    } else {
+                        io.printException("Invalid input, please enter the value again");
                     }
+                }
             } catch (ExceptionNull e) {
                 io.printException(e.getMessage());
             } catch (ExceptionDate e) {
@@ -222,7 +223,8 @@ public class ValidationWorker {
             try {
                 io.printField("Enter dismissal date", "(format: 2026-02-15)");
                 String endDateConsole = io.readLine();
-                if (endDateConsole == null || endDateConsole.isBlank() || "null".equalsIgnoreCase(endDateConsole.trim())) {
+                if (endDateConsole == null || endDateConsole.isBlank()
+                        || "null".equalsIgnoreCase(endDateConsole.trim())) {
                     return null;
                 }
                 try {

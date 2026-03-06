@@ -37,7 +37,8 @@ public class ValidationAddress {
             try {
                 io.printField("Enter the street where the employee lives", "(required field)");
                 String streetConsole = io.readLine();
-                if (!(streetConsole == null || streetConsole.isBlank() || "null".equalsIgnoreCase(streetConsole.trim()))) {
+                if (!(streetConsole == null || streetConsole.isBlank()
+                        || "null".equalsIgnoreCase(streetConsole.trim()))) {
                     return new Address(streetConsole);
                 } else {
                     if (io.name().equals("File")) {
