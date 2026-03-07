@@ -11,29 +11,20 @@ import java.util.logging.Logger;
  * The main class of the program. The class determines which command was called.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 1.2
  */
-public class ValidationCommand {
-    private HistoryCommands historyCommands;
+public enum ValidationCommand {
+    INSTANCE;
     private CommandFactory factory;
     private boolean flag;
-    private static ValidationCommand instance;
 
-    private ValidationCommand() {
-        this.historyCommands = HistoryCommands.getInstance();
+    ValidationCommand() {
         this.factory = new CommandFactory();
         this.flag = true;
     }
 
     public void setFlag(boolean flag) {
         this.flag = flag;
-    }
-
-    public static ValidationCommand getInstance() {
-        if (instance == null) {
-            instance = new ValidationCommand();
-        }
-        return instance;
     }
 
     /**
@@ -48,14 +39,15 @@ public class ValidationCommand {
         while (flag) {
             try {
                 String nameCommands = io.readLine();
-                HistorySave.getInstance().saveCollection(io);
+                HistorySave historySave = new HistorySave();
+                historySave.saveCollection(io);
 
                 if (nameCommands == null || nameCommands.isBlank() || "null".equalsIgnoreCase(nameCommands.trim())) {
                     break;
                 }
 
                 String input = nameCommands.trim();
-                historyCommands.add(input);
+                HistoryCommands.INSTANCE.add(input);
 
                 String[] parts1 = input.split("\\s+");
 
@@ -87,20 +79,20 @@ public class ValidationCommand {
                     if (command != null) {
                         command.execute(io);
                     } else if (input.equals("historyAll")) {
-                        historyCommands.printHistory();
+                        HistoryCommands.INSTANCE.printHistory();
                     } else {
                         io.printException("The command was entered incorrectly");
                     }
                 } else if (parts.length == 2) {
                     String argument = parts[1];
 
-                    argumentKey.forEach(com1 -> {
+                    simpleKey.forEach(com1 -> {
                         if (DamerauLevenshteinDistance.distance(parts[0], com1) <= 1) {
                             io.printException("The command (" + com1 + ") must not contain arguments");
                         }
                     });
 
-                    simpleKey.forEach(com2 -> {
+                    argumentKey.forEach(com2 -> {
                         if (DamerauLevenshteinDistance.distance(parts[0], com2) <= 1) {
                             parts[0] = com2;
                         }

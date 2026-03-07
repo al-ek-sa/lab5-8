@@ -13,7 +13,7 @@ public interface IdMatches {
      */
 
     default void idMatches(String argument, Logger logger) {
-        var listWorker = HistoryWorker.getInstance().getListWorker();
+        var listWorker = HistoryWorker.INSTANCE.getListWorker();
 
         boolean found = listWorker.stream().anyMatch(worker -> worker.getId().equals(argument));
         if (!found) {

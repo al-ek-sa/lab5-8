@@ -34,10 +34,10 @@ public final class UpdateIdCommand implements IdMatches, BaseArgumentCommand {
     public void doExecute(IOProvider io, String argument) {
         UUID.fromString(argument);
         idMatches(argument, logger);
-        var workers = HistoryWorker.getInstance().getListWorker();
+        var workers = HistoryWorker.INSTANCE.getListWorker();
         workers.removeIf(w -> w.getId().equals(argument));
         Worker newWorker = new ValidationWorker().worker(io);
-        HistoryWorker.getInstance().add(newWorker);
+        HistoryWorker.INSTANCE.add(newWorker);
     }
 
     @Override

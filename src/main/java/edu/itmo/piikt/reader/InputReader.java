@@ -5,28 +5,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * The class implements parsing a collection containing employee data into CSV
- * format, saving to a file, and reading data from a file.
+ * Utility class for reading console input.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
  */
 public class InputReader {
-    private BufferedReader reader;
-    private static InputReader instance;
+    private static final BufferedReader READER = new BufferedReader(new InputStreamReader(System.in));
+    private static BufferedReader reader = READER;
 
     private InputReader() {
-        this.reader = new BufferedReader(new InputStreamReader(System.in));
+        throw new UnsupportedOperationException("Utility class");
     }
 
-    public static InputReader getInstance() {
-        if (instance == null) {
-            instance = new InputReader();
-        }
-        return instance;
-    }
-
-    private BufferedReader newReader() {
+    private static BufferedReader newReader() {
         return new BufferedReader(new InputStreamReader(System.in));
     }
 
@@ -35,16 +27,16 @@ public class InputReader {
      *
      * @return data
      */
-    public String nextLine() {
+    public static String nextLine() {
         String input = read();
         while (input == null) {
-            this.reader = newReader();
+            reader = newReader();
             input = read();
         }
         return input;
     }
 
-    private String read() {
+    private static String read() {
         try {
             return reader.readLine();
         } catch (IOException e) {

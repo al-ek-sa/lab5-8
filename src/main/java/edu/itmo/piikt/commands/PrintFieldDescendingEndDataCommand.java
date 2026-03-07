@@ -30,7 +30,7 @@ public final class PrintFieldDescendingEndDataCommand implements FindWorker, Bas
     @Override
     public void doExecute(IOProvider io) {
         findWorker(logger);
-        var listWorker = HistoryWorker.getInstance().getListWorker();
+        var listWorker = HistoryWorker.INSTANCE.getListWorker();
         var sortedList = new LinkedList<>(listWorker);
         sortedList.sort((worker1, worker2) -> {
             if (worker1.getEndDate() == null && worker2.getEndDate() == null) {

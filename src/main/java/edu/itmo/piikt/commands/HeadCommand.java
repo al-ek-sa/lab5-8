@@ -23,7 +23,7 @@ public final class HeadCommand implements FindWorker, BaseSimpleCommand {
     /** The method outputs the data of the first element in the collection. */
     @Override
     public void doExecute(IOProvider io) {
-        var list = HistoryWorker.getInstance().getListWorker();
+        var list = HistoryWorker.INSTANCE.getListWorker();
         findWorker(logger);
         io.println(list.getFirst().toString());
     }

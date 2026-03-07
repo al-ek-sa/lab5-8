@@ -18,7 +18,6 @@ public class IOFile implements IOProvider {
     private static final Logger log = LogManager.getLogger(IOFile.class);
     private final BufferedReader reader;
     private final Queue<String> dataQueue = new ArrayDeque<>();
-    private String argument;
     java.util.logging.Logger logger = java.util.logging.Logger.getLogger(IOFile.class.getName());
     public IOFile(String nameFile) throws IOException {
         this.reader = new BufferedReader(new FileReader(nameFile));

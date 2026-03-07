@@ -24,7 +24,7 @@ public final class ShowCommand implements FindWorker, BaseSimpleCommand {
     /** The method outputs data of all registered employees. */
     @Override
     public void doExecute(IOProvider io) {
-        var list = HistoryWorker.getInstance().getListWorker();
+        var list = HistoryWorker.INSTANCE.getListWorker();
         findWorker(logger);
         list.forEach(worker -> io.println(worker.toString()));
     }

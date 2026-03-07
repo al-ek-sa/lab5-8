@@ -13,9 +13,6 @@ public class ExceptionScript extends RuntimeException {
 
     @Override
     public String getMessage() {
-        // в команде началась рекурсия, исправьте скрипт и повторите снова(дфва раза
-        // встречаеться файл :
-        // .txt)
         return "Command recursion detected. Fix the script and retry (duplicate file:";
     }
 }

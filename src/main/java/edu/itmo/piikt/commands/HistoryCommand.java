@@ -18,9 +18,10 @@ public final class HistoryCommand implements BaseSimpleCommand {
 
     public HistoryCommand() {
     }
+
     @Override
     public void doExecute(IOProvider io) {
-        var history = HistoryCommands.getInstance().getLinkedList();
+        var history = HistoryCommands.INSTANCE.getLinkedList();
         history.stream().limit(14).forEach(io::println);
     }
 

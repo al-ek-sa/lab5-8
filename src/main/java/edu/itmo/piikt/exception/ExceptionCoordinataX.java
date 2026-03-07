@@ -13,7 +13,6 @@ public class ExceptionCoordinataX extends RuntimeException {
 
     @Override
     public String getMessage() {
-        // Введенное значение некорректно. Х не должно превышать 10
         return "Invalid coordinate. X must not exceed 10";
     }
 }

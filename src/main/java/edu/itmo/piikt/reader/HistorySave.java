@@ -14,20 +14,12 @@ import java.util.Scanner;
  */
 public class HistorySave {
     private String fileName;
-    private static HistorySave instance;
 
-    private HistorySave() {
+    public HistorySave() {
         this.fileName = System.getenv("HISTORY_FILE");
         if (this.fileName == null || this.fileName.isEmpty()) {
             this.fileName = "history.txt";
         }
-    }
-
-    public static HistorySave getInstance() {
-        if (instance == null) {
-            instance = new HistorySave();
-        }
-        return instance;
     }
 
     /**
@@ -37,7 +29,7 @@ public class HistorySave {
      *             If file system errors occurred.
      */
     public void saveCollection(IOProvider io) {
-        var commands = HistoryCommands.getInstance().getLinkedList();
+        var commands = HistoryCommands.INSTANCE.getLinkedList();
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
             commands.forEach(writer::println);
@@ -57,7 +49,7 @@ public class HistorySave {
         try (Scanner scanner = new Scanner(new File(fileName))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                HistoryCommands.getInstance().add(line);
+                HistoryCommands.INSTANCE.add(line);
             }
 
         } catch (Exception e) {

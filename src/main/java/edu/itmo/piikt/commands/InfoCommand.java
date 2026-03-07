@@ -23,8 +23,8 @@ public final class InfoCommand implements BaseSimpleCommand {
     @Override
     /** The method outputs data about the collection. */
     public void doExecute(IOProvider io) {
-        var listWorker = HistoryWorker.getInstance().getListWorker();
-        var data = HistoryWorker.getInstance().getData();
+        var listWorker = HistoryWorker.INSTANCE.getListWorker();
+        var data = HistoryWorker.INSTANCE.getData();
         io.println("Collection type: " + listWorker.getClass() + "\nIdentification time: " + data
                 + "\nNumber of elements: " + listWorker.size());
 

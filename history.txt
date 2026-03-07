@@ -1,4 +1,0 @@
-exit dfgh dfgh fghj fghj
-exit 234567890
-exit sdfghjkl;
-execute_script script_exit.txt

@@ -30,7 +30,7 @@ public final class CountByOrganizationCommand implements BaseSimpleCommand {
     public void doExecute(IOProvider io) {
         ValidationOrganization validationOrganization = new ValidationOrganization();
         Organization organization = validationOrganization.organization(io);
-        var listWorker = HistoryWorker.getInstance().getListWorker();
+        var listWorker = HistoryWorker.INSTANCE.getListWorker();
         long size = listWorker.stream().filter(worker -> worker.getOrganization() != null)
                 .filter(worker -> worker.getOrganization().equals(organization)).count();
         io.printlnInt((int) size);

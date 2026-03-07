@@ -50,7 +50,7 @@ public class Worker implements Comparable<Worker> {
 
     public Worker(String name, Coordinates coordinates, Float salary, LocalDate startDate, ZonedDateTime endDate,
             Status status, Organization organization) {
-        this.uuid = GeneratorId.getInstance().getId();
+        this.uuid = GeneratorId.getId();
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = new Date();

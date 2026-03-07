@@ -21,7 +21,7 @@ public final class ClearCommand implements Confirmation, BaseSimpleCommand {
     public void doExecute(IOProvider io) {
         Boolean consent = confirmation(io);
         if (consent == true) {
-            HistoryWorker.getInstance().clear();
+            HistoryWorker.INSTANCE.clear();
 
         }
     }

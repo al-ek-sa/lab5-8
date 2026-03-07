@@ -13,7 +13,6 @@ public class ExceptionNull extends RuntimeException {
 
     @Override
     public String getMessage() {
-        // поле обязательно для заполнения, повторите попытку
         return "The field is required, please try again";
     }
 }

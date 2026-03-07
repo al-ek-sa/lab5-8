@@ -23,7 +23,7 @@ public final class ExitCommand implements Confirmation, BaseSimpleCommand {
     public void doExecute(IOProvider io) {
         Boolean consent = confirmation(io);
         if (consent == true) {
-            ValidationCommand.getInstance().setFlag(false);
+            ValidationCommand.INSTANCE.setFlag(false);
         }
     }
 

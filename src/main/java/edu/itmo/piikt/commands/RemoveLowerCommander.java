@@ -22,7 +22,7 @@ public final class RemoveLowerCommander implements BaseArgumentCommand {
     }
     @Override
     public void doExecute(IOProvider io, String argument) {
-        var listWorker = HistoryWorker.getInstance().getListWorker();
+        var listWorker = HistoryWorker.INSTANCE.getListWorker();
         UUID input = UUID.fromString(argument);
         listWorker.removeIf(worker -> {
             UUID workerUuid = UUID.fromString(worker.getId());

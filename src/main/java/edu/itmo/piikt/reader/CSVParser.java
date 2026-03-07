@@ -34,7 +34,7 @@ public class CSVParser {
      *             If file system errors occurred.
      */
     public void saveCollection() {
-        List<Worker> workers = HistoryWorker.getInstance().getListWorker();
+        List<Worker> workers = HistoryWorker.INSTANCE.getListWorker();
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
 
@@ -75,7 +75,7 @@ public class CSVParser {
                         .withSeparator(';').withIgnoreLeadingWhiteSpace(true).withIgnoreEmptyLine(true)
                         .withThrowExceptions(false).build();
                 List<Worker> workers = csvReader.parse();
-                HistoryWorker historyWorker = HistoryWorker.getInstance();
+                HistoryWorker historyWorker = HistoryWorker.INSTANCE;
 
                 workers.forEach(historyWorker::add);
 

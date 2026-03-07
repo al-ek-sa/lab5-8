@@ -10,10 +10,8 @@ import edu.itmo.piikt.reader.InputReader;
  * @version 1.0
  */
 public class IOConsole implements IOProvider {
-    private InputReader scanner;
 
     public IOConsole() {
-        this.scanner = InputReader.getInstance();
     }
 
     @Override
@@ -23,7 +21,7 @@ public class IOConsole implements IOProvider {
 
     @Override
     public String readLine() {
-        return scanner.nextLine();
+        return InputReader.nextLine();
     }
 
     @Override

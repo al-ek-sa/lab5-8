@@ -23,7 +23,7 @@ public final class RemoveByIdCommand implements IdMatches, BaseArgumentCommand {
     @Override
     public void doExecute(IOProvider io, String argument) {
         idMatches(argument, logger);
-        var listWorker = HistoryWorker.getInstance().getListWorker();
+        var listWorker = HistoryWorker.INSTANCE.getListWorker();
         listWorker.removeIf(worker -> worker.getId().equals(argument));
     }
 

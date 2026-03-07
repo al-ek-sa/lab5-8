@@ -28,7 +28,7 @@ public final class FilterContainsNameCommand implements BaseArgumentCommand {
     @Override
     public void doExecute(IOProvider io, String argument) {
 
-        var list = HistoryWorker.getInstance().getListWorker();
+        var list = HistoryWorker.INSTANCE.getListWorker();
         list.stream().filter(worker -> worker.getName() != null).filter(worker -> worker.getName().equals(argument))
                 .forEach(worker -> io.println(worker.toString()));
     }

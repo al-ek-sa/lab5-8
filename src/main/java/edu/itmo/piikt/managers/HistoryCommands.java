@@ -7,21 +7,11 @@ import java.util.LinkedList;
  * A class for storing all entered commands. The class is a singleton.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
-public class HistoryCommands {
+public enum HistoryCommands {
+    INSTANCE;
     private LinkedList<String> listCommands = new LinkedList<>();
-    private static HistoryCommands instance;
-
-    private HistoryCommands() {
-    }
-
-    public static HistoryCommands getInstance() {
-        if (instance == null) {
-            instance = new HistoryCommands();
-        }
-        return instance;
-    }
 
     public void add(String command) {
         listCommands.addFirst(command);
