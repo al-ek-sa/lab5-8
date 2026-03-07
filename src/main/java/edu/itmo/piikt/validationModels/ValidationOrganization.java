@@ -24,9 +24,9 @@ public class ValidationOrganization {
     private ValidationOrganizationType type;
     private ValidationAddress address;
 
-    public ValidationOrganization() {
+    public ValidationOrganization(IOProvider io) {
         this.type = new ValidationOrganizationType();
-        this.address = new ValidationAddress();
+        this.address = new ValidationAddress(io);
     }
 
     /**

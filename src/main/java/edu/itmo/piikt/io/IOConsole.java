@@ -47,6 +47,6 @@ public class IOConsole implements IOProvider {
 
     @Override
     public String name() {
-        return "Console";
+        return "true";
     }
 }

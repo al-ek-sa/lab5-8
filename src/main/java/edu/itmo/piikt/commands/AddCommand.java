@@ -23,7 +23,7 @@ public final class AddCommand implements BaseSimpleCommand {
     }
     @Override
     public void doExecute(IOProvider io) {
-        ValidationWorker worker = new ValidationWorker();
+        ValidationWorker worker = new ValidationWorker(io);
         HistoryWorker.INSTANCE.add(worker.worker(io));
     }
 

@@ -1,9 +1,5 @@
 package edu.itmo.piikt.validationModels;
 
-import edu.itmo.piikt.exception.ExceptionBigDecimalMAX_FLOAT;
-import edu.itmo.piikt.exception.ExceptionDate;
-import edu.itmo.piikt.exception.ExceptionNull;
-import edu.itmo.piikt.exception.ExceptionSalary;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.*;
 import java.math.BigDecimal;
@@ -41,10 +37,10 @@ public class ValidationWorker {
     private ValidationStatus status;
     private ValidationOrganization organization;
 
-    public ValidationWorker() {
+    public ValidationWorker(IOProvider io) {
         this.coordinates = new ValidationCoordinates();
         this.status = new ValidationStatus();
-        this.organization = new ValidationOrganization();
+        this.organization = new ValidationOrganization(io);
     }
 
     /**
