@@ -53,7 +53,7 @@ public class ValidationWorker implements TypeIOProvider {
                     return reader.readLine();
                 }).andThen(LocalDate::parse);
 
-        this.endDateValidation = new Builder<String>().add(RulesValidation.localDate()).validation(validationIO)
+        this.endDateValidation = new Builder<String>().add(RulesValidation.validationDate()).validation(validationIO)
                 .build(reader -> {
                     ConsoleMessage.END_DATE.printMessage(reader);
                     return reader.readLine();

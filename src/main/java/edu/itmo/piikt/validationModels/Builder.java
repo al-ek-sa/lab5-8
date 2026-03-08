@@ -26,12 +26,34 @@ public class Builder<T> {
     }
 
     public Function<IOProvider, T> build(Function<IOProvider, T> ioProvider) {
-        return (IOProvider reader) -> {
-            while (validation.isRepeat()) {
+        if (validation == Validation.FILE) {
+            return (IOProvider reader) -> {
                 try {
                     T value = ioProvider.apply(reader);
-                    Optional<String> exception = rulesList.stream().map(rule -> rule.validation(value))
-                            .filter(Optional::isPresent).findFirst().flatMap(Function.identity());
+                    Optional<String> exception = rulesList.stream()
+                            .map(rule -> rule.validation(value))
+                            .filter(Optional::isPresent)
+                            .findFirst()
+                            .flatMap(Function.identity());
+                    if (exception.isPresent()) {
+                        throw new ValidationException(exception.get());
+                    }
+                    return value;
+                } catch (RuntimeException e) {
+                    throw new ValidationException("Validation error: " + e.getMessage());
+                }
+            };
+        }
+
+        return (IOProvider reader) -> {
+            while (true) {
+                try {
+                    T value = ioProvider.apply(reader);
+                    Optional<String> exception = rulesList.stream()
+                            .map(rule -> rule.validation(value))
+                            .filter(Optional::isPresent)
+                            .findFirst()
+                            .flatMap(Function.identity());
                     if (exception.isPresent()) {
                         throw new ValidationException(exception.get());
                     }
@@ -40,15 +62,14 @@ public class Builder<T> {
                     validation.getMessageError().accept(reader, e.getMessage());
                 } catch (RuntimeException e) {
                     String error = switch (e) {
-                        case NullPointerException npe -> "________________________";
-                        case DateTimeParseException dtpe -> "/////////////////////////";
+                        case NullPointerException npe -> "null";
+                        case DateTimeParseException dtpe -> "parser";
                         case NumberFormatException nfe -> "The string contains symbols, please try again";
-                        default -> "............." + e.getMessage();
+                        default -> "Validation error:" + e.getMessage();
                     };
                     validation.getMessageError().accept(reader, error);
                 }
             }
-            throw new ValidationException("-----------------");
         };
     }
 }

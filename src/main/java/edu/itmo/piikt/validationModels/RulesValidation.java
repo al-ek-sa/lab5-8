@@ -82,4 +82,18 @@ public final class RulesValidation {
             }
         };
     }
+
+    public static ValidationRules<String> validationDate() {
+        return input -> {
+            if (input == null || input.isBlank() || "null".equalsIgnoreCase(input.trim())) {
+                return Optional.empty();
+            }
+            try {
+                LocalDate.parse(input);
+                return Optional.empty();
+            } catch (DateTimeParseException e) {
+                return Optional.of(ValidationMessage.DATE.getText());
+            }
+        };
+    }
 }
