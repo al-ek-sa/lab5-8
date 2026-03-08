@@ -1,11 +1,9 @@
 package edu.itmo.piikt.validationModels;
 
-import edu.itmo.piikt.exception.ValidationException;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.*;
 import java.math.BigDecimal;
 import java.time.*;
-import java.time.format.DateTimeParseException;
 import java.util.function.Function;
 
 /**
@@ -49,32 +47,23 @@ public class ValidationWorker implements TypeIOProvider {
         this.organization = new ValidationOrganization(io);
         Validation validationIO = type(io);
 
-        this.startDateValidation = new Builder<String>().add(RulesValidation.blank()).validation(validationIO)
-                .build(reader -> {
+        this.startDateValidation = new Builder<String>().add(RulesValidation.blank()).add(RulesValidation.localDate())
+                .validation(validationIO).build(reader -> {
                     ConsoleMessage.START_DATE.printMessage(reader);
                     return reader.readLine();
-                }).andThen(input -> {
-                    try {
-                        return LocalDate.parse(input);
-                    } catch (DateTimeParseException e) {
-                        throw new ValidationException(ValidationMessage.DATE.getText());
-                    }
-                });
+                }).andThen(LocalDate::parse);
 
-        this.endDateValidation = new Builder<String>().validation(validationIO).build(reader -> {
-            ConsoleMessage.END_DATE.printMessage(reader);
-            return reader.readLine();
-        }).andThen(input -> {
-            if (input == null || input.isBlank() || "null".equalsIgnoreCase(input.trim())) {
-                return null;
-            }
-            try {
-                LocalDate date = LocalDate.parse(input);
-                return ZonedDateTime.of(date, LocalTime.now(), ZoneId.systemDefault());
-            } catch (DateTimeParseException e) {
-                throw new ValidationException(ValidationMessage.DATE.getText());
-            }
-        });
+        this.endDateValidation = new Builder<String>().add(RulesValidation.localDate()).validation(validationIO)
+                .build(reader -> {
+                    ConsoleMessage.END_DATE.printMessage(reader);
+                    return reader.readLine();
+                }).andThen(input -> {
+                    if (input == null || input.isBlank() || "null".equalsIgnoreCase(input.trim())) {
+                        return null;
+                    }
+                    LocalDate date = LocalDate.parse(input);
+                    return ZonedDateTime.of(date, LocalTime.now(), ZoneId.systemDefault());
+                });
 
         this.nameValidation = new Builder<String>().add(RulesValidation.blank()).validation(validationIO)
                 .build(reader -> {
@@ -82,16 +71,11 @@ public class ValidationWorker implements TypeIOProvider {
                     return reader.readLine();
                 });
 
-        this.salaryValidation = new Builder<BigDecimal>().add(RulesValidation.floatMAX())
-                .add(RulesValidation.floatMIN()).validation(validationIO).build(reader -> {
+        this.salaryValidation = new Builder<BigDecimal>().add(RulesValidation.floatMAX()).add(RulesValidation.salary())
+                .validation(validationIO).build(reader -> {
                     ConsoleMessage.SALARY.printMessage(reader);
                     return new BigDecimal(reader.readLine());
-                }).andThen(input -> {
-                    float salary = input.floatValue();
-                    if (salary <= 0)
-                        throw new ValidationException(ValidationMessage.SALARY.getText());
-                    return salary;
-                });
+                }).andThen(BigDecimal::floatValue);
     }
 
     public String validationName(IOProvider io) {

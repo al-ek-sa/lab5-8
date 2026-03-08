@@ -32,15 +32,10 @@ public class ValidationOrganization implements TypeIOProvider {
         Validation validationIO = type(io);
 
         this.annualTurnoverValidation = new Builder<BigInteger>().add(RulesValidation.integerMAX())
-                .add(RulesValidation.integerMIN()).validation(validationIO).build(reader -> {
+                .add(RulesValidation.annualTurnover()).validation(validationIO).build(reader -> {
                     ConsoleMessage.ANNUAL_TURNOVER.printMessage(reader);
                     return new BigInteger(reader.readLine());
-                }).andThen(input -> {
-                    int annualTurnover = input.intValue();
-                    if (annualTurnover <= 0)
-                        throw new ValidationException(ValidationMessage.ANNUAL_TURNOVER.getText());
-                    return annualTurnover;
-                });
+                }).andThen(BigInteger::intValue);
     }
 
     public int validationAnnualTurnover(IOProvider io) {

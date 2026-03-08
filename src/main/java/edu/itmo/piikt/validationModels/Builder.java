@@ -3,6 +3,7 @@ package edu.itmo.piikt.validationModels;
 import edu.itmo.piikt.exception.ValidationException;
 import edu.itmo.piikt.io.IOProvider;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +38,14 @@ public class Builder<T> {
                     return value;
                 } catch (ValidationException e) {
                     validation.getMessageError().accept(reader, e.getMessage());
+                } catch (RuntimeException e) {
+                    String error = switch (e) {
+                        case NullPointerException npe -> "________________________";
+                        case DateTimeParseException dtpe -> "/////////////////////////";
+                        case NumberFormatException nfe -> "The string contains symbols, please try again";
+                        default -> "............." + e.getMessage();
+                    };
+                    validation.getMessageError().accept(reader, error);
                 }
             }
             throw new ValidationException("-----------------");

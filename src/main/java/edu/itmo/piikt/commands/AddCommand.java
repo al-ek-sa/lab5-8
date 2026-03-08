@@ -28,12 +28,12 @@ public final class AddCommand implements BaseSimpleCommand {
     }
 
     @Override
-    public void before() {
+    public void after() {
         logger.log(Level.INFO, "Item successfully added");
     }
 
     @Override
-    public void after() {
+    public void before() {
         logger.log(Level.INFO, "Start adding an item");
     }
 

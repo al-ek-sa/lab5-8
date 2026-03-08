@@ -2,18 +2,24 @@ package edu.itmo.piikt.validationModels;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
 public final class RulesValidation {
     private RulesValidation() {
     }
 
-    public static ValidationRules<Long> xCoordinate() {
-        return x -> x > 10 ? Optional.of(ValidationMessage.COORDINATE_X.getText()) : Optional.empty();
+    public static ValidationRules<BigInteger> xCoordinate() {
+        return x -> x.compareTo(BigInteger.valueOf(10)) > 0
+                ? Optional.of(ValidationMessage.COORDINATE_X.getText())
+                : Optional.empty();
     }
 
-    public static ValidationRules<Float> yCoordinate() {
-        return y -> y <= -644 ? Optional.of(ValidationMessage.COORDINATE_Y.getText()) : Optional.empty();
+    public static ValidationRules<BigDecimal> yCoordinate() {
+        return y -> y.compareTo(BigDecimal.valueOf(-644)) <= 0
+                ? Optional.of(ValidationMessage.COORDINATE_Y.getText())
+                : Optional.empty();
     }
 
     public static ValidationRules<String> blank() {
@@ -28,18 +34,6 @@ public final class RulesValidation {
                 : Optional.empty();
     }
 
-    public static ValidationRules<BigDecimal> floatMIN() {
-        return max -> max.compareTo(BigDecimal.valueOf(Float.MIN_VALUE)) < 0
-                ? Optional.of(ValidationMessage.MIN_FLOAT.getText())
-                : Optional.empty();
-    }
-
-    public static ValidationRules<BigInteger> longMAX() {
-        return max -> max.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0
-                ? Optional.of(ValidationMessage.MAX_LONG.getText())
-                : Optional.empty();
-    }
-
     public static ValidationRules<BigInteger> longMIN() {
         return min -> min.compareTo(BigInteger.valueOf(Long.MIN_VALUE)) < 0
                 ? Optional.of(ValidationMessage.MIN_LONG.getText())
@@ -47,18 +41,45 @@ public final class RulesValidation {
     }
 
     public static ValidationRules<BigInteger> integerMAX() {
-        return max -> max.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0
+        return max -> max.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0
                 ? Optional.of(ValidationMessage.MAX_INTEGER.getText())
                 : Optional.empty();
     }
 
     public static ValidationRules<BigInteger> integerMIN() {
-        return min -> min.compareTo(BigInteger.valueOf(Long.MIN_VALUE)) < 0
+        return min -> min.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0
                 ? Optional.of(ValidationMessage.MIN_INTEGER.getText())
                 : Optional.empty();
     }
 
-    public static ValidationRules<Integer> enumRuler(int max) {
-        return line -> (line < 1 || line > max) ? Optional.of(ValidationMessage.ENUM.getText()) : Optional.empty();
+    public static ValidationRules<BigInteger> enumRuler(int max) {
+        return line -> {
+            if (line.compareTo(BigInteger.valueOf(1)) < 0 || line.compareTo(BigInteger.valueOf(max)) > 0) {
+                return Optional.of(ValidationMessage.ENUM.getText());
+            }
+            return Optional.empty();
+        };
+    }
+    public static ValidationRules<BigInteger> annualTurnover() {
+        return input -> input.compareTo(BigInteger.ZERO) <= 0
+                ? Optional.of(ValidationMessage.ANNUAL_TURNOVER.getText())
+                : Optional.empty();
+    }
+
+    public static ValidationRules<BigDecimal> salary() {
+        return input -> input.compareTo(BigDecimal.ZERO) <= 0
+                ? Optional.of(ValidationMessage.ANNUAL_TURNOVER.getText())
+                : Optional.empty();
+    }
+
+    public static ValidationRules<String> localDate() {
+        return input -> {
+            try {
+                LocalDate.parse(input);
+                return Optional.empty();
+            } catch (DateTimeParseException e) {
+                return Optional.of(ValidationMessage.DATE.getText());
+            }
+        };
     }
 }

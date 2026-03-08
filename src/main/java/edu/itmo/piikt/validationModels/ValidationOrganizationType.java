@@ -4,6 +4,7 @@ import edu.itmo.piikt.exception.*;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.OrganizationType;
 
+import java.math.BigInteger;
 import java.util.function.Function;
 
 /**
@@ -17,15 +18,15 @@ public class ValidationOrganizationType implements TypeIOProvider {
     public ValidationOrganizationType(IOProvider io) {
         Validation validation = type(io);
 
-        this.organizationValidation = new Builder<Integer>()
-                .add(RulesValidation.enumRuler(OrganizationType.values().length)).validation(validation)
-                .build(reader -> {
+        this.organizationValidation = new Builder<BigInteger>().add(RulesValidation.integerMIN())
+                .add(RulesValidation.integerMAX()).add(RulesValidation.enumRuler(OrganizationType.values().length))
+                .validation(validation).build(reader -> {
                     ConsoleMessage.ENUM.printMessage(reader);
                     for (OrganizationType organizationType : OrganizationType.values()) {
                         reader.println("(" + organizationType.getId() + ") " + organizationType.name());
                     }
-                    return Integer.parseInt(reader.readLine());
-                }).andThen(id -> OrganizationType.values()[id - 1]);
+                    return new BigInteger(reader.readLine());
+                }).andThen(input -> OrganizationType.values()[input.intValue() - 1]);
     }
 
     public OrganizationType organizationType(IOProvider io) {

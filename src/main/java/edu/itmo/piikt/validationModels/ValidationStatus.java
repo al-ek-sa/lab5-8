@@ -3,6 +3,8 @@ package edu.itmo.piikt.validationModels;
 import edu.itmo.piikt.exception.*;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.Status;
+
+import java.math.BigInteger;
 import java.util.function.Function;
 
 /**
@@ -16,15 +18,16 @@ public class ValidationStatus implements TypeIOProvider {
     public ValidationStatus(IOProvider io) {
         Validation validation = type(io);
 
-        this.statusValidation = new Builder<Integer>().add(RulesValidation.enumRuler(Status.values().length))
+        this.statusValidation = new Builder<BigInteger>().add(RulesValidation.integerMAX())
+                .add(RulesValidation.integerMIN()).add(RulesValidation.enumRuler(Status.values().length))
                 .validation(validation).build(reader -> {
                     ConsoleMessage.ENUM.printMessage(reader);
                     for (Status status : Status.values()) {
                         reader.println("(" + status.getId() + ") " + status.name());
                     }
 
-                    return Integer.parseInt(reader.readLine());
-                }).andThen(id -> Status.values()[id - 1]);
+                    return new BigInteger(reader.readLine());
+                }).andThen(input -> Status.values()[input.intValue() - 1]);
     }
 
     public Status status(IOProvider io) {

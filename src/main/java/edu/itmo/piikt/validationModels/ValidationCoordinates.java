@@ -27,27 +27,17 @@ public class ValidationCoordinates implements TypeIOProvider {
     public ValidationCoordinates(IOProvider io) {
         Validation validationIO = type(io);
 
-        this.xValidation = new Builder<BigInteger>().add(RulesValidation.longMAX()).add(RulesValidation.longMIN())
+        this.xValidation = new Builder<BigInteger>().add(RulesValidation.longMIN()).add(RulesValidation.xCoordinate())
                 .validation(validationIO).build(reader -> {
                     ConsoleMessage.X_COORDINATE.printMessage(reader);
                     return new BigInteger(reader.readLine());
-                }).andThen(input -> {
-                    long x = input.longValue();
-                    if (x > 10)
-                        throw new ValidationException(ValidationMessage.COORDINATE_X.getText());
-                    return x;
-                });
+                }).andThen(BigInteger::longValue);
 
-        this.yValidation = new Builder<BigDecimal>().add(RulesValidation.floatMAX()).validation(validationIO)
-                .build(reader -> {
+        this.yValidation = new Builder<BigDecimal>().add(RulesValidation.floatMAX()).add(RulesValidation.yCoordinate())
+                .validation(validationIO).build(reader -> {
                     ConsoleMessage.Y_COORDINATE.printMessage(reader);
                     return new BigDecimal(reader.readLine());
-                }).andThen(input -> {
-                    float y = input.floatValue();
-                    if (y <= -644)
-                        throw new ValidationException(ValidationMessage.COORDINATE_Y.getText());
-                    return y;
-                });
+                }).andThen(BigDecimal::floatValue);
 
     }
     public Long validatorX(IOProvider io) {
