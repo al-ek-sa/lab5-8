@@ -18,14 +18,12 @@ import java.util.function.Function;
  * @author Lishyk Aliaksandra
  * @version 3.0
  */
-public class ValidationAddress implements  TypeIOProvider{
+public class ValidationAddress implements TypeIOProvider {
     private final Function<IOProvider, String> addressValidation;
     public ValidationAddress(IOProvider io) {
         Validation validationIO = type(io);
 
-        this.addressValidation = new Builder<String>()
-                .add(RulesValidation.blank())
-                .validation(validationIO)
+        this.addressValidation = new Builder<String>().add(RulesValidation.blank()).validation(validationIO)
                 .build(reader -> {
                     ConsoleMessage.STREET.printMessage(reader);
                     return reader.readLine();
@@ -34,6 +32,7 @@ public class ValidationAddress implements  TypeIOProvider{
 
     /**
      * The method validates the address.
+     *
      * @return Address
      */
     public Address validationAddress(IOProvider io) {

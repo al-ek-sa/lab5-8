@@ -4,6 +4,7 @@ import edu.itmo.piikt.exception.*;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.Organization;
 import java.math.BigInteger;
+import java.util.function.Function;
 
 /**
  * The class generates an Organization with the specified conditions:
@@ -20,84 +21,30 @@ import java.math.BigInteger;
  * @author Lishyk Aliaksandra
  * @version 2.0
  */
-public class ValidationOrganization {
+public class ValidationOrganization implements TypeIOProvider {
     private ValidationOrganizationType type;
     private ValidationAddress address;
+    private final Function<IOProvider, Integer> annualTurnoverValidation;
 
     public ValidationOrganization(IOProvider io) {
-        this.type = new ValidationOrganizationType();
+        this.type = new ValidationOrganizationType(io);
         this.address = new ValidationAddress(io);
+        Validation validationIO = type(io);
+
+        this.annualTurnoverValidation = new Builder<BigInteger>().add(RulesValidation.integerMAX())
+                .add(RulesValidation.integerMIN()).validation(validationIO).build(reader -> {
+                    ConsoleMessage.ANNUAL_TURNOVER.printMessage(reader);
+                    return new BigInteger(reader.readLine());
+                }).andThen(input -> {
+                    int annualTurnover = input.intValue();
+                    if (annualTurnover <= 0)
+                        throw new ValidationException(ValidationMessage.ANNUAL_TURNOVER.getText());
+                    return annualTurnover;
+                });
     }
 
-    /**
-     * The method validates the annualTurnover value.
-     *
-     * @throws RuntimeException
-     *             The method may throw an exception if the reading type is unknown.
-     * @throws RuntimeException
-     *             If an incorrect value is entered in the file.
-     * @throws ExceptionBigIntegerMAX_INTEGER
-     *             If the value entered in the console exceeds the upper limit of
-     *             the int type.
-     * @throws ExceptionAnnualTunover
-     *             If the value entered in the console is not greater than zero or
-     *             falls below the lower limit of the int type range.
-     * @return annualTurnover
-     */
     public int validationAnnualTurnover(IOProvider io) {
-        while (true) {
-            try {
-                io.printField("Enter annual turnover",
-                        "(annual turnover must be an integer greater than 0. Field is required)");
-                String input = io.readLine();
-                if (input == null || input.isBlank() || "null".equalsIgnoreCase(input.trim())) {
-                    if (io.name().equals("File")) {
-                        throw new RuntimeException("_____________________");
-                    } else {
-                        throw new ExceptionNull();
-                    }
-                }
-                BigInteger bigInteger = new BigInteger(input);
-                if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
-                    if (io.name().equals("File")) {
-                        throw new RuntimeException("_____________________");
-                    } else {
-                        throw new ExceptionBigIntegerMAX_INTEGER();
-                    }
-                }
-                if (bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0) {
-                    if (io.name().equals("File")) {
-                        throw new RuntimeException("_____________________");
-                    } else {
-                        throw new ExceptionAnnualTunover();
-                    }
-                }
-                int annualTurnoverConsole = Integer.parseInt(input);
-                if (annualTurnoverConsole > 0) {
-                    return annualTurnoverConsole;
-                } else {
-                    if (io.name().equals("File")) {
-                        throw new RuntimeException("_____________________");
-                    } else {
-                        throw new ExceptionAnnualTunover();
-                    }
-                }
-            } catch (ExceptionNull e) {
-                io.printException(e.getMessage());
-            } catch (ExceptionBigIntegerMAX_INTEGER e) {
-                io.printException(e.getMessage());
-            } catch (ExceptionBigIntegerMIN_INTEGER e) {
-                io.printException(e.getMessage());
-            } catch (ExceptionAnnualTunover e) {
-                io.printException(e.getMessage());
-            } catch (RuntimeException e) {
-                if (io.name().equals("File")) {
-                    throw new RuntimeException();
-                } else {
-                    io.printException("The string contains symbols, please try again");
-                }
-            }
-        }
+        return annualTurnoverValidation.apply(io);
     }
 
     /**

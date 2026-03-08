@@ -3,7 +3,7 @@ package edu.itmo.piikt.validationModels;
 import edu.itmo.piikt.exception.*;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.Status;
-import java.math.BigInteger;
+import java.util.function.Function;
 
 /**
  * The class returns the selected instance of the enum Status.
@@ -11,79 +11,23 @@ import java.math.BigInteger;
  * @author Lishyk Aliaksandra
  * @version 2.0
  */
-public class ValidationStatus {
-    public ValidationStatus() {
+public class ValidationStatus implements TypeIOProvider {
+    private final Function<IOProvider, Status> statusValidation;
+    public ValidationStatus(IOProvider io) {
+        Validation validation = type(io);
+
+        this.statusValidation = new Builder<Integer>().add(RulesValidation.enumRuler(Status.values().length))
+                .validation(validation).build(reader -> {
+                    ConsoleMessage.ENUM.printMessage(reader);
+                    for (Status status : Status.values()) {
+                        reader.println("(" + status.getId() + ") " + status.name());
+                    }
+
+                    return Integer.parseInt(reader.readLine());
+                }).andThen(id -> Status.values()[id - 1]);
     }
 
-    /**
-     * The method returns an instance of the enum Status based on the entered
-     * instance number.
-     *
-     * @throws RuntimeException
-     *             The method may throw an exception if the reading type is unknown.
-     * @throws RuntimeException
-     *             When the number is not entered in the file, there are errors
-     *             parsing the entered value into an int, or when the entered number
-     *             is not found among the registered instance numbers.
-     * @throws ExceptionNull
-     *             If no value is entered into the console or null is entered.
-     * @throws ExceptionEnum
-     *             If the value entered into the console does not match the instance
-     *             numbers, as well as when entering values outside the range of
-     *             int.
-     * @throws RuntimeException
-     *             When there are errors parsing the value entered into the console
-     *             into an int.
-     * @return Status
-     */
     public Status status(IOProvider io) {
-        while (true) {
-            io.printField("Select the status", "(enter its number)");
-            for (Status status : Status.values()) {
-                io.println("(" + status.getId() + ") " + status.name());
-            }
-            try {
-                String idStatus = io.readLine();
-                if (idStatus == null || idStatus.isBlank() || "null".equalsIgnoreCase(idStatus.trim())) {
-                    if (io.name().equals("File")) {
-                        throw new RuntimeException("_______________________________");
-                    } else {
-                        throw new ExceptionNull();
-                    }
-                }
-                BigInteger bigInteger = new BigInteger(idStatus);
-                if (bigInteger.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0
-                        || bigInteger.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0) {
-                    if (io.name().equals("File")) {
-                        throw new RuntimeException("__________________________________");
-                    } else {
-                        throw new ExceptionEnum();
-                    }
-                }
-                int id = Integer.parseInt(idStatus);
-                if (id < 1 || id > Status.values().length) {
-                    if (io.name().equals("File")) {
-                        throw new RuntimeException("________________________________");
-                    } else {
-                        throw new ExceptionEnum();
-                    }
-                }
-                for (Status status : Status.values()) {
-                    if (status.getId() == id) {
-                        return status;
-                    }
-                }
-            } catch (ExceptionNull e) {
-                io.printException(e.getMessage());
-            } catch (ExceptionEnum e) {
-                io.printException(e.getMessage());
-            } catch (RuntimeException e) {
-                if (io.name().equals("File")) {
-                    throw new RuntimeException("___________________________________");
-                } else {
-                    io.printException("The string contains symbols, please try again.");
-                }
-            }
-        }
+        return statusValidation.apply(io);
     }
 }

@@ -1,10 +1,12 @@
 package edu.itmo.piikt.validationModels;
 
+import edu.itmo.piikt.exception.ValidationException;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.models.*;
 import java.math.BigDecimal;
 import java.time.*;
 import java.time.format.DateTimeParseException;
+import java.util.function.Function;
 
 /**
  * The class generates an employee with the specified conditions:
@@ -32,216 +34,80 @@ import java.time.format.DateTimeParseException;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-public class ValidationWorker {
+public class ValidationWorker implements TypeIOProvider {
     private ValidationCoordinates coordinates;
     private ValidationStatus status;
     private ValidationOrganization organization;
+    private final Function<IOProvider, String> nameValidation;
+    private final Function<IOProvider, Float> salaryValidation;
+    private final Function<IOProvider, LocalDate> startDateValidation;
+    private final Function<IOProvider, ZonedDateTime> endDateValidation;
 
     public ValidationWorker(IOProvider io) {
-        this.coordinates = new ValidationCoordinates();
-        this.status = new ValidationStatus();
+        this.coordinates = new ValidationCoordinates(io);
+        this.status = new ValidationStatus(io);
         this.organization = new ValidationOrganization(io);
+        Validation validationIO = type(io);
+
+        this.startDateValidation = new Builder<String>().add(RulesValidation.blank()).validation(validationIO)
+                .build(reader -> {
+                    ConsoleMessage.START_DATE.printMessage(reader);
+                    return reader.readLine();
+                }).andThen(input -> {
+                    try {
+                        return LocalDate.parse(input);
+                    } catch (DateTimeParseException e) {
+                        throw new ValidationException(ValidationMessage.DATE.getText());
+                    }
+                });
+
+        this.endDateValidation = new Builder<String>().validation(validationIO).build(reader -> {
+            ConsoleMessage.END_DATE.printMessage(reader);
+            return reader.readLine();
+        }).andThen(input -> {
+            if (input == null || input.isBlank() || "null".equalsIgnoreCase(input.trim())) {
+                return null;
+            }
+            try {
+                LocalDate date = LocalDate.parse(input);
+                return ZonedDateTime.of(date, LocalTime.now(), ZoneId.systemDefault());
+            } catch (DateTimeParseException e) {
+                throw new ValidationException(ValidationMessage.DATE.getText());
+            }
+        });
+
+        this.nameValidation = new Builder<String>().add(RulesValidation.blank()).validation(validationIO)
+                .build(reader -> {
+                    ConsoleMessage.NAME.printMessage(reader);
+                    return reader.readLine();
+                });
+
+        this.salaryValidation = new Builder<BigDecimal>().add(RulesValidation.floatMAX())
+                .add(RulesValidation.floatMIN()).validation(validationIO).build(reader -> {
+                    ConsoleMessage.SALARY.printMessage(reader);
+                    return new BigDecimal(reader.readLine());
+                }).andThen(input -> {
+                    float salary = input.floatValue();
+                    if (salary <= 0)
+                        throw new ValidationException(ValidationMessage.SALARY.getText());
+                    return salary;
+                });
     }
 
-    /**
-     * The method validates the name value. The method has two implementations:
-     * reading from the console and reading from a file. If a field is missing in
-     * the file, the method returns nothing. If a field is missing in the console,
-     * the method prompts for re-entry.
-     *
-     * @throws ExceptionNull
-     *             When reading from the console, if a field is not filled in
-     * @throws RuntimeException
-     *             When reading a script, if the name is not entered.
-     * @throws RuntimeException
-     *             The method may throw an exception if the reading type is unknown.
-     * @return name
-     */
     public String validationName(IOProvider io) {
-        if (io.name().equals("File")) {
-            String nameConsole = io.readLine();
-            if (!(nameConsole == null || nameConsole.isBlank() || "null".equalsIgnoreCase(nameConsole.trim()))) {
-                return nameConsole;
-            } else {
-                throw new RuntimeException("Field not entered, please try again");
-            }
-        }
-
-        if (io.name().equals("Console")) {
-            while (true) {
-                try {
-                    io.printField("Enter name", "(field is required)");
-                    String nameConsole = io.readLine();
-                    if (!nameConsole.isBlank() && !nameConsole.equals("null")) {
-                        return nameConsole;
-                    } else {
-                        throw new ExceptionNull();
-                    }
-                } catch (ExceptionNull e) {
-                    io.printException(e.getMessage());
-                }
-            }
-
-        } else {
-            throw new RuntimeException("Unknown reading type");
-        }
+        return nameValidation.apply(io);
     }
 
-    /**
-     * The method validates the salary value.
-     *
-     * @throws RuntimeException
-     *             The method may throw an exception if the reading type is unknown.
-     * @throws RuntimeException
-     *             When the value is not greater than 0.
-     * @throws RuntimeException
-     *             When there is an error parsing the entered value into Float.
-     * @throws ExceptionBigDecimalMAX_FLOAT
-     *             When a value outside the range of Float is entered into the
-     *             console.
-     * @throws ExceptionSalary
-     *             When a value not greater than 0 is entered into the console
-     * @throws RuntimeException
-     *             Errors when parsing the value entered into the console is
-     *             incorrect for the Float type.
-     * @return salary
-     */
     public Float validationSalary(IOProvider io) {
-        while (true) {
-            io.printField("Enter salary", "(value must be greater than 0)");
-            try {
-                String input = io.readLine();
-                if (input == null || input.isBlank() || "null".equalsIgnoreCase(input.trim())) {
-                    return null;
-                }
-                String inputFloat = input.replace(',', '.');
-                BigDecimal bigDecimal = new BigDecimal(inputFloat);
-                if (bigDecimal.compareTo(BigDecimal.valueOf(Float.MAX_VALUE)) > 0) {
-                    if (io.name().equals("File")) {
-                        throw new RuntimeException();
-                    } else {
-                        throw new ExceptionBigDecimalMAX_FLOAT();
-                    }
-                }
-                if (bigDecimal.compareTo(BigDecimal.valueOf(Float.MIN_VALUE)) < 0) {
-                    if (io.name().equals("File")) {
-                        throw new RuntimeException();
-                    } else {
-                        throw new ExceptionSalary();
-                    }
-                }
-                float salaryConsole = Float.parseFloat(inputFloat);
-                if (salaryConsole > 0) {
-                    return salaryConsole;
-                } else {
-                    if (io.name().equals("File")) {
-                        throw new RuntimeException();
-                    } else {
-                        throw new ExceptionSalary();
-                    }
-                }
-            } catch (ExceptionBigDecimalMAX_FLOAT e) {
-                io.printException(e.getMessage());
-            } catch (ExceptionSalary e) {
-                io.printException(e.getMessage());
-            } catch (RuntimeException e) {
-                if (io.name().equals("File")) {
-                    throw new RuntimeException();
-                } else {
-                    io.printException("The string contains symbols, please try again");
-                }
-            }
-        }
+        return salaryValidation.apply(io);
     }
 
-    /**
-     * The method validates the startDate values.
-     *
-     * @throws RuntimeException
-     *             The method may throw an exception if the reading type is unknown.
-     * @throws RuntimeException
-     *             When the value in the file is in an incorrect format or not
-     *             entered.
-     * @throws ExceptionNull
-     *             When no value is entered into the console.
-     * @throws ExceptionDate
-     *             When the input format of the value in the console is incorrect.
-     * @return startDate
-     */
     public LocalDate validationStartDate(IOProvider io) {
-        while (true) {
-            try {
-                io.printField("Enter start date", "(format: 2024-01-15, field is required)");
-                String startDateConsole = io.readLine();
-                if (startDateConsole == null || startDateConsole.isBlank()
-                        || "null".equalsIgnoreCase(startDateConsole.trim())) {
-                    if (io.name().equals("File")) {
-                        throw new RuntimeException();
-                    } else {
-                        throw new ExceptionNull();
-                    }
-                }
-                try {
-                    LocalDate format = LocalDate.parse(startDateConsole);
-                    return format;
-                } catch (DateTimeParseException e) {
-                    if (io.name().equals("File")) {
-                        throw new RuntimeException();
-                    } else {
-                        io.printException("Invalid input, please enter the value again");
-                    }
-                }
-            } catch (ExceptionNull e) {
-                io.printException(e.getMessage());
-            } catch (ExceptionDate e) {
-                io.printException(e.getMessage());
-            } catch (RuntimeException e) {
-                if (io.name().equals("File")) {
-                    throw new RuntimeException();
-                } else {
-                    io.printException("__________");
-                }
-            }
-        }
+        return startDateValidation.apply(io);
     }
 
-    /**
-     * The method validates endDate.
-     *
-     * @throws RuntimeException
-     *             The method may throw an exception if the reading type is unknown.
-     * @throws DateTimeParseException
-     *             When the date is entered incorrectly or not entered.
-     * @return endDate
-     */
     public ZonedDateTime validationEndDate(IOProvider io) {
-        while (true) {
-            try {
-                io.printField("Enter dismissal date", "(format: 2026-02-15)");
-                String endDateConsole = io.readLine();
-                if (endDateConsole == null || endDateConsole.isBlank()
-                        || "null".equalsIgnoreCase(endDateConsole.trim())) {
-                    return null;
-                }
-                try {
-                    LocalTime timeNow = LocalTime.now();
-                    LocalDate date = LocalDate.parse(endDateConsole);
-                    return ZonedDateTime.of(date, timeNow, ZoneId.systemDefault());
-                } catch (DateTimeParseException e) {
-                    if (io.name().equals("File")) {
-                        throw new RuntimeException();
-                    } else {
-                        io.printException("The date could not be parsed into the required format");
-                    }
-                }
-            } catch (RuntimeException e) {
-                if (io.name().equals("File")) {
-                    throw new RuntimeException();
-                } else {
-                    io.printException(e.getMessage());
-                }
-            }
-        }
+        return endDateValidation.apply(io);
     }
 
     /**

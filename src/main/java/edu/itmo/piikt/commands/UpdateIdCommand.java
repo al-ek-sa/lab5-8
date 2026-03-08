@@ -36,7 +36,7 @@ public final class UpdateIdCommand implements IdMatches, BaseArgumentCommand {
         idMatches(argument, logger);
         var workers = HistoryWorker.INSTANCE.getListWorker();
         workers.removeIf(w -> w.getId().equals(argument));
-        Worker newWorker = new ValidationWorker().worker(io);
+        Worker newWorker = new ValidationWorker(io).worker(io);
         HistoryWorker.INSTANCE.add(newWorker);
     }
 

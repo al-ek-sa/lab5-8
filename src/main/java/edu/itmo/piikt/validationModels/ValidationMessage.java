@@ -21,12 +21,14 @@ public enum ValidationMessage {
 
     MIN_LONG("The number is too small, it is less than " + Long.MIN_VALUE + ", please try again."),
 
+    MIN_FLOAT("The number is too small, it is less than " + Float.MIN_VALUE + ", please try again."),
+
     NULL("The field is required, please try again"),
 
     ENUM("The entered value does not match the numbers of the suggested options");
 
     private final String text;
-    ValidationMessage(String text){
+    ValidationMessage(String text) {
         this.text = text;
     }
 
