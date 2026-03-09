@@ -14,6 +14,10 @@ import edu.itmo.piikt.validation.modelValidation.ValidationOrganization;
  *
  * @author Lishyk Aliaksandra
  * @version 2.1
+ * @see BaseSimpleCommand
+ * @see IOProvider
+ * @see ValidationOrganization
+ * @see HistoryWorker
  */
 public final class CountByOrganizationCommand implements BaseSimpleCommand {
     public CountByOrganizationCommand() {

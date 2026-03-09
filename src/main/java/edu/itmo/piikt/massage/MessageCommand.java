@@ -4,6 +4,13 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Enum with a set of messages that the user may receive when entering commands.
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ * @see Optional
+ * @see Logger
+ */
 public enum MessageCommand {
     ADD(Optional.of("Start adding an item"), Optional.of("Item successfully added"), Optional.empty()),
 

@@ -4,6 +4,11 @@ import edu.itmo.piikt.io.provider.IOProvider;
 
 import java.util.function.BiConsumer;
 
+/**
+ * Enum representing validation modes for input processing.
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 public enum Validation {
     CONSOLE(true, (io, message) -> io.printException(message)),
 
@@ -18,5 +23,9 @@ public enum Validation {
 
     public BiConsumer<IOProvider, String> getMessageError() {
         return messageError;
+    }
+
+    public boolean isRepeat() {
+        return repeat;
     }
 }

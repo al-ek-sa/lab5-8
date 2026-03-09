@@ -22,6 +22,12 @@ import java.util.function.Function;
  *
  * @author Lishyk Aliaksandra
  * @version 3.0
+ * @see Function
+ * @see TypeIOProvider
+ * @see Validation
+ * @see Builder
+ * @see ConsoleMessage
+ * @see IOProvider
  */
 public class ValidationAddress implements TypeIOProvider {
     private final Function<IOProvider, String> addressValidation;

@@ -3,12 +3,21 @@ package edu.itmo.piikt.interfaces;
 import edu.itmo.piikt.history.HistoryWorker;
 import edu.itmo.piikt.io.provider.IOProvider;
 
+/**
+ * Checks if the worker collection is empty and notifies the user.
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ * @see HistoryWorker
+ */
 public interface FindWorker {
+    /**
+     * Checks if the worker collection is empty and notifies the user.
+     * @param io the input/ output provider.
+     */
     default void findWorker(IOProvider io) {
         var list = HistoryWorker.INSTANCE.getListWorker();
         if (list.isEmpty()) {
             io.println("No registered employees found");
-            return;
         }
     }
 }

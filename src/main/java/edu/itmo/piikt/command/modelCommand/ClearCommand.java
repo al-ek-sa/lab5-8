@@ -11,6 +11,10 @@ import edu.itmo.piikt.massage.MessageCommand;
  *
  * @author Lishyk Aliaksandra
  * @version 2.1
+ * @see Confirmation
+ * @see BaseSimpleCommand
+ * @see IOProvider
+ * @see HistoryWorker
  */
 public final class ClearCommand implements Confirmation, BaseSimpleCommand {
     public ClearCommand() {

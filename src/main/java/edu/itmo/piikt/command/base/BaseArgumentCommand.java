@@ -18,25 +18,25 @@ public interface BaseArgumentCommand extends BaseCommand {
      * @param argument
      */
     default void execute(IOProvider io, String argument) {
-        io.printeDesign();
+        io.printDesign();
         try {
             before();
-            io.printeDesign();
+            io.printDesign();
             doExecute(io, argument);
-            io.printeDesign();
+            io.printDesign();
             after();
         } catch (IllegalArgumentException e) {
-            io.printeDesign();
+            io.printDesign();
             onException();
-            io.printeDesign();
+            io.printDesign();
             throw e;
         } catch (RuntimeException e) {
-            io.printeDesign();
+            io.printDesign();
             onError(e);
-            io.printeDesign();
+            io.printDesign();
             throw e;
         } finally {
-            io.printeDesign();
+            io.printDesign();
         }
     }
 

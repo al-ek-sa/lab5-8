@@ -37,7 +37,21 @@ import java.util.function.Function;
  * The class provides methods that validate the field values.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
+ *
+ * @see Function
+ * @see TypeIOProvider
+ * @see Validation
+ * @see Builder
+ * @see ConsoleMessage
+ * @see IOProvider
+ * @see ValidationAddress
+ * @see ValidationOrganization
+ * @see ValidationCoordinates
+ * @see ValidationStatus
+ * @see Confirmation
+ * @see ZonedDateTime
+ * @see LocalDate
  */
 public class ValidationWorker implements TypeIOProvider, Confirmation {
     private ValidationCoordinates coordinates;

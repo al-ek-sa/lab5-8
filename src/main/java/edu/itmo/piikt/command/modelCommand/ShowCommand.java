@@ -11,7 +11,10 @@ import edu.itmo.piikt.massage.MessageCommand;
  * in string representation to the standard output stream.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
+ * @see FindWorker
+ * @see BaseSimpleCommand
+ * @see HistoryWorker
  */
 public final class ShowCommand implements FindWorker, BaseSimpleCommand {
     public ShowCommand() {

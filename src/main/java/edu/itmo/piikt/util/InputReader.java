@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
  *
  * @author Lishyk Aliaksandra
  * @version 2.1
+ * @see BufferedReader
  */
 public class InputReader {
     private static final BufferedReader READER = new BufferedReader(new InputStreamReader(System.in));

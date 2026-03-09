@@ -3,7 +3,8 @@ package edu.itmo.piikt.command.functionalInterface;
 import edu.itmo.piikt.io.provider.IOProvider;
 
 /**
- * An abstract class that is the common parent for commands with arguments.
+ * Functional interface for argument-based commands.
+ * Enables command registration using lambda expressions.
  *
  * @author Lishyk Aliaksandra
  * @version 2.0

@@ -3,12 +3,15 @@ package edu.itmo.piikt.interfaces;
 import edu.itmo.piikt.history.HistoryWorker;
 import edu.itmo.piikt.io.provider.IOProvider;
 
+/**
+ * Interface implementing a default method for checking the absence of workers with the given ID.
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 public interface IdMatches {
     /**
-     * A method that checks if there are elements in the collection with the same id
-     * as the id entered by the user.
+     * Checks if a worker with the specified ID exists in the collection and notifies the user if not.
      */
-
     default void idMatches(String argument, IOProvider io) {
         var listWorker = HistoryWorker.INSTANCE.getListWorker();
 

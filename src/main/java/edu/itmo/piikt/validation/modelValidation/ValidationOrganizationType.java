@@ -17,6 +17,13 @@ import java.util.function.Function;
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
+ * @see Function
+ * @see TypeIOProvider
+ * @see Validation
+ * @see Builder
+ * @see ConsoleMessage
+ * @see IOProvider
+ * @see OrganizationType
  */
 public class ValidationOrganizationType implements TypeIOProvider {
     private final Function<IOProvider, OrganizationType> organizationValidation;

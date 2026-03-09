@@ -11,7 +11,11 @@ import edu.itmo.piikt.manager.ValidationCommand;
  * to a file).
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
+ * @see IOProvider
+ * @see Confirmation
+ * @see BaseSimpleCommand
+ * @see ValidationCommand
  */
 public final class ExitCommand implements Confirmation, BaseSimpleCommand {
 

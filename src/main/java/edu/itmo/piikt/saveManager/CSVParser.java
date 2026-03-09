@@ -14,7 +14,15 @@ import java.util.logging.Logger;
  * format, saving to a file, and reading data from a file.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 1.1
+ * @see Logger
+ * @see CSVParser
+ * @see HistoryWorker
+ * @see ColumnPositionMappingStrategy
+ * @see StatefulBeanToCsv
+ * @see BufferedInputStream
+ * @see BufferedReader
+ * @see InputStreamReader
  */
 public class CSVParser {
     private String fileName;
@@ -52,7 +60,7 @@ public class CSVParser {
             logger.log(Level.INFO, "Data saved to file");
 
         } catch (FileNotFoundException e) {
-            logger.log(Level.INFO, "нет прав доступа в файл");
+            logger.log(Level.INFO, "No file access permissions");
         } catch (Exception e) {
             logger.log(Level.INFO, "Error saving CSV: " + e.getMessage());
         }
@@ -69,7 +77,7 @@ public class CSVParser {
             try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(fileName));
                     InputStreamReader reader = new InputStreamReader(input)) {
                 CsvToBean<Worker> csvReader = new CsvToBeanBuilder<Worker>(reader).withType(Worker.class)
-                        .withSeparator(';').withIgnoreLeadingWhiteSpace(true).withIgnoreEmptyLine(true)
+                        .withSeparator(';').withIgnoreLeadingWhiteSpace(true).withIgnoreEmptyLine(false)
                         .withThrowExceptions(true).build();
                 List<Worker> workers = csvReader.parse();
                 HistoryWorker historyWorker = HistoryWorker.INSTANCE;
@@ -77,7 +85,7 @@ public class CSVParser {
                 workers.forEach(historyWorker::add);
 
             } catch (FileNotFoundException e) {
-                io.printError("нет прав доступа в файл");
+                io.printError("No file access permissions");
             } catch (Exception e) {
                 io.printError("Error reading CSV" + e.getMessage());
             }

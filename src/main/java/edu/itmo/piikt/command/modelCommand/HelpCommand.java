@@ -9,7 +9,9 @@ import edu.itmo.piikt.massage.MessageCommand;
  * The class implements the command help : display help on available commands.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
+ * @see IOProvider
+ * @see Commands
  */
 
 // public class HelpCommand implements Command {

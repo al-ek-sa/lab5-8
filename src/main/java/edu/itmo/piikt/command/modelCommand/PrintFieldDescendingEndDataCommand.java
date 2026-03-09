@@ -14,7 +14,11 @@ import java.util.LinkedList;
  * endDate field values of all elements in descending order.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
+ * @see IOProvider
+ * @see HistoryWorker
+ * @see FindWorker
+ * @see BaseSimpleCommand
  */
 public final class PrintFieldDescendingEndDataCommand implements FindWorker, BaseSimpleCommand {
     public PrintFieldDescendingEndDataCommand() {

@@ -10,7 +10,10 @@ import edu.itmo.piikt.massage.MessageCommand;
  * whose name field value contains the specified substring.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
+ * @see BaseArgumentCommand
+ * @see IOProvider
+ * @see HistoryWorker
  */
 public final class FilterContainsNameCommand implements BaseArgumentCommand {
     public FilterContainsNameCommand() {

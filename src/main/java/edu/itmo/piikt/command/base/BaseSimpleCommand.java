@@ -12,20 +12,20 @@ import edu.itmo.piikt.io.provider.IOProvider;
  */
 public interface BaseSimpleCommand extends BaseCommand {
     default void execute(IOProvider io) {
-        io.printeDesign();
+        io.printDesign();
         try {
             before();
-            io.printeDesign();
+            io.printDesign();
             doExecute(io);
-            io.printeDesign();
+            io.printDesign();
             after();
         } catch (RuntimeException e) {
-            io.printeDesign();
+            io.printDesign();
             onError(e);
-            io.printeDesign();
+            io.printDesign();
             throw e;
         } finally {
-            io.printeDesign();
+            io.printDesign();
         }
     }
     void doExecute(IOProvider io);

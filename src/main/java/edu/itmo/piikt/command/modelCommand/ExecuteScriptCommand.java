@@ -19,7 +19,11 @@ import java.util.logging.Logger;
  * format as the user enters them in interactive mode.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.2
+ * @see BaseArgumentCommand
+ * @see Logger
+ * @see IOProvider
+ * @see ValidationCommand
  */
 public final class ExecuteScriptCommand implements BaseArgumentCommand {
     private final List<String> name = new ArrayList<>();

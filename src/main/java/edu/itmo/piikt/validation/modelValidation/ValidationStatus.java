@@ -17,6 +17,13 @@ import java.util.function.Function;
  *
  * @author Lishyk Aliaksandra
  * @version 2.0
+ * @see Function
+ * @see TypeIOProvider
+ * @see Validation
+ * @see Builder
+ * @see ConsoleMessage
+ * @see IOProvider
+ * @see Status
  */
 public class ValidationStatus implements TypeIOProvider {
     private final Function<IOProvider, Status> statusValidation;

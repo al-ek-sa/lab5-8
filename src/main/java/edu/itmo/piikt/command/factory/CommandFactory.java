@@ -8,7 +8,9 @@ import edu.itmo.piikt.command.functionalInterface.SimpleCommand;
 import java.util.*;
 
 /**
- * A factory class for storing registered commands.
+ * Command factory class.
+ * All commands are registered here and sorted into different collections:
+ * argument commands and simple commands.
  *
  * @author Lishyk Aliaksandra
  * @version 2.0

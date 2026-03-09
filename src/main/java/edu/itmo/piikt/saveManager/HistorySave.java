@@ -11,6 +11,9 @@ import java.util.Scanner;
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
+ * @see HistoryCommands
+ * @see PrintWriter
+ * @see Scanner
  */
 public class HistorySave {
     private String fileName;

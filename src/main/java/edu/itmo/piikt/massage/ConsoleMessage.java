@@ -2,6 +2,12 @@ package edu.itmo.piikt.massage;
 
 import edu.itmo.piikt.io.provider.IOProvider;
 
+/**
+ * Enum containing the list of messages that the user will receive when adding a new worker.
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ * @see IOProvider
+ */
 public enum ConsoleMessage {
     STREET("Enter the street where the employee lives", "(required field)"),
 

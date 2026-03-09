@@ -10,7 +10,11 @@ import edu.itmo.piikt.massage.MessageCommand;
  * entering available commands
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
+ *
+ * @see IOProvider
+ * @see BaseSimpleCommand
+ * @see Commands
  */
 public final class HelpEnteringCommand implements BaseSimpleCommand {
     public HelpEnteringCommand() {

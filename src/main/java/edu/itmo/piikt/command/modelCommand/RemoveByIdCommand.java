@@ -12,6 +12,10 @@ import edu.itmo.piikt.massage.MessageCommand;
  *
  * @author Lishyk Aliaksandra
  * @version 2.0
+ * @see IdMatches
+ * @see BaseArgumentCommand
+ * @see IOProvider
+ * @see HistoryWorker
  */
 public final class RemoveByIdCommand implements IdMatches, BaseArgumentCommand {
     public RemoveByIdCommand() {

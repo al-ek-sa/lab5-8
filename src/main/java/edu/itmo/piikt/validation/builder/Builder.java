@@ -9,24 +9,49 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+/**
+ * Builds a validation function based on the configured rules and mode.
+ * @param <T> the type of value being validated
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ * @see ValidationRules
+ * @see Function
+ * @see Validation
+ * @see IOProvider
+ */
 public class Builder<T> {
     private final List<ValidationRules<T>> rulesList = new ArrayList<>();
     private Validation validation;
     public Builder() {
     }
 
+    /**
+     * Adds a validation rule to the chain.
+     * @param rules the validation rule to add
+     * @return this builder for method chaining
+     */
     public Builder<T> add(ValidationRules<T> rules) {
         rulesList.add(rules);
         return this;
     }
 
+    /**
+     * Sets the validation mode.
+     * @param valid the validation mode
+     * @return this builder for method chaining
+     */
     public Builder<T> validation(Validation valid) {
         this.validation = valid;
         return this;
     }
 
+    /**
+     * Builds a validation function based on the configured rules and mode.
+     * @param ioProvider
+     * @return a function that takes IOProvider and returns a validated value
+     */
     public Function<IOProvider, T> build(Function<IOProvider, T> ioProvider) {
-        if (validation == Validation.FILE) {
+        if (!validation.isRepeat()) {
             return (IOProvider reader) -> {
                 try {
                     T value = ioProvider.apply(reader);

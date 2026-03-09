@@ -10,7 +10,9 @@ import edu.itmo.piikt.massage.MessageCommand;
  * (without their arguments).
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
+ * @see IOProvider
+ * @see HistoryCommands
  */
 public final class HistoryCommand implements BaseSimpleCommand {
     int LIMIT_HISTORY = 14;

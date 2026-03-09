@@ -11,7 +11,10 @@ import edu.itmo.piikt.massage.MessageCommand;
  * of elements, etc.).
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
+ * @see IOProvider
+ * @see HistoryWorker
+ * @see BaseSimpleCommand
  */
 public final class InfoCommand implements BaseSimpleCommand {
     public InfoCommand() {

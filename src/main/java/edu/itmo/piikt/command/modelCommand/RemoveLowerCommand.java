@@ -13,7 +13,10 @@ import java.time.format.DateTimeParseException;
  * collection all elements that are lower than the specified one.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 3.0
+ * @see BaseArgumentCommand
+ * @see IOProvider
+ * @see HistoryWorker
  */
 public final class RemoveLowerCommand implements BaseArgumentCommand {
     public RemoveLowerCommand() {

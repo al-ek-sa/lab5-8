@@ -9,7 +9,9 @@ import edu.itmo.piikt.saveManager.CSVParser;
  * The class implements the command save : save the collection to a file.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
+ * @see IOProvider
+ * @see BaseSimpleCommand
  */
 public final class SaveCommand implements BaseSimpleCommand {
     public SaveCommand() {

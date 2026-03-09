@@ -7,6 +7,7 @@ import java.util.UUID;
  *
  * @author Lishyk Aliaksandra
  * @version 2.1
+ * @see UUID
  */
 public class GeneratorId {
     private GeneratorId() {

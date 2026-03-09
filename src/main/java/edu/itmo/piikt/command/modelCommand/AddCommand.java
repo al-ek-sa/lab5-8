@@ -12,6 +12,9 @@ import edu.itmo.piikt.validation.modelValidation.ValidationWorker;
  *
  * @author Lishyk Aliaksandra
  * @version 2.1
+ * @see BaseSimpleCommand
+ * @see IOProvider
+ * @see HistoryWorker
  */
 
 // public class AddCommand implements Command {

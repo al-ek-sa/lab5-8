@@ -4,16 +4,20 @@ import edu.itmo.piikt.io.data.NameIOProvider;
 import edu.itmo.piikt.io.provider.IOProvider;
 
 /**
- * An interface that must be inherited if the command adds some conditions for
- * execution.
+ * Interface implementing a default method for action confirmation.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
 public interface Confirmation {
+    /**
+     * Requests and validates user confirmation for an action.
+     * @param io the input/output provider
+     * @return {@code true} if user confirmed, {@code false} otherwise
+     */
     default Boolean confirmation(IOProvider io) {
         if (io.name().equals(NameIOProvider.CONSOLE.getName())) {
-            io.printeDesign();
+            io.printDesign();
             question(io);
             while (true) {
                 String input = io.readLine();
@@ -35,6 +39,15 @@ public interface Confirmation {
         }
     }
 
+    /**
+     * Displays the confirmation question to the user.
+     * @param io the input/output provider
+     */
     void question(IOProvider io);
+
+    /**
+     * Handles user's refusal to confirm the action.
+     * @param io the input/output provider
+     */
     void refusal(IOProvider io);
 }

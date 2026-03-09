@@ -11,7 +11,11 @@ import edu.itmo.piikt.massage.MessageCommand;
  * collection.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
+ * @see FindWorker
+ * @see BaseSimpleCommand
+ * @see IOProvider
+ * @see HistoryWorker
  */
 public final class HeadCommand implements FindWorker, BaseSimpleCommand {
     public HeadCommand() {

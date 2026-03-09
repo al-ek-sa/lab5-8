@@ -15,7 +15,11 @@ import java.util.UUID;
  * the collection element whose id is equal to the specified one.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
+ * @see IdMatches
+ * @see BaseArgumentCommand
+ * @see IOProvider
+ * @see HistoryWorker
  */
 public final class UpdateIdCommand implements IdMatches, BaseArgumentCommand {
     public UpdateIdCommand() {

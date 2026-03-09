@@ -1,5 +1,10 @@
 package edu.itmo.piikt.massage;
 
+/**
+ *  Enum with a set of messages that will be displayed to the user when the form is filled out incorrectly.
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 public enum ValidationMessage {
     ANNUAL_TURNOVER("A non-positive value has been entered, please try again"),
 
