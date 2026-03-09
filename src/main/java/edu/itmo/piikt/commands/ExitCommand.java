@@ -3,9 +3,8 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.BaseSimpleCommand;
 import edu.itmo.piikt.managers.Confirmation;
+import edu.itmo.piikt.managers.MessageCommand;
 import edu.itmo.piikt.managers.ValidationCommand;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The class implements the command exit : terminate the program (without saving
@@ -15,7 +14,6 @@ import java.util.logging.Logger;
  * @version 2.0
  */
 public final class ExitCommand implements Confirmation, BaseSimpleCommand {
-    Logger logger = Logger.getLogger(ExitCommand.class.getName());
 
     public ExitCommand() {
     }
@@ -28,13 +26,8 @@ public final class ExitCommand implements Confirmation, BaseSimpleCommand {
     }
 
     @Override
-    public void before() {
-        logger.log(Level.INFO, "Exit application");
-    }
-
-    @Override
-    public void onError(RuntimeException e) {
-        logger.log(Level.SEVERE, "Exit application");
+    public MessageCommand getMessageCommand() {
+        return MessageCommand.EXIT;
     }
 
     @Override
@@ -43,7 +36,7 @@ public final class ExitCommand implements Confirmation, BaseSimpleCommand {
     }
 
     @Override
-    public void refusal() {
-        logger.log(Level.INFO, "Command cancelled");
+    public void refusal(IOProvider io) {
+        io.println("Command cancelled");
     }
 }

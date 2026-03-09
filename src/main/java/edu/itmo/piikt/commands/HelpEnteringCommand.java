@@ -3,6 +3,7 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.BaseSimpleCommand;
 import edu.itmo.piikt.managers.Commands;
+import edu.itmo.piikt.managers.MessageCommand;
 
 /**
  * The class implements the command help_entering_command : display help on
@@ -19,5 +20,10 @@ public final class HelpEnteringCommand implements BaseSimpleCommand {
         for (Commands commands : Commands.values()) {
             io.println(commands.getName() + ": " + commands.getHelp());
         }
+    }
+
+    @Override
+    public MessageCommand getMessageCommand() {
+        return MessageCommand.HELP_ENTERING;
     }
 }

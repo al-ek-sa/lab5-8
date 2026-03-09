@@ -3,10 +3,9 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.BaseArgumentCommand;
+import edu.itmo.piikt.managers.MessageCommand;
 
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The class implements the command remove_lower {element} : remove from the
@@ -15,10 +14,8 @@ import java.util.logging.Logger;
  * @author Lishyk Aliaksandra
  * @version 2.0
  */
-public final class RemoveLowerCommander implements BaseArgumentCommand {
-    Logger logger = Logger.getLogger(RemoveLowerCommander.class.getName());
-
-    public RemoveLowerCommander() {
+public final class RemoveLowerCommand implements BaseArgumentCommand {
+    public RemoveLowerCommand() {
     }
     @Override
     public void doExecute(IOProvider io, String argument) {
@@ -31,17 +28,7 @@ public final class RemoveLowerCommander implements BaseArgumentCommand {
     }
 
     @Override
-    public void after() {
-        logger.log(Level.INFO, "Items successfully deleted");
-    }
-
-    @Override
-    public void onError(RuntimeException e) {
-        logger.log(Level.SEVERE, "Invalid UUID format");
-    }
-
-    @Override
-    public void before() {
-        logger.log(Level.INFO, "Deletion of items started");
+    public MessageCommand getMessageCommand() {
+        return MessageCommand.REMOVE_LOVER;
     }
 }

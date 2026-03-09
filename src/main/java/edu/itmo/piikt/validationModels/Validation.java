@@ -5,8 +5,9 @@ import edu.itmo.piikt.io.IOProvider;
 import java.util.function.BiConsumer;
 
 public enum Validation {
-    CONSOLE(true, (io, message) -> io.printException(message)), FILE(false,
-            (io, message) -> io.printException(message));
+    CONSOLE(true, (io, message) -> io.printException(message)),
+
+    FILE(false, (io, message) -> io.printException(message));
     private boolean repeat;
     private BiConsumer<IOProvider, String> messageError;
 
@@ -17,9 +18,5 @@ public enum Validation {
 
     public BiConsumer<IOProvider, String> getMessageError() {
         return messageError;
-    }
-
-    public boolean isRepeat() {
-        return repeat;
     }
 }

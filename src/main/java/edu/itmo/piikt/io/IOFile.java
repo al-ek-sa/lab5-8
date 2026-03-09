@@ -1,7 +1,6 @@
 package edu.itmo.piikt.io;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import edu.itmo.piikt.managers.NameIOProvider;
 
 import java.io.*;
 import java.util.ArrayDeque;
@@ -15,10 +14,8 @@ import java.util.Queue;
  * @version 2.0
  */
 public class IOFile implements IOProvider {
-    private static final Logger log = LogManager.getLogger(IOFile.class);
     private final BufferedReader reader;
     private final Queue<String> dataQueue = new ArrayDeque<>();
-    java.util.logging.Logger logger = java.util.logging.Logger.getLogger(IOFile.class.getName());
     public IOFile(String nameFile) throws IOException {
         this.reader = new BufferedReader(new FileReader(nameFile));
     }
@@ -73,7 +70,7 @@ public class IOFile implements IOProvider {
 
     @Override
     public String name() {
-        return "false";
+        return NameIOProvider.FILE.getName();
     }
 
     /**

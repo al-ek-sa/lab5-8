@@ -1,10 +1,7 @@
 package edu.itmo.piikt.interfaces;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
-
-import java.util.logging.Level;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import edu.itmo.piikt.io.IOProvider;
 
 public interface IdMatches {
     /**
@@ -12,12 +9,12 @@ public interface IdMatches {
      * as the id entered by the user.
      */
 
-    default void idMatches(String argument, Logger logger) {
+    default void idMatches(String argument, IOProvider io) {
         var listWorker = HistoryWorker.INSTANCE.getListWorker();
 
         boolean found = listWorker.stream().anyMatch(worker -> worker.getId().equals(argument));
         if (!found) {
-            logger.log(Level.INFO, "No employee with this ID");
+            io.println("No employee with this ID");
         }
     }
 }

@@ -4,11 +4,10 @@ import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.interfaces.FindWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.BaseSimpleCommand;
+import edu.itmo.piikt.managers.MessageCommand;
 
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The class implements the command print_field_descending_end_date : output the
@@ -18,8 +17,6 @@ import java.util.logging.Logger;
  * @version 2.0
  */
 public final class PrintFieldDescendingEndDataCommand implements FindWorker, BaseSimpleCommand {
-    Logger logger = Logger.getLogger(PrintFieldDescendingEndDataCommand.class.getName());
-
     public PrintFieldDescendingEndDataCommand() {
     }
 
@@ -29,7 +26,7 @@ public final class PrintFieldDescendingEndDataCommand implements FindWorker, Bas
      */
     @Override
     public void doExecute(IOProvider io) {
-        findWorker(logger);
+        findWorker(io);
         var listWorker = HistoryWorker.INSTANCE.getListWorker();
         var sortedList = new LinkedList<>(listWorker);
         sortedList.sort((worker1, worker2) -> {
@@ -48,12 +45,7 @@ public final class PrintFieldDescendingEndDataCommand implements FindWorker, Bas
     }
 
     @Override
-    public void onError(RuntimeException e) {
-        logger.log(Level.SEVERE, "Failed to sort");
-    }
-
-    @Override
-    public void before() {
-        logger.log(Level.INFO, "Sorting by date of dismissal started");
+    public MessageCommand getMessageCommand() {
+        return MessageCommand.PRINT_FIELD_DESCENDING_END_DATE;
     }
 }

@@ -1,5 +1,6 @@
 package edu.itmo.piikt.io;
 
+import edu.itmo.piikt.managers.NameIOProvider;
 import edu.itmo.piikt.reader.InputReader;
 
 /**
@@ -47,6 +48,6 @@ public class IOConsole implements IOProvider {
 
     @Override
     public String name() {
-        return "true";
+        return NameIOProvider.CONSOLE.getName();
     }
 }

@@ -3,7 +3,7 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.BaseSimpleCommand;
 import edu.itmo.piikt.managers.Commands;
-import java.util.logging.Logger;
+import edu.itmo.piikt.managers.MessageCommand;
 
 /**
  * The class implements the command help : display help on available commands.
@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 
 // public class HelpCommand implements Command {
 public final class HelpCommand implements BaseSimpleCommand {
-    Logger logger = Logger.getLogger(HelpCommand.class.getName());
 
     public HelpCommand() {
     }
@@ -23,5 +22,10 @@ public final class HelpCommand implements BaseSimpleCommand {
         for (Commands commands : Commands.values()) {
             io.println(commands.getName() + ": " + commands.getDescription());
         }
+    }
+
+    @Override
+    public MessageCommand getMessageCommand() {
+        return MessageCommand.HELP;
     }
 }

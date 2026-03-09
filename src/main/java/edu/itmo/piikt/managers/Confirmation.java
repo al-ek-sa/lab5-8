@@ -11,7 +11,7 @@ import edu.itmo.piikt.io.IOProvider;
  */
 public interface Confirmation {
     default Boolean confirmation(IOProvider io) {
-        if (io.name().equals("Console")) {
+        if (io.name().equals(NameIOProvider.CONSOLE.getName())) {
             io.printeDesign();
             question(io);
             while (true) {
@@ -23,7 +23,7 @@ public interface Confirmation {
                 }
                 for (Refusal fals : Refusal.values()) {
                     if (input.equals(fals.getName())) {
-                        refusal();
+                        refusal(io);
                         return false;
 
                     }
@@ -35,5 +35,5 @@ public interface Confirmation {
     }
 
     void question(IOProvider io);
-    void refusal();
+    void refusal(IOProvider io);
 }

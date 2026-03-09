@@ -4,17 +4,15 @@ import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.BaseSimpleCommand;
 import edu.itmo.piikt.managers.Confirmation;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import edu.itmo.piikt.managers.MessageCommand;
 
 /**
  * The class implements the command clear : clear the collection.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
  */
 public final class ClearCommand implements Confirmation, BaseSimpleCommand {
-    Logger logger = Logger.getLogger(ClearCommand.class.getName());
     public ClearCommand() {
     }
     @Override
@@ -22,7 +20,6 @@ public final class ClearCommand implements Confirmation, BaseSimpleCommand {
         Boolean consent = confirmation(io);
         if (consent == true) {
             HistoryWorker.INSTANCE.clear();
-
         }
     }
 
@@ -32,17 +29,12 @@ public final class ClearCommand implements Confirmation, BaseSimpleCommand {
     }
 
     @Override
-    public void before() {
-        logger.log(Level.INFO, "Consent received, clearing collection");
+    public MessageCommand getMessageCommand() {
+        return MessageCommand.CLEAR;
     }
 
     @Override
-    public void after() {
-        logger.log(Level.INFO, "Collection cleared successfully");
-    }
-
-    @Override
-    public void refusal() {
-        logger.log(Level.INFO, "Consent received, clearing collection");
+    public void refusal(IOProvider io) {
+        io.println("Consent received, clearing collection");
     }
 }

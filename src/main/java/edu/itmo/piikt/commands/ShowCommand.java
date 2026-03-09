@@ -4,9 +4,7 @@ import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.interfaces.FindWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.BaseSimpleCommand;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import edu.itmo.piikt.managers.MessageCommand;
 
 /**
  * The class implements the command show : output all elements of the collection
@@ -16,8 +14,6 @@ import java.util.logging.Logger;
  * @version 2.0
  */
 public final class ShowCommand implements FindWorker, BaseSimpleCommand {
-    Logger logger = Logger.getLogger(ShowCommand.class.getName());
-
     public ShowCommand() {
     }
 
@@ -25,22 +21,12 @@ public final class ShowCommand implements FindWorker, BaseSimpleCommand {
     @Override
     public void doExecute(IOProvider io) {
         var list = HistoryWorker.INSTANCE.getListWorker();
-        findWorker(logger);
+        findWorker(io);
         list.forEach(worker -> io.println(worker.toString()));
     }
 
     @Override
-    public void before() {
-        logger.log(Level.INFO, "Displaying collection");
-    }
-
-    @Override
-    public void onError(RuntimeException e) {
-        logger.log(Level.SEVERE, "Displaying collection interrupted");
-    }
-
-    @Override
-    public void after() {
-        logger.log(Level.INFO, "Collection displayed");
+    public MessageCommand getMessageCommand() {
+        return MessageCommand.SHOW;
     }
 }

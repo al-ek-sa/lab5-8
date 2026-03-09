@@ -22,6 +22,10 @@ public final class RulesValidation {
                 : Optional.empty();
     }
 
+    public static <T extends Number> ValidationRules<T> nullPointer() {
+        return line -> line == null ? Optional.of(ValidationMessage.NULL.getText()) : Optional.empty();
+    }
+
     public static ValidationRules<String> blank() {
         return line -> line == null || line.isBlank() || "null".equalsIgnoreCase(line.trim())
                 ? Optional.of(ValidationMessage.NULL.getText())

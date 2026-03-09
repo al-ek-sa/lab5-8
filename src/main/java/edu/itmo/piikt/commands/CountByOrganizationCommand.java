@@ -3,10 +3,9 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.BaseSimpleCommand;
+import edu.itmo.piikt.managers.MessageCommand;
 import edu.itmo.piikt.models.Organization;
 import edu.itmo.piikt.validationModels.ValidationOrganization;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The class implements the command count_by_organization organization : output
@@ -14,11 +13,9 @@ import java.util.logging.Logger;
  * specified one.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
  */
 public final class CountByOrganizationCommand implements BaseSimpleCommand {
-    Logger logger = Logger.getLogger(CountByOrganizationCommand.class.getName());
-
     public CountByOrganizationCommand() {
     }
 
@@ -37,17 +34,7 @@ public final class CountByOrganizationCommand implements BaseSimpleCommand {
     }
 
     @Override
-    public void before() {
-        logger.log(Level.INFO, "Enter all values for Organization");
-    }
-
-    @Override
-    public void onError(RuntimeException e) {
-        logger.log(Level.SEVERE, "Execution error, elements not displayed");
-    }
-
-    @Override
-    public void after() {
-        logger.log(Level.INFO, "Number of elements displayed successfully");
+    public MessageCommand getMessageCommand() {
+        return MessageCommand.COUNT_BY_ORGANIZATION;
     }
 }

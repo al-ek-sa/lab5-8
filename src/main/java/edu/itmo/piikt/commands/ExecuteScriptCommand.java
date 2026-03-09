@@ -4,6 +4,8 @@ import edu.itmo.piikt.exception.ExceptionScript;
 import edu.itmo.piikt.io.IOFile;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.BaseArgumentCommand;
+import edu.itmo.piikt.managers.MessageCommand;
+import edu.itmo.piikt.managers.NameIOProvider;
 import edu.itmo.piikt.managers.ValidationCommand;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public final class ExecuteScriptCommand implements BaseArgumentCommand {
     @Override
     public void doExecute(IOProvider io, String argument) {
         try {
-            if (io.name().equals("Console")) {
+            if (io.name().equals(NameIOProvider.CONSOLE.getName())) {
                 name.clear();
             }
             name.forEach(nameFile -> {
@@ -47,17 +49,7 @@ public final class ExecuteScriptCommand implements BaseArgumentCommand {
     }
 
     @Override
-    public void onError(RuntimeException e) {
-        logger.log(Level.SEVERE, e.getMessage());
-    }
-
-    @Override
-    public void before() {
-        logger.log(Level.INFO, "Start of script reading");
-    }
-
-    @Override
-    public void after() {
-        logger.log(Level.INFO, "Script successfully read and executed");
+    public MessageCommand getMessageCommand() {
+        return MessageCommand.EXECUTE_SCRIPT;
     }
 }

@@ -1,17 +1,13 @@
 package edu.itmo.piikt.interfaces;
 
 import edu.itmo.piikt.historyWorker.HistoryWorker;
-
-import java.util.logging.Level;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import edu.itmo.piikt.io.IOProvider;
 
 public interface FindWorker {
-    default void findWorker(Logger logger) {
+    default void findWorker(IOProvider io) {
         var list = HistoryWorker.INSTANCE.getListWorker();
         if (list.isEmpty()) {
-            logger.log(Level.INFO, "No registered employees found");
+            io.println("No registered employees found");
             return;
         }
     }

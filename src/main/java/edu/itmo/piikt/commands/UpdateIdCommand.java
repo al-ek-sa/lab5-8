@@ -4,12 +4,11 @@ import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.interfaces.IdMatches;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.BaseArgumentCommand;
+import edu.itmo.piikt.managers.MessageCommand;
 import edu.itmo.piikt.models.Worker;
 import edu.itmo.piikt.validationModels.ValidationWorker;
 
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The class implements the command update id {element} : update the value of
@@ -19,8 +18,6 @@ import java.util.logging.Logger;
  * @version 2.0
  */
 public final class UpdateIdCommand implements IdMatches, BaseArgumentCommand {
-    Logger logger = Logger.getLogger(UpdateIdCommand.class.getName());
-
     public UpdateIdCommand() {
     }
     /**
@@ -33,7 +30,7 @@ public final class UpdateIdCommand implements IdMatches, BaseArgumentCommand {
     @Override
     public void doExecute(IOProvider io, String argument) {
         UUID.fromString(argument);
-        idMatches(argument, logger);
+        idMatches(argument, io);
         var workers = HistoryWorker.INSTANCE.getListWorker();
         workers.removeIf(w -> w.getId().equals(argument));
         Worker newWorker = new ValidationWorker(io).worker(io);
@@ -41,17 +38,7 @@ public final class UpdateIdCommand implements IdMatches, BaseArgumentCommand {
     }
 
     @Override
-    public void after() {
-        logger.log(Level.INFO, "Data successfully updated");
-    }
-
-    @Override
-    public void onError(RuntimeException e) {
-        logger.log(Level.SEVERE, "Invalid UUID format");
-    }
-
-    @Override
-    public void before() {
-        logger.log(Level.INFO, "Start of data update");
+    public MessageCommand getMessageCommand() {
+        return MessageCommand.UPDATE_ID;
     }
 }

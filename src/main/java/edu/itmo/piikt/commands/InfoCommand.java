@@ -3,9 +3,7 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.BaseSimpleCommand;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import edu.itmo.piikt.managers.MessageCommand;
 
 /**
  * The class implements the command info : output information about the
@@ -16,8 +14,6 @@ import java.util.logging.Logger;
  * @version 2.0
  */
 public final class InfoCommand implements BaseSimpleCommand {
-    Logger logger = Logger.getLogger(InfoCommand.class.getName());
-
     public InfoCommand() {
     }
     @Override
@@ -31,17 +27,7 @@ public final class InfoCommand implements BaseSimpleCommand {
     }
 
     @Override
-    public void before() {
-        logger.log(Level.INFO, "Displaying information about the collection");
-    }
-
-    @Override
-    public void after() {
-        logger.log(Level.INFO, "Information successfully displayed");
-    }
-
-    @Override
-    public void onError(RuntimeException e) {
-        logger.log(Level.SEVERE, "Information not displayed");
+    public MessageCommand getMessageCommand() {
+        return MessageCommand.INFO;
     }
 }

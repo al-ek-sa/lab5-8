@@ -28,7 +28,7 @@ public class CommandFactory {
         argumentCommand(Commands.FILTER_CONTAINS_NAME, (i, arg) -> new FilterContainsNameCommand().execute(i, arg));
         argumentCommand(Commands.REMOVE_BY_ID, (i, arg) -> new RemoveByIdCommand().execute(i, arg));
         argumentCommand(Commands.UPDATE, (i, arg) -> new UpdateIdCommand().execute(i, arg));
-        argumentCommand(Commands.REMOVE_LOWER, (i, arg) -> new RemoveLowerCommander().execute(i, arg));
+        argumentCommand(Commands.REMOVE_LOWER, (i, arg) -> new RemoveLowerCommand().execute(i, arg));
         argumentCommand(Commands.EXECUTE_SCRIPT, (i, arg) -> new ExecuteScriptCommand().execute(i, arg));
         simpleCommand(Commands.PRINT_FIELD_DESCENDING_END_DATE, new PrintFieldDescendingEndDataCommand()::execute);
     }

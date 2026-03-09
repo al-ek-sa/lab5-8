@@ -3,9 +3,7 @@ package edu.itmo.piikt.commands;
 import edu.itmo.piikt.historyWorker.HistoryWorker;
 import edu.itmo.piikt.io.IOProvider;
 import edu.itmo.piikt.managers.BaseArgumentCommand;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import edu.itmo.piikt.managers.MessageCommand;
 
 /**
  * The class implements the command filter_contains_name name : output elements
@@ -15,8 +13,6 @@ import java.util.logging.Logger;
  * @version 2.0
  */
 public final class FilterContainsNameCommand implements BaseArgumentCommand {
-    Logger logger = Logger.getLogger(FilterContainsNameCommand.class.getName());
-
     public FilterContainsNameCommand() {
     }
     /**
@@ -34,17 +30,7 @@ public final class FilterContainsNameCommand implements BaseArgumentCommand {
     }
 
     @Override
-    public void before() {
-        logger.log(Level.INFO, "Search users by name");
-    }
-
-    @Override
-    public void after() {
-        logger.log(Level.INFO, "All users with the entered name have been displayed");
-    }
-
-    @Override
-    public void onError(RuntimeException e) {
-        logger.log(Level.SEVERE, "Search failed");
+    public MessageCommand getMessageCommand() {
+        return MessageCommand.FILTER_CONTAINS_NAME;
     }
 }
