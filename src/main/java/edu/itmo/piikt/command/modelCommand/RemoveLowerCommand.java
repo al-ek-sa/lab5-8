@@ -5,7 +5,8 @@ import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.command.base.BaseArgumentCommand;
 import edu.itmo.piikt.massage.MessageCommand;
 
-import java.util.UUID;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 /**
  * The class implements the command remove_lower {element} : remove from the
@@ -19,12 +20,16 @@ public final class RemoveLowerCommand implements BaseArgumentCommand {
     }
     @Override
     public void doExecute(IOProvider io, String argument) {
-        var listWorker = HistoryWorker.INSTANCE.getListWorker();
-        UUID input = UUID.fromString(argument);
-        listWorker.removeIf(worker -> {
-            UUID workerUuid = UUID.fromString(worker.getId());
-            return workerUuid.compareTo(input) < 0;
-        });
+        try {
+            LocalDate date = LocalDate.parse(argument.trim());
+            var listWorker = HistoryWorker.INSTANCE.getListWorker();
+            listWorker.removeIf(worker -> {
+                LocalDate startDate = worker.getStartDate();
+                return startDate.isAfter(date);
+            });
+        } catch (DateTimeParseException e) {
+            io.printException("Invalid date format");
+        }
     }
 
     @Override

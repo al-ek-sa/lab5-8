@@ -47,7 +47,7 @@ public enum ValidationCommand {
                 historySave.saveCollection(io);
 
                 if (nameCommands == null || nameCommands.isBlank() || "null".equalsIgnoreCase(nameCommands.trim())) {
-                    break;
+                    continue;
                 }
 
                 String input = nameCommands.trim();
