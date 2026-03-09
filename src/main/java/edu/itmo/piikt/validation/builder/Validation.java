@@ -1,0 +1,22 @@
+package edu.itmo.piikt.validation.builder;
+
+import edu.itmo.piikt.io.provider.IOProvider;
+
+import java.util.function.BiConsumer;
+
+public enum Validation {
+    CONSOLE(true, (io, message) -> io.printException(message)),
+
+    FILE(false, (io, message) -> io.printException(message));
+    private boolean repeat;
+    private BiConsumer<IOProvider, String> messageError;
+
+    Validation(boolean repeat, BiConsumer<IOProvider, String> messageError) {
+        this.repeat = repeat;
+        this.messageError = messageError;
+    }
+
+    public BiConsumer<IOProvider, String> getMessageError() {
+        return messageError;
+    }
+}

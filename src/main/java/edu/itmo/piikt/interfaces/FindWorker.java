@@ -1,7 +1,7 @@
 package edu.itmo.piikt.interfaces;
 
-import edu.itmo.piikt.historyWorker.HistoryWorker;
-import edu.itmo.piikt.io.IOProvider;
+import edu.itmo.piikt.history.HistoryWorker;
+import edu.itmo.piikt.io.provider.IOProvider;
 
 public interface FindWorker {
     default void findWorker(IOProvider io) {

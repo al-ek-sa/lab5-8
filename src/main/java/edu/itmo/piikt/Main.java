@@ -1,11 +1,11 @@
 package edu.itmo.piikt;
 
-import edu.itmo.piikt.commands.HelpCommand;
-import edu.itmo.piikt.commands.HelpEnteringCommand;
-import edu.itmo.piikt.io.IOConsole;
-import edu.itmo.piikt.io.IOProvider;
-import edu.itmo.piikt.managers.ValidationCommand;
-import edu.itmo.piikt.reader.CSVParser;
+import edu.itmo.piikt.command.modelCommand.HelpCommand;
+import edu.itmo.piikt.command.modelCommand.HelpEnteringCommand;
+import edu.itmo.piikt.io.providerType.IOConsole;
+import edu.itmo.piikt.io.provider.IOProvider;
+import edu.itmo.piikt.manager.ValidationCommand;
+import edu.itmo.piikt.saveManager.CSVParser;
 import java.util.logging.Logger;
 
 public class Main {
