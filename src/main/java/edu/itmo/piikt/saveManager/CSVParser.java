@@ -48,10 +48,7 @@ public class CSVParser {
 
             StatefulBeanToCsv<Worker> beanWriter = new StatefulBeanToCsvBuilder<Worker>(writer)
                     .withMappingStrategy(mappingStrategy).withSeparator(';').build();
-
             beanWriter.write(workers);
-
-            // данные сохраннены в файл
             logger.log(Level.INFO, "Data saved to file");
 
         } catch (FileNotFoundException e) {
@@ -73,7 +70,7 @@ public class CSVParser {
                     InputStreamReader reader = new InputStreamReader(input)) {
                 CsvToBean<Worker> csvReader = new CsvToBeanBuilder<Worker>(reader).withType(Worker.class)
                         .withSeparator(';').withIgnoreLeadingWhiteSpace(true).withIgnoreEmptyLine(true)
-                        .withThrowExceptions(false).build();
+                        .withThrowExceptions(true).build();
                 List<Worker> workers = csvReader.parse();
                 HistoryWorker historyWorker = HistoryWorker.INSTANCE;
 

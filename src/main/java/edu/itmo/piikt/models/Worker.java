@@ -76,9 +76,11 @@ public class Worker implements Comparable<Worker> {
      */
     @Override
     public String toString() {
-        return "id: " + uuid + ", name: " + name + ", coordinates: " + coordinates.toString() + ", creationDate: "
-                + creationDate + ", salary: " + salary + ", \nstartDate: " + startDate + ", endDate: " + endDate
-                + ", status: " + status.toString() + ", organization: " + organization.toString() + "\n";
+        return "id: " + uuid + ", name: " + name + ", coordinates: "
+                + (coordinates == null ? "null" : coordinates.toString()) + ", creationDate: " + creationDate
+                + ", salary: " + salary + ", \nstartDate: " + startDate + ", endDate: " + endDate + ", status: "
+                + (status == null ? "null" : status.toString()) + ", organization: "
+                + (organization == null ? "null" : organization.toString()) + "\n";
     }
 
     public String getName() {

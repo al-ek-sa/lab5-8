@@ -1,5 +1,6 @@
 package edu.itmo.piikt.validation.modelValidation;
 
+import edu.itmo.piikt.interfaces.confirmation.Confirmation;
 import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.massage.ConsoleMessage;
 import edu.itmo.piikt.models.*;
@@ -38,7 +39,7 @@ import java.util.function.Function;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-public class ValidationWorker implements TypeIOProvider {
+public class ValidationWorker implements TypeIOProvider, Confirmation {
     private ValidationCoordinates coordinates;
     private ValidationStatus status;
     private ValidationOrganization organization;
@@ -107,6 +108,17 @@ public class ValidationWorker implements TypeIOProvider {
      */
     public Worker worker(IOProvider io) {
         return new Worker(validationName(io), coordinates.coordinates(io), validationSalary(io),
-                validationStartDate(io), validationEndDate(io), status.status(io), organization.organization(io));
+                validationStartDate(io), validationEndDate(io), status.status(io),
+                confirmation(io) ? organization.organization(io) : null);
+    }
+
+    @Override
+    public void question(IOProvider io) {
+        io.println("Would you like to add organization information? (yes/no)");
+    }
+
+    @Override
+    public void refusal(IOProvider io) {
+        io.println("Organization details were not provided");
     }
 }

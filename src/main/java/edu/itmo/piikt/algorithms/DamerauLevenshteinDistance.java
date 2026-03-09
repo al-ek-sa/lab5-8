@@ -4,7 +4,7 @@ package edu.itmo.piikt.algorithms;
  * The class implements the Damerau-Levenshtein algorithm.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 1.1
  */
 public class DamerauLevenshteinDistance {
     public DamerauLevenshteinDistance() {

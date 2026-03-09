@@ -2,7 +2,21 @@ package edu.itmo.piikt.command.base;
 
 import edu.itmo.piikt.io.provider.IOProvider;
 
+/**
+ * Defines the contract for commands that accept arguments.
+ *
+ * @author Lishik Aliaksandra
+ * @version 1.0
+ * @see BaseCommand
+ * @see IOProvider
+ */
 public interface BaseArgumentCommand extends BaseCommand {
+    /**
+     *
+     * @param io
+     *            the input/output provider
+     * @param argument
+     */
     default void execute(IOProvider io, String argument) {
         io.printeDesign();
         try {
@@ -25,6 +39,14 @@ public interface BaseArgumentCommand extends BaseCommand {
             io.printeDesign();
         }
     }
+
+    /**
+     * Contains the core business logic of the command.
+     *
+     * @param io
+     *            the input/output provider
+     * @param argument
+     */
     void doExecute(IOProvider io, String argument);
     default void onException() {
     }

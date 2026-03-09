@@ -40,8 +40,8 @@ public final class Organization {
      */
     @Override
     public String toString() {
-        return " annualTurnover: " + annualTurnover + ", type: " + type.toString() + ", officialAddress: "
-                + officialAddress.toString();
+        return " annualTurnover: " + annualTurnover + ", type: " + (type == null ? "null" : type.toString())
+                + ", officialAddress: " + (officialAddress == null ? "null" : officialAddress.toString());
     }
 
     @Override
