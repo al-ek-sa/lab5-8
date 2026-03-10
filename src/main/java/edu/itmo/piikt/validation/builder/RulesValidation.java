@@ -10,6 +10,7 @@ import java.util.Optional;
 
 /**
  * A class that stores all possible rules used when adding employees.
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  * @see ValidationRules

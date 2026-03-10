@@ -24,7 +24,9 @@ public final class ShowCommand implements FindWorker, BaseSimpleCommand {
     @Override
     public void doExecute(IOProvider io) {
         var list = HistoryWorker.INSTANCE.getListWorker();
-        findWorker(io);
+        if (findWorker(io)) {
+            return;
+        }
         list.forEach(worker -> io.println(worker.toString()));
     }
 

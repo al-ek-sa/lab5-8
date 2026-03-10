@@ -1,5 +1,6 @@
 package edu.itmo.piikt.command.modelCommand;
 
+import edu.itmo.piikt.interfaces.confirmation.MessageConfirmation;
 import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.interfaces.confirmation.Confirmation;
@@ -16,6 +17,7 @@ import edu.itmo.piikt.manager.ValidationCommand;
  * @see Confirmation
  * @see BaseSimpleCommand
  * @see ValidationCommand
+ * @see MessageConfirmation
  */
 public final class ExitCommand implements Confirmation, BaseSimpleCommand {
 
@@ -36,11 +38,11 @@ public final class ExitCommand implements Confirmation, BaseSimpleCommand {
 
     @Override
     public void question(IOProvider io) {
-        io.printlnCommand("Are you sure you want to exit? (yes/no)");
+        io.printlnCommand(MessageConfirmation.EXIT.getQuestion());
     }
 
     @Override
     public void refusal(IOProvider io) {
-        io.println("Command cancelled");
+        io.println(MessageConfirmation.EXIT.getRefusal());
     }
 }

@@ -1,6 +1,7 @@
 package edu.itmo.piikt.validation.modelValidation;
 
 import edu.itmo.piikt.interfaces.confirmation.Confirmation;
+import edu.itmo.piikt.interfaces.confirmation.MessageConfirmation;
 import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.massage.ConsoleMessage;
 import edu.itmo.piikt.models.*;
@@ -52,6 +53,7 @@ import java.util.function.Function;
  * @see Confirmation
  * @see ZonedDateTime
  * @see LocalDate
+ * @see MessageConfirmation
  */
 public class ValidationWorker implements TypeIOProvider, Confirmation {
     private ValidationCoordinates coordinates;
@@ -128,11 +130,11 @@ public class ValidationWorker implements TypeIOProvider, Confirmation {
 
     @Override
     public void question(IOProvider io) {
-        io.println("Would you like to add organization information? (yes/no)");
+        io.println(MessageConfirmation.ORGANIZATION.getQuestion());
     }
 
     @Override
     public void refusal(IOProvider io) {
-        io.println("Organization details were not provided");
+        io.println(MessageConfirmation.ORGANIZATION.getRefusal());
     }
 }

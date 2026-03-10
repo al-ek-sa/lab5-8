@@ -6,6 +6,7 @@ import java.util.function.BiConsumer;
 
 /**
  * Enum representing validation modes for input processing.
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */

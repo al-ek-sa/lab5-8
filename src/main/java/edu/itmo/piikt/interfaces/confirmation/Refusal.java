@@ -2,6 +2,7 @@ package edu.itmo.piikt.interfaces.confirmation;
 
 /**
  * Enum containing possible negative user responses for confirmation prompts.
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */

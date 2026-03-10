@@ -1,7 +1,8 @@
 package edu.itmo.piikt.io.data;
 
 /**
- *  Enum containing the names of I/O providers.
+ * Enum containing the names of I/O providers.
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */

@@ -1,9 +1,10 @@
 package edu.itmo.piikt.command.data;
 
 /**
- * Enum containing data for all available commands.
- * This enumeration stores comprehensive information about each command,
- * including its name, description, and syntax rules.
+ * Enum containing data for all available commands. This enumeration stores
+ * comprehensive information about each command, including its name,
+ * description, and syntax rules.
+ *
  * @author Lishyk Aliaksandra
  * @version 2.0
  */

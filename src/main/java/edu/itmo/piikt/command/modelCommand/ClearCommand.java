@@ -1,6 +1,7 @@
 package edu.itmo.piikt.command.modelCommand;
 
 import edu.itmo.piikt.history.HistoryWorker;
+import edu.itmo.piikt.interfaces.confirmation.MessageConfirmation;
 import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.interfaces.confirmation.Confirmation;
@@ -15,6 +16,7 @@ import edu.itmo.piikt.massage.MessageCommand;
  * @see BaseSimpleCommand
  * @see IOProvider
  * @see HistoryWorker
+ * @see MessageConfirmation
  */
 public final class ClearCommand implements Confirmation, BaseSimpleCommand {
     public ClearCommand() {
@@ -29,7 +31,7 @@ public final class ClearCommand implements Confirmation, BaseSimpleCommand {
 
     @Override
     public void question(IOProvider io) {
-        io.printlnCommand("Are you sure you want to clear the collection? (yes/no)");
+        io.printlnCommand(MessageConfirmation.CLEAR.getQuestion());
     }
 
     @Override
@@ -39,6 +41,6 @@ public final class ClearCommand implements Confirmation, BaseSimpleCommand {
 
     @Override
     public void refusal(IOProvider io) {
-        io.println("Consent received, clearing collection");
+        io.println(MessageConfirmation.CLEAR.getRefusal());
     }
 }

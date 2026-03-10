@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 /**
  * Enum with a set of messages that the user may receive when entering commands.
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  * @see Optional

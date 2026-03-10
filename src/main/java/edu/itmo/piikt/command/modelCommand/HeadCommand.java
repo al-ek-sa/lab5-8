@@ -24,7 +24,9 @@ public final class HeadCommand implements FindWorker, BaseSimpleCommand {
     @Override
     public void doExecute(IOProvider io) {
         var list = HistoryWorker.INSTANCE.getListWorker();
-        findWorker(io);
+        if (findWorker(io)) {
+            return;
+        }
         io.println(list.getFirst().toString());
     }
 

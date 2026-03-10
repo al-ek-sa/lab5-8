@@ -1,7 +1,9 @@
 package edu.itmo.piikt.massage;
 
 /**
- *  Enum with a set of messages that will be displayed to the user when the form is filled out incorrectly.
+ * Enum with a set of messages that will be displayed to the user when the form
+ * is filled out incorrectly.
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */

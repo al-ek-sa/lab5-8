@@ -12,7 +12,9 @@ import edu.itmo.piikt.io.provider.IOProvider;
 public interface Confirmation {
     /**
      * Requests and validates user confirmation for an action.
-     * @param io the input/output provider
+     *
+     * @param io
+     *            the input/output provider
      * @return {@code true} if user confirmed, {@code false} otherwise
      */
     default Boolean confirmation(IOProvider io) {
@@ -41,13 +43,17 @@ public interface Confirmation {
 
     /**
      * Displays the confirmation question to the user.
-     * @param io the input/output provider
+     *
+     * @param io
+     *            the input/output provider
      */
     void question(IOProvider io);
 
     /**
      * Handles user's refusal to confirm the action.
-     * @param io the input/output provider
+     *
+     * @param io
+     *            the input/output provider
      */
     void refusal(IOProvider io);
 }

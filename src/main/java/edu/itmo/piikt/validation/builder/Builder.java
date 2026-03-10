@@ -11,7 +11,9 @@ import java.util.function.Function;
 
 /**
  * Builds a validation function based on the configured rules and mode.
- * @param <T> the type of value being validated
+ *
+ * @param <T>
+ *            the type of value being validated
  * @author Lishyk Aliaksandra
  * @version 1.0
  * @see ValidationRules
@@ -27,7 +29,9 @@ public class Builder<T> {
 
     /**
      * Adds a validation rule to the chain.
-     * @param rules the validation rule to add
+     *
+     * @param rules
+     *            the validation rule to add
      * @return this builder for method chaining
      */
     public Builder<T> add(ValidationRules<T> rules) {
@@ -37,7 +41,9 @@ public class Builder<T> {
 
     /**
      * Sets the validation mode.
-     * @param valid the validation mode
+     *
+     * @param valid
+     *            the validation mode
      * @return this builder for method chaining
      */
     public Builder<T> validation(Validation valid) {

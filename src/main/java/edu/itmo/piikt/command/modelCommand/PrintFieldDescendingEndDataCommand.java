@@ -30,7 +30,9 @@ public final class PrintFieldDescendingEndDataCommand implements FindWorker, Bas
      */
     @Override
     public void doExecute(IOProvider io) {
-        findWorker(io);
+        if (findWorker(io)) {
+            return;
+        }
         var listWorker = HistoryWorker.INSTANCE.getListWorker();
         var sortedList = new LinkedList<>(listWorker);
         sortedList.sort((worker1, worker2) -> {
@@ -43,7 +45,6 @@ public final class PrintFieldDescendingEndDataCommand implements FindWorker, Bas
                 return -1;
             return worker1.getEndDate().compareTo(worker2.getEndDate());
         });
-
         Collections.reverse(sortedList);
         sortedList.forEach(worker -> io.println(worker.toString()));
     }

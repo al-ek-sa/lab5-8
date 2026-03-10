@@ -17,10 +17,6 @@ public enum HistoryCommands {
         listCommands.addFirst(command);
     }
 
-    public Iterator<String> getIterator() {
-        return listCommands.iterator();
-    }
-
     public LinkedList<String> getLinkedList() {
         return listCommands;
     }

@@ -2,6 +2,9 @@ package edu.itmo.piikt.command.base;
 
 import edu.itmo.piikt.io.provider.IOProvider;
 
+import java.time.format.DateTimeParseException;
+import java.util.logging.Logger;
+
 /**
  * Defines the contract for commands that accept arguments.
  *
@@ -25,6 +28,11 @@ public interface BaseArgumentCommand extends BaseCommand {
             doExecute(io, argument);
             io.printDesign();
             after();
+        } catch (DateTimeParseException e) {
+            io.printDesign();
+            Logger.getLogger("Invalid date format");
+            io.printDesign();
+            throw e;
         } catch (IllegalArgumentException e) {
             io.printDesign();
             onException();
