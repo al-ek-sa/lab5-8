@@ -15,7 +15,7 @@ import java.util.UUID;
  * the collection element whose id is equal to the specified one.
  *
  * @author Lishyk Aliaksandra
- * @version 2.1
+ * @version 2.2
  * @see IdMatches
  * @see BaseArgumentCommand
  * @see IOProvider
@@ -36,7 +36,7 @@ public final class UpdateIdCommand implements IdMatches, BaseArgumentCommand {
         UUID.fromString(argument);
         idMatches(argument, io);
         var workers = HistoryWorker.INSTANCE.getListWorker();
-        workers.removeIf(w -> w.getId().equals(argument));
+        workers.removeIf(worker -> worker.getId().equals(argument));
         Worker newWorker = new ValidationWorker(io).worker(io);
         HistoryWorker.INSTANCE.add(newWorker);
     }

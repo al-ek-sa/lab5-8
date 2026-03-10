@@ -5,10 +5,9 @@ package edu.itmo.piikt.io.provider;
  * implementing data reading. When outputting, the data is provided in color.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 1.1
  */
 public interface IOProvider {
-    String ANSI_ORANGE_256 = "\u001B[38;5;216m";
     String ANSI_RESET = "\u001B[0m";
     String ANSI_RED = "\u001B[38;5;210m";
     String ANSI_GREEN = "\u001B[38;5;157m";
@@ -20,10 +19,8 @@ public interface IOProvider {
     String ANSI_PINK_225 = "\u001B[38;5;225m";
 
     default void printDesign() {
-        System.out.println(ANSI_BRIGHT_PINK + (("-").repeat(210)) + ANSI_BRIGHT_BLUE);
+        System.out.println(ANSI_BRIGHT_PINK + (("-").repeat(160)) + ANSI_BRIGHT_BLUE);
     }
-
-    void print(String message);
 
     void println(String message);
 

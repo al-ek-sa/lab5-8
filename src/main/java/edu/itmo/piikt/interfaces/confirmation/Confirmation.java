@@ -3,11 +3,13 @@ package edu.itmo.piikt.interfaces.confirmation;
 import edu.itmo.piikt.io.data.NameIOProvider;
 import edu.itmo.piikt.io.provider.IOProvider;
 
+import java.util.Arrays;
+
 /**
  * Interface implementing a default method for action confirmation.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 1.1
  */
 public interface Confirmation {
     /**
@@ -23,18 +25,16 @@ public interface Confirmation {
             question(io);
             while (true) {
                 String input = io.readLine();
-                for (Agreement agree : Agreement.values()) {
-                    if (input.equals(agree.getName())) {
-                        return true;
-                    }
+                if (Arrays.stream(Agreement.values()).map(Agreement::getName)
+                        .anyMatch(name -> name.equalsIgnoreCase(input))) {
+                    return true;
                 }
-                for (Refusal fals : Refusal.values()) {
-                    if (input.equals(fals.getName())) {
-                        refusal(io);
-                        return false;
-
-                    }
+                if (Arrays.stream(Refusal.values()).map(Refusal::getName)
+                        .anyMatch(name -> name.equalsIgnoreCase(input))) {
+                    refusal(io);
+                    return false;
                 }
+                io.println("please enter yes/no");
             }
         } else {
             return true;

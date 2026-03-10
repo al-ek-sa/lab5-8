@@ -1,7 +1,7 @@
 package edu.itmo.piikt.validation.modelValidation;
 
 import edu.itmo.piikt.interfaces.confirmation.Confirmation;
-import edu.itmo.piikt.interfaces.confirmation.MessageConfirmation;
+import edu.itmo.piikt.massage.MessageConfirmation;
 import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.massage.ConsoleMessage;
 import edu.itmo.piikt.models.*;

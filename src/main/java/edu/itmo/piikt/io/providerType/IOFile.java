@@ -12,17 +12,13 @@ import java.util.Queue;
  * the console and reading from a file.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
  */
 public class IOFile implements IOProvider {
     private final BufferedReader reader;
     private final Queue<String> dataQueue = new ArrayDeque<>();
     public IOFile(String nameFile) throws IOException {
         this.reader = new BufferedReader(new FileReader(nameFile));
-    }
-
-    @Override
-    public void print(String message) {
     }
 
     @Override

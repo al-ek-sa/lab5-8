@@ -1,6 +1,6 @@
 package edu.itmo.piikt.command.modelCommand;
 
-import edu.itmo.piikt.interfaces.confirmation.MessageConfirmation;
+import edu.itmo.piikt.massage.MessageConfirmation;
 import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.interfaces.confirmation.Confirmation;

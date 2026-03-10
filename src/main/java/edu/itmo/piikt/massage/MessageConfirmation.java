@@ -1,4 +1,4 @@
-package edu.itmo.piikt.interfaces.confirmation;
+package edu.itmo.piikt.massage;
 
 /**
  * Enum containing messages for user action confirmation prompts.

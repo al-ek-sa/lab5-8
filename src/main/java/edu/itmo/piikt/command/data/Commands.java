@@ -48,7 +48,7 @@ public enum Commands {
             "Both in the console and in the script, the command is entered as a single word without arguments. (\"head\")"),
 
     REMOVE_LOWER("remove_lower", "remove all elements from the collection that are less than the specified one",
-            "Both in the console and in the script, the command is entered and then the id is specified on the same line. (\"remove_lower _____\")"),
+            "Both in the console and in the script, the command is entered with a date (\"remove_lower yyyy-MM-dd\")"),
 
     HISTORY("history", "output the last 14 commands (without their arguments)",
             "Both in the console and in the script, the command is entered as a single word without arguments. (\"history\")"),

@@ -12,7 +12,7 @@ import java.time.LocalDate;
  * collection all elements that are lower than the specified one.
  *
  * @author Lishyk Aliaksandra
- * @version 3.0
+ * @version 3.1
  * @see BaseArgumentCommand
  * @see IOProvider
  * @see HistoryWorker
@@ -24,10 +24,7 @@ public final class RemoveLowerCommand implements BaseArgumentCommand {
     public void doExecute(IOProvider io, String argument) {
         LocalDate date = LocalDate.parse(argument.trim());
         var listWorker = HistoryWorker.INSTANCE.getListWorker();
-        listWorker.removeIf(worker -> {
-            LocalDate startDate = worker.getStartDate();
-            return startDate.isAfter(date);
-        });
+        listWorker.removeIf(worker -> worker.getStartDate().isAfter(date));
     }
 
     @Override

@@ -9,16 +9,11 @@ import edu.itmo.piikt.util.InputReader;
  * the console and reading from the console.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 1.1
  */
 public class IOConsole implements IOProvider {
 
     public IOConsole() {
-    }
-
-    @Override
-    public void print(String message) {
-        System.out.print(ANSI_ORANGE_256 + message + ANSI_BRIGHT_BLUE);
     }
 
     @Override
