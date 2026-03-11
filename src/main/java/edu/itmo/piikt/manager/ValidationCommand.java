@@ -9,7 +9,6 @@ import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.saveManager.HistorySave;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * The main class of the program. The class determines which command was called.
@@ -26,7 +25,7 @@ public enum ValidationCommand {
         this.factory = new CommandFactory();
         this.flag = true;
     }
-
+    // todo
     public void setFlag(boolean flag) {
         this.flag = flag;
     }
@@ -39,7 +38,8 @@ public enum ValidationCommand {
      * Attention! The command handles only single-word commands without arguments
      * and single-word commands with one argument.
      */
-    public void validation(IOProvider io, Logger logger) {
+    // todo
+    public void validation(IOProvider io) {
         while (flag) {
             try {
                 String nameCommands = io.readLine();

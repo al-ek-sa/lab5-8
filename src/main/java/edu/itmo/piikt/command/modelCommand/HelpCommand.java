@@ -17,7 +17,6 @@ import java.util.Comparator;
  * @see Commands
  */
 
-// public class HelpCommand implements Command {
 public final class HelpCommand implements BaseSimpleCommand {
 
     public HelpCommand() {
