@@ -1,31 +1,86 @@
 package edu.itmo.piikt.models;
 
-public class Organization {
-    private int annualTurnover; //Значение поля должно быть больше 0
-    private OrganizationType type; //Поле не может быть null
-    private Address officialAddress; //Поле не может быть null
+import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvRecurse;
+import java.util.Objects;
 
-    public Organization(int annualTurnover, Organization type, Address officialAddress) {
-        this.annualTurnover = validationAnnualTurnover();
-        this.type = validationType();
-        this.officialAddress = validationOfficialAddress();
+/**
+ * The class of the Organization type object.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
+public final class Organization {
+    @CsvBindByPosition(position = 9)
+    private int annualTurnover;
+
+    @CsvBindByPosition(position = 10)
+    private OrganizationType type;
+
+    @CsvRecurse
+    private Address officialAddress;
+
+    public Organization(int annualTurnover, OrganizationType type, Address officialAddress) {
+        this.annualTurnover = annualTurnover;
+        this.type = type;
+        this.officialAddress = officialAddress;
     }
 
-    private int validationAnnualTurnover(){
-        if (annualTurnover<=0) {
-            System.out.println("Значение меньше либо равно нулю: = " + annualTurnover);
-        } return annualTurnover;
+    public Organization() {
     }
 
-    private OrganizationType validationType(){
-        if (type == null) {
-            System.out.println("значение null");
-        } return  type;
+    /**
+     * Returns a brief description of this Organization. The exact details of the
+     * representation are unspecified and subject to change, but the following may
+     * be regarded as typical:
+     *
+     * <p>
+     * "annualTurnover: annualTurnover, type: type, officialAddress:
+     * officialAddress"
+     */
+    @Override
+    public String toString() {
+        return " annualTurnover: " + annualTurnover + ", type: " + (type == null ? "null" : type.toString())
+                + ", officialAddress: " + (officialAddress == null ? "null" : officialAddress.toString());
     }
 
-    private Address validationOfficialAddress(){
-        if (officialAddress == null){
-            System.out.println("значение null");
-        } return officialAddress;
+    @Override
+    public int hashCode() {
+        return Objects.hash(annualTurnover, type, officialAddress);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Organization organization = (Organization) obj;
+        return annualTurnover == organization.annualTurnover
+                && Objects.equals(officialAddress, organization.officialAddress) && type == organization.type;
+    }
+
+    public OrganizationType getType() {
+        return type;
+    }
+
+    public Address getOfficialAddress() {
+        return officialAddress;
+    }
+
+    public int getAnnualTurnover() {
+        return annualTurnover;
+    }
+
+    public void setType(OrganizationType type) {
+        this.type = type;
+    }
+
+    public void setAnnualTurnover(int annualTurnover) {
+        this.annualTurnover = annualTurnover;
+    }
+
+    public void setOfficialAddress(Address officialAddress) {
+        this.officialAddress = officialAddress;
     }
 }

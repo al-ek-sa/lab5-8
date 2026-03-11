@@ -1,0 +1,8 @@
+remove_lower 888888888888888888888888888888888888888888888888888888888888888888
+remove_lower 0
+remove_lower -999999999999999999999999999999999999999999999999999999999999
+remove_lower sddddddddddddddddd
+remove_lower ffffffffffff ffffffffffff fffffffffffff
+remove_lower null 2
+remove_lower 9999999
+remove_lower 1

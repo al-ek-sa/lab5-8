@@ -102,4 +102,6 @@ public enum OrganizationType {
 ```bash
 mvn clean compile
 mvn package
-java -jar target/*.jar
+bash maven_script.sh
+START="java -jar target/lab5-1.0-SNAPSHOT-jar-with-dependencies.jar"
+eval $START

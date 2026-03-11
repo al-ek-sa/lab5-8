@@ -1,0 +1,6 @@
+heafd
+head null
+head dfghjk
+head dfghjk dfghjkl
+execute_script script_add.txt
+execute_script script_head.txt
