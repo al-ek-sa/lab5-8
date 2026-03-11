@@ -17,7 +17,6 @@ import edu.itmo.piikt.validation.modelValidation.ValidationWorker;
  * @see HistoryWorker
  */
 
-// public class AddCommand implements Command {
 public final class AddCommand implements BaseSimpleCommand {
     public AddCommand() {
     }

@@ -44,7 +44,7 @@ public final class ExecuteScriptCommand implements BaseArgumentCommand {
             });
             name.add(argument);
             IOFile script = new IOFile(argument);
-            ValidationCommand.INSTANCE.validation(script, logger);
+            ValidationCommand.INSTANCE.validation(script);
         } catch (ExceptionScript e) {
             logger.log(Level.SEVERE, e.getMessage() + argument);
         } catch (IOException e) {

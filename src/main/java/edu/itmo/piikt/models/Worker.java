@@ -3,7 +3,6 @@ package edu.itmo.piikt.models;
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvDate;
 import com.opencsv.bean.CsvRecurse;
-import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.util.GeneratorId;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -16,7 +15,6 @@ import java.util.Date;
  * @version 1.0
  */
 public class Worker implements Comparable<Worker> {
-    private IOProvider io;
 
     @CsvBindByPosition(position = 0)
     private String uuid;
