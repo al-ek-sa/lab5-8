@@ -6,6 +6,7 @@ import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.massage.MessageCommand;
 import edu.itmo.piikt.models.Worker;
+import lombok.NoArgsConstructor;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -21,14 +22,13 @@ import java.util.LinkedList;
  * @see FindWorker
  * @see BaseSimpleCommand
  */
+@NoArgsConstructor
 public final class PrintFieldDescendingEndDataCommand implements FindWorker, BaseSimpleCommand {
-    public PrintFieldDescendingEndDataCommand() {
-    }
-
     /**
      * The method sorts employees by endDate; if the data matches, employees are
      * sorted by id.
      */
+    // todo через map получить строковое значение
     @Override
     public void doExecute(IOProvider io) {
         if (findWorker(io)) {

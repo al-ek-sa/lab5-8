@@ -7,6 +7,7 @@ import edu.itmo.piikt.command.base.BaseArgumentCommand;
 import edu.itmo.piikt.massage.MessageCommand;
 import edu.itmo.piikt.models.Worker;
 import edu.itmo.piikt.validation.modelValidation.ValidationWorker;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
@@ -21,9 +22,8 @@ import java.util.UUID;
  * @see IOProvider
  * @see HistoryWorker
  */
+@NoArgsConstructor
 public final class UpdateIdCommand implements IdMatches, BaseArgumentCommand {
-    public UpdateIdCommand() {
-    }
     /**
      * The method replaces the element whose id is equal to the id specified by the
      * user.
@@ -36,7 +36,7 @@ public final class UpdateIdCommand implements IdMatches, BaseArgumentCommand {
         UUID.fromString(argument);
         idMatches(argument, io);
         var workers = HistoryWorker.INSTANCE.getListWorker();
-        workers.removeIf(worker -> worker.getId().equals(argument));
+        workers.removeIf(worker -> worker.getUuid().equals(argument));
         Worker newWorker = new ValidationWorker(io).worker(io);
         HistoryWorker.INSTANCE.add(newWorker);
     }

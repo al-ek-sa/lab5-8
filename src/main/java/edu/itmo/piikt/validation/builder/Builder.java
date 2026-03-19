@@ -2,6 +2,7 @@ package edu.itmo.piikt.validation.builder;
 
 import edu.itmo.piikt.validation.exception.ValidationException;
 import edu.itmo.piikt.io.provider.IOProvider;
+import lombok.NoArgsConstructor;
 
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -21,11 +22,10 @@ import java.util.function.Function;
  * @see Validation
  * @see IOProvider
  */
+@NoArgsConstructor
 public class Builder<T> {
     private final List<ValidationRules<T>> rulesList = new ArrayList<>();
     private Validation validation;
-    public Builder() {
-    }
 
     /**
      * Adds a validation rule to the chain.
@@ -56,6 +56,7 @@ public class Builder<T> {
      * @param ioProvider
      * @return a function that takes IOProvider and returns a validated value
      */
+    //todo убрать дублирование и вынести проверки
     public Function<IOProvider, T> build(Function<IOProvider, T> ioProvider) {
         if (!validation.isRepeat()) {
             return (IOProvider reader) -> {

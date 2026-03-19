@@ -6,21 +6,21 @@ import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.interfaces.confirmation.Confirmation;
 import edu.itmo.piikt.massage.MessageCommand;
+import lombok.NoArgsConstructor;
 
 /**
  * The class implements the command clear : clear the collection.
  *
  * @author Lishyk Aliaksandra
- * @version 2.1
+ * @version 2.2
  * @see Confirmation
  * @see BaseSimpleCommand
  * @see IOProvider
  * @see HistoryWorker
  * @see MessageConfirmation
  */
+@NoArgsConstructor
 public final class ClearCommand implements Confirmation, BaseSimpleCommand {
-    public ClearCommand() {
-    }
     @Override
     public void doExecute(IOProvider io) {
         Boolean consent = confirmation(io);

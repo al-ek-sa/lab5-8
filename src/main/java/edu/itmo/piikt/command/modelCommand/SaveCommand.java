@@ -4,6 +4,7 @@ import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.massage.MessageCommand;
 import edu.itmo.piikt.saveManager.CSVParser;
+import lombok.NoArgsConstructor;
 
 /**
  * The class implements the command save : save the collection to a file.
@@ -13,9 +14,8 @@ import edu.itmo.piikt.saveManager.CSVParser;
  * @see IOProvider
  * @see BaseSimpleCommand
  */
+@NoArgsConstructor
 public final class SaveCommand implements BaseSimpleCommand {
-    public SaveCommand() {
-    }
     @Override
     public void doExecute(IOProvider io) {
         CSVParser csvParser = new CSVParser();

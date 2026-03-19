@@ -11,7 +11,7 @@ import java.util.LinkedList;
 public enum HistoryCommands {
     INSTANCE;
     private LinkedList<String> listCommands = new LinkedList<>();
-    // todo
+    // todo добавлять в конец!
     public void add(String command) {
         listCommands.addFirst(command);
     }

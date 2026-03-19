@@ -1,6 +1,9 @@
 package edu.itmo.piikt.models;
 
 import com.opencsv.bean.CsvBindByPosition;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * The class of the Coordinates type object.
@@ -8,36 +11,16 @@ import com.opencsv.bean.CsvBindByPosition;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-public class Coordinates {
+// todo заменить на record
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public final class Coordinates {
     @CsvBindByPosition(position = 2)
     private long x;
 
     @CsvBindByPosition(position = 3)
     private float y;
-
-    public Coordinates(long x, float y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public Coordinates() {
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    public void setX(long x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public long getX() {
-        return x;
-    }
 
     /**
      * Returns a brief description of this Coordinates. The exact details of the

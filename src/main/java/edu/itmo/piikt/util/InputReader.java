@@ -1,5 +1,7 @@
 package edu.itmo.piikt.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,13 +13,10 @@ import java.io.InputStreamReader;
  * @version 2.1
  * @see BufferedReader
  */
+@UtilityClass
 public class InputReader {
     private static final BufferedReader READER = new BufferedReader(new InputStreamReader(System.in));
     private static BufferedReader reader = READER;
-
-    private InputReader() {
-        throw new UnsupportedOperationException("Utility class");
-    }
 
     private static BufferedReader newReader() {
         return new BufferedReader(new InputStreamReader(System.in));

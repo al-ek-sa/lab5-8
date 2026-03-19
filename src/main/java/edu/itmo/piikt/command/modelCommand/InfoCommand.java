@@ -4,6 +4,7 @@ import edu.itmo.piikt.history.HistoryWorker;
 import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.massage.MessageCommand;
+import lombok.NoArgsConstructor;
 
 /**
  * The class implements the command info : output information about the
@@ -16,9 +17,8 @@ import edu.itmo.piikt.massage.MessageCommand;
  * @see HistoryWorker
  * @see BaseSimpleCommand
  */
+@NoArgsConstructor
 public final class InfoCommand implements BaseSimpleCommand {
-    public InfoCommand() {
-    }
     @Override
     /** The method outputs data about the collection. */
     public void doExecute(IOProvider io) {

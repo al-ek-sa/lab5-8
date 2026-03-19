@@ -18,7 +18,7 @@ public interface IdMatches {
     default void idMatches(String argument, IOProvider io) {
         var listWorker = HistoryWorker.INSTANCE.getListWorker();
 
-        boolean found = listWorker.stream().anyMatch(worker -> worker.getId().equals(argument));
+        boolean found = listWorker.stream().anyMatch(worker -> worker.getUuid().equals(argument));
         if (!found) {
             io.println("No employee with this ID");
         }

@@ -7,6 +7,8 @@ import edu.itmo.piikt.command.base.BaseArgumentCommand;
 import edu.itmo.piikt.massage.MessageCommand;
 import edu.itmo.piikt.io.data.NameIOProvider;
 import edu.itmo.piikt.manager.ValidationCommand;
+import lombok.NoArgsConstructor;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +27,11 @@ import java.util.logging.Logger;
  * @see IOProvider
  * @see ValidationCommand
  */
+@NoArgsConstructor
 public final class ExecuteScriptCommand implements BaseArgumentCommand {
     private final List<String> name = new ArrayList<>();
     Logger logger = Logger.getLogger(ExecuteScriptCommand.class.getName());
-
-    public ExecuteScriptCommand() {
-    }
+    // todo пересмотреть рекурсию (хвостовая приведет к переполнению стека)
     @Override
     public void doExecute(IOProvider io, String argument) {
         try {

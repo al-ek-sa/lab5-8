@@ -6,6 +6,7 @@ import edu.itmo.piikt.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.interfaces.confirmation.Confirmation;
 import edu.itmo.piikt.massage.MessageCommand;
 import edu.itmo.piikt.manager.ValidationCommand;
+import lombok.NoArgsConstructor;
 
 /**
  * The class implements the command exit : terminate the program (without saving
@@ -19,10 +20,9 @@ import edu.itmo.piikt.manager.ValidationCommand;
  * @see ValidationCommand
  * @see MessageConfirmation
  */
+@NoArgsConstructor
 public final class ExitCommand implements Confirmation, BaseSimpleCommand {
-
-    public ExitCommand() {
-    }
+    // todo выставление флага и прокидывание ошибки break
     @Override
     public void doExecute(IOProvider io) {
         Boolean consent = confirmation(io);

@@ -6,6 +6,7 @@ import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.massage.MessageCommand;
 import edu.itmo.piikt.models.Worker;
+import lombok.NoArgsConstructor;
 
 import java.util.Comparator;
 
@@ -19,10 +20,8 @@ import java.util.Comparator;
  * @see BaseSimpleCommand
  * @see HistoryWorker
  */
+@NoArgsConstructor
 public final class ShowCommand implements FindWorker, BaseSimpleCommand {
-    public ShowCommand() {
-    }
-
     /** The method outputs data of all registered employees. */
     @Override
     public void doExecute(IOProvider io) {

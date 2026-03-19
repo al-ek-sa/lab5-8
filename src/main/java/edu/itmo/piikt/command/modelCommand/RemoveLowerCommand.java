@@ -4,6 +4,7 @@ import edu.itmo.piikt.history.HistoryWorker;
 import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.command.base.BaseArgumentCommand;
 import edu.itmo.piikt.massage.MessageCommand;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -17,9 +18,8 @@ import java.time.LocalDate;
  * @see IOProvider
  * @see HistoryWorker
  */
+@NoArgsConstructor
 public final class RemoveLowerCommand implements BaseArgumentCommand {
-    public RemoveLowerCommand() {
-    }
     @Override
     public void doExecute(IOProvider io, String argument) {
         LocalDate date = LocalDate.parse(argument.trim());

@@ -5,6 +5,7 @@ import edu.itmo.piikt.interfaces.FindWorker;
 import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.massage.MessageCommand;
+import lombok.NoArgsConstructor;
 
 /**
  * The class implements the command head : output the first element of the
@@ -17,9 +18,8 @@ import edu.itmo.piikt.massage.MessageCommand;
  * @see IOProvider
  * @see HistoryWorker
  */
+@NoArgsConstructor
 public final class HeadCommand implements FindWorker, BaseSimpleCommand {
-    public HeadCommand() {
-    }
     /** The method outputs the data of the first element in the collection. */
     @Override
     public void doExecute(IOProvider io) {

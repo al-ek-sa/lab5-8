@@ -4,6 +4,7 @@ import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.command.data.Commands;
 import edu.itmo.piikt.massage.MessageCommand;
+import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -16,11 +17,8 @@ import java.util.Comparator;
  * @see IOProvider
  * @see Commands
  */
-
+@NoArgsConstructor
 public final class HelpCommand implements BaseSimpleCommand {
-
-    public HelpCommand() {
-    }
     @Override
     public void doExecute(IOProvider io) {
         Arrays.stream(Commands.values()).sorted(Comparator.comparing(Commands::getName))

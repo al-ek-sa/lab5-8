@@ -1,5 +1,7 @@
 package edu.itmo.piikt.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.UUID;
 
 /**
@@ -9,11 +11,8 @@ import java.util.UUID;
  * @version 2.1
  * @see UUID
  */
+@UtilityClass
 public class GeneratorId {
-    private GeneratorId() {
-        throw new UnsupportedOperationException("Utility class");
-    }
-
     /**
      * The getter returns the ID.
      *

@@ -4,6 +4,7 @@ import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.history.HistoryCommands;
 import edu.itmo.piikt.massage.MessageCommand;
+import lombok.NoArgsConstructor;
 
 /**
  * The class implements the command history : output the last 14 commands
@@ -14,11 +15,10 @@ import edu.itmo.piikt.massage.MessageCommand;
  * @see IOProvider
  * @see HistoryCommands
  */
+@NoArgsConstructor
 public final class HistoryCommand implements BaseSimpleCommand {
     int LIMIT_HISTORY = 14;
-    public HistoryCommand() {
-    }
-
+    // todo читать с конца
     @Override
     public void doExecute(IOProvider io) {
         var history = HistoryCommands.INSTANCE.getLinkedList();

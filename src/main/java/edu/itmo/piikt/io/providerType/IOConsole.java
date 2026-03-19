@@ -3,6 +3,7 @@ package edu.itmo.piikt.io.providerType;
 import edu.itmo.piikt.io.provider.IOProvider;
 import edu.itmo.piikt.io.data.NameIOProvider;
 import edu.itmo.piikt.util.InputReader;
+import lombok.NoArgsConstructor;
 
 /**
  * A class that inherits from the IOProvider interface implements data output to
@@ -11,11 +12,8 @@ import edu.itmo.piikt.util.InputReader;
  * @author Lishyk Aliaksandra
  * @version 1.1
  */
+@NoArgsConstructor
 public class IOConsole implements IOProvider {
-
-    public IOConsole() {
-    }
-
     @Override
     public String readLine() {
         return InputReader.nextLine();

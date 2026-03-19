@@ -4,6 +4,8 @@ import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvDate;
 import com.opencsv.bean.CsvRecurse;
 import edu.itmo.piikt.util.GeneratorId;
+import lombok.*;
+
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -14,6 +16,9 @@ import java.util.Date;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
+// todo заменить на record
+@Data
+@NoArgsConstructor
 public class Worker implements Comparable<Worker> {
 
     @CsvBindByPosition(position = 0)
@@ -59,9 +64,6 @@ public class Worker implements Comparable<Worker> {
         this.organization = organization;
     }
 
-    public Worker() {
-    }
-
     /**
      * Returns a brief description of this Worker. The exact details of the
      * representation are unspecified and subject to change, but the following may
@@ -80,75 +82,6 @@ public class Worker implements Comparable<Worker> {
                 + (status == null ? "null" : status.toString()) + ", organization: "
                 + (organization == null ? "null" : organization.toString()) + "\n";
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public Coordinates getCoordinates() {
-        return coordinates;
-    }
-
-    public Float getSalary() {
-        return salary;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    public ZonedDateTime getEndDate() {
-        return endDate;
-    }
-
-    public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public void setSalary(Float salary) {
-        this.salary = salary;
-    }
-
-    public void setEndDate(ZonedDateTime endDate) {
-        this.endDate = endDate;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public String getId() {
-        return uuid;
-    }
-
     @Override
     public int compareTo(Worker other) {
         return this.uuid.compareTo(other.uuid);

@@ -6,6 +6,7 @@ import edu.itmo.piikt.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.massage.MessageCommand;
 import edu.itmo.piikt.models.Organization;
 import edu.itmo.piikt.validation.modelValidation.ValidationOrganization;
+import lombok.NoArgsConstructor;
 
 /**
  * The class implements the command count_by_organization organization : output
@@ -13,16 +14,14 @@ import edu.itmo.piikt.validation.modelValidation.ValidationOrganization;
  * specified one.
  *
  * @author Lishyk Aliaksandra
- * @version 2.1
+ * @version 2.2
  * @see BaseSimpleCommand
  * @see IOProvider
  * @see ValidationOrganization
  * @see HistoryWorker
  */
+@NoArgsConstructor
 public final class CountByOrganizationCommand implements BaseSimpleCommand {
-    public CountByOrganizationCommand() {
-    }
-
     /**
      * The method outputs the number of elements whose Organization parameter is
      * equal to what the user enters.

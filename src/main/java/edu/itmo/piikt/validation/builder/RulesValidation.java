@@ -1,6 +1,7 @@
 package edu.itmo.piikt.validation.builder;
 
 import edu.itmo.piikt.massage.ValidationMessage;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -21,9 +22,8 @@ import java.util.Optional;
  * @see Optional
  * @see ValidationMessage
  */
+@NoArgsConstructor
 public final class RulesValidation {
-    private RulesValidation() {
-    }
 
     public static ValidationRules<BigInteger> xCoordinate() {
         return x -> x.compareTo(BigInteger.valueOf(10)) > 0
