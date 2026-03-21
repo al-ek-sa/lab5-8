@@ -1,7 +1,7 @@
-package edu.itmo.piikt.server.interfaces;
+package edu.itmo.piikt.common.interfaces;
 
 import edu.itmo.piikt.server.history.HistoryWorker;
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.provider.IOProvider;
 
 /**
  * Interface implementing a default method for checking the absence of workers

@@ -1,7 +1,7 @@
-package edu.itmo.piikt.client.validation.builder;
+package edu.itmo.piikt.server.validation.builder;
 
-import edu.itmo.piikt.client.validation.exception.ValidationException;
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.server.validation.exception.ValidationException;
+import edu.itmo.piikt.common.provider.IOProvider;
 import lombok.NoArgsConstructor;
 
 import java.time.format.DateTimeParseException;

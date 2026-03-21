@@ -1,6 +1,6 @@
 package edu.itmo.piikt.common.command.functionalInterface;
 
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.provider.IOProvider;
 
 /**
  * Functional interface for argument-based commands. Enables command

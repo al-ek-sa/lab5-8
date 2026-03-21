@@ -5,7 +5,7 @@ import edu.itmo.piikt.server.command.factory.CommandFactory;
 import edu.itmo.piikt.common.command.functionalInterface.ArgumentCommand;
 import edu.itmo.piikt.common.command.functionalInterface.SimpleCommand;
 import edu.itmo.piikt.server.history.HistoryCommands;
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.provider.IOProvider;
 import edu.itmo.piikt.server.saveManager.HistorySave;
 import lombok.Getter;
 
@@ -47,7 +47,7 @@ public enum ValidationCommand {
             try {
                 String nameCommands = io.readLine();
                 HistorySave historySave = new HistorySave();
-                historySave.saveCollection(io);
+                historySave.saveCollection();
 
                 if (nameCommands == null || nameCommands.isBlank() || "null".equalsIgnoreCase(nameCommands.trim())) {
                     continue;

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * The class of the Coordinates type object.
  *
@@ -14,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public final class Coordinates {
+public final class Coordinates implements Serializable {
     @CsvBindByPosition(position = 2)
     private long x;
 

@@ -1,6 +1,6 @@
-package edu.itmo.piikt.client.validation.builder;
+package edu.itmo.piikt.server.validation.builder;
 
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.provider.IOProvider;
 import edu.itmo.piikt.client.io.data.NameIOProvider;
 
 /**

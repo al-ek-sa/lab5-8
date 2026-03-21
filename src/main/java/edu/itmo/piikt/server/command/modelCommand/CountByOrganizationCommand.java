@@ -1,11 +1,11 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
 import edu.itmo.piikt.server.history.HistoryWorker;
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.provider.IOProvider;
 import edu.itmo.piikt.common.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.common.massage.MessageCommand;
 import edu.itmo.piikt.common.models.Organization;
-import edu.itmo.piikt.client.validation.modelValidation.ValidationOrganization;
+import edu.itmo.piikt.server.validation.modelValidation.ValidationOrganization;
 import lombok.NoArgsConstructor;
 
 /**

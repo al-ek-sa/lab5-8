@@ -3,6 +3,8 @@ package edu.itmo.piikt.common.models;
 import com.opencsv.bean.CsvBindByPosition;
 import lombok.*;
 
+import java.io.Serializable;
+
 /**
  * The class of the Address type object.
  *
@@ -12,7 +14,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public final class Address {
+public final class Address implements Serializable {
     @CsvBindByPosition(position = 11)
     private String street;
 

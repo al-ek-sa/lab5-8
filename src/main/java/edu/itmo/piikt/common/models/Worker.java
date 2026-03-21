@@ -6,6 +6,7 @@ import com.opencsv.bean.CsvRecurse;
 import edu.itmo.piikt.server.util.GeneratorId;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -18,7 +19,7 @@ import java.util.Date;
  */
 @Data
 @NoArgsConstructor
-public final class Worker implements Comparable<Worker> {
+public final class Worker implements Comparable<Worker>, Serializable {
 
     @CsvBindByPosition(position = 0)
     private String uuid;

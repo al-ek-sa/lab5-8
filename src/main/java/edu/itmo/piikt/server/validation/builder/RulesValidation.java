@@ -1,4 +1,4 @@
-package edu.itmo.piikt.client.validation.builder;
+package edu.itmo.piikt.server.validation.builder;
 
 import edu.itmo.piikt.client.message.ValidationMessage;
 import lombok.NoArgsConstructor;

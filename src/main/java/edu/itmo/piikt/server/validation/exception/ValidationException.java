@@ -1,4 +1,4 @@
-package edu.itmo.piikt.client.validation.exception;
+package edu.itmo.piikt.server.validation.exception;
 
 /**
  * Exception thrown when validation fails.

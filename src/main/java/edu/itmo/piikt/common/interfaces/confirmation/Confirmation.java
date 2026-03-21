@@ -1,7 +1,7 @@
 package edu.itmo.piikt.common.interfaces.confirmation;
 
 import edu.itmo.piikt.client.io.data.NameIOProvider;
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.provider.IOProvider;
 
 import java.util.Arrays;
 

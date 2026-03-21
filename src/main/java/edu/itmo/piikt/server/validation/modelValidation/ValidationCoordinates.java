@@ -1,12 +1,12 @@
-package edu.itmo.piikt.client.validation.modelValidation;
+package edu.itmo.piikt.server.validation.modelValidation;
 
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.provider.IOProvider;
 import edu.itmo.piikt.client.message.ConsoleMessage;
 import edu.itmo.piikt.common.models.Coordinates;
-import edu.itmo.piikt.client.validation.builder.Builder;
-import edu.itmo.piikt.client.validation.builder.RulesValidation;
-import edu.itmo.piikt.client.validation.builder.TypeIOProvider;
-import edu.itmo.piikt.client.validation.builder.Validation;
+import edu.itmo.piikt.server.validation.builder.Builder;
+import edu.itmo.piikt.server.validation.builder.RulesValidation;
+import edu.itmo.piikt.server.validation.builder.TypeIOProvider;
+import edu.itmo.piikt.server.validation.builder.Validation;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

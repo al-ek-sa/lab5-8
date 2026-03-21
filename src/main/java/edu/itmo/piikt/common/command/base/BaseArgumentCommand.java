@@ -1,6 +1,6 @@
 package edu.itmo.piikt.common.command.base;
 
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.provider.IOProvider;
 
 import java.time.format.DateTimeParseException;
 import java.util.logging.Logger;

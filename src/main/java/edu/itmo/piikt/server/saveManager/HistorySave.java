@@ -1,9 +1,10 @@
 package edu.itmo.piikt.server.saveManager;
 
-import edu.itmo.piikt.client.io.provider.IOProvider;
 import edu.itmo.piikt.server.history.HistoryCommands;
 import java.io.*;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The class saves the history of all entered commands to a file, and also reads
@@ -17,6 +18,7 @@ import java.util.Scanner;
  */
 public class HistorySave {
     private String fileName;
+    Logger logger = Logger.getLogger(HistorySave.class.getName());
 
     public HistorySave() {
         this.fileName = System.getenv("HISTORY_FILE");
@@ -31,13 +33,13 @@ public class HistorySave {
      * @throws Exception
      *             If file system errors occurred.
      */
-    public void saveCollection(IOProvider io) {
+    public void saveCollection() {
         var commands = HistoryCommands.INSTANCE.getLinkedList();
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
             commands.forEach(writer::println);
         } catch (Exception e) {
-            io.printError(e.getMessage());
+            logger.log(Level.INFO,e.getMessage());
         }
     }
 
@@ -48,7 +50,7 @@ public class HistorySave {
      * @throws Exception
      *             If file system errors occurred.
      */
-    public void readFile(IOProvider io) {
+    public void readFile() {
         try (Scanner scanner = new Scanner(new File(fileName))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
@@ -56,7 +58,7 @@ public class HistorySave {
             }
 
         } catch (Exception e) {
-            io.printError(e.getMessage());
+            logger.log(Level.INFO, e.getMessage());
         }
     }
 }

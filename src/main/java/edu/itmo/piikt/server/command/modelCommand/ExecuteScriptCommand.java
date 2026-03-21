@@ -2,7 +2,7 @@ package edu.itmo.piikt.server.command.modelCommand;
 
 import edu.itmo.piikt.server.command.exception.ExceptionScript;
 import edu.itmo.piikt.client.io.providerType.IOFile;
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.provider.IOProvider;
 import edu.itmo.piikt.common.command.base.BaseArgumentCommand;
 import edu.itmo.piikt.common.massage.MessageCommand;
 import edu.itmo.piikt.client.io.data.NameIOProvider;

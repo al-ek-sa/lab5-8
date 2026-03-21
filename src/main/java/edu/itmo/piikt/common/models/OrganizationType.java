@@ -2,6 +2,8 @@ package edu.itmo.piikt.common.models;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 /**
  * The Enum class contains instances of possible organization types.
  *
@@ -11,7 +13,7 @@ import lombok.*;
 @Getter
 @ToString(includeFieldNames = true)
 @AllArgsConstructor
-public enum OrganizationType {
+public enum OrganizationType implements Serializable {
     COMMERCIAL(1), PUBLIC(2), GOVERNMENT(3), TRUST(4), OPEN_JOINT_STOCK_COMPANY(5);
     private final int id;
 }

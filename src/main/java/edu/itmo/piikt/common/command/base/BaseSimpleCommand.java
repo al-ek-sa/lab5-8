@@ -1,6 +1,6 @@
 package edu.itmo.piikt.common.command.base;
 
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.provider.IOProvider;
 
 /**
  * Defines the contract for commands without arguments.
