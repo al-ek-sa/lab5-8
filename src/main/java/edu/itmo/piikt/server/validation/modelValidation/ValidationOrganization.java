@@ -1,14 +1,12 @@
 package edu.itmo.piikt.server.validation.modelValidation;
 
-import edu.itmo.piikt.client.provider.IOProvider;
-import edu.itmo.piikt.client.message.ConsoleMessage;
+import edu.itmo.piikt.common.data.MessageExceptionValidation;
 import edu.itmo.piikt.common.models.Organization;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;
-import edu.itmo.piikt.server.validation.builder.TypeIOProvider;
-import edu.itmo.piikt.server.validation.builder.Validation;
 
 import java.math.BigInteger;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -26,31 +24,23 @@ import java.util.function.Function;
  * @author Lishyk Aliaksandra
  * @version 2.0
  * @see Function
- * @see TypeIOProvider
- * @see Validation
  * @see Builder
- * @see ConsoleMessage
- * @see IOProvider
  */
-public class ValidationOrganization implements TypeIOProvider {
+public class ValidationOrganization {
     private ValidationOrganizationType type;
     private ValidationAddress address;
-    private final Function<IOProvider, Integer> annualTurnoverValidation;
+    private final Function<BigInteger, Optional<MessageExceptionValidation>> annualTurnoverValidation;
 
-    public ValidationOrganization(IOProvider io) {
-        this.type = new ValidationOrganizationType(io);
-        this.address = new ValidationAddress(io);
-        Validation validationIO = type(io);
+    public ValidationOrganization() {
+        this.type = new ValidationOrganizationType();
+        this.address = new ValidationAddress();
 
-        this.annualTurnoverValidation = new Builder<BigInteger>().add(RulesValidation.integerMAX())
-                .add(RulesValidation.annualTurnover()).validation(validationIO).build(reader -> {
-                    ConsoleMessage.ANNUAL_TURNOVER.printMessage(reader);
-                    return new BigInteger(reader.readLine());
-                }).andThen(BigInteger::intValue);
+        this.annualTurnoverValidation = new Builder<BigInteger>("annual turnover").add(RulesValidation.integerMAX())
+                .add(RulesValidation.annualTurnover()).build();
     }
 
-    public int validationAnnualTurnover(IOProvider io) {
-        return annualTurnoverValidation.apply(io);
+    public Optional<MessageExceptionValidation> validationAnnualTurnover(Integer annualTurnover) {
+        return annualTurnoverValidation.apply(BigInteger.valueOf(annualTurnover));
     }
 
     /**
@@ -58,7 +48,7 @@ public class ValidationOrganization implements TypeIOProvider {
      *
      * @return Organization
      */
-    public Organization organization(IOProvider io) {
-        return new Organization(validationAnnualTurnover(io), type.organizationType(io), address.validationAddress(io));
+    public Organization organization(Integer annualTurnover, String street, Integer typeId) {
+        return new Organization(validationAnnualTurnover(annualTurnover), type.organizationType(typeId), address.validationAddress(street));
     }
 }

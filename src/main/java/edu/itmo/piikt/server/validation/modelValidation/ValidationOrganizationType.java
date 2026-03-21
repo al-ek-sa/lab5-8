@@ -1,14 +1,12 @@
 package edu.itmo.piikt.server.validation.modelValidation;
 
-import edu.itmo.piikt.client.provider.IOProvider;
-import edu.itmo.piikt.client.message.ConsoleMessage;
+import edu.itmo.piikt.common.data.MessageExceptionValidation;
 import edu.itmo.piikt.common.models.OrganizationType;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;
-import edu.itmo.piikt.server.validation.builder.TypeIOProvider;
-import edu.itmo.piikt.server.validation.builder.Validation;
 
 import java.math.BigInteger;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -17,30 +15,21 @@ import java.util.function.Function;
  * @author Lishyk Aliaksandra
  * @version 1.0
  * @see Function
- * @see TypeIOProvider
- * @see Validation
  * @see Builder
- * @see ConsoleMessage
- * @see IOProvider
  * @see OrganizationType
  */
-public class ValidationOrganizationType implements TypeIOProvider {
-    private final Function<IOProvider, OrganizationType> organizationValidation;
-    public ValidationOrganizationType(IOProvider io) {
-        Validation validation = type(io);
-
-        this.organizationValidation = new Builder<BigInteger>().add(RulesValidation.integerMIN())
+public class ValidationOrganizationType {
+    private final Function<BigInteger, Optional<MessageExceptionValidation>> organizationValidation;
+    public ValidationOrganizationType() {
+        this.organizationValidation = new Builder<BigInteger>("organization type").add(RulesValidation.integerMIN())
                 .add(RulesValidation.integerMAX()).add(RulesValidation.enumRuler(OrganizationType.values().length))
-                .validation(validation).build(reader -> {
-                    ConsoleMessage.ENUM.printMessage(reader);
-                    for (OrganizationType organizationType : OrganizationType.values()) {
-                        reader.println("(" + organizationType.getId() + ") " + organizationType.name());
-                    }
-                    return new BigInteger(reader.readLine());
-                }).andThen(input -> OrganizationType.values()[input.intValue() - 1]);
+                .build();}
+
+    public Optional<MessageExceptionValidation> validationOrganizationType(Integer type) {
+        return organizationValidation.apply(BigInteger.valueOf(type));
     }
 
-    public OrganizationType organizationType(IOProvider io) {
-        return organizationValidation.apply(io);
+    public OrganizationType organizationType(int type) {
+        return OrganizationType.values()[type -1];
     }
 }

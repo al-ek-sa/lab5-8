@@ -1,17 +1,14 @@
 package edu.itmo.piikt.server.validation.modelValidation;
 
-import edu.itmo.piikt.client.confirmation.Confirmation;
+import edu.itmo.piikt.common.data.MessageExceptionValidation;
+import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.models.Worker;
-import edu.itmo.piikt.common.massage.MessageConfirmation;
-import edu.itmo.piikt.client.provider.IOProvider;
-import edu.itmo.piikt.client.message.ConsoleMessage;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;
-import edu.itmo.piikt.server.validation.builder.TypeIOProvider;
-import edu.itmo.piikt.server.validation.builder.Validation;
 
 import java.math.BigDecimal;
 import java.time.*;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -41,100 +38,66 @@ import java.util.function.Function;
  * @version 2.0
  *
  * @see Function
- * @see TypeIOProvider
- * @see Validation
  * @see Builder
- * @see ConsoleMessage
- * @see IOProvider
  * @see ValidationAddress
  * @see ValidationOrganization
  * @see ValidationCoordinates
  * @see ValidationStatus
- * @see Confirmation
  * @see ZonedDateTime
  * @see LocalDate
- * @see MessageConfirmation
  */
-public class ValidationWorker implements TypeIOProvider, Confirmation {
+public class ValidationWorker {
     private ValidationCoordinates coordinates;
     private ValidationStatus status;
     private ValidationOrganization organization;
-    private final Function<IOProvider, String> nameValidation;
-    private final Function<IOProvider, Float> salaryValidation;
-    private final Function<IOProvider, LocalDate> startDateValidation;
-    private final Function<IOProvider, ZonedDateTime> endDateValidation;
+    private final Function<String, Optional<MessageExceptionValidation>> nameValidation;
+    private final Function<BigDecimal, Optional<MessageExceptionValidation>> salaryValidation;
+    private final Function<String, Optional<MessageExceptionValidation>> startDateValidation;
+    private final Function<String, Optional<MessageExceptionValidation>> endDateValidation;
 
-    public ValidationWorker(IOProvider io) {
-        this.coordinates = new ValidationCoordinates(io);
-        this.status = new ValidationStatus(io);
-        this.organization = new ValidationOrganization(io);
-        Validation validationIO = type(io);
+    public ValidationWorker() {
+        this.coordinates = new ValidationCoordinates();
+        this.status = new ValidationStatus();
+        this.organization = new ValidationOrganization();
 
-        this.startDateValidation = new Builder<String>().add(RulesValidation.blank()).add(RulesValidation.localDate())
-                .validation(validationIO).build(reader -> {
-                    ConsoleMessage.START_DATE.printMessage(reader);
-                    return reader.readLine();
-                }).andThen(LocalDate::parse);
+        this.startDateValidation = new Builder<String>("start date").add(RulesValidation.blank()).add(RulesValidation.localDate())
+                .build();
 
-        this.endDateValidation = new Builder<String>().add(RulesValidation.validationDate()).validation(validationIO)
-                .build(reader -> {
-                    ConsoleMessage.END_DATE.printMessage(reader);
-                    return reader.readLine();
-                }).andThen(input -> {
-                    if (input == null || input.isBlank() || "null".equalsIgnoreCase(input.trim())) {
-                        return null;
-                    }
-                    LocalDate date = LocalDate.parse(input);
-                    return ZonedDateTime.of(date, LocalTime.now(), ZoneId.systemDefault());
-                });
+        this.endDateValidation = new Builder<String>("end date").add(RulesValidation.validationDate())
+                .build();
 
-        this.nameValidation = new Builder<String>().add(RulesValidation.blank()).validation(validationIO)
-                .build(reader -> {
-                    ConsoleMessage.NAME.printMessage(reader);
-                    return reader.readLine();
-                });
+        this.nameValidation = new Builder<String>("name").add(RulesValidation.blank())
+                .build();
 
-        this.salaryValidation = new Builder<BigDecimal>().add(RulesValidation.floatMAX()).add(RulesValidation.salary())
-                .validation(validationIO).build(reader -> {
-                    ConsoleMessage.SALARY.printMessage(reader);
-                    return new BigDecimal(reader.readLine());
-                }).andThen(BigDecimal::floatValue);
+        this.salaryValidation = new Builder<BigDecimal>("salary").add(RulesValidation.floatMAX()).add(RulesValidation.salary())
+                .build();
     }
 
-    public String validationName(IOProvider io) {
-        return nameValidation.apply(io);
+    public Optional<MessageExceptionValidation> validationName(String name) {
+        return nameValidation.apply(name);
     }
 
-    public Float validationSalary(IOProvider io) {
-        return salaryValidation.apply(io);
+    public Optional<MessageExceptionValidation> validationSalary(Float salary) {
+        return salaryValidation.apply(BigDecimal.valueOf(salary));
     }
 
-    public LocalDate validationStartDate(IOProvider io) {
-        return startDateValidation.apply(io);
+    public Optional<MessageExceptionValidation> validationStartDate(String startDate) {
+        return startDateValidation.apply(startDate);
     }
 
-    public ZonedDateTime validationEndDate(IOProvider io) {
-        return endDateValidation.apply(io);
+    public Optional<MessageExceptionValidation> validationEndDate(String endDate) {
+        return endDateValidation.apply(endDate);
     }
+
+    //todo прописать логику если все данные верные
+
 
     /**
      * The method creates an employee considering all validations.
      *
      * @return Worker
      */
-    public Worker worker(IOProvider io) {
-        return new Worker(validationName(io), coordinates.coordinates(io), validationSalary(io),
-                validationStartDate(io), validationEndDate(io), status.status(io),
-                confirmation(io) ? organization.organization(io) : null);
-    }
-
-    @Override
-    public void question(IOProvider io) {
-        io.println(MessageConfirmation.ORGANIZATION.getQuestion());
-    }
-
-    @Override
-    public void refusal(IOProvider io) {
-        io.println(MessageConfirmation.ORGANIZATION.getRefusal());
+    public Worker worker(WorkerData data) {
+        return new Worker(data);
     }
 }

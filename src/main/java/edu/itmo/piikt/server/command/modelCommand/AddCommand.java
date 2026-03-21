@@ -4,7 +4,6 @@ import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.client.provider.IOProvider;
-import edu.itmo.piikt.common.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.server.validation.modelValidation.ValidationWorker;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +12,7 @@ import lombok.NoArgsConstructor;
  * collection.
  *
  * @author Lishyk Aliaksandra
- * @version 2.2
+ * @version 3.0
  * @see IOProvider
  * @see HistoryWorker
  */
@@ -21,9 +20,9 @@ import lombok.NoArgsConstructor;
 public final class AddCommand {
 
     public void execute(ClientCommand clientCommand) {
-        WorkerData data = (WorkerData) clientCommand.getWorker();
-        ValidationWorker worker = new ValidationWorker(io);
-        HistoryWorker.INSTANCE.add(worker.worker(io));
+        WorkerData data = (WorkerData) clientCommand.getData();
+        ValidationWorker worker = new ValidationWorker();
+        HistoryWorker.INSTANCE.add(worker.worker(data));
     }
 /**
     @Override

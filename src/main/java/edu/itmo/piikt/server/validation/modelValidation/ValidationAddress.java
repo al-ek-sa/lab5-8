@@ -1,13 +1,13 @@
 package edu.itmo.piikt.server.validation.modelValidation;
 
-import edu.itmo.piikt.client.provider.IOProvider;
 import edu.itmo.piikt.client.message.ConsoleMessage;
+import edu.itmo.piikt.common.data.MessageExceptionValidation;
+import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.models.Address;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;
-import edu.itmo.piikt.server.validation.builder.TypeIOProvider;
-import edu.itmo.piikt.server.validation.builder.Validation;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -23,22 +23,19 @@ import java.util.function.Function;
  * @author Lishyk Aliaksandra
  * @version 3.0
  * @see Function
- * @see TypeIOProvider
- * @see Validation
  * @see Builder
  * @see ConsoleMessage
- * @see IOProvider
  */
-public class ValidationAddress implements TypeIOProvider {
-    private final Function<IOProvider, String> addressValidation;
-    public ValidationAddress(IOProvider io) {
-        Validation validationIO = type(io);
+public class ValidationAddress {
+    private final Function<String, Optional<MessageExceptionValidation>> addressValidation;
+    public ValidationAddress() {
+//todo вынести в отдельный класс получение названия поле и кэшировать (ConcurrentHashMap)
+        this.addressValidation = new Builder<String>("street").add(RulesValidation.blank())
+                .build();
+    }
 
-        this.addressValidation = new Builder<String>().add(RulesValidation.blank()).validation(validationIO)
-                .build(reader -> {
-                    ConsoleMessage.STREET.printMessage(reader);
-                    return reader.readLine();
-                });
+    public Optional<MessageExceptionValidation> validation(String street) {
+        return addressValidation.apply(street);
     }
 
     /**
@@ -46,8 +43,7 @@ public class ValidationAddress implements TypeIOProvider {
      *
      * @return Address
      */
-    public Address validationAddress(IOProvider io) {
-        String street = addressValidation.apply(io);
+    public Address validationAddress(String street) {
         return new Address(street);
     }
 }

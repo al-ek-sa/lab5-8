@@ -1,15 +1,12 @@
 package edu.itmo.piikt.server.validation.modelValidation;
 
-import edu.itmo.piikt.client.provider.IOProvider;
-import edu.itmo.piikt.client.message.ConsoleMessage;
+import edu.itmo.piikt.common.data.MessageExceptionValidation;
 import edu.itmo.piikt.common.models.Coordinates;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;
-import edu.itmo.piikt.server.validation.builder.TypeIOProvider;
-import edu.itmo.piikt.server.validation.builder.Validation;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -26,37 +23,24 @@ import java.util.function.Function;
  * @author Lishyk Aliaksandra
  * @version 2.0
  * @see Function
- * @see TypeIOProvider
- * @see Validation
  * @see Builder
- * @see ConsoleMessage
- * @see IOProvider
  */
-public class ValidationCoordinates implements TypeIOProvider {
-    private final Function<IOProvider, Long> xValidation;
-    private final Function<IOProvider, Float> yValidation;
-    public ValidationCoordinates(IOProvider io) {
-        Validation validationIO = type(io);
+public class ValidationCoordinates {
+    private final Function<BigInteger, Optional<MessageExceptionValidation>> xValidation;
+    private final Function<BigDecimal, Optional<MessageExceptionValidation>> yValidation;
+    public ValidationCoordinates() {
 
-        this.xValidation = new Builder<BigInteger>().add(RulesValidation.longMIN()).add(RulesValidation.xCoordinate())
-                .validation(validationIO).build(reader -> {
-                    ConsoleMessage.X_COORDINATE.printMessage(reader);
-                    return new BigInteger(reader.readLine());
-                }).andThen(BigInteger::longValue);
+        this.xValidation = new Builder<BigInteger>("x").add(RulesValidation.longMIN()).add(RulesValidation.xCoordinate()).build();
 
-        this.yValidation = new Builder<BigDecimal>().add(RulesValidation.floatMAX()).add(RulesValidation.yCoordinate())
-                .validation(validationIO).build(reader -> {
-                    ConsoleMessage.Y_COORDINATE.printMessage(reader);
-                    return new BigDecimal(reader.readLine());
-                }).andThen(BigDecimal::floatValue);
+        this.yValidation = new Builder<BigDecimal>("y").add(RulesValidation.floatMAX()).add(RulesValidation.yCoordinate()).build();
 
     }
-    public Long validatorX(IOProvider io) {
-        return xValidation.apply(io);
+    public Optional<MessageExceptionValidation> validationX(long x) {
+        return xValidation.apply(BigInteger.valueOf(x));
     }
 
-    public Float validatorY(IOProvider io) {
-        return yValidation.apply(io);
+    public Optional<MessageExceptionValidation> validationY(float y) {
+        return yValidation.apply(BigDecimal.valueOf(y));
     }
 
     /**
@@ -64,7 +48,8 @@ public class ValidationCoordinates implements TypeIOProvider {
      *
      * @return Coordinates
      */
-    public Coordinates coordinates(IOProvider io) {
-        return new Coordinates(validatorX(io), validatorY(io));
+    //todo исключение может бросить
+    public Coordinates coordinates(long x, float y) {
+        return new Coordinates(x, y);
     }
 }

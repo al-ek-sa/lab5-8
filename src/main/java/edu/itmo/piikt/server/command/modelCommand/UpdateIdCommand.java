@@ -27,7 +27,7 @@ public final class UpdateIdCommand {
      * @throws RuntimeException
      *             If the user entered the id in an incorrect format.
      */
-    public ServerResponse doExecute(ClientCommand clientCommand) {
+    public ServerResponse execute(ClientCommand clientCommand) {
         String id = clientCommand.getArgumentCommand();
         WorkerData workerData = (WorkerData) clientCommand.getData();
 
@@ -43,7 +43,7 @@ public final class UpdateIdCommand {
             return ServerResponse.error("Нет работника с таким ID");
         }
         workers.removeIf(worker -> worker.getUuid().equals(argument));
-        Worker newWorker = new ValidationWorker(io).worker(io);
+        Worker newWorker = new ValidationWorker().worker(workerData);
         HistoryWorker.INSTANCE.add(newWorker);
     }
 }

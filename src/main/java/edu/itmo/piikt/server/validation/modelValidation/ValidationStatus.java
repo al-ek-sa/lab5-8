@@ -1,14 +1,13 @@
 package edu.itmo.piikt.server.validation.modelValidation;
 
-import edu.itmo.piikt.client.provider.IOProvider;
-import edu.itmo.piikt.client.message.ConsoleMessage;
+import com.sun.jdi.event.StepEvent;
+import edu.itmo.piikt.common.data.MessageExceptionValidation;
+import edu.itmo.piikt.common.massage.MessageCommand;
 import edu.itmo.piikt.common.models.Status;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;
-import edu.itmo.piikt.server.validation.builder.TypeIOProvider;
-import edu.itmo.piikt.server.validation.builder.Validation;
-
 import java.math.BigInteger;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -17,31 +16,24 @@ import java.util.function.Function;
  * @author Lishyk Aliaksandra
  * @version 2.0
  * @see Function
- * @see TypeIOProvider
- * @see Validation
  * @see Builder
- * @see ConsoleMessage
- * @see IOProvider
  * @see Status
  */
-public class ValidationStatus implements TypeIOProvider {
-    private final Function<IOProvider, Status> statusValidation;
-    public ValidationStatus(IOProvider io) {
-        Validation validation = type(io);
+public class ValidationStatus {
+    private final Function<BigInteger, Optional<MessageExceptionValidation>> statusValidation;
+    public ValidationStatus() {
 
-        this.statusValidation = new Builder<BigInteger>().add(RulesValidation.integerMAX())
+        this.statusValidation = new Builder<BigInteger>("status").add(RulesValidation.integerMAX())
                 .add(RulesValidation.integerMIN()).add(RulesValidation.enumRuler(Status.values().length))
-                .validation(validation).build(reader -> {
-                    ConsoleMessage.ENUM.printMessage(reader);
-                    for (Status status : Status.values()) {
-                        reader.println("(" + status.getId() + ") " + status.name());
-                    }
+                .build();
 
-                    return new BigInteger(reader.readLine());
-                }).andThen(input -> Status.values()[input.intValue() - 1]);
     }
 
-    public Status status(IOProvider io) {
-        return statusValidation.apply(io);
+    public Optional<MessageExceptionValidation> validationStatus(Integer status) {
+        return statusValidation.apply(BigInteger.valueOf(status));
+    }
+
+    public Status status(int status) {
+        return Status.values()[status - 1];
     }
 }
