@@ -1,11 +1,6 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
-import edu.itmo.piikt.common.massage.MessageConfirmation;
-import edu.itmo.piikt.client.provider.IOProvider;
-import edu.itmo.piikt.common.command.base.BaseSimpleCommand;
-import edu.itmo.piikt.client.confirmation.Confirmation;
-import edu.itmo.piikt.common.massage.MessageCommand;
-import edu.itmo.piikt.client.manager.ValidationCommand;
+import edu.itmo.piikt.common.server_client.ServerResponse;
 import lombok.NoArgsConstructor;
 
 /**
@@ -13,36 +8,11 @@ import lombok.NoArgsConstructor;
  * to a file).
  *
  * @author Lishyk Aliaksandra
- * @version 2.1
- * @see IOProvider
- * @see Confirmation
- * @see BaseSimpleCommand
- * @see ValidationCommand
- * @see MessageConfirmation
+ * @version 3.0
  */
 @NoArgsConstructor
-public final class ExitCommand implements Confirmation, BaseSimpleCommand {
-    // todo выставление флага и прокидывание ошибки break
-    @Override
-    public void doExecute(IOProvider io) {
-        Boolean consent = confirmation(io);
-        if (consent == true) {
-            ValidationCommand.INSTANCE.setFlag(false);
-        }
-    }
-
-    @Override
-    public MessageCommand getMessageCommand() {
-        return MessageCommand.EXIT;
-    }
-
-    @Override
-    public void question(IOProvider io) {
-        io.printlnCommand(MessageConfirmation.EXIT.getQuestion());
-    }
-
-    @Override
-    public void refusal(IOProvider io) {
-        io.println(MessageConfirmation.EXIT.getRefusal());
+public final class ExitCommand {
+    public ServerResponse execute() {
+        return ServerResponse.successfulCompletion("EXIT");
     }
 }

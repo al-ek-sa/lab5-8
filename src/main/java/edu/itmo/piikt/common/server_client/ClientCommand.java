@@ -10,5 +10,5 @@ public class ClientCommand implements Serializable {
     private static final long serialVersionUID = 1L;
     String nameCommand;
     String argumentCommand;
-    Object worker;
+    Object data;
 }

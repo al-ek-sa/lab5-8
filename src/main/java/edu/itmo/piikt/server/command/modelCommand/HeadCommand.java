@@ -1,9 +1,7 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
+import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.server.history.HistoryWorker;
-import edu.itmo.piikt.client.provider.IOProvider;
-import edu.itmo.piikt.common.command.base.BaseSimpleCommand;
-import edu.itmo.piikt.common.massage.MessageCommand;
 import lombok.NoArgsConstructor;
 
 /**
@@ -11,26 +9,18 @@ import lombok.NoArgsConstructor;
  * collection.
  *
  * @author Lishyk Aliaksandra
- * @version 2.1
- * @see FindWorker
- * @see BaseSimpleCommand
- * @see IOProvider
+ * @version 3.0
  * @see HistoryWorker
  */
 @NoArgsConstructor
-public final class HeadCommand implements FindWorker, BaseSimpleCommand {
+public final class HeadCommand {
     /** The method outputs the data of the first element in the collection. */
-    @Override
-    public void doExecute(IOProvider io) {
-        var list = HistoryWorker.INSTANCE.getListWorker();
-        if (findWorker(io)) {
-            return;
+    public ServerResponse execute() {
+        var listWorker = HistoryWorker.INSTANCE.getListWorker();
+        if(listWorker.isEmpty()) {
+            return ServerResponse.successfulCompletion("COLLECTION IS EMPTY");
         }
-        io.println(list.getFirst().toString());
-    }
-
-    @Override
-    public MessageCommand getMessageCommand() {
-        return MessageCommand.HEAD;
+        String input = listWorker.getFirst().toString();
+        return ServerResponse.successfulCompletion("HEAD WORKER", input);
     }
 }

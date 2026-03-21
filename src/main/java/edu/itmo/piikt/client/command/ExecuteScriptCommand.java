@@ -1,10 +1,8 @@
-package edu.itmo.piikt.server.command.modelCommand;
+package edu.itmo.piikt.client.command;
 
 import edu.itmo.piikt.server.command.exception.ExceptionScript;
 import edu.itmo.piikt.client.io.providerType.IOFile;
 import edu.itmo.piikt.client.provider.IOProvider;
-import edu.itmo.piikt.common.command.base.BaseArgumentCommand;
-import edu.itmo.piikt.common.massage.MessageCommand;
 import edu.itmo.piikt.client.io.data.NameIOProvider;
 import edu.itmo.piikt.client.manager.ValidationCommand;
 import lombok.NoArgsConstructor;
@@ -20,19 +18,16 @@ import java.util.logging.Logger;
  * format as the user enters them in interactive mode.
  *
  * @author Lishyk Aliaksandra
- * @version 2.2
- * @see BaseArgumentCommand
+ * @version 3.0
  * @see Logger
  * @see IOProvider
  * @see ValidationCommand
  */
 @NoArgsConstructor
-public final class ExecuteScriptCommand implements BaseArgumentCommand {
+public final class ExecuteScriptCommand {
     private final List<String> name = new ArrayList<>();
     Logger logger = Logger.getLogger(ExecuteScriptCommand.class.getName());
-    // todo пересмотреть рекурсию (хвостовая приведет к переполнению стека)
-    @Override
-    public void doExecute(IOProvider io, String argument) {
+    public void execute(IOProvider io, String argument) {
         try {
             if (io.name().equals(NameIOProvider.CONSOLE.getName())) {
                 name.clear();
@@ -50,10 +45,5 @@ public final class ExecuteScriptCommand implements BaseArgumentCommand {
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error, script not read");
         }
-    }
-
-    @Override
-    public MessageCommand getMessageCommand() {
-        return MessageCommand.EXECUTE_SCRIPT;
     }
 }

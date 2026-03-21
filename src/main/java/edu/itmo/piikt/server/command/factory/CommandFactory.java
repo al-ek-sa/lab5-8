@@ -1,5 +1,6 @@
 package edu.itmo.piikt.server.command.factory;
 
+import edu.itmo.piikt.client.command.ExecuteScriptCommand;
 import edu.itmo.piikt.common.command.data.Commands;
 import edu.itmo.piikt.common.command.functionalInterface.ArgumentCommand;
 import edu.itmo.piikt.common.command.functionalInterface.SimpleCommand;

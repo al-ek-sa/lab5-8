@@ -1,10 +1,13 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
+import edu.itmo.piikt.common.models.Worker;
+import edu.itmo.piikt.common.server_client.ClientCommand;
+import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.server.history.HistoryWorker;
-import edu.itmo.piikt.client.provider.IOProvider;
-import edu.itmo.piikt.common.command.base.BaseArgumentCommand;
-import edu.itmo.piikt.common.massage.MessageCommand;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The class implements the command filter_contains_name name : output elements
@@ -12,27 +15,19 @@ import lombok.NoArgsConstructor;
  *
  * @author Lishyk Aliaksandra
  * @version 2.1
- * @see BaseArgumentCommand
- * @see IOProvider
  * @see HistoryWorker
  */
 @NoArgsConstructor
-public final class FilterContainsNameCommand implements BaseArgumentCommand {
+public final class FilterContainsNameCommand {
     /**
      * The method outputs all employees with the same name as entered by the user.
      *
-     * @param argument
-     *            The name entered by the user.
      */
-    // todo через map получить toString
-    @Override
-    public void doExecute(IOProvider io, String argument) {
-        var list = HistoryWorker.INSTANCE.getListWorker();
-        list.stream().filter(worker -> worker.getName() != null).filter(worker -> worker.getName().equals(argument))
-                .forEach(worker -> io.println(worker.toString()));
-    }
-    @Override
-    public MessageCommand getMessageCommand() {
-        return MessageCommand.FILTER_CONTAINS_NAME;
+    public ServerResponse execute(ClientCommand clientCommand) {
+        String argument = clientCommand.getArgumentCommand();
+        var listWorker = HistoryWorker.INSTANCE.getListWorker();
+        List<String> list = listWorker.stream().filter(worker -> worker.getName() != null).filter(worker -> worker.getName().contains(argument))
+                .map(Worker::toString).collect(Collectors.toList());
+        return ServerResponse.successfulCompletion("FILTER NAME", list);
     }
 }

@@ -1,9 +1,8 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
+import edu.itmo.piikt.common.server_client.ClientCommand;
+import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.server.history.HistoryWorker;
-import edu.itmo.piikt.client.provider.IOProvider;
-import edu.itmo.piikt.common.command.base.BaseArgumentCommand;
-import edu.itmo.piikt.common.massage.MessageCommand;
 import lombok.NoArgsConstructor;
 
 /**
@@ -11,23 +10,24 @@ import lombok.NoArgsConstructor;
  * collection by its id.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
- * @see IdMatches
- * @see BaseArgumentCommand
- * @see IOProvider
+ * @version 3.0
  * @see HistoryWorker
  */
 @NoArgsConstructor
-public final class RemoveByIdCommand implements IdMatches, BaseArgumentCommand {
-    @Override
-    public void doExecute(IOProvider io, String argument) {
-        idMatches(argument, io);
-        var listWorker = HistoryWorker.INSTANCE.getListWorker();
-        listWorker.removeIf(worker -> worker.getUuid().equals(argument));
-    }
+public final class RemoveByIdCommand {
+    public ServerResponse execute(ClientCommand clientCommand) {
+        String id = clientCommand.getArgumentCommand();
 
-    @Override
-    public MessageCommand getMessageCommand() {
-        return MessageCommand.REMOVE_BY_ID;
+        if (id == null || id.trim().isEmpty()) {
+            return ServerResponse.error("ID не введено");
+        }
+
+        var listWorker = HistoryWorker.INSTANCE.getListWorker();
+        boolean match = listWorker.stream().anyMatch(worker -> worker.getUuid().equals(id));
+        if (!match) {
+            return ServerResponse.error("Работника с таким id не существует");
+        }
+        listWorker.removeIf(worker -> worker.getUuid().equals(id));
+        return  ServerResponse.successfulCompletion("REMOVE BY ID");
     }
 }

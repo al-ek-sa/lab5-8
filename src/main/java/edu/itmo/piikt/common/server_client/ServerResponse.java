@@ -14,6 +14,7 @@ public class ServerResponse implements Serializable {
     private static final long serialVersionUID = 1L;
     boolean execution;
     String message;
+    Object dataString;
     List<String> data;
     List<MessageExceptionValidation> errors;
     public static ServerResponse successfulCompletion(String message) {
@@ -22,6 +23,10 @@ public class ServerResponse implements Serializable {
 
     public static ServerResponse successfulCompletion(String message, List<String> data) {
         return ServerResponse.builder().execution(true).message(message).data(data).build();
+    }
+
+    public static ServerResponse successfulCompletion(String message, Object dataString) {
+        return  ServerResponse.builder().execution(true).message(message).dataString(dataString).build();
     }
 
     public static ServerResponse error(String message, List<MessageExceptionValidation> exception) {

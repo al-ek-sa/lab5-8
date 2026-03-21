@@ -1,5 +1,7 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
+import edu.itmo.piikt.common.data.WorkerData;
+import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.client.provider.IOProvider;
 import edu.itmo.piikt.common.command.base.BaseSimpleCommand;
@@ -12,14 +14,14 @@ import lombok.NoArgsConstructor;
  *
  * @author Lishyk Aliaksandra
  * @version 2.2
- * @see BaseSimpleCommand
  * @see IOProvider
  * @see HistoryWorker
  */
 @NoArgsConstructor
 public final class AddCommand {
 
-    public void execute(IOProvider io) {
+    public void execute(ClientCommand clientCommand) {
+        WorkerData data = (WorkerData) clientCommand.getWorker();
         ValidationWorker worker = new ValidationWorker(io);
         HistoryWorker.INSTANCE.add(worker.worker(io));
     }
