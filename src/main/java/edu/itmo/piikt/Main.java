@@ -2,7 +2,7 @@ package edu.itmo.piikt;
 
 import edu.itmo.piikt.server.command.modelCommand.HelpCommand;
 import edu.itmo.piikt.server.command.modelCommand.HelpEnteringCommand;
-import edu.itmo.piikt.common.provider.IOProvider;
+import edu.itmo.piikt.client.provider.IOProvider;
 import edu.itmo.piikt.client.io.providerType.IOConsole;
 import edu.itmo.piikt.client.manager.ValidationCommand;
 import edu.itmo.piikt.server.saveManager.CSVParser;

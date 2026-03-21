@@ -3,12 +3,11 @@ package edu.itmo.piikt.common.models;
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvDate;
 import com.opencsv.bean.CsvRecurse;
-import edu.itmo.piikt.server.util.GeneratorId;
+import edu.itmo.piikt.common.data.WorkerData;
+import edu.itmo.piikt.common.util.GeneratorId;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -19,8 +18,9 @@ import java.util.Date;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public final class Worker implements Comparable<Worker>, Serializable {
-
+    private static final long serialVersionUID = 1L;
     @CsvBindByPosition(position = 0)
     private String uuid;
 
@@ -51,17 +51,16 @@ public final class Worker implements Comparable<Worker>, Serializable {
     @CsvRecurse
     private Organization organization;
 
-    public Worker(String name, Coordinates coordinates, Float salary, LocalDate startDate, ZonedDateTime endDate,
-            Status status, Organization organization) {
+    public Worker(WorkerData data) {
         this.uuid = GeneratorId.getId();
-        this.name = name;
-        this.coordinates = coordinates;
+        this.name = data.getName();
+        this.coordinates = data.getCoordinates();
         this.creationDate = new Date();
-        this.salary = salary;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.status = status;
-        this.organization = organization;
+        this.salary = data.getSalary();
+        this.startDate = data.getStartDate();
+        this.endDate = data.getEndDate();
+        this.status = data.getStatus();
+        this.organization = data.getOrganization();
     }
 
     /**

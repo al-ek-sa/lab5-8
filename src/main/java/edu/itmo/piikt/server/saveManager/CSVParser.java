@@ -2,7 +2,7 @@ package edu.itmo.piikt.server.saveManager;
 
 import com.opencsv.bean.*;
 import edu.itmo.piikt.server.history.HistoryWorker;
-import edu.itmo.piikt.common.provider.IOProvider;
+import edu.itmo.piikt.client.provider.IOProvider;
 import edu.itmo.piikt.common.models.Worker;
 import java.io.*;
 import java.util.List;

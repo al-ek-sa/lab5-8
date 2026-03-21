@@ -5,7 +5,7 @@ import edu.itmo.piikt.server.command.factory.CommandFactory;
 import edu.itmo.piikt.common.command.functionalInterface.ArgumentCommand;
 import edu.itmo.piikt.common.command.functionalInterface.SimpleCommand;
 import edu.itmo.piikt.server.history.HistoryCommands;
-import edu.itmo.piikt.common.provider.IOProvider;
+import edu.itmo.piikt.client.provider.IOProvider;
 import edu.itmo.piikt.server.saveManager.HistorySave;
 import lombok.Getter;
 

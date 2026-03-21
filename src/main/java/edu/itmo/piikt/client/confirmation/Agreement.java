@@ -1,4 +1,4 @@
-package edu.itmo.piikt.common.interfaces.confirmation;
+package edu.itmo.piikt.client.confirmation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

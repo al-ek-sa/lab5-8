@@ -1,6 +1,6 @@
 package edu.itmo.piikt.client.message;
 
-import edu.itmo.piikt.common.provider.IOProvider;
+import edu.itmo.piikt.client.provider.IOProvider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
 package edu.itmo.piikt.client.io.providerType;
 
-import edu.itmo.piikt.common.provider.IOProvider;
+import edu.itmo.piikt.client.provider.IOProvider;
 import edu.itmo.piikt.client.io.data.NameIOProvider;
 
 import java.io.*;

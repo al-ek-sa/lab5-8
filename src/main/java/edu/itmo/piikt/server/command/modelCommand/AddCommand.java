@@ -1,9 +1,8 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
 import edu.itmo.piikt.server.history.HistoryWorker;
-import edu.itmo.piikt.common.provider.IOProvider;
+import edu.itmo.piikt.client.provider.IOProvider;
 import edu.itmo.piikt.common.command.base.BaseSimpleCommand;
-import edu.itmo.piikt.common.massage.MessageCommand;
 import edu.itmo.piikt.server.validation.modelValidation.ValidationWorker;
 import lombok.NoArgsConstructor;
 
@@ -18,15 +17,15 @@ import lombok.NoArgsConstructor;
  * @see HistoryWorker
  */
 @NoArgsConstructor
-public final class AddCommand implements BaseSimpleCommand {
-    @Override
-    public void doExecute(IOProvider io) {
+public final class AddCommand {
+
+    public void execute(IOProvider io) {
         ValidationWorker worker = new ValidationWorker(io);
         HistoryWorker.INSTANCE.add(worker.worker(io));
     }
-
+/**
     @Override
     public MessageCommand getMessageCommand() {
         return MessageCommand.ADD;
-    }
+    }*/
 }

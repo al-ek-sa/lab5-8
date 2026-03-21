@@ -1,9 +1,9 @@
 package edu.itmo.piikt.server.validation.modelValidation;
 
-import edu.itmo.piikt.common.interfaces.confirmation.Confirmation;
+import edu.itmo.piikt.client.confirmation.Confirmation;
 import edu.itmo.piikt.common.models.Worker;
 import edu.itmo.piikt.common.massage.MessageConfirmation;
-import edu.itmo.piikt.common.provider.IOProvider;
+import edu.itmo.piikt.client.provider.IOProvider;
 import edu.itmo.piikt.client.message.ConsoleMessage;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;

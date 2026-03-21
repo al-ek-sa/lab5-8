@@ -1,8 +1,7 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
 import edu.itmo.piikt.server.history.HistoryWorker;
-import edu.itmo.piikt.common.interfaces.FindWorker;
-import edu.itmo.piikt.common.provider.IOProvider;
+import edu.itmo.piikt.client.provider.IOProvider;
 import edu.itmo.piikt.common.command.base.BaseSimpleCommand;
 import edu.itmo.piikt.common.massage.MessageCommand;
 import edu.itmo.piikt.common.models.Worker;
