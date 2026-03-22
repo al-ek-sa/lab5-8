@@ -77,4 +77,15 @@ public enum Commands {
     private final String name;
     private final String description;
     private final String help;
+
+
+    //todo возращает null очень аккуратно
+    public static Commands nameCommands(String name) {
+        for (Commands commands : values()) {
+            if (commands.getName().equals(name)) {
+                return commands;
+            }
+        }
+        return  null;
+    }
 }

@@ -23,14 +23,11 @@ public final class UpdateIdCommand {
     /**
      * The method replaces the element whose id is equal to the id specified by the
      * user.
-     *
-     * @throws RuntimeException
-     *             If the user entered the id in an incorrect format.
      */
+    //todo дароботать на клиенте если успешное выполнение то будет добавление если нет то грусть
     public ServerResponse execute(ClientCommand clientCommand) {
 
         String id = clientCommand.getArgumentCommand();
-        WorkerData workerData = (WorkerData) clientCommand.getData();
 
         if (id == null || id.trim().isEmpty()) {
             return ServerResponse.error("ID не введен");
@@ -43,8 +40,7 @@ public final class UpdateIdCommand {
         if (!match) {
             return ServerResponse.error("Нет работника с таким ID");
         }
-        workers.removeIf(worker -> worker.getUuid().equals(argument));
-        Worker newWorker = new ValidationWorker().worker(workerData);
-        HistoryWorker.INSTANCE.add(newWorker);
+        workers.removeIf(worker -> worker.getUuid().equals(id));
+        return ServerResponse.successfulCompletion("Работник найден");
     }
 }
