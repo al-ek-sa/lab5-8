@@ -10,8 +10,6 @@ import edu.itmo.piikt.server.WorkerObject.WorkerBuilder;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
-
 /**
  * The class implements the command add {element} : add a new element to the
  * collection.
@@ -38,9 +36,4 @@ public final class AddCommand {
         }
         return ServerResponse.error("Какая-то ошибка");
     }
-/**
-    @Override
-    public MessageCommand getMessageCommand() {
-        return MessageCommand.ADD;
-    }*/
 }

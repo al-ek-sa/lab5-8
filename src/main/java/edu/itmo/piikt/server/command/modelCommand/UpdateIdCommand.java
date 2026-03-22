@@ -28,6 +28,7 @@ public final class UpdateIdCommand {
      *             If the user entered the id in an incorrect format.
      */
     public ServerResponse execute(ClientCommand clientCommand) {
+
         String id = clientCommand.getArgumentCommand();
         WorkerData workerData = (WorkerData) clientCommand.getData();
 

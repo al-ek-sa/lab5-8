@@ -1,6 +1,4 @@
 package edu.itmo.piikt.server.WorkerObject;
-
-import edu.itmo.piikt.common.data.AddressData;
 import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.models.*;
 import edu.itmo.piikt.common.util.GeneratorId;

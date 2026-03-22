@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class ValidationError {
     private final List<MessageExceptionValidation> errors;
-    private final WorkerData data;
+    private final Object data;
 
 
 }
