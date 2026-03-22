@@ -1,4 +1,4 @@
-package edu.itmo.piikt.server.newValidation;
+package edu.itmo.piikt.server.validation.builder;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

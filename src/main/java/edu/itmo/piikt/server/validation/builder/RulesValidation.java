@@ -27,69 +27,9 @@ import java.util.Optional;
 @NoArgsConstructor
 public final class RulesValidation {
 
-    public static ValidationRules<BigInteger> xCoordinate() {
-        return x -> x.compareTo(BigInteger.valueOf(10)) > 0
-                ? Optional.of(ValidationMessage.COORDINATE_X.getText())
-                : Optional.empty();
-    }
-
-    public static ValidationRules<BigDecimal> yCoordinate() {
-        return y -> y.compareTo(BigDecimal.valueOf(-644)) <= 0
-                ? Optional.of(ValidationMessage.COORDINATE_Y.getText())
-                : Optional.empty();
-    }
-
-    public static <T extends Number> ValidationRules<T> nullPointer() {
-        return line -> line == null ? Optional.of(ValidationMessage.NULL.getText()) : Optional.empty();
-    }
-
     public static ValidationRules<String> blank() {
         return line -> line == null || line.isBlank() || "null".equalsIgnoreCase(line.trim())
                 ? Optional.of(ValidationMessage.NULL.getText())
-                : Optional.empty();
-    }
-
-    public static ValidationRules<BigDecimal> floatMAX() {
-        return max -> max.compareTo(BigDecimal.valueOf(Float.MAX_VALUE)) > 0
-                ? Optional.of(ValidationMessage.MAX_FLOAT.getText())
-                : Optional.empty();
-    }
-
-    public static ValidationRules<BigInteger> longMIN() {
-        return min -> min.compareTo(BigInteger.valueOf(Long.MIN_VALUE)) < 0
-                ? Optional.of(ValidationMessage.MIN_LONG.getText())
-                : Optional.empty();
-    }
-
-    public static ValidationRules<BigInteger> integerMAX() {
-        return max -> max.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0
-                ? Optional.of(ValidationMessage.MAX_INTEGER.getText())
-                : Optional.empty();
-    }
-
-    public static ValidationRules<BigInteger> integerMIN() {
-        return min -> min.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0
-                ? Optional.of(ValidationMessage.MIN_INTEGER.getText())
-                : Optional.empty();
-    }
-
-    public static ValidationRules<BigInteger> enumRuler(int max) {
-        return line -> {
-            if (line.compareTo(BigInteger.valueOf(1)) < 0 || line.compareTo(BigInteger.valueOf(max)) > 0) {
-                return Optional.of(ValidationMessage.ENUM.getText());
-            }
-            return Optional.empty();
-        };
-    }
-    public static ValidationRules<BigInteger> annualTurnover() {
-        return input -> input.compareTo(BigInteger.ZERO) <= 0
-                ? Optional.of(ValidationMessage.ANNUAL_TURNOVER.getText())
-                : Optional.empty();
-    }
-
-    public static ValidationRules<BigDecimal> salary() {
-        return input -> input.compareTo(BigDecimal.ZERO) <= 0
-                ? Optional.of(ValidationMessage.ANNUAL_TURNOVER.getText())
                 : Optional.empty();
     }
 
@@ -163,20 +103,28 @@ public final class RulesValidation {
 
     public static ValidationRules<String> validationType() {
         return input -> {
-            Integer type = Integer.parseInt(input);
-            if (type <1 || type > OrganizationType.values().length) {
-                return Optional.of(ValidationMessage.ENUM.getText());
+            try {
+                Integer type = Integer.parseInt(input);
+                if (type < 1 || type > OrganizationType.values().length) {
+                    return Optional.of(ValidationMessage.ENUM.getText());
+                }
+                return Optional.empty();
+            } catch (NumberFormatException e) {
+                return Optional.of(ValidationMessage.DATE.getText());
             }
-            return Optional.empty();
         };
     }
     public static ValidationRules<String> validationStatus() {
         return input -> {
-            Integer status = Integer.parseInt(input);
-            if (status <1 || status > Status.values().length) {
-                return Optional.of(ValidationMessage.ENUM.getText());
+            try {
+                Integer status = Integer.parseInt(input);
+                if (status < 1 || status > Status.values().length) {
+                    return Optional.of(ValidationMessage.ENUM.getText());
+                }
+                return Optional.empty();
+            } catch (NumberFormatException e) {
+                return  Optional.of(ValidationMessage.DATE.getText());
             }
-            return Optional.empty();
         };
     }
 
@@ -186,9 +134,9 @@ public final class RulesValidation {
                 if (input == null || input.isBlank()) {
                     return Optional.empty();
                 }
-                Integer annualTurnover = Integer.parseInt(input);
-                if (annualTurnover <= 0) {
-                    return Optional.of(ValidationMessage.ANNUAL_TURNOVER.getText());
+                Integer salary = Integer.parseInt(input);
+                if (salary <= 0) {
+                    return Optional.of(ValidationMessage.SALARY.getText());
                 }
                 return  Optional.empty();
             } catch (NumberFormatException e) {

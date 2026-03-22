@@ -24,6 +24,9 @@ public final class Coordinates implements Serializable {
     @CsvBindByPosition(position = 3)
     private float y;
 
+    public Coordinates(long l) {
+    }
+
     /**
      * Returns a brief description of this Coordinates. The exact details of the
      * representation are unspecified and subject to change, but the following may

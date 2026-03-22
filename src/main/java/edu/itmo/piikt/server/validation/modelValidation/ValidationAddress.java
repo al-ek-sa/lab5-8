@@ -1,7 +1,6 @@
 package edu.itmo.piikt.server.validation.modelValidation;
 
 import edu.itmo.piikt.common.data.MessageExceptionValidation;
-import edu.itmo.piikt.common.models.Address;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;
 
