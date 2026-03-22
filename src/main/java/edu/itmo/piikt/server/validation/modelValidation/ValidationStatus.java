@@ -4,7 +4,6 @@ import edu.itmo.piikt.common.data.MessageExceptionValidation;
 import edu.itmo.piikt.common.models.Status;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;
-import java.math.BigInteger;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -18,19 +17,18 @@ import java.util.function.Function;
  * @see Status
  */
 public class ValidationStatus {
-    private final Function<BigInteger, Optional<MessageExceptionValidation>> statusValidation;
+    private final Function<String, Optional<MessageExceptionValidation>> statusValidation;
     public ValidationStatus() {
 
-        this.statusValidation = new Builder<BigInteger>("status").add(RulesValidation.integerMAX())
-                .add(RulesValidation.integerMIN()).add(RulesValidation.enumRuler(Status.values().length))
+        this.statusValidation = new Builder<String>("status").add(RulesValidation.validationStatus())
                 .build();
 
     }
 
-    public Optional<MessageExceptionValidation> validationStatus(Integer status) {
-        return statusValidation.apply(BigInteger.valueOf(status));
+    public Optional<MessageExceptionValidation> validationStatus(String status) {
+        return statusValidation.apply(status);
     }
-
+//todo nullpointer оч аккуратно
     public Status status(int status) {
         return Status.values()[status - 1];
     }

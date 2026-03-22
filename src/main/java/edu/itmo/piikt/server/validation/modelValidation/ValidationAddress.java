@@ -34,13 +34,4 @@ public class ValidationAddress {
     public Optional<MessageExceptionValidation> validation(String street) {
         return addressValidation.apply(street);
     }
-
-    /**
-     * The method validates the address.
-     *
-     * @return Address
-     */
-    public Address validationAddress(String street) {
-        return new Address(street);
-    }
 }

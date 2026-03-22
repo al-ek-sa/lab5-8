@@ -1,6 +1,8 @@
 package edu.itmo.piikt.server.validation.builder;
 
 import edu.itmo.piikt.client.message.ValidationMessage;
+import edu.itmo.piikt.common.models.OrganizationType;
+import edu.itmo.piikt.common.models.Status;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -111,6 +113,85 @@ public final class RulesValidation {
                 LocalDate.parse(input);
                 return Optional.empty();
             } catch (DateTimeParseException e) {
+                return Optional.of(ValidationMessage.DATE.getText());
+            }
+        };
+    }
+
+    //todo вынести парсинг
+    public static ValidationRules<String> validationAnnualTurnover() {
+        return input -> {
+            try {
+                Integer annualTurnover = Integer.parseInt(input);
+                if (annualTurnover <= 0) {
+                    return Optional.of(ValidationMessage.ANNUAL_TURNOVER.getText());
+                }
+                return  Optional.empty();
+            } catch (NumberFormatException e) {
+                return Optional.of(ValidationMessage.DATE.getText());
+            }
+        };
+    }
+
+    public static ValidationRules<String> validationY2() {
+        return  input -> {
+            try{
+                Float y = Float.parseFloat(input);
+                if (y <= -644) {
+                    return  Optional.of(ValidationMessage.COORDINATE_Y.getText());
+                }
+                return Optional.empty();
+            } catch (NumberFormatException e) {
+                return Optional.of(ValidationMessage.DATE.getText());
+            }
+        };
+    }
+
+    public static ValidationRules<String> validationX2() {
+        return input -> {
+            try {
+                long x = Long.parseLong(input);
+                if (x > 10) {
+                    return Optional.of(ValidationMessage.COORDINATE_X.getText());
+                }
+                return Optional.empty();
+            } catch (NumberFormatException e) {
+                return Optional.of(ValidationMessage.DATE.getText());
+            }
+        };
+    }
+
+    public static ValidationRules<String> validationType() {
+        return input -> {
+            Integer type = Integer.parseInt(input);
+            if (type <1 || type > OrganizationType.values().length) {
+                return Optional.of(ValidationMessage.ENUM.getText());
+            }
+            return Optional.empty();
+        };
+    }
+    public static ValidationRules<String> validationStatus() {
+        return input -> {
+            Integer status = Integer.parseInt(input);
+            if (status <1 || status > Status.values().length) {
+                return Optional.of(ValidationMessage.ENUM.getText());
+            }
+            return Optional.empty();
+        };
+    }
+
+    public static ValidationRules<String> validationSalary() {
+        return input -> {
+            try {
+                if (input == null || input.isBlank()) {
+                    return Optional.empty();
+                }
+                Integer annualTurnover = Integer.parseInt(input);
+                if (annualTurnover <= 0) {
+                    return Optional.of(ValidationMessage.ANNUAL_TURNOVER.getText());
+                }
+                return  Optional.empty();
+            } catch (NumberFormatException e) {
                 return Optional.of(ValidationMessage.DATE.getText());
             }
         };

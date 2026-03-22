@@ -29,26 +29,17 @@ import java.util.function.Function;
 public class ValidationOrganization {
     private ValidationOrganizationType type;
     private ValidationAddress address;
-    private final Function<BigInteger, Optional<MessageExceptionValidation>> annualTurnoverValidation;
+    private final Function<String, Optional<MessageExceptionValidation>> annualTurnoverValidation;
 
     public ValidationOrganization() {
         this.type = new ValidationOrganizationType();
         this.address = new ValidationAddress();
 
-        this.annualTurnoverValidation = new Builder<BigInteger>("annual turnover").add(RulesValidation.integerMAX())
-                .add(RulesValidation.annualTurnover()).build();
+        this.annualTurnoverValidation = new Builder<String>("annual turnover")
+                .add(RulesValidation.validationAnnualTurnover()).build();
     }
 
-    public Optional<MessageExceptionValidation> validationAnnualTurnover(Integer annualTurnover) {
-        return annualTurnoverValidation.apply(BigInteger.valueOf(annualTurnover));
-    }
-
-    /**
-     * The method returns an Organization object with validated fields.
-     *
-     * @return Organization
-     */
-    public Organization organization(Integer annualTurnover, String street, Integer typeId) {
-        return new Organization(annualTurnover, type.organizationType(typeId), address.validationAddress(street));
+    public Optional<MessageExceptionValidation> validationAnnualTurnover(String annualTurnover) {
+        return annualTurnoverValidation.apply(annualTurnover);
     }
 }

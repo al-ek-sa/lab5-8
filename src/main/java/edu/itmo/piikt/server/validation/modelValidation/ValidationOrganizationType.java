@@ -4,8 +4,6 @@ import edu.itmo.piikt.common.data.MessageExceptionValidation;
 import edu.itmo.piikt.common.models.OrganizationType;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;
-
-import java.math.BigInteger;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -19,17 +17,16 @@ import java.util.function.Function;
  * @see OrganizationType
  */
 public class ValidationOrganizationType {
-    private final Function<BigInteger, Optional<MessageExceptionValidation>> organizationValidation;
+    private final Function<String, Optional<MessageExceptionValidation>> organizationValidation;
     public ValidationOrganizationType() {
-        this.organizationValidation = new Builder<BigInteger>("organization type").add(RulesValidation.integerMIN())
-                .add(RulesValidation.integerMAX()).add(RulesValidation.enumRuler(OrganizationType.values().length))
-                .build();}
+        this.organizationValidation = new Builder<String>("organization type").add(RulesValidation.validationType()).build();}
 
-    public Optional<MessageExceptionValidation> validationOrganizationType(Integer type) {
-        return organizationValidation.apply(BigInteger.valueOf(type));
+    public Optional<MessageExceptionValidation> validationOrganizationType(String type) {
+        return organizationValidation.apply(type);
     }
 
-    public OrganizationType organizationType(int type) {
+    //todo nullpointer оч аккуратно
+    /**public OrganizationType organizationType(int type) {
         return OrganizationType.values()[type -1];
-    }
+    }*/
 }

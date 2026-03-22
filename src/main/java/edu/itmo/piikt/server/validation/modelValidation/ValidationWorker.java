@@ -5,8 +5,6 @@ import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.models.Worker;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;
-
-import java.math.BigDecimal;
 import java.time.*;
 import java.util.Optional;
 import java.util.function.Function;
@@ -51,7 +49,7 @@ public class ValidationWorker {
     private ValidationStatus status;
     private ValidationOrganization organization;
     private final Function<String, Optional<MessageExceptionValidation>> nameValidation;
-    private final Function<BigDecimal, Optional<MessageExceptionValidation>> salaryValidation;
+    private final Function<String, Optional<MessageExceptionValidation>> salaryValidation;
     private final Function<String, Optional<MessageExceptionValidation>> startDateValidation;
     private final Function<String, Optional<MessageExceptionValidation>> endDateValidation;
 
@@ -69,7 +67,7 @@ public class ValidationWorker {
         this.nameValidation = new Builder<String>("name").add(RulesValidation.blank())
                 .build();
 
-        this.salaryValidation = new Builder<BigDecimal>("salary").add(RulesValidation.floatMAX()).add(RulesValidation.salary())
+        this.salaryValidation = new Builder<String>("salary").add(RulesValidation.validationSalary())
                 .build();
     }
 
@@ -77,8 +75,8 @@ public class ValidationWorker {
         return nameValidation.apply(name);
     }
 
-    public Optional<MessageExceptionValidation> validationSalary(Float salary) {
-        return salaryValidation.apply(BigDecimal.valueOf(salary));
+    public Optional<MessageExceptionValidation> validationSalary(String salary) {
+        return salaryValidation.apply(salary);
     }
 
     public Optional<MessageExceptionValidation> validationStartDate(String startDate) {
@@ -88,9 +86,6 @@ public class ValidationWorker {
     public Optional<MessageExceptionValidation> validationEndDate(String endDate) {
         return endDateValidation.apply(endDate);
     }
-
-    //todo прописать логику если все данные верные
-
 
     /**
      * The method creates an employee considering all validations.
