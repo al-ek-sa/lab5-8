@@ -15,6 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public final class Address implements Serializable {
+    private static final long serialVersionUID = 1L;
     @CsvBindByPosition(position = 11)
     private String street;
 

@@ -18,6 +18,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public final class Organization implements Serializable {
+    private static final long serialVersionUID = 1L;
     @CsvBindByPosition(position = 9)
     private int annualTurnover;
 

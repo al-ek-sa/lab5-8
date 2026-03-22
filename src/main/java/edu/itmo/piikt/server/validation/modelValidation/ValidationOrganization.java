@@ -49,6 +49,6 @@ public class ValidationOrganization {
      * @return Organization
      */
     public Organization organization(Integer annualTurnover, String street, Integer typeId) {
-        return new Organization(validationAnnualTurnover(annualTurnover), type.organizationType(typeId), address.validationAddress(street));
+        return new Organization(annualTurnover, type.organizationType(typeId), address.validationAddress(street));
     }
 }

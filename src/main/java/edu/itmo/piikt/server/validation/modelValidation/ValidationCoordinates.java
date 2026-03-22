@@ -43,6 +43,10 @@ public class ValidationCoordinates {
         return yValidation.apply(BigDecimal.valueOf(y));
     }
 
+    public Long x(long x) {
+        return x;
+    }
+
     /**
      * The method returns a Coordinates object with validated fields.
      *

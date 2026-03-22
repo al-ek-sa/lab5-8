@@ -13,7 +13,7 @@ import java.util.function.Function;
  * The class returns the selected instance of the enum OrganizationType.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  * @see Function
  * @see Builder
  * @see OrganizationType

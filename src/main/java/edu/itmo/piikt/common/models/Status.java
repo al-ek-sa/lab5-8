@@ -15,5 +15,6 @@ import java.io.Serializable;
 @Getter
 public enum Status implements Serializable {
     FIRED(1), HIRED(2), RECOMMENDED_FOR_PROMOTION(3), PROBATION(4);
+    private static final long serialVersionUID = 1L;
     private final int id;
 }

@@ -98,6 +98,6 @@ public class ValidationWorker {
      * @return Worker
      */
     public Worker worker(WorkerData data) {
-        return new Worker(data);
+        return new Worker();
     }
 }

@@ -1,8 +1,6 @@
 package edu.itmo.piikt.server.validation.modelValidation;
 
-import edu.itmo.piikt.client.message.ConsoleMessage;
 import edu.itmo.piikt.common.data.MessageExceptionValidation;
-import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.models.Address;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;
@@ -24,7 +22,6 @@ import java.util.function.Function;
  * @version 3.0
  * @see Function
  * @see Builder
- * @see ConsoleMessage
  */
 public class ValidationAddress {
     private final Function<String, Optional<MessageExceptionValidation>> addressValidation;

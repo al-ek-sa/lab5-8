@@ -1,24 +1,21 @@
 package edu.itmo.piikt.common.data;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.io.Serializable;
 
 /**
- * The class of the Worker type object.
+ * The Enum class contains instances of possible statuses.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
-public final class WorkerData implements Serializable {
+@Getter
+public enum StatusData implements Serializable {
+    FIRED("1"), HIRED("2"), RECOMMENDED_FOR_PROMOTION("3"), PROBATION("4");
     private static final long serialVersionUID = 1L;
     //todo документация! обязательно проверить на null, перепроверить анатоции и зависимости подключить
-    private String name;
-    private CoordinatesData coordinates;
-    private String salary;
-    private String startDate;
-    private String endDate;
-    private StatusData status;
-    private OrganizationData organization;
+    private final String id;
 }

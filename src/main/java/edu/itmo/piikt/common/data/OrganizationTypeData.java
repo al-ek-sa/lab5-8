@@ -1,24 +1,21 @@
 package edu.itmo.piikt.common.data;
+
 import lombok.*;
+
 import java.io.Serializable;
 
 /**
- * The class of the Worker type object.
+ * The Enum class contains instances of possible organization types.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-@Data
-@NoArgsConstructor
+@Getter
+@ToString(includeFieldNames = true)
 @AllArgsConstructor
-public final class WorkerData implements Serializable {
+public enum OrganizationTypeData implements Serializable {
+    COMMERCIAL("1"), PUBLIC("2"), GOVERNMENT("3"), TRUST("4"), OPEN_JOINT_STOCK_COMPANY("5");
     private static final long serialVersionUID = 1L;
     //todo документация! обязательно проверить на null, перепроверить анатоции и зависимости подключить
-    private String name;
-    private CoordinatesData coordinates;
-    private String salary;
-    private String startDate;
-    private String endDate;
-    private StatusData status;
-    private OrganizationData organization;
+    private final String id;
 }

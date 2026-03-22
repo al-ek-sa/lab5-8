@@ -1,8 +1,6 @@
 package edu.itmo.piikt.server.validation.modelValidation;
 
-import com.sun.jdi.event.StepEvent;
 import edu.itmo.piikt.common.data.MessageExceptionValidation;
-import edu.itmo.piikt.common.massage.MessageCommand;
 import edu.itmo.piikt.common.models.Status;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;

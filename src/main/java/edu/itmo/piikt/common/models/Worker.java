@@ -8,6 +8,8 @@ import edu.itmo.piikt.common.util.GeneratorId;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -51,16 +53,17 @@ public final class Worker implements Comparable<Worker>, Serializable {
     @CsvRecurse
     private Organization organization;
 
-    public Worker(WorkerData data) {
+    public Worker(String name, Coordinates coordinates, Float salary, LocalDate startDate, ZonedDateTime endDate,
+                  Status status, Organization organization) {
         this.uuid = GeneratorId.getId();
-        this.name = data.getName();
-        this.coordinates = data.getCoordinates();
+        this.name = name;
+        this.coordinates = coordinates;
         this.creationDate = new Date();
-        this.salary = data.getSalary();
-        this.startDate = data.getStartDate();
-        this.endDate = data.getEndDate();
-        this.status = data.getStatus();
-        this.organization = data.getOrganization();
+        this.salary = salary;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.organization = organization;
     }
 
     /**
