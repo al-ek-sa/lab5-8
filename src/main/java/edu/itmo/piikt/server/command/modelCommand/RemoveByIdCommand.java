@@ -28,6 +28,6 @@ public final class RemoveByIdCommand {
             return ServerResponse.error("Работника с таким id не существует");
         }
         listWorker.removeIf(worker -> worker.getUuid().equals(id));
-        return  ServerResponse.successfulCompletion("REMOVE BY ID");
+        return ServerResponse.successfulCompletion("REMOVE BY ID");
     }
 }

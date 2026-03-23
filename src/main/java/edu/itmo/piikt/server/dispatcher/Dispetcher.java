@@ -25,7 +25,8 @@ public class Dispetcher {
         enumMap.put(Commands.HELP, com -> new HelpCommand().execute());
         enumMap.put(Commands.HELP_ENTERING_COMMAND, com -> new HelpEnteringCommand().execute());
         enumMap.put(Commands.HISTORY, com -> new HistoryCommand().execute());
-        enumMap.put(Commands.PRINT_FIELD_DESCENDING_END_DATE, com -> new PrintFieldDescendingEndDataCommand().execute());
+        enumMap.put(Commands.PRINT_FIELD_DESCENDING_END_DATE,
+                com -> new PrintFieldDescendingEndDataCommand().execute());
         enumMap.put(Commands.EXIT, com -> new ExitCommand().execute());
     }
     public ServerResponse dispetcher(ClientCommand command) {
@@ -38,6 +39,6 @@ public class Dispetcher {
         if (input == null) {
             return ServerResponse.error("");
         }
-        return  input.apply(command);
+        return input.apply(command);
     }
 }

@@ -58,7 +58,7 @@ public final class RulesValidation {
         };
     }
 
-    //todo вынести парсинг
+    // todo вынести парсинг
     public static ValidationRules<String> validationAnnualTurnover() {
         return input -> {
             try {
@@ -66,7 +66,7 @@ public final class RulesValidation {
                 if (annualTurnover <= 0) {
                     return Optional.of(ValidationMessage.ANNUAL_TURNOVER.getText());
                 }
-                return  Optional.empty();
+                return Optional.empty();
             } catch (NumberFormatException e) {
                 return Optional.of(ValidationMessage.DATE.getText());
             }
@@ -74,11 +74,11 @@ public final class RulesValidation {
     }
 
     public static ValidationRules<String> validationY2() {
-        return  input -> {
-            try{
+        return input -> {
+            try {
                 Float y = Float.parseFloat(input);
                 if (y <= -644) {
-                    return  Optional.of(ValidationMessage.COORDINATE_Y.getText());
+                    return Optional.of(ValidationMessage.COORDINATE_Y.getText());
                 }
                 return Optional.empty();
             } catch (NumberFormatException e) {
@@ -123,7 +123,7 @@ public final class RulesValidation {
                 }
                 return Optional.empty();
             } catch (NumberFormatException e) {
-                return  Optional.of(ValidationMessage.DATE.getText());
+                return Optional.of(ValidationMessage.DATE.getText());
             }
         };
     }
@@ -138,7 +138,7 @@ public final class RulesValidation {
                 if (salary <= 0) {
                     return Optional.of(ValidationMessage.SALARY.getText());
                 }
-                return  Optional.empty();
+                return Optional.empty();
             } catch (NumberFormatException e) {
                 return Optional.of(ValidationMessage.DATE.getText());
             }

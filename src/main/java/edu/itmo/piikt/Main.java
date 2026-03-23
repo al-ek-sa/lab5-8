@@ -2,7 +2,7 @@ package edu.itmo.piikt;
 
 import edu.itmo.piikt.server.command.modelCommand.HelpCommand;
 import edu.itmo.piikt.server.command.modelCommand.HelpEnteringCommand;
-import edu.itmo.piikt.client.provider.IOProvider;
+import edu.itmo.piikt.client.io.provider.IOProvider;
 import edu.itmo.piikt.client.io.providerType.IOConsole;
 import edu.itmo.piikt.client.manager.ValidationCommand;
 import edu.itmo.piikt.server.saveManager.CSVParser;
@@ -21,10 +21,9 @@ public class Main {
         CSVParser csvParser = new CSVParser();
         csvParser.readFile(io);
         HelpCommand help = new HelpCommand();
-        help.execute(io);
+        help.execute();
         HelpEnteringCommand helpEnteringCommand = new HelpEnteringCommand();
-        helpEnteringCommand.execute(io);
+        helpEnteringCommand.execute();
         ValidationCommand validationCommand = ValidationCommand.INSTANCE;
-        validationCommand.validation(io);
     }
 }

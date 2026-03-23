@@ -19,14 +19,17 @@ import java.util.function.Function;
 public class ValidationOrganizationType {
     private final Function<String, Optional<MessageExceptionValidation>> organizationValidation;
     public ValidationOrganizationType() {
-        this.organizationValidation = new Builder<String>("organization type").add(RulesValidation.validationType()).build();}
+        this.organizationValidation = new Builder<String>("organization type").add(RulesValidation.validationType())
+                .build();
+    }
 
     public Optional<MessageExceptionValidation> validationOrganizationType(String type) {
         return organizationValidation.apply(type);
     }
 
-    //todo nullpointer оч аккуратно
-    /**public OrganizationType organizationType(int type) {
-        return OrganizationType.values()[type -1];
-    }*/
+    // todo nullpointer оч аккуратно
+    /**
+     * public OrganizationType organizationType(int type) { return
+     * OrganizationType.values()[type -1]; }
+     */
 }

@@ -1,6 +1,6 @@
 package edu.itmo.piikt.client.io.providerType;
 
-import edu.itmo.piikt.client.provider.IOProvider;
+import edu.itmo.piikt.client.io.provider.IOProvider;
 import edu.itmo.piikt.client.io.data.NameIOProvider;
 import edu.itmo.piikt.client.util.InputReader;
 import lombok.NoArgsConstructor;

@@ -20,15 +20,14 @@ public class ValidationStatus {
     private final Function<String, Optional<MessageExceptionValidation>> statusValidation;
     public ValidationStatus() {
 
-        this.statusValidation = new Builder<String>("status").add(RulesValidation.validationStatus())
-                .build();
+        this.statusValidation = new Builder<String>("status").add(RulesValidation.validationStatus()).build();
 
     }
 
     public Optional<MessageExceptionValidation> validationStatus(String status) {
         return statusValidation.apply(status);
     }
-//todo nullpointer оч аккуратно
+    // todo nullpointer оч аккуратно
     public Status status(int status) {
         return Status.values()[status - 1];
     }

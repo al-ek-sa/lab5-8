@@ -3,7 +3,6 @@ package edu.itmo.piikt.common.models;
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvDate;
 import com.opencsv.bean.CsvRecurse;
-import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.util.GeneratorId;
 import lombok.*;
 
@@ -54,7 +53,7 @@ public final class Worker implements Comparable<Worker>, Serializable {
     private Organization organization;
 
     public Worker(String name, Coordinates coordinates, Float salary, LocalDate startDate, ZonedDateTime endDate,
-                  Status status, Organization organization) {
+            Status status, Organization organization) {
         this.uuid = GeneratorId.getId();
         this.name = name;
         this.coordinates = coordinates;

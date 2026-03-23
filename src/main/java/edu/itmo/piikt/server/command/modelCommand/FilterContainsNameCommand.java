@@ -26,8 +26,9 @@ public final class FilterContainsNameCommand {
     public ServerResponse execute(ClientCommand clientCommand) {
         String argument = clientCommand.getArgumentCommand();
         var listWorker = HistoryWorker.INSTANCE.getListWorker();
-        List<String> list = listWorker.stream().filter(worker -> worker.getName() != null).filter(worker -> worker.getName().contains(argument))
-                .map(Worker::toString).collect(Collectors.toList());
+        List<String> list = listWorker.stream().filter(worker -> worker.getName() != null)
+                .filter(worker -> worker.getName().contains(argument)).map(Worker::toString)
+                .collect(Collectors.toList());
         return ServerResponse.successfulCompletion("FILTER NAME", list);
     }
 }

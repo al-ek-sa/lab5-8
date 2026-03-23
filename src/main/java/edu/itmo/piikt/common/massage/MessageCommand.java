@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Enum with a set of messages that the user may receive when entering commands.
@@ -13,7 +11,6 @@ import java.util.logging.Logger;
  * @author Lishyk Aliaksandra
  * @version 1.0
  * @see Optional
- * @see Logger
  */
 @AllArgsConstructor
 @Getter
@@ -68,17 +65,4 @@ public enum MessageCommand {
     private final Optional<String> messageBefore;
     private final Optional<String> messageAfter;
     private final Optional<String> messageException;
-
-    public void loggerBefore(Logger logger) {
-        messageBefore.ifPresent(message -> logger.log(Level.INFO, message));
-    }
-
-    public void loggerAfter(Logger logger) {
-        messageAfter.ifPresent(message -> logger.log(Level.INFO, message));
-    }
-
-    public void loggerError(Logger logger, Exception e) {
-        messageException.ifPresentOrElse(message -> logger.log(Level.SEVERE, message + ": " + e.getMessage()),
-                () -> logger.log(Level.SEVERE, "Exception: " + e.getMessage()));
-    }
 }

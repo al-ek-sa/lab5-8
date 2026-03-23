@@ -1,4 +1,5 @@
 package edu.itmo.piikt.common.data;
+import edu.itmo.piikt.common.data.Status.DataStatus;
 import lombok.*;
 import java.io.Serializable;
 
@@ -13,12 +14,13 @@ import java.io.Serializable;
 @AllArgsConstructor
 public final class WorkerData implements Serializable {
     private static final long serialVersionUID = 1L;
-    //todo документация! обязательно проверить на null, перепроверить анатоции и зависимости подключить
+    // todo документация! обязательно проверить на null, перепроверить анатоции и
+    // зависимости подключить
     private String name;
     private CoordinatesData coordinates;
     private String salary;
     private String startDate;
     private String endDate;
-    private StatusData status;
+    private DataStatus status;
     private OrganizationData organization;
 }

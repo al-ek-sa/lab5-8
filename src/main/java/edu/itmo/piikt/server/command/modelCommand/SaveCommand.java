@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
  * @version 3.0
  */
 @NoArgsConstructor
-public final class SaveCommand{
+public final class SaveCommand {
     public void execute() {
         CSVParser csvParser = new CSVParser();
         csvParser.saveCollection();

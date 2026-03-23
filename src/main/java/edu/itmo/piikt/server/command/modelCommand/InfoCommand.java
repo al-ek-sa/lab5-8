@@ -21,8 +21,8 @@ public final class InfoCommand {
     public ServerResponse execute() {
         var listWorker = HistoryWorker.INSTANCE.getListWorker();
         var data = HistoryWorker.INSTANCE.getData();
-        List<String> list = List.of("Collection type: " + listWorker.getClass().getSimpleName() + "\nIdentification time: " + data
-                + "\nNumber of elements: " + listWorker.size());
+        List<String> list = List.of("Collection type: " + listWorker.getClass().getSimpleName()
+                + "\nIdentification time: " + data + "\nNumber of elements: " + listWorker.size());
         return ServerResponse.successfulCompletion("INFO: ", list);
     }
 }

@@ -1,6 +1,5 @@
 package edu.itmo.piikt.common.data;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

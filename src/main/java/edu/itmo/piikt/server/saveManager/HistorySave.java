@@ -39,7 +39,7 @@ public class HistorySave {
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
             commands.forEach(writer::println);
         } catch (Exception e) {
-            logger.log(Level.INFO,e.getMessage());
+            logger.log(Level.INFO, e.getMessage());
         }
     }
 

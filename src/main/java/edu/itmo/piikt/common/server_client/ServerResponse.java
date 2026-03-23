@@ -26,7 +26,7 @@ public class ServerResponse implements Serializable {
     }
 
     public static ServerResponse successfulCompletion(String message, Object dataString) {
-        return  ServerResponse.builder().execution(true).message(message).dataString(dataString).build();
+        return ServerResponse.builder().execution(true).message(message).dataString(dataString).build();
     }
 
     public static ServerResponse error(String message, List<MessageExceptionValidation> exception) {
@@ -37,11 +37,11 @@ public class ServerResponse implements Serializable {
         return ServerResponse.builder().execution(false).message(message).build();
     }
 
-    public static ServerResponse errer(String message, List<MessageExceptionValidation> exeption, Object object){
+    public static ServerResponse errer(String message, List<MessageExceptionValidation> exeption, Object object) {
         return ServerResponse.builder().execution(false).message(message).errors(exeption).dataString(object).build();
     }
 
     public boolean exception() {
-        return Optional.ofNullable(errors).map(list ->!list.isEmpty()).orElse(false);
+        return Optional.ofNullable(errors).map(list -> !list.isEmpty()).orElse(false);
     }
 }

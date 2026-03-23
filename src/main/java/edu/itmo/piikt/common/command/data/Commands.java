@@ -9,7 +9,7 @@ import lombok.Getter;
  * description, and syntax rules.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
  */
 @Getter
 @AllArgsConstructor
@@ -39,9 +39,6 @@ public enum Commands {
 
     CLEAR("clear", "clear the collection",
             "Both in the console and in the script, the command is entered as a single word without arguments.(\"clear\")"),
-
-    SAVE("save", "save the collection to a file",
-            "save: Both in the console and in the script, the command is entered as a single word without arguments. (\"save\")"),
 
     EXECUTE_SCRIPT("execute_script", "read and execute a script from the specified file",
             "Both in the console and in the script, the command is entered on one line (\"execute_script _____\")."),
@@ -78,14 +75,13 @@ public enum Commands {
     private final String description;
     private final String help;
 
-
-    //todo возращает null очень аккуратно
+    // todo возращает null очень аккуратно
     public static Commands nameCommands(String name) {
         for (Commands commands : values()) {
             if (commands.getName().equals(name)) {
                 return commands;
             }
         }
-        return  null;
+        return null;
     }
 }

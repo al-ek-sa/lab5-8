@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 public class OrganizationBuilder {
     public Organization organizationBuilder(OrganizationData organizationData) {
         Integer annualTurnover = Integer.parseInt(organizationData.getAnnualTurnover());
-        OrganizationType organizationType = OrganizationType.values()[Integer.parseInt(organizationData.getType().getId())-1];
+        OrganizationType organizationType = OrganizationType
+                .values()[Integer.parseInt(organizationData.getType().getId()) - 1];
         Address address = new Address(organizationData.getOfficialAddress().getStreet());
         return new Organization(annualTurnover, organizationType, address);
     }

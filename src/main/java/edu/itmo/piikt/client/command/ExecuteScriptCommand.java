@@ -1,8 +1,7 @@
 package edu.itmo.piikt.client.command;
 
-import edu.itmo.piikt.server.command.exception.ExceptionScript;
 import edu.itmo.piikt.client.io.providerType.IOFile;
-import edu.itmo.piikt.client.provider.IOProvider;
+import edu.itmo.piikt.client.io.provider.IOProvider;
 import edu.itmo.piikt.client.io.data.NameIOProvider;
 import edu.itmo.piikt.client.manager.ValidationCommand;
 import lombok.NoArgsConstructor;
@@ -34,16 +33,15 @@ public final class ExecuteScriptCommand {
             }
             name.forEach(nameFile -> {
                 if (nameFile.equals(argument)) {
-                    throw new ExceptionScript();
+                    // -----------------------------
                 }
             });
             name.add(argument);
             IOFile script = new IOFile(argument);
-            ValidationCommand.INSTANCE.validation(script);
-        } catch (ExceptionScript e) {
-            logger.log(Level.SEVERE, e.getMessage() + argument);
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error, script not read");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

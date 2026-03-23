@@ -1,4 +1,4 @@
-package edu.itmo.piikt.common.data;
+package edu.itmo.piikt.common.data.Status;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +16,7 @@ import java.io.Serializable;
 public enum StatusData implements Serializable {
     FIRED("1"), HIRED("2"), RECOMMENDED_FOR_PROMOTION("3"), PROBATION("4");
     private static final long serialVersionUID = 1L;
-    //todo документация! обязательно проверить на null, перепроверить анатоции и зависимости подключить
+    // todo документация! обязательно проверить на null, перепроверить анатоции и
+    // зависимости подключить
     private final String id;
 }

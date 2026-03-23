@@ -2,8 +2,6 @@ package edu.itmo.piikt.server.WorkerObject;
 
 import edu.itmo.piikt.common.data.MessageExceptionValidation;
 import edu.itmo.piikt.common.data.WorkerData;
-import edu.itmo.piikt.common.server_client.ServerResponse;
-import edu.itmo.piikt.server.validation.builder.ValidationRules;
 import edu.itmo.piikt.server.validation.modelValidation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +20,7 @@ public class BuilderWorker implements Serializable {
     private ValidationAddress validationAddress;
     private ValidationCoordinates validationCoordinates;
 
-    public BuilderWorker(){
+    public BuilderWorker() {
         this.validationAddress = new ValidationAddress();
         this.validationWorker = new ValidationWorker();
         this.validationStatus = new ValidationStatus();
@@ -31,24 +29,60 @@ public class BuilderWorker implements Serializable {
         this.validationAddress = new ValidationAddress();
         this.validationCoordinates = new ValidationCoordinates();
     }
+
+    // todo отредактировать, может словить NullPointer
     public Object data(WorkerData workerData) {
+        WorkerData data = workerData;
         List<MessageExceptionValidation> errors = new ArrayList<>();
-        validationWorker.validationName(workerData.getName()).ifPresent(errors::add);
-        validationWorker.validationSalary(workerData.getSalary()).ifPresent(errors::add);
-        validationWorker.validationEndDate(workerData.getEndDate()).ifPresent(errors::add);
-        validationWorker.validationStartDate(workerData.getStartDate()).ifPresent(errors::add);
-        validationCoordinates.validationX(workerData.getCoordinates().getX()).ifPresent(errors::add);
-        validationCoordinates.validationY(workerData.getCoordinates().getY()).ifPresent(errors::add);
-        validationStatus.validationStatus(workerData.getStatus().getId()).ifPresent(errors::add);
+        validationWorker.validationName(workerData.getName()).ifPresent(error -> {
+            errors.add(error);
+            data.setName(null);
+        });
+        validationWorker.validationSalary(workerData.getSalary()).ifPresent(error -> {
+            errors.add(error);
+            data.setSalary(null);
+        });
+        validationWorker.validationEndDate(workerData.getEndDate()).ifPresent(error -> {
+            errors.add(error);
+            data.setEndDate(null);
+        });
+        validationWorker.validationStartDate(workerData.getStartDate()).ifPresent(error -> {
+            errors.add(error);
+            data.setStartDate(null);
+        });
+        validationCoordinates.validationX(workerData.getCoordinates().getX()).ifPresent(error -> {
+            errors.add(error);
+            data.getCoordinates().setX(null);
+        });
+        validationCoordinates.validationY(workerData.getCoordinates().getY()).ifPresent(error -> {
+            errors.add(error);
+            data.getCoordinates().setY(null);
+        });
+        validationStatus.validationStatus(workerData.getStatus().getId()).ifPresent(error -> {
+            errors.add(error);
+            data.getStatus().setId(null);
+        });
         if (workerData.getOrganization() != null) {
-            validationOrganization.validationAnnualTurnover(workerData.getOrganization().getAnnualTurnover()).ifPresent(errors::add);
-            validationOrganizationType.validationOrganizationType(workerData.getOrganization().getType().getId()).ifPresent(errors :: add);
-            validationAddress.validation(workerData.getOrganization().getOfficialAddress().getStreet()).ifPresent(errors::add);
+            validationOrganization.validationAnnualTurnover(workerData.getOrganization().getAnnualTurnover())
+                    .ifPresent(error -> {
+                        errors.add(error);
+                        data.getOrganization().setAnnualTurnover(null);
+                    });
+            validationOrganizationType.validationOrganizationType(workerData.getOrganization().getType().getId())
+                    .ifPresent(error -> {
+                        errors.add(error);
+                        data.getOrganization().getType().setId(null);
+                    });
+            validationAddress.validation(workerData.getOrganization().getOfficialAddress().getStreet())
+                    .ifPresent(error -> {
+                        errors.add(error);
+                        data.getOrganization().getOfficialAddress().setStreet(null);
+                    });
         }
         if (errors.isEmpty()) {
             return workerData;
         } else {
-            return new ValidationError(errors, workerData);
+            return new ValidationError(errors, data);
         }
     }
 }

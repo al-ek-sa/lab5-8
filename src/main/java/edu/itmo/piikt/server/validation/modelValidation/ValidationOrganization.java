@@ -1,11 +1,9 @@
 package edu.itmo.piikt.server.validation.modelValidation;
 
 import edu.itmo.piikt.common.data.MessageExceptionValidation;
-import edu.itmo.piikt.common.models.Organization;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;
 
-import java.math.BigInteger;
 import java.util.Optional;
 import java.util.function.Function;
 

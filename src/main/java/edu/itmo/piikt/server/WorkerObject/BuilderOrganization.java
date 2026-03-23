@@ -27,12 +27,13 @@ public class BuilderOrganization implements Serializable {
 
     public Object data(OrganizationData organizationData) {
         List<MessageExceptionValidation> errors = new ArrayList<>();
-        validationOrganizationType.validationOrganizationType(organizationData.getType().getId()).ifPresent(errors::add);
+        validationOrganizationType.validationOrganizationType(organizationData.getType().getId())
+                .ifPresent(errors::add);
         validationAddress.validation(organizationData.getOfficialAddress().getStreet()).ifPresent(errors::add);
         validationOrganization.validationAnnualTurnover(organizationData.getAnnualTurnover()).ifPresent(errors::add);
-        if ( errors.isEmpty()) {
+        if (errors.isEmpty()) {
             return organizationData;
-        } else{
+        } else {
             return new ValidationError(errors, organizationData);
         }
     }

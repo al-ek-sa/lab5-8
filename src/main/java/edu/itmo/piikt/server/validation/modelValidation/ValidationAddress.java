@@ -25,9 +25,9 @@ import java.util.function.Function;
 public class ValidationAddress {
     private final Function<String, Optional<MessageExceptionValidation>> addressValidation;
     public ValidationAddress() {
-//todo вынести в отдельный класс получение названия поле и кэшировать (ConcurrentHashMap)
-        this.addressValidation = new Builder<String>("street").add(RulesValidation.blank())
-                .build();
+        // todo вынести в отдельный класс получение названия поле и кэшировать
+        // (ConcurrentHashMap)
+        this.addressValidation = new Builder<String>("street").add(RulesValidation.blank()).build();
     }
 
     public Optional<MessageExceptionValidation> validation(String street) {

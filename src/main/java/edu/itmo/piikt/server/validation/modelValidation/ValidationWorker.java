@@ -58,17 +58,14 @@ public class ValidationWorker {
         this.status = new ValidationStatus();
         this.organization = new ValidationOrganization();
 
-        this.startDateValidation = new Builder<String>("start date").add(RulesValidation.blank()).add(RulesValidation.localDate())
-                .build();
+        this.startDateValidation = new Builder<String>("start date").add(RulesValidation.blank())
+                .add(RulesValidation.localDate()).build();
 
-        this.endDateValidation = new Builder<String>("end date").add(RulesValidation.validationDate())
-                .build();
+        this.endDateValidation = new Builder<String>("end date").add(RulesValidation.validationDate()).build();
 
-        this.nameValidation = new Builder<String>("name").add(RulesValidation.blank())
-                .build();
+        this.nameValidation = new Builder<String>("name").add(RulesValidation.blank()).build();
 
-        this.salaryValidation = new Builder<String>("salary").add(RulesValidation.validationSalary())
-                .build();
+        this.salaryValidation = new Builder<String>("salary").add(RulesValidation.validationSalary()).build();
     }
 
     public Optional<MessageExceptionValidation> validationName(String name) {

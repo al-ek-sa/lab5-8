@@ -25,8 +25,9 @@ public final class ShowCommand {
         if (listHistory.isEmpty()) {
             return ServerResponse.error("COLLECTION IS EMPTY");
         }
-        List<String> list = listHistory.stream().sorted(Comparator.comparing(Worker::getName).thenComparing(Worker::getStartDate)
-                .thenComparing(Worker::getCreationDate)).map(Worker::toString).collect(Collectors.toList());
+        List<String> list = listHistory.stream().sorted(Comparator.comparing(Worker::getName)
+                .thenComparing(Worker::getStartDate).thenComparing(Worker::getCreationDate)).map(Worker::toString)
+                .collect(Collectors.toList());
         return ServerResponse.successfulCompletion("SHOW: ", list);
     }
 }

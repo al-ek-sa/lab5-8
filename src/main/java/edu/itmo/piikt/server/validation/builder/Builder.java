@@ -1,7 +1,7 @@
 package edu.itmo.piikt.server.validation.builder;
 
 import edu.itmo.piikt.common.data.MessageExceptionValidation;
-import edu.itmo.piikt.client.provider.IOProvider;
+import edu.itmo.piikt.client.io.provider.IOProvider;
 import lombok.AllArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +37,7 @@ public class Builder<T> {
 
     /**
      * Builds a validation function based on the configured rules and mode.
+     *
      * @return a function that takes IOProvider and returns a validated value
      */
     public Function<T, Optional<MessageExceptionValidation>> build() {

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public final class ClearCommand {
     public ServerResponse execute() {
-            HistoryWorker.INSTANCE.clear();
-            return ServerResponse.successfulCompletion("CLEAR");
+        HistoryWorker.INSTANCE.clear();
+        return ServerResponse.successfulCompletion("CLEAR");
     }
 }

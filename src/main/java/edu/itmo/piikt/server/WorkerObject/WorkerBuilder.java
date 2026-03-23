@@ -12,14 +12,14 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 public class WorkerBuilder {
-    //todo возращает null
+    // todo возращает null
+    // todo документация, нельзя вызывать перед строителем(ошибки парсинга не учтены
+    // тогда будут)
     public Worker builerWorker(WorkerData workerData) {
         String uuid = GeneratorId.getId();
         String name = workerData.getName();
-        Coordinates coordinates = new Coordinates(
-                Long.parseLong(workerData.getCoordinates().getX()),
-                Float.parseFloat(workerData.getCoordinates().getY())
-        );
+        Coordinates coordinates = new Coordinates(Long.parseLong(workerData.getCoordinates().getX()),
+                Float.parseFloat(workerData.getCoordinates().getY()));
         Date creationDate = new Date();
         Float salary = workerData.getSalary() != null && !workerData.getSalary().trim().isEmpty()
                 ? Float.parseFloat(workerData.getSalary())
@@ -30,9 +30,11 @@ public class WorkerBuilder {
                 : null;
         Status status = Status.values()[Integer.parseInt(workerData.getStatus().getId()) - 1];
         Organization organization = null;
-        if (workerData.getOrganization().getAnnualTurnover() != null && !workerData.getOrganization().getAnnualTurnover().trim().isEmpty()) {
+        if (workerData.getOrganization().getAnnualTurnover() != null
+                && !workerData.getOrganization().getAnnualTurnover().trim().isEmpty()) {
             Integer annualTurnover = Integer.parseInt(workerData.getOrganization().getAnnualTurnover());
-            OrganizationType type = OrganizationType.values()[Integer.parseInt(workerData.getOrganization().getType().getId()) -1];
+            OrganizationType type = OrganizationType
+                    .values()[Integer.parseInt(workerData.getOrganization().getType().getId()) - 1];
             Address address = new Address(workerData.getOrganization().getOfficialAddress().getStreet());
             organization = new Organization(annualTurnover, type, address);
         }

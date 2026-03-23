@@ -1,14 +1,9 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
-import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.server.history.HistoryWorker;
-import edu.itmo.piikt.common.models.Worker;
-import edu.itmo.piikt.server.validation.modelValidation.ValidationWorker;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
 
 /**
  * The class implements the command update id {element} : update the value of
@@ -24,7 +19,8 @@ public final class UpdateIdCommand {
      * The method replaces the element whose id is equal to the id specified by the
      * user.
      */
-    //todo дароботать на клиенте если успешное выполнение то будет добавление если нет то грусть
+    // todo дароботать на клиенте если успешное выполнение то будет добавление если
+    // нет то грусть
     public ServerResponse execute(ClientCommand clientCommand) {
 
         String id = clientCommand.getArgumentCommand();
