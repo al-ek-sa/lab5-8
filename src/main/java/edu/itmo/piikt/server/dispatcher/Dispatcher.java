@@ -8,10 +8,10 @@ import edu.itmo.piikt.server.command.modelCommand.*;
 import java.util.EnumMap;
 import java.util.function.Function;
 
-public class Dispetcher {
+public class Dispatcher {
     private final EnumMap<Commands, Function<ClientCommand, ServerResponse>> enumMap = new EnumMap<>(Commands.class);
 
-    public Dispetcher() {
+    public Dispatcher() {
         enumMap.put(Commands.ADD, com -> new AddCommand().execute(com));
         enumMap.put(Commands.UPDATE, com -> new UpdateIdCommand().execute(com));
         enumMap.put(Commands.REMOVE_BY_ID, com -> new RemoveByIdCommand().execute(com));
@@ -29,7 +29,8 @@ public class Dispetcher {
                 com -> new PrintFieldDescendingEndDataCommand().execute());
         enumMap.put(Commands.EXIT, com -> new ExitCommand().execute());
     }
-    public ServerResponse dispetcher(ClientCommand command) {
+    //todo
+    public ServerResponse dispatcher(ClientCommand command) {
         String commandName = command.getNameCommand();
         Commands commands = Commands.nameCommands(commandName);
         if (commands == null) {

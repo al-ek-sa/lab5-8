@@ -1,6 +1,7 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
 import edu.itmo.piikt.common.server_client.ServerResponse;
+import edu.itmo.piikt.server.saveManager.CSVParser;
 import lombok.NoArgsConstructor;
 
 /**
@@ -8,11 +9,13 @@ import lombok.NoArgsConstructor;
  * to a file).
  *
  * @author Lishyk Aliaksandra
- * @version 3.0
+ * @version 5.0
  */
 @NoArgsConstructor
 public final class ExitCommand {
-    public ServerResponse execute() {
-        return ServerResponse.successfulCompletion("EXIT");
+        public ServerResponse execute() {
+            CSVParser csvParser = new CSVParser();
+            csvParser.saveCollection();
+            return ServerResponse.successfulCompletion("EXIT");
     }
 }
