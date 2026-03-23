@@ -1,11 +1,13 @@
-package edu.itmo.piikt.server.netWork;
+package edu.itmo.piikt.common.util;
 
 import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 import java.io.*;
 import java.nio.ByteBuffer;
 //todo проверить какие исключения могут быть
 @NoArgsConstructor
+@UtilityClass
 public class DS {
     public static Object deserialize(ByteBuffer byteBuffer) {
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteBuffer.array(), 0, byteBuffer.limit());

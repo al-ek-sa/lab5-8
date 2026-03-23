@@ -19,7 +19,7 @@ public class Main {
         IOProvider io = new IOConsole();
         // HistorySave.getInstance().readFile();
         CSVParser csvParser = new CSVParser();
-        csvParser.readFile(io);
+        csvParser.readFile();
         HelpCommand help = new HelpCommand();
         help.execute();
         HelpEnteringCommand helpEnteringCommand = new HelpEnteringCommand();

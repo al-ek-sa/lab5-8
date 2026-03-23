@@ -72,7 +72,7 @@ public class CSVParser {
      * @throws Exception
      *             If file system errors occurred.
      */
-    public void readFile(IOProvider io) {
+    public void readFile() {
         try {
             try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(fileName));
                     InputStreamReader reader = new InputStreamReader(input)) {
