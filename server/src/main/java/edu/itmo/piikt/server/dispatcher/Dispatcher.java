@@ -1,0 +1,45 @@
+package edu.itmo.piikt.server.dispatcher;
+
+import edu.itmo.piikt.common.command.data.Commands;
+import edu.itmo.piikt.common.server_client.ClientCommand;
+import edu.itmo.piikt.common.server_client.ServerResponse;
+import edu.itmo.piikt.server.command.modelCommand.*;
+
+import java.util.EnumMap;
+import java.util.function.Function;
+
+public class Dispatcher {
+    private final EnumMap<Commands, Function<ClientCommand, ServerResponse>> enumMap = new EnumMap<>(Commands.class);
+
+    public Dispatcher() {
+        enumMap.put(Commands.ADD, com -> new AddCommand().execute(com));
+        enumMap.put(Commands.UPDATE, com -> new UpdateIdCommand().execute(com));
+        enumMap.put(Commands.REMOVE_BY_ID, com -> new RemoveByIdCommand().execute(com));
+        enumMap.put(Commands.REMOVE_LOWER, com -> new RemoveLowerCommand().execute(com));
+        enumMap.put(Commands.FILTER_CONTAINS_NAME, com -> new FilterContainsNameCommand().execute(com));
+        enumMap.put(Commands.COUNT_BY_ORGANIZATION, com -> new CountByOrganizationCommand().execute(com));
+        enumMap.put(Commands.INFO, com -> new InfoCommand().execute());
+        enumMap.put(Commands.SHOW, com -> new ShowCommand().execute());
+        enumMap.put(Commands.HEAD, com -> new HeadCommand().execute());
+        enumMap.put(Commands.CLEAR, com -> new ClearCommand().execute());
+        enumMap.put(Commands.HELP, com -> new HelpCommand().execute());
+        enumMap.put(Commands.HELP_ENTERING_COMMAND, com -> new HelpEnteringCommand().execute());
+        enumMap.put(Commands.HISTORY, com -> new HistoryCommand().execute());
+        enumMap.put(Commands.PRINT_FIELD_DESCENDING_END_DATE,
+                com -> new PrintFieldDescendingEndDataCommand().execute());
+        enumMap.put(Commands.EXIT, com -> new ExitCommand().execute());
+    }
+    //todo
+    public ServerResponse dispatcher(ClientCommand command) {
+        String commandName = command.getNameCommand();
+        Commands commands = Commands.nameCommands(commandName);
+        if (commands == null) {
+            return ServerResponse.error("");
+        }
+        Function<ClientCommand, ServerResponse> input = enumMap.get(commands);
+        if (input == null) {
+            return ServerResponse.error("");
+        }
+        return input.apply(command);
+    }
+}
