@@ -1,10 +1,19 @@
 package edu.itmo.piikt.client.manager;
 
+import edu.itmo.piikt.client.algorithms.DamerauLevenshteinDistance;
+import edu.itmo.piikt.client.command.ExecuteScriptCommand;
+import edu.itmo.piikt.client.data.Organization;
+import edu.itmo.piikt.client.data.Worker;
 import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.command.data.Commands;
+import edu.itmo.piikt.common.data.WorkerData;
+import edu.itmo.piikt.common.server_client.ClientCommand;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The main class of the program. The class determines which command was called.
@@ -16,6 +25,11 @@ import java.util.List;
 public enum ValidationCommand {
     INSTANCE;
     private boolean flag;
+    Worker worker = new Worker();
+    Organization organization = new Organization();
+    ExecuteScriptCommand executeScriptCommand = new ExecuteScriptCommand();
+    List<String> argumentCommand = Arrays.stream(Commands.values()).filter((Commands::getArgument)).map(Commands::getName).collect(Collectors.toList());
+    List<String> baseCommand = Arrays.stream(Commands.values()).filter(com -> !com.getArgument()).map(Commands::getName).collect(Collectors.toList());
 
     ValidationCommand() {
         this.flag = true;
@@ -34,7 +48,7 @@ public enum ValidationCommand {
      * and single-word commands with one argument.
      */
     // todo
-    public void validation(IOProvider io) {
+    public ClientCommand validation(IOProvider io) {
         while (flag) {
             try {
                 String nameCommand = io.readLine();
@@ -43,56 +57,38 @@ public enum ValidationCommand {
                 }
                 String command = nameCommand.trim();
                 String[] input = command.split("\\s+");
-                List<String> list = new ArrayList<>();
+                String element = input[0];
+                    if (input.length == 1) {
+                        for (String com1 : baseCommand) {
+                            if (DamerauLevenshteinDistance.distance(com1, element) <= 1) {
+                                if (com1.equals(Commands.ADD.getName())) {
+                                    worker.build(io);
+                                    //возращает данные
+                                }
+                                if (com1.equals(Commands.COUNT_BY_ORGANIZATION.getName())) {
+                                    //создание организации
+                                    //возврат данных
+                                }
+                                //возращает команду
+                            }
+                        }
+                    }
+
+                    if (input.length == 2) {
+                        String argument = input[1];
+                        for (String com2 : argumentCommand) {
+                            if (DamerauLevenshteinDistance.distance(com2, element) <= 1) {
+                                if (com2.equals(Commands.EXECUTE_SCRIPT.getName())) {
+                                    executeScriptCommand.execute(io, argument);
+                                }
+                                //возвращает комманду
+                                //возвращает аргумент
+                            }
+                }}
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
     }
-    /**
-     * public void validation(IOProvider io) { while (flag) { try { String
-     * nameCommands = io.readLine(); HistorySave historySave = new HistorySave();
-     * historySave.saveCollection();
-     *
-     * if (nameCommands == null || nameCommands.isBlank() ||
-     * "null".equalsIgnoreCase(nameCommands.trim())) { continue; }
-     *
-     * String input = nameCommands.trim(); HistoryCommands.INSTANCE.add(input);
-     *
-     * String[] parts1 = input.split("\\s+");
-     *
-     * List<String> parts2 = new ArrayList<>(); for (String element : parts1) { if
-     * (!element.equals("null")) { parts2.add(element); } }
-     *
-     * var argumentKey = factory.getArgumentMap().keySet(); var simpleKey =
-     * factory.getCommandsMap().keySet();
-     *
-     * String[] parts = parts2.toArray(new String[0]);
-     *
-     * if (parts.length == 1) { argumentKey.forEach(com2 -> { if
-     * (DamerauLevenshteinDistance.distance(parts[0], com2) <= 1) {
-     * io.printException("The command (" + com2 + ") must contain arguments"); } });
-     *
-     * simpleKey.forEach(com1 -> { if (DamerauLevenshteinDistance.distance(parts[0],
-     * com1) <= 1) { parts[0] = com1; } }); SimpleCommand command =
-     * factory.getCommand(parts[0]); if (command != null) { command.execute(io); }
-     * else if (input.equals("historyAll")) {
-     * HistoryCommands.INSTANCE.printHistory(); } else { io.printException("The
-     * command was entered incorrectly"); } } else if (parts.length == 2) { String
-     * argument = parts[1];
-     *
-     * simpleKey.forEach(com1 -> { if (DamerauLevenshteinDistance.distance(parts[0],
-     * com1) <= 1) { io.printException("The command (" + com1 + ") must not contain
-     * arguments"); } });
-     *
-     * argumentKey.forEach(com2 -> { if
-     * (DamerauLevenshteinDistance.distance(parts[0], com2) <= 1) { parts[0] = com2;
-     * } }); ArgumentCommand argumentCommand = factory.getArgumentCommand(parts[0]);
-     * if (argumentCommand != null) { if (argument.trim().isEmpty()) {
-     * io.printException("The command must contain arguments"); } else {
-     * argumentCommand.execute(io, argument); } } } else { io.printException("The
-     * command was entered incorrectly"); } } catch (RuntimeException e) {
-     * io.printException("Unexpected error: " + e.getMessage()); } } }
-     */
 }
