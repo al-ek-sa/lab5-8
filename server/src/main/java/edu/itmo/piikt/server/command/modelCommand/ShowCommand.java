@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -19,15 +20,18 @@ import java.util.stream.Collectors;
  */
 @NoArgsConstructor
 public final class ShowCommand {
+    private static final Logger logger = Logger.getLogger(ShowCommand.class.getName());
     /** The method outputs data of all registered employees. */
     public ServerResponse execute() {
         var listHistory = HistoryWorker.INSTANCE.getListWorker();
         if (listHistory.isEmpty()) {
+            logger.info(LoggerCommand.SHOW.getLogMessage());
             return ServerResponse.error("COLLECTION IS EMPTY");
         }
         List<String> list = listHistory.stream().sorted(Comparator.comparing(Worker::getName)
                 .thenComparing(Worker::getStartDate).thenComparing(Worker::getCreationDate)).map(Worker::toString)
                 .collect(Collectors.toList());
+        logger.info(LoggerCommand.SHOW.getLogMessage());
         return ServerResponse.successfulCompletion("SHOW: ", list);
     }
 }

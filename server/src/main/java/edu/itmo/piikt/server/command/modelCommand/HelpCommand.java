@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -18,10 +19,11 @@ import java.util.stream.Collectors;
  */
 @NoArgsConstructor
 public final class HelpCommand {
-
+    private static final Logger logger = Logger.getLogger(HelpCommand.class.getName());
     public ServerResponse execute() {
         List<String> list = Arrays.stream(Commands.values()).sorted(Comparator.comparing(Commands::getName))
                 .map(commands -> commands.getName() + ": " + commands.getDescription()).collect(Collectors.toList());
+        logger.info(LoggerCommand.HELP.getLogMessage());
         return ServerResponse.successfulCompletion("HELP: ", list);
     }
 }

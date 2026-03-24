@@ -5,6 +5,7 @@ import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * The class implements the command info : output information about the
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @NoArgsConstructor
 public final class InfoCommand {
+    private static final Logger logger = Logger.getLogger(InfoCommand.class.getName());
     /** The method outputs data about the collection. */
     public ServerResponse execute() {
         var listWorker = HistoryWorker.INSTANCE.getListWorker();

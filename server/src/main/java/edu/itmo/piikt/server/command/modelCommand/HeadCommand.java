@@ -5,6 +5,7 @@ import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * The class implements the command head : output the first element of the
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @NoArgsConstructor
 public final class HeadCommand {
+    private static final Logger logger = Logger.getLogger(HeadCommand.class.getName());
     /** The method outputs the data of the first element in the collection. */
     public ServerResponse execute() {
         var listWorker = HistoryWorker.INSTANCE.getListWorker();
@@ -23,6 +25,7 @@ public final class HeadCommand {
             return ServerResponse.successfulCompletion("COLLECTION IS EMPTY");
         }
         String input = listWorker.getFirst().toString();
+        logger.info(LoggerCommand.HEAD.getLogMessage());
         return ServerResponse.successfulCompletion("HEAD WORKER", List.of(input));
     }
 }

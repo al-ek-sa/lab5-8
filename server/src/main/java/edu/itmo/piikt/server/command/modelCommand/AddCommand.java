@@ -10,6 +10,8 @@ import edu.itmo.piikt.server.WorkerObject.WorkerBuilder;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
 
+import java.util.logging.Logger;
+
 /**
  * The class implements the command add {element} : add a new element to the
  * collection.
@@ -20,20 +22,23 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 public final class AddCommand {
+    private final static Logger logger = Logger.getLogger(AddCommand.class.getName());
     private final BuilderWorker builderWorker = new BuilderWorker();
     private final WorkerBuilder workerBuilder = new WorkerBuilder();
-
     public ServerResponse execute(ClientCommand clientCommand) {
         WorkerData dataWorker = (WorkerData) clientCommand.getData();
         Object result = builderWorker.data(dataWorker);
         if (result instanceof WorkerData) {
             Worker worker = workerBuilder.builerWorker(dataWorker);
             HistoryWorker.INSTANCE.add(worker);
+            logger.info(LoggerCommand.ADD.getLogMessage());
             return ServerResponse.successfulCompletion("ADD");
         } else if (result instanceof ValidationError) {
             ValidationError error = (ValidationError) result;
+            logger.info(LoggerCommand.ADD.getLogMessage());
             return ServerResponse.error("Введены неверные данные", error.getErrors(), error.getData());
         }
+        logger.info(LoggerCommand.ADD.getLogMessage());
         return ServerResponse.error("Какая-то ошибка");
     }
 }

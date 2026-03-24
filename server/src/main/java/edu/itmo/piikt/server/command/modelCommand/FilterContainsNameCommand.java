@@ -7,6 +7,7 @@ import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
  */
 @NoArgsConstructor
 public final class FilterContainsNameCommand {
+    private static final Logger logger = Logger.getLogger(FilterContainsNameCommand.class.getName());
     /**
      * The method outputs all employees with the same name as entered by the user.
      *
@@ -29,6 +31,7 @@ public final class FilterContainsNameCommand {
         List<String> list = listWorker.stream().filter(worker -> worker.getName() != null)
                 .filter(worker -> worker.getName().contains(argument)).map(Worker::toString)
                 .collect(Collectors.toList());
+        logger.info(LoggerCommand.FILTER_CONTAINS_NAME.getLogMessage());
         return ServerResponse.successfulCompletion("FILTER NAME", list);
     }
 }

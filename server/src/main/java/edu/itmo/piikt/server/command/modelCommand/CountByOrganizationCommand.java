@@ -10,6 +10,8 @@ import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.common.models.Organization;
 import lombok.NoArgsConstructor;
 
+import java.util.logging.Logger;
+
 /**
  * The class implements the command count_by_organization organization : output
  * the number of elements whose organization field value is equal to the
@@ -23,6 +25,7 @@ import lombok.NoArgsConstructor;
 public final class CountByOrganizationCommand {
     private final BuilderOrganization builderOrganization = new BuilderOrganization();
     private final OrganizationBuilder organizationBuilder = new OrganizationBuilder();
+    private static final Logger logger= Logger.getLogger(CountByOrganizationCommand.class.getName());
     /**
      * The method outputs the number of elements whose Organization parameter is
      * equal to what the user enters.
@@ -35,11 +38,14 @@ public final class CountByOrganizationCommand {
             var listWorker = HistoryWorker.INSTANCE.getListWorker();
             long size = listWorker.stream().filter(worker -> worker.getOrganization() != null)
                     .filter(worker -> worker.getOrganization().equals(organization)).count();
+            logger.info(LoggerCommand.COUNT_BY_ORGANIZATION.getLogMessage());
             return ServerResponse.successfulCompletion("COUNT_BY_ORGANIZATION: ", size);
         } else if (result instanceof ValidationError) {
             ValidationError validationError = (ValidationError) result;
+            logger.info(LoggerCommand.COUNT_BY_ORGANIZATION.getLogMessage());
             return ServerResponse.error("данные введены неверно ", validationError.getErrors());
         }
+        logger.info(LoggerCommand.COUNT_BY_ORGANIZATION.getLogMessage());
         return ServerResponse.error("Неизвестная ошибка");
     }
 }

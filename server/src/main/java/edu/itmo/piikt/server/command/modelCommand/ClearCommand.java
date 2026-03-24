@@ -5,6 +5,8 @@ import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
 
+import java.util.logging.Logger;
+
 /**
  * The class implements the command clear : clear the collection.
  *
@@ -14,8 +16,10 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 public final class ClearCommand {
+    private static final Logger logger = Logger.getLogger(ClearCommand.class.getName());
     public ServerResponse execute() {
         HistoryWorker.INSTANCE.clear();
+        logger.info(LoggerCommand.CLEAR.getLogMessage());
         return ServerResponse.successfulCompletion(Commands.CLEAR.getName());
     }
 }

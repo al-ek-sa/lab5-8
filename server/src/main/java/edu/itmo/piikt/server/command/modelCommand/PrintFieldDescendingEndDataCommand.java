@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
  */
 @NoArgsConstructor
 public final class PrintFieldDescendingEndDataCommand {
+    private static final Logger logger = Logger.getLogger(PrintFieldDescendingEndDataCommand.class.getName());
     /**
      * The method sorts employees by endDate; if the data matches, employees are
      * sorted by id.
@@ -27,6 +29,7 @@ public final class PrintFieldDescendingEndDataCommand {
     public ServerResponse execute() {
         var listWorker = HistoryWorker.INSTANCE.getListWorker();
         if (listWorker.isEmpty()) {
+            logger.info(LoggerCommand.PRINT_DATE.getLogMessage());
             return ServerResponse.successfulCompletion("COLLECTION IS EMPTY");
         }
         var sortedList = new LinkedList<>(listWorker);
@@ -34,6 +37,7 @@ public final class PrintFieldDescendingEndDataCommand {
                 .sorted(Comparator.comparing(Worker::getEndDate, Comparator.nullsFirst(Comparator.naturalOrder()))
                         .reversed().thenComparing(Comparator.naturalOrder()))
                 .map(Worker::toString).collect(Collectors.toList());
+        logger.info(LoggerCommand.PRINT_DATE.getLogMessage());
         return ServerResponse.successfulCompletion("END DATE: ", list);
     }
 }
