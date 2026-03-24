@@ -111,6 +111,7 @@ public enum ValidationCommand {
                             if (DamerauLevenshteinDistance.distance(com2, element) <= 1) {
                                 if (com2.equals(Commands.EXECUTE_SCRIPT.getName())) {
                                     executeScriptCommand.execute(io, argument);
+                                    continue;
                                 }
                                 ClientCommand clientCommand = ClientCommand.builder().nameCommand(com2).argumentCommand(argument).build();
                                 ServerResponse serverResponse = network.send(clientCommand);

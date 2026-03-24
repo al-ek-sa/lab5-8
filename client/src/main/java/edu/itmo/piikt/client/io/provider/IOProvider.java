@@ -17,11 +17,6 @@ public interface IOProvider {
     String ANSI_BRIGHT_PINK = "\u001B[38;5;205m";
     String ANSI_BRIGHT_BLUE = "\u001B[1;35m";
     String ANSI_PINK_225 = "\u001B[38;5;225m";
-
-    default void printDesign() {
-        System.out.println(ANSI_BRIGHT_PINK + (("-").repeat(160)) + ANSI_BRIGHT_BLUE);
-    }
-
     void println(String message);
 
     void printException(String message);
@@ -35,10 +30,10 @@ public interface IOProvider {
     String name();
 
     default void printlnInt(Integer message) {
-        System.out.println(ANSI_GREEN + message + ANSI_BRIGHT_BLUE);
+        System.out.println(message);
     }
 
     default void printlnCommand(String message) {
-        System.out.println(ANSI_PINK_225 + message + ANSI_BRIGHT_BLUE);
+        System.out.println(message);
     }
 }

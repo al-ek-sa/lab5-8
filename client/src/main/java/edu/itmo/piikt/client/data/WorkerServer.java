@@ -2,12 +2,15 @@ package edu.itmo.piikt.client.data;
 
 import edu.itmo.piikt.client.io.provider.IOProvider;
 import edu.itmo.piikt.common.data.MessageExceptionValidation;
+import edu.itmo.piikt.common.data.OrganizationType.OrganizationTypeData;
+import edu.itmo.piikt.common.data.Status.StatusData;
 import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -41,17 +44,18 @@ public class WorkerServer {
             workerData.setSalary(salary);
         }
         if (workerData.getStartDate() == null) {
-            io.println("Введите дату начала работы повторно* (Формат ввода: 1111-11-11");
+            io.println("Введите дату начала работы повторно* (Формат ввода: 1111-11-11)");
             String startDate = io.readLine();
             workerData.setStartDate(startDate);
         }
         if (workerData.getEndDate() == null) {
-            io.println("Введите дату окончания работы повторно* (Формат ввода: 1111-11-11");
+            io.println("Введите дату окончания работы повторно* (Формат ввода: 1111-11-11)");
             String endDate = io.readLine();
             workerData.setEndDate(endDate);
         }
         if (workerData.getStatus().getId() == null) {
             io.println("Введите номер статуса повторно*");
+            Arrays.stream(StatusData.values()).forEach(statusData -> io.println(statusData.getId() + ": " + statusData.name()));
             String status = io.readLine();
             workerData.getStatus().setId(status);
         }
@@ -63,6 +67,7 @@ public class WorkerServer {
             }
             if (workerData.getOrganization().getType().getId() == null) {
                 io.println("Введите номер статуса повторно*");
+                Arrays.stream(OrganizationTypeData.values()).forEach(type -> io.println(type.getId() + ": " + type.name()));
                 String type = io.readLine();
                 workerData.getOrganization().getType().setId(type);
             }

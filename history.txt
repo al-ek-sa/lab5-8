@@ -1,1 +1,5 @@
 help
+info
+history
+
+

@@ -23,12 +23,12 @@ public class IOFile implements IOProvider {
 
     @Override
     public void printError(String message) {
-        System.out.println(ANSI_RED + message + ANSI_BRIGHT_BLUE);
+        System.out.println(message);
     }
 
     @Override
     public void printException(String message) {
-        System.out.println(ANSI_YELLOW + message + ANSI_BRIGHT_BLUE);
+        System.out.println(message);
     }
 
     @Override
@@ -101,5 +101,15 @@ public class IOFile implements IOProvider {
         String right = line.substring(brace + 1);
         data(right);
         return left;
+    }
+
+    public void close() {
+        try{
+            if (reader != null) {
+                reader.close();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

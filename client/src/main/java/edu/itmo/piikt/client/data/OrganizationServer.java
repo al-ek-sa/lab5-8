@@ -2,7 +2,10 @@ package edu.itmo.piikt.client.data;
 
 import edu.itmo.piikt.client.io.provider.IOProvider;
 import edu.itmo.piikt.common.data.OrganizationData;
+import edu.itmo.piikt.common.data.OrganizationType.OrganizationTypeData;
 import edu.itmo.piikt.common.server_client.ServerResponse;
+
+import java.util.Arrays;
 
 public class OrganizationServer {
     private IOProvider io;
@@ -16,6 +19,7 @@ public class OrganizationServer {
             }
             if (organizationData.getType().getId() == null) {
                 io.println("Введите номер статуса повторно*");
+                Arrays.stream(OrganizationTypeData.values()).forEach(type -> io.println(type.getId() + ": " + type.name()));
                 String type = io.readLine();
                 organizationData.getType().setId(type);
             }

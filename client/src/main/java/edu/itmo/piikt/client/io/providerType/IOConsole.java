@@ -21,23 +21,22 @@ public class IOConsole implements IOProvider {
 
     @Override
     public void printError(String message) {
-        System.out.println(ANSI_RED + message + ANSI_BRIGHT_BLUE);
+        System.out.println(message);
     }
 
     @Override
     public void printException(String message) {
-        System.out.println(ANSI_YELLOW + message + ANSI_BRIGHT_BLUE);
+        System.out.println(message);
     }
 
     @Override
     public void println(String message) {
-        System.out.println(ANSI_GREEN + message + ANSI_BRIGHT_BLUE);
+        System.out.println(message);
     }
 
     @Override
     public void printField(String message, String messageFiled) {
-        System.out.println(ANSI_TURQUOISE_LIGHT + message + ANSI_RESET + " " + ANSI_LAVENDER_LIGHT + messageFiled
-                + ANSI_BRIGHT_BLUE);
+        System.out.println(message+ " " + messageFiled);
     }
 
     @Override

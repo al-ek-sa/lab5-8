@@ -29,13 +29,21 @@ public final class ExecuteScriptCommand {
             }
             name.forEach(nameFile -> {
                 if (nameFile.equals(argument)) {
-                    // -----------------------------
+                    io.println("error");
                 }
             });
             name.add(argument);
             IOFile script = new IOFile(argument);
-        } catch (IOException e) {//
-            // logger.log(Level.SEVERE, "Error, script not read");
+            String input;
+            while((input = script.readLine()) != null) {
+                if (input.isBlank()) {
+                    continue;
+                }
+                ValidationCommand.INSTANCE.validation(script);
+            }
+            script.close();
+        } catch (IOException e) {
+            io.println("Error, script not read");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
