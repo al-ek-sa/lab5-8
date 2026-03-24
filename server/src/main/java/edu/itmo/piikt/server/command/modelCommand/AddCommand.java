@@ -32,7 +32,7 @@ public final class AddCommand {
             return ServerResponse.successfulCompletion("ADD");
         } else if (result instanceof ValidationError) {
             ValidationError error = (ValidationError) result;
-            return ServerResponse.errer("Введены неверные данные", error.getErrors(), error.getData());
+            return ServerResponse.error("Введены неверные данные", error.getErrors(), error.getData());
         }
         return ServerResponse.error("Какая-то ошибка");
     }

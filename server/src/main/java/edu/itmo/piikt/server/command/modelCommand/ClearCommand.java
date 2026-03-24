@@ -1,5 +1,6 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
+import edu.itmo.piikt.common.command.data.Commands;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,6 @@ import lombok.NoArgsConstructor;
 public final class ClearCommand {
     public ServerResponse execute() {
         HistoryWorker.INSTANCE.clear();
-        return ServerResponse.successfulCompletion("CLEAR");
+        return ServerResponse.successfulCompletion(Commands.CLEAR.getName());
     }
 }

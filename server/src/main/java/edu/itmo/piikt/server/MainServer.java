@@ -19,7 +19,7 @@ public class MainServer {
         try {
             netWork.start();
         } catch (IOException e) {
-            //залогировать
+            e.printStackTrace();
         }
     }
 }

@@ -6,8 +6,7 @@ import edu.itmo.piikt.common.data.OrganizationData;
 import edu.itmo.piikt.common.data.OrganizationType.TypeOrganizationDate;
 
 public class Organization {
-    private IOProvider io;
-    public OrganizationData build() {
+    public OrganizationData build(IOProvider io) {
         io.println("Введите годовой доход компании");
         String annualTurnover = io.readLine();
         io.println("Выбирите один из типов компании и введите его номер");

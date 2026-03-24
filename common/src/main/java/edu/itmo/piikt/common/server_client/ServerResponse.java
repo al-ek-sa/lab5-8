@@ -37,11 +37,25 @@ public class ServerResponse implements Serializable {
         return ServerResponse.builder().execution(false).message(message).build();
     }
 
-    public static ServerResponse errer(String message, List<MessageExceptionValidation> exeption, Object object) {
+    public static ServerResponse error(String message, List<MessageExceptionValidation> exeption, Object object) {
         return ServerResponse.builder().execution(false).message(message).errors(exeption).dataString(object).build();
     }
 
     public boolean exception() {
         return Optional.ofNullable(errors).map(list -> !list.isEmpty()).orElse(false);
+    }
+
+    public void printToConsole() {
+        if (isExecution()) {
+            System.out.println(message);
+            for (MessageExceptionValidation error : errors) {
+                System.out.println("  " + error.name() + ": " + error.message());
+            }
+        } else if (data != null && !data.isEmpty()) {
+            System.out.println(message);
+            data.forEach(System.out::println);
+        } else {
+            System.out.println(message);
+        }
     }
 }
