@@ -46,16 +46,27 @@ public class ServerResponse implements Serializable {
     }
 
     public void printToConsole() {
-        if (isExecution()) {
-            System.out.println(message);
-            for (MessageExceptionValidation error : errors) {
-                System.out.println("  " + error.name() + ": " + error.message());
+        if (!isExecution()) {
+            System.out.println("Ошибка: " + message);
+            if (errors != null && !errors.isEmpty()) {
+                for (MessageExceptionValidation error : errors) {
+                    System.out.println("  " + error.name() + ": " + error.message());
+                }
             }
-        } else if (data != null && !data.isEmpty()) {
-            System.out.println(message);
-            data.forEach(System.out::println);
         } else {
-            System.out.println(message);
+            if (message != null && !message.isEmpty()) {
+                System.out.println(message);
+            }
+            if (data != null && !data.isEmpty()) {
+                for (Object item : data) {
+                    System.out.println(item);
+                }
+            }
+            if (errors != null && !errors.isEmpty()) {
+                for (MessageExceptionValidation error : errors) {
+                    System.out.println("  " + error.name() + ": " + error.message());
+                }
+            }
         }
     }
 }

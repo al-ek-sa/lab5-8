@@ -17,7 +17,7 @@ public class Network implements Client {
     private static final Integer TIME = 3000;
     private SocketChannel socketChannel;
     private final String host;
-    private final Integer PORT = 6668;
+    private final Integer PORT = 6672;
     private ClientData clientData;
     public Network (String host) {
         this.host = host;

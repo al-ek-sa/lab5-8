@@ -14,7 +14,7 @@ import java.util.Iterator;
 @Data
 @AllArgsConstructor
 public class NetWork {
-    private static  final int PORT = 6668;
+    private static  final int PORT = 6672;
     private final Dispatcher dispatcher;
     private Selector selector;
     private ServerSocketChannel serverSocketChannel;

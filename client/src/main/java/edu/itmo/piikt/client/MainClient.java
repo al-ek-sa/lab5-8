@@ -33,6 +33,7 @@ public class MainClient {
         }
 
         try {
+            ValidationCommand.INSTANCE.setNetwork(client);
             ValidationCommand.INSTANCE.validation(io);
         } catch (Exception e) {
             //прописать исключение

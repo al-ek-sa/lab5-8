@@ -42,6 +42,10 @@ public enum ValidationCommand {
         this.flag = flag;
     }
 
+    public void setNetwork(Network network) {
+        this.network = network;
+    }
+
     /**
      * The method selects from the registered commands the command that the user
      * entered. When entering, the user can make a mistake once.
