@@ -1,7 +1,7 @@
-package edu.itmo.piikt.server.command.modelCommand;
+package edu.itmo.piikt.client.command.history;
 
+import edu.itmo.piikt.client.io.provider.IOProvider;
 import edu.itmo.piikt.common.server_client.ServerResponse;
-import edu.itmo.piikt.server.history.HistoryCommands;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public final class HistoryCommand {
     int LIMIT_HISTORY = 14;
-    public ServerResponse execute() {
+    public void execute(IOProvider io) {
         var history = HistoryCommands.INSTANCE.getLinkedList();
         List<String> list = history.stream().limit(LIMIT_HISTORY).collect(Collectors.toList());
-        return ServerResponse.successfulCompletion("список команд: ", list);
+        list.forEach(io::println);
     }
 }

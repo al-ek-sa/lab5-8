@@ -1,4 +1,4 @@
-package edu.itmo.piikt.server.history;
+package edu.itmo.piikt.client.command.history;
 
 import java.util.LinkedList;
 

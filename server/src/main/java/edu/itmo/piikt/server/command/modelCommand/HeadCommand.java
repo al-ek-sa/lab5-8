@@ -4,6 +4,8 @@ import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * The class implements the command head : output the first element of the
  * collection.
@@ -21,6 +23,6 @@ public final class HeadCommand {
             return ServerResponse.successfulCompletion("COLLECTION IS EMPTY");
         }
         String input = listWorker.getFirst().toString();
-        return ServerResponse.successfulCompletion("HEAD WORKER", input);
+        return ServerResponse.successfulCompletion("HEAD WORKER", List.of(input));
     }
 }

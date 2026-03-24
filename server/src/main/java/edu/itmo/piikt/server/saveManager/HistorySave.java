@@ -1,6 +1,5 @@
 package edu.itmo.piikt.server.saveManager;
 
-import edu.itmo.piikt.server.history.HistoryCommands;
 import java.io.*;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -12,7 +11,6 @@ import java.util.logging.Logger;
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
- * @see HistoryCommands
  * @see PrintWriter
  * @see Scanner
  */
@@ -33,7 +31,7 @@ public class HistorySave {
      * @throws Exception
      *             If file system errors occurred.
      */
-    public void saveCollection() {
+    /**public void saveCollection() {
         var commands = HistoryCommands.INSTANCE.getLinkedList();
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
@@ -50,7 +48,7 @@ public class HistorySave {
      * @throws Exception
      *             If file system errors occurred.
      */
-    public void readFile() {
+    /**public void readFile() {
         try (Scanner scanner = new Scanner(new File(fileName))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
@@ -60,5 +58,5 @@ public class HistorySave {
         } catch (Exception e) {
             logger.log(Level.INFO, e.getMessage());
         }
-    }
+    }*/
 }

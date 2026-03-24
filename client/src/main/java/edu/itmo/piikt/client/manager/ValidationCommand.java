@@ -2,10 +2,12 @@ package edu.itmo.piikt.client.manager;
 
 import edu.itmo.piikt.client.algorithms.DamerauLevenshteinDistance;
 import edu.itmo.piikt.client.command.ExecuteScriptCommand;
+import edu.itmo.piikt.client.command.ExitCommand;
 import edu.itmo.piikt.client.data.Organization;
 import edu.itmo.piikt.client.data.Worker;
+import edu.itmo.piikt.client.command.history.HistoryCommand;
+import edu.itmo.piikt.client.command.history.HistoryCommands;
 import edu.itmo.piikt.client.io.provider.IOProvider;
-import edu.itmo.piikt.client.network.ClientData;
 import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.command.data.Commands;
 import edu.itmo.piikt.common.data.OrganizationData;
@@ -29,6 +31,7 @@ public enum ValidationCommand {
     private boolean flag;
     Worker worker = new Worker();
     private Network network;
+    HistoryCommand historyCommand = new HistoryCommand();
     Organization organization = new Organization();
     ExecuteScriptCommand executeScriptCommand = new ExecuteScriptCommand();
     List<String> argumentCommand = Arrays.stream(Commands.values()).filter((Commands::getArgument)).map(Commands::getName).collect(Collectors.toList());
@@ -62,18 +65,28 @@ public enum ValidationCommand {
                 if (nameCommand == null || nameCommand.isBlank()) {
                     continue;
                 }
+                HistoryCommands.INSTANCE.add(nameCommand);
                 String command = nameCommand.trim();
                 String[] input = command.split("\\s+");
                 String element = input[0];
                     if (input.length == 1) {
                         for (String com1 : baseCommand) {
                             if (DamerauLevenshteinDistance.distance(com1, element) <= 1) {
+                                if (com1.equals(Commands.HISTORY.getName())) {
+                                    historyCommand.execute(io);
+                                    continue;
+                                }
+                                if (com1.equals(Commands.EXIT.getName())) {
+                                    ExitCommand exitCommand = new ExitCommand();
+                                    exitCommand.execute();
+                                }
                                 if (com1.equals(Commands.ADD.getName())) {
                                     WorkerData workerData = worker.build(io);
                                     ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName())
                                             .data(workerData).build();
                                     ServerResponse serverResponse = network.send(clientCommand);
                                     serverResponse.printToConsole();
+                                    continue;
                                 }
                                 if (com1.equals(Commands.COUNT_BY_ORGANIZATION.getName())) {
                                     OrganizationData organizationData = organization.build(io);
@@ -81,6 +94,7 @@ public enum ValidationCommand {
                                             .build();
                                     ServerResponse serverResponse = network.send(clientCommand);
                                     serverResponse.printToConsole();
+                                    continue;
                                 }
                                 ClientCommand clientCommand = ClientCommand.builder()
                                         .nameCommand(com1)
