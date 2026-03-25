@@ -20,18 +20,18 @@ public class Connect {
     public Connect(Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
     }
-
+//todo
     public void connected(SelectionKey selectionKey) throws IOException {
         var serverChannel = (ServerSocketChannel) selectionKey.channel();
         var clientChanel = serverChannel.accept();
         clientChanel.configureBlocking(false);
-        ClientData client = new ClientData(6666);
+        edu.itmo.piikt.common.server_client.ClientData client = new edu.itmo.piikt.common.server_client.ClientData(6666);
         clientChanel.register(selectionKey.selector(), SelectionKey.OP_READ, client);
     }
 
     public void reader(SelectionKey selectionKey) throws IOException {
         var clientChanel = (SocketChannel) selectionKey.channel();
-        var client = (ClientData) selectionKey.attachment();
+        var client = (edu.itmo.piikt.common.server_client.ClientData) selectionKey.attachment();
         var buffer = client.getReader();
         var reader = clientChanel.read(buffer);
         if (reader == -1) {
@@ -56,7 +56,7 @@ public class Connect {
 
     public void writer (SelectionKey selectionKey) throws IOException {
         var clientChanel = (SocketChannel) selectionKey.channel();
-        var client = (ClientData) selectionKey.attachment();
+        var client = (edu.itmo.piikt.common.server_client.ClientData) selectionKey.attachment();
         var serverResponse = (ServerResponse) client.getMessage();
         try {
             ByteBuffer byteBuffer = DS.serialize(serverResponse);

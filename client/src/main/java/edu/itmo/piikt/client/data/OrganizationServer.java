@@ -13,18 +13,18 @@ public class OrganizationServer {
         OrganizationData organizationData = (OrganizationData) serverResponse.getDataString();
         if (organizationData != null) {
             if (organizationData.getAnnualTurnover() == null) {
-                io.println("Введите доход компании");
+                io.println(WorkerPrint.ANNUAL_TURNOVER.getMessageError());
                 String annualTurnover = io.readLine();
                 organizationData.setAnnualTurnover(annualTurnover);
             }
             if (organizationData.getType().getId() == null) {
-                io.println("Введите номер статуса повторно*");
+                io.println(WorkerPrint.TYPE.getMessageError());
                 Arrays.stream(OrganizationTypeData.values()).forEach(type -> io.println(type.getId() + ": " + type.name()));
                 String type = io.readLine();
                 organizationData.getType().setId(type);
             }
             if (organizationData.getOfficialAddress().getStreet() == null) {
-                io.println("Введите адрес повторно*");
+                io.println(WorkerPrint.STREET.getMessageError());
                 String address = io.readLine();
                 organizationData.getOfficialAddress().setStreet(address);
             }

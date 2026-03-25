@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
  * @author Lishyk Aliaksandra
  * @version 1.2
  */
+//todo убрать синглтон
 @Getter
 public enum ValidationCommand {
     INSTANCE;
@@ -79,6 +80,7 @@ public enum ValidationCommand {
                                 if (com1.equals(Commands.EXIT.getName())) {
                                     ExitCommand exitCommand = new ExitCommand();
                                     exitCommand.execute();
+                                    //todo сразу отправить ответ
                                 }
                                 if (com1.equals(Commands.ADD.getName())) {
                                     WorkerData workerData = worker.build(io);

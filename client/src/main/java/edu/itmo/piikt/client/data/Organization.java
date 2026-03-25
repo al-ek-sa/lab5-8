@@ -9,12 +9,12 @@ import java.util.Arrays;
 
 public class Organization {
     public OrganizationData build(IOProvider io) {
-        io.println("Введите годовой доход компании");
+        io.println(WorkerPrint.ANNUAL_TURNOVER.getMessage());
         String annualTurnover = io.readLine();
-        io.println("Выбирите один из типов компании и введите его номер");
+        io.println(WorkerPrint.TYPE.getMessage());
         Arrays.stream(OrganizationTypeData.values()).forEach(type -> io.println(type.getId() + ": " + type.name()));
         String type = io.readLine();
-        io.println("Введите адрес компании");
+        io.println(WorkerPrint.STREET.getMessage());
         String address = io.readLine();
         AddressData addressData = new AddressData(address);
         TypeOrganizationDate typeData = new TypeOrganizationDate(type);

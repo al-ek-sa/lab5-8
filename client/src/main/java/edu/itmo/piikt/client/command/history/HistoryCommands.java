@@ -19,8 +19,4 @@ public enum HistoryCommands {
     public LinkedList<String> getLinkedList() {
         return listCommands;
     }
-
-    public void printHistory() {
-        listCommands.descendingIterator().forEachRemaining(System.out::println);
-    }
 }

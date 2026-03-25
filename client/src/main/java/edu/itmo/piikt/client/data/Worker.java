@@ -14,27 +14,27 @@ import java.util.Arrays;
 @NoArgsConstructor
 public class Worker {
     public WorkerData build(IOProvider io) {
-        io.println("Введите имя*");
+        io.println(WorkerPrint.NAME.getMessage());
         String name = io.readLine();
-        io.println("Введите координату х* (число должно быть меньше 10)");
+        io.println(WorkerPrint.X.getMessage());
         String x = io.readLine();
-        io.println("Введите у* (число должно быть больше -644)");
+        io.println(WorkerPrint.Y.getMessage());
         String y = io.readLine();
-        io.println("Введите зп*");
+        io.println(WorkerPrint.SALARY.getMessage());
         String salary = io.readLine();
-        io.println("Введите дату начала работы* (Пример ввода: 1111-11-11)");
+        io.println(WorkerPrint.START_DATE.getMessage());
         String startDate = io.readLine();
-        io.println("Выбирите дату окончания работы (Пример ввода: 1111-11-11");
+        io.println(WorkerPrint.END_DATE.getMessage());
         String endDate = io.readLine();
-        io.println("Выбирите статус и ввдите его номер*");
+        io.println(WorkerPrint.STATUS.getMessage());
         Arrays.stream(StatusData.values()).forEach(statusData -> io.println(statusData.getId() + ": " + statusData.name()));
         String status = io.readLine();
-        io.println("Введите годовой доход компании");
+        io.println(WorkerPrint.ANNUAL_TURNOVER.getMessage());
         String annualTurnover = io.readLine();
-        io.println("Выбирите один из типов компании и введите его номер");
+        io.println(WorkerPrint.TYPE.getMessage());
         Arrays.stream(OrganizationTypeData.values()).forEach(type -> io.println(type.getId() + ": " + type.name()));
         String type = io.readLine();
-        io.println("Введите адрес компании");
+        io.println(WorkerPrint.STREET.getMessage());
         String address = io.readLine();
         CoordinatesData coordinatesData = new CoordinatesData(x, y);
         AddressData addressData = new AddressData(address);

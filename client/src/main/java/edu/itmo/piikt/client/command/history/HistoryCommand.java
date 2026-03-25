@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public final class HistoryCommand {
     int LIMIT_HISTORY = 14;
+    //todo
     public void execute(IOProvider io) {
         var history = HistoryCommands.INSTANCE.getLinkedList();
         List<String> list = history.stream().limit(LIMIT_HISTORY).collect(Collectors.toList());

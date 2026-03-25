@@ -24,55 +24,55 @@ public class WorkerServer {
         WorkerData workerData = (WorkerData) serverResponse.getDataString();
         List<MessageExceptionValidation> list = serverResponse.getErrors();
         if (workerData.getName() == null) {
-            io.println("Введите имя повторно*");
+            io.println(WorkerPrint.NAME.getMessageError());
             String name = io.readLine();
             workerData.setName(name);
         }
         if (workerData.getCoordinates().getX() == null) {
-            io.println("Введите х повторно* (значение не должно превышать 10)");
+            io.println(WorkerPrint.X.getMessageError());
             String x = io.readLine();
             workerData.getCoordinates().setX(x);
         }
         if (workerData.getCoordinates().getY() == null) {
-            io.println("Введите y повторно* (значение не должно быть меньше -644)");
+            io.println(WorkerPrint.Y.getMessageError());
             String y = io.readLine();
             workerData.getCoordinates().setY(y);
         }
         if (workerData.getSalary() == null) {
-            io.println("Введите зп повторно*");
+            io.println(WorkerPrint.SALARY.getMessageError());
             String salary = io.readLine();
             workerData.setSalary(salary);
         }
         if (workerData.getStartDate() == null) {
-            io.println("Введите дату начала работы повторно* (Формат ввода: 1111-11-11)");
+            io.println(WorkerPrint.START_DATE.getMessageError());
             String startDate = io.readLine();
             workerData.setStartDate(startDate);
         }
         if (workerData.getEndDate() == null) {
-            io.println("Введите дату окончания работы повторно* (Формат ввода: 1111-11-11)");
+            io.println(WorkerPrint.END_DATE.getMessageError());
             String endDate = io.readLine();
             workerData.setEndDate(endDate);
         }
         if (workerData.getStatus().getId() == null) {
-            io.println("Введите номер статуса повторно*");
+            io.println(WorkerPrint.STATUS.getMessageError());
             Arrays.stream(StatusData.values()).forEach(statusData -> io.println(statusData.getId() + ": " + statusData.name()));
             String status = io.readLine();
             workerData.getStatus().setId(status);
         }
         if (workerData.getOrganization() != null) {
             if (workerData.getOrganization().getAnnualTurnover() == null) {
-                io.println("Введите доход компании");
+                io.println(WorkerPrint.ANNUAL_TURNOVER.getMessageError());
                 String annualTurnover = io.readLine();
                 workerData.getOrganization().setAnnualTurnover(annualTurnover);
             }
             if (workerData.getOrganization().getType().getId() == null) {
-                io.println("Введите номер статуса повторно*");
+                io.println(WorkerPrint.TYPE.getMessageError());
                 Arrays.stream(OrganizationTypeData.values()).forEach(type -> io.println(type.getId() + ": " + type.name()));
                 String type = io.readLine();
                 workerData.getOrganization().getType().setId(type);
             }
             if (workerData.getOrganization().getOfficialAddress().getStreet() == null) {
-                io.println("Введите адрес повторно*");
+                io.println(WorkerPrint.STREET.getMessageError());
                 String address = io.readLine();
                 workerData.getOrganization().getOfficialAddress().setStreet(address);
             }

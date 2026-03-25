@@ -1,8 +1,7 @@
-package edu.itmo.piikt.server.netWork;
+package edu.itmo.piikt.common.server_client;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.nio.ByteBuffer;
 @Data

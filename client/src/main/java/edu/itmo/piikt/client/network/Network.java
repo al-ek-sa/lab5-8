@@ -4,6 +4,7 @@ import edu.itmo.piikt.common.interfaceCommon.Client;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.common.util.DS;
+import edu.itmo.piikt.common.server_client.ClientData;
 import lombok.Data;
 
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class Network implements Client {
         reader.clear();
         Integer bytes = socketChannel.read(reader);
         if (bytes == -1) {
-            throw  new IOException("");
+            throw  new IOException("Соединение закрыто");
         }
         reader.flip();
         ServerResponse serverResponse = (ServerResponse) DS.deserialize(reader);
@@ -50,6 +51,7 @@ public class Network implements Client {
     public boolean connected() {
         return socketChannel != null && socketChannel.isConnected();
     }
+
     @Override
     public void close() throws IOException {
         if (socketChannel != null) {
