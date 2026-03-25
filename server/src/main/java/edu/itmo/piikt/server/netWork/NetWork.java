@@ -1,5 +1,6 @@
 package edu.itmo.piikt.server.netWork;
 
+import edu.itmo.piikt.server.CommandServer.CommandFactory;
 import edu.itmo.piikt.server.dispatcher.Dispatcher;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,10 +21,32 @@ public class NetWork {
     private ServerSocketChannel serverSocketChannel;
     private  boolean run = true;
     private  final Connect connect;
+    private CommandFactory commandFactory;
+    private final StringBuilder stringBuilder = new StringBuilder();
 
     public NetWork(Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
         this.connect = new Connect(dispatcher);
+        this.commandFactory = new CommandFactory();
+    }
+
+    private void console()  {
+        try{
+            if (System.in.available() > 0) {
+                while (System.in.available() > 0) {
+                    char c = (char) System.in.read();
+                    stringBuilder.append(c);
+                    if (c == '\n') {
+                        String command = stringBuilder.toString().trim();
+                        stringBuilder.setLength(0);
+                        if (!command.isEmpty()){
+                        commandFactory.execute(command);}
+                    }
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     public void start() throws IOException{
         selector = Selector.open();
@@ -32,7 +55,8 @@ public class NetWork {
         serverSocketChannel.bind(new InetSocketAddress(PORT));
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
         while (run) {
-            selector.select();
+            console();
+            selector.select(1000);
             Iterator<SelectionKey> selectionKeyIterator = selector.selectedKeys().iterator();
             while (selectionKeyIterator.hasNext()) {
                 SelectionKey key = selectionKeyIterator.next();

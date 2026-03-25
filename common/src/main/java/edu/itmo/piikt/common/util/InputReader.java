@@ -1,4 +1,4 @@
-package edu.itmo.piikt.client.util;
+package edu.itmo.piikt.common.util;
 
 import lombok.experimental.UtilityClass;
 

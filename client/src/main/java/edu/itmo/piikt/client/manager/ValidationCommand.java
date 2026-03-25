@@ -1,13 +1,13 @@
 package edu.itmo.piikt.client.manager;
 
-import edu.itmo.piikt.client.algorithms.DamerauLevenshteinDistance;
+import edu.itmo.piikt.common.algorithms.DamerauLevenshteinDistance;
 import edu.itmo.piikt.client.command.ExecuteScriptCommand;
 import edu.itmo.piikt.client.command.ExitCommand;
 import edu.itmo.piikt.client.data.Organization;
 import edu.itmo.piikt.client.data.Worker;
 import edu.itmo.piikt.client.command.history.HistoryCommand;
 import edu.itmo.piikt.client.command.history.HistoryCommands;
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.command.data.Commands;
 import edu.itmo.piikt.common.data.OrganizationData;
@@ -119,7 +119,8 @@ public enum ValidationCommand {
                                 ServerResponse serverResponse = network.send(clientCommand);
                                 serverResponse.printToConsole();
                             }
-                }}
+                }
+                    }
 
             } catch (Exception e) {
                 throw new RuntimeException(e);

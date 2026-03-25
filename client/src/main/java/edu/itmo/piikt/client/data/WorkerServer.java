@@ -1,6 +1,6 @@
 package edu.itmo.piikt.client.data;
 
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.data.MessageExceptionValidation;
 import edu.itmo.piikt.common.data.OrganizationType.OrganizationTypeData;
 import edu.itmo.piikt.common.data.Status.StatusData;

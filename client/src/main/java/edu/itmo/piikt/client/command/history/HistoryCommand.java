@@ -1,7 +1,6 @@
 package edu.itmo.piikt.client.command.history;
 
-import edu.itmo.piikt.client.io.provider.IOProvider;
-import edu.itmo.piikt.common.server_client.ServerResponse;
+import edu.itmo.piikt.common.io.provider.IOProvider;
 import lombok.NoArgsConstructor;
 
 import java.util.List;

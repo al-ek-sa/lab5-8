@@ -1,4 +1,4 @@
-package edu.itmo.piikt.client.io.data;
+package edu.itmo.piikt.common.io.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

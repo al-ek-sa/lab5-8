@@ -1,4 +1,4 @@
-package edu.itmo.piikt.client.algorithms;
+package edu.itmo.piikt.common.algorithms;
 
 /**
  * The class implements the Damerau-Levenshtein algorithm.

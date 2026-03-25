@@ -9,6 +9,7 @@ import edu.itmo.piikt.server.WorkerObject.ValidationError;
 import edu.itmo.piikt.server.WorkerObject.WorkerBuilder;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
+import org.slf4j.LoggerFactory;
 
 import java.util.logging.Logger;
 
@@ -22,7 +23,6 @@ import java.util.logging.Logger;
  */
 @NoArgsConstructor
 public final class AddCommand {
-    private final static Logger logger = Logger.getLogger(AddCommand.class.getName());
     private final BuilderWorker builderWorker = new BuilderWorker();
     private final WorkerBuilder workerBuilder = new WorkerBuilder();
     public ServerResponse execute(ClientCommand clientCommand) {
@@ -31,14 +31,11 @@ public final class AddCommand {
         if (result instanceof WorkerData) {
             Worker worker = workerBuilder.builerWorker(dataWorker);
             HistoryWorker.INSTANCE.add(worker);
-            logger.info(LoggerCommand.ADD.getLogMessage());
             return ServerResponse.successfulCompletion("ADD");
         } else if (result instanceof ValidationError) {
             ValidationError error = (ValidationError) result;
-            logger.info(LoggerCommand.ADD.getLogMessage());
             return ServerResponse.error("Введены неверные данные", error.getErrors(), error.getData());
         }
-        logger.info(LoggerCommand.ADD.getLogMessage());
         return ServerResponse.error("Какая-то ошибка");
     }
 }

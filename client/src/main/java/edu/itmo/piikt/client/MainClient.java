@@ -1,7 +1,7 @@
 package edu.itmo.piikt.client;
 
-import edu.itmo.piikt.client.io.provider.IOProvider;
-import edu.itmo.piikt.client.io.providerType.IOConsole;
+import edu.itmo.piikt.common.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.providerType.IOConsole;
 import edu.itmo.piikt.client.manager.ValidationCommand;
 import edu.itmo.piikt.client.network.Network;
 

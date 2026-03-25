@@ -1,7 +1,7 @@
-package edu.itmo.piikt.client.io.providerType;
+package edu.itmo.piikt.common.io.providerType;
 
-import edu.itmo.piikt.client.io.provider.IOProvider;
-import edu.itmo.piikt.client.io.data.NameIOProvider;
+import edu.itmo.piikt.common.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.data.NameIOProvider;
 
 import java.io.*;
 import java.util.ArrayDeque;

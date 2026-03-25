@@ -1,8 +1,8 @@
 package edu.itmo.piikt.client.command;
 
-import edu.itmo.piikt.client.io.providerType.IOFile;
-import edu.itmo.piikt.client.io.provider.IOProvider;
-import edu.itmo.piikt.client.io.data.NameIOProvider;
+import edu.itmo.piikt.common.io.providerType.IOFile;
+import edu.itmo.piikt.common.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.data.NameIOProvider;
 import edu.itmo.piikt.client.manager.ValidationCommand;
 import lombok.NoArgsConstructor;
 import java.io.IOException;
