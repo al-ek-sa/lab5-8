@@ -1,5 +1,6 @@
 package edu.itmo.piikt.client.manager;
 
+import edu.itmo.piikt.client.command.AddCommand;
 import edu.itmo.piikt.common.algorithms.DamerauLevenshteinDistance;
 import edu.itmo.piikt.client.command.ExecuteScriptCommand;
 import edu.itmo.piikt.client.command.ExitCommand;
@@ -32,6 +33,7 @@ public enum ValidationCommand {
     private boolean flag;
     Worker worker = new Worker();
     private Network network;
+    private AddCommand addCommand;
     HistoryCommand historyCommand = new HistoryCommand();
     Organization organization = new Organization();
     ExecuteScriptCommand executeScriptCommand = new ExecuteScriptCommand();
@@ -48,6 +50,7 @@ public enum ValidationCommand {
 
     public void setNetwork(Network network) {
         this.network = network;
+        this.addCommand = new AddCommand(network, worker);
     }
 
     /**
@@ -83,11 +86,8 @@ public enum ValidationCommand {
                                     //todo сразу отправить ответ
                                 }
                                 if (com1.equals(Commands.ADD.getName())) {
-                                    WorkerData workerData = worker.build(io);
-                                    ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName())
-                                            .data(workerData).build();
-                                    ServerResponse serverResponse = network.send(clientCommand);
-                                    serverResponse.printToConsole();
+                                    var server = addCommand.execute(io);
+                                    server.printToConsole();
                                     continue;
                                 }
                                 if (com1.equals(Commands.COUNT_BY_ORGANIZATION.getName())) {

@@ -1,5 +1,6 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
+import ch.qos.logback.classic.Logger;
 import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.models.Worker;
 import edu.itmo.piikt.common.server_client.ClientCommand;
@@ -11,8 +12,6 @@ import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
 import org.slf4j.LoggerFactory;
 
-import java.util.logging.Logger;
-
 /**
  * The class implements the command add {element} : add a new element to the
  * collection.
@@ -23,6 +22,7 @@ import java.util.logging.Logger;
  */
 @NoArgsConstructor
 public final class AddCommand {
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(AddCommand.class);
     private final BuilderWorker builderWorker = new BuilderWorker();
     private final WorkerBuilder workerBuilder = new WorkerBuilder();
     public ServerResponse execute(ClientCommand clientCommand) {
