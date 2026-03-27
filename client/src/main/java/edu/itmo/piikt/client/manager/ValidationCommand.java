@@ -1,6 +1,7 @@
 package edu.itmo.piikt.client.manager;
 
 import edu.itmo.piikt.client.command.AddCommand;
+import edu.itmo.piikt.client.command.UpdateCommand;
 import edu.itmo.piikt.common.algorithms.DamerauLevenshteinDistance;
 import edu.itmo.piikt.client.command.ExecuteScriptCommand;
 import edu.itmo.piikt.client.command.ExitCommand;
@@ -12,7 +13,6 @@ import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.command.data.Commands;
 import edu.itmo.piikt.common.data.OrganizationData;
-import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import lombok.Getter;
@@ -33,6 +33,7 @@ public enum ValidationCommand {
     private boolean flag;
     Worker worker = new Worker();
     private Network network;
+    private UpdateCommand updateCommand;
     private AddCommand addCommand;
     HistoryCommand historyCommand = new HistoryCommand();
     Organization organization = new Organization();
@@ -51,6 +52,7 @@ public enum ValidationCommand {
     public void setNetwork(Network network) {
         this.network = network;
         this.addCommand = new AddCommand(network, worker);
+        this.updateCommand = new UpdateCommand(network, addCommand);
     }
 
     /**
@@ -113,6 +115,10 @@ public enum ValidationCommand {
                         if (DamerauLevenshteinDistance.distance(com2, element) <= 1) {
                             if (com2.equals(Commands.EXECUTE_SCRIPT.getName())) {
                                 executeScriptCommand.execute(io, argument);
+                                continue;
+                            }
+                            if (com2.equals(Commands.UPDATE.getName())) {
+                                updateCommand.update(io, com2, argument).printToConsole();
                                 continue;
                             }
                             ClientCommand clientCommand = ClientCommand.builder().nameCommand(com2).argumentCommand(argument).build();
