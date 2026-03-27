@@ -1,31 +1,40 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
+import edu.itmo.piikt.common.logger.AppLogger;
+import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * The class implements the command head : output the first element of the
  * collection.
  *
  * @author Lishyk Aliaksandra
- * @version 3.0
+ * @version 3.1
  * @see HistoryWorker
  */
 @NoArgsConstructor
 public final class HeadCommand {
-    private static final Logger logger = Logger.getLogger(HeadCommand.class.getName());
+    private static final AppLogger logger = new AppLogger(HeadCommand.class);
+
     /** The method outputs the data of the first element in the collection. */
     public ServerResponse execute() {
-        var listWorker = HistoryWorker.INSTANCE.getListWorker();
-        if (listWorker.isEmpty()) {
-            return ServerResponse.successfulCompletion("COLLECTION IS EMPTY");
+        try (Context context = Context.newId()) {
+            logger.info("Executing HEAD command");
+            var listWorker = HistoryWorker.INSTANCE.getListWorker();
+            if (listWorker.isEmpty()) {
+                logger.debug("Collection is empty");
+                return ServerResponse.successfulCompletion("COLLECTION IS EMPTY");
+            }
+            String input = listWorker.getFirst().toString();
+            logger.debug("First worker: {}", input);
+            return ServerResponse.successfulCompletion("HEAD WORKER", List.of(input));
+        } catch (Exception e) {
+            logger.error("Error executing HEAD command: {}", e);
+            throw new RuntimeException(e);
         }
-        String input = listWorker.getFirst().toString();
-        logger.info(LoggerCommand.HEAD.getLogMessage());
-        return ServerResponse.successfulCompletion("HEAD WORKER", List.of(input));
     }
 }

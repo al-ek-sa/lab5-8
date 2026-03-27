@@ -3,11 +3,12 @@ package edu.itmo.piikt.server.command.modelCommand;
 import edu.itmo.piikt.common.models.Worker;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
+import edu.itmo.piikt.common.logger.AppLogger;
+import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -15,23 +16,32 @@ import java.util.stream.Collectors;
  * whose name field value contains the specified substring.
  *
  * @author Lishyk Aliaksandra
- * @version 2.1
+ * @version 2.2
  * @see HistoryWorker
  */
 @NoArgsConstructor
 public final class FilterContainsNameCommand {
-    private static final Logger logger = Logger.getLogger(FilterContainsNameCommand.class.getName());
+    private static final AppLogger logger = new AppLogger(FilterContainsNameCommand.class);
+
     /**
      * The method outputs all employees with the same name as entered by the user.
      *
      */
     public ServerResponse execute(ClientCommand clientCommand) {
-        String argument = clientCommand.getArgumentCommand();
-        var listWorker = HistoryWorker.INSTANCE.getListWorker();
-        List<String> list = listWorker.stream().filter(worker -> worker.getName() != null)
-                .filter(worker -> worker.getName().contains(argument)).map(Worker::toString)
-                .collect(Collectors.toList());
-        logger.info(LoggerCommand.FILTER_CONTAINS_NAME.getLogMessage());
-        return ServerResponse.successfulCompletion("FILTER NAME", list);
+        try (Context context = Context.newId()) {
+            String argument = clientCommand.getArgumentCommand();
+            logger.info("Executing FILTER_CONTAINS_NAME with argument: {}", argument);
+            var listWorker = HistoryWorker.INSTANCE.getListWorker();
+            List<String> list = listWorker.stream()
+                    .filter(worker -> worker.getName() != null)
+                    .filter(worker -> worker.getName().contains(argument))
+                    .map(Worker::toString)
+                    .collect(Collectors.toList());
+            logger.debug("Found {} workers containing '{}'", list.size(), argument);
+            return ServerResponse.successfulCompletion("FILTER NAME", list);
+        } catch (Exception e) {
+            logger.error("Error executing FILTER_CONTAINS_NAME: {}", e);
+            throw new RuntimeException(e);
+        }
     }
 }

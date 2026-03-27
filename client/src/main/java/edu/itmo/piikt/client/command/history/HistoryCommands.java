@@ -1,22 +1,32 @@
 package edu.itmo.piikt.client.command.history;
 
+import edu.itmo.piikt.common.logger.AppLogger;
+import edu.itmo.piikt.common.logger.Context;
 import java.util.LinkedList;
 
-/**
- * A class for storing all entered commands. The class is a singleton.
- *
- * @author Lishyk Aliaksandra
- * @version 2.1
- */
 public enum HistoryCommands {
     INSTANCE;
+
+    private static final AppLogger logger = new AppLogger(HistoryCommands.class);
     private LinkedList<String> listCommands = new LinkedList<>();
-    // todo добавлять в конец!
+
     public void add(String command) {
-        listCommands.addFirst(command);
+        try (Context context = Context.newId()) {
+            logger.debug("Adding command to history: {}", command);
+            listCommands.addFirst(command);
+            logger.debug("History size: {}", listCommands.size());
+        } catch (Exception e) {
+            logger.error("Error adding command to history: {}", e);
+        }
     }
 
     public LinkedList<String> getLinkedList() {
-        return listCommands;
+        try (Context context = Context.newId()) {
+            logger.debug("Retrieving history list, size: {}", listCommands.size());
+            return listCommands;
+        } catch (Exception e) {
+            logger.error("Error retrieving history list: {}", e);
+            return new LinkedList<>();
+        }
     }
 }

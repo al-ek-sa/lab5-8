@@ -1,5 +1,7 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
+import edu.itmo.piikt.common.logger.AppLogger;
+import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.common.models.Worker;
@@ -7,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -15,23 +16,33 @@ import java.util.stream.Collectors;
  * in string representation to the standard output stream.
  *
  * @author Lishyk Aliaksandra
- * @version 3.0
+ * @version 3.1
  * @see HistoryWorker
  */
 @NoArgsConstructor
 public final class ShowCommand {
-    private static final Logger logger = Logger.getLogger(ShowCommand.class.getName());
+    private static final AppLogger logger = new AppLogger(ShowCommand.class);
+
     /** The method outputs data of all registered employees. */
     public ServerResponse execute() {
-        var listHistory = HistoryWorker.INSTANCE.getListWorker();
-        if (listHistory.isEmpty()) {
-            logger.info(LoggerCommand.SHOW.getLogMessage());
-            return ServerResponse.error("COLLECTION IS EMPTY");
+        try (Context context = Context.newId()) {
+            logger.info("Executing SHOW command");
+            var listHistory = HistoryWorker.INSTANCE.getListWorker();
+            if (listHistory.isEmpty()) {
+                logger.debug("Collection is empty");
+                return ServerResponse.error("COLLECTION IS EMPTY");
+            }
+            List<String> list = listHistory.stream()
+                    .sorted(Comparator.comparing(Worker::getName)
+                            .thenComparing(Worker::getStartDate)
+                            .thenComparing(Worker::getCreationDate))
+                    .map(Worker::toString)
+                    .collect(Collectors.toList());
+            logger.debug("Showing {} workers", list.size());
+            return ServerResponse.successfulCompletion("SHOW: ", list);
+        } catch (Exception e) {
+            logger.error("Error executing SHOW command: {}", e);
+            throw new RuntimeException(e);
         }
-        List<String> list = listHistory.stream().sorted(Comparator.comparing(Worker::getName)
-                .thenComparing(Worker::getStartDate).thenComparing(Worker::getCreationDate)).map(Worker::toString)
-                .collect(Collectors.toList());
-        logger.info(LoggerCommand.SHOW.getLogMessage());
-        return ServerResponse.successfulCompletion("SHOW: ", list);
     }
 }

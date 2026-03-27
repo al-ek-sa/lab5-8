@@ -34,7 +34,4 @@ public enum ConsoleMessage {
     ENUM("Select the status", "(enter its number)"),;
     private final String messageOne;
     private final String messageTwo;
-    public void printMessage(IOProvider io) {
-        io.printField(messageOne, messageTwo);
-    }
 }

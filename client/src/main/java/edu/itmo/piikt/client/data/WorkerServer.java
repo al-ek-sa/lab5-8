@@ -5,6 +5,8 @@ import edu.itmo.piikt.common.data.MessageExceptionValidation;
 import edu.itmo.piikt.common.data.OrganizationType.OrganizationTypeData;
 import edu.itmo.piikt.common.data.Status.StatusData;
 import edu.itmo.piikt.common.data.WorkerData;
+import edu.itmo.piikt.common.logger.AppLogger;
+import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,66 +19,84 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WorkerServer {
+    private static final AppLogger logger = new AppLogger(WorkerServer.class);
     private IOProvider io;
     // todo ошибка при приведении типов, привидение типов, есть поля которые могут
     // быть null по умолчанию
     public WorkerData build(ServerResponse serverResponse) {
-        WorkerData workerData = (WorkerData) serverResponse.getDataString();
-        List<MessageExceptionValidation> list = serverResponse.getErrors();
-        if (workerData.getName() == null) {
-            io.println(WorkerPrint.NAME.getMessageError());
-            String name = io.readLine();
-            workerData.setName(name);
-        }
-        if (workerData.getCoordinates().getX() == null) {
-            io.println(WorkerPrint.X.getMessageError());
-            String x = io.readLine();
-            workerData.getCoordinates().setX(x);
-        }
-        if (workerData.getCoordinates().getY() == null) {
-            io.println(WorkerPrint.Y.getMessageError());
-            String y = io.readLine();
-            workerData.getCoordinates().setY(y);
-        }
-        if (workerData.getSalary() == null) {
-            io.println(WorkerPrint.SALARY.getMessageError());
-            String salary = io.readLine();
-            workerData.setSalary(salary);
-        }
-        if (workerData.getStartDate() == null) {
-            io.println(WorkerPrint.START_DATE.getMessageError());
-            String startDate = io.readLine();
-            workerData.setStartDate(startDate);
-        }
-        if (workerData.getEndDate() == null) {
-            io.println(WorkerPrint.END_DATE.getMessageError());
-            String endDate = io.readLine();
-            workerData.setEndDate(endDate);
-        }
-        if (workerData.getStatus().getId() == null) {
-            io.println(WorkerPrint.STATUS.getMessageError());
-            Arrays.stream(StatusData.values()).forEach(statusData -> io.println(statusData.getId() + ": " + statusData.name()));
-            String status = io.readLine();
-            workerData.getStatus().setId(status);
-        }
-        if (workerData.getOrganization() != null) {
-            if (workerData.getOrganization().getAnnualTurnover() == null) {
-                io.println(WorkerPrint.ANNUAL_TURNOVER.getMessageError());
-                String annualTurnover = io.readLine();
-                workerData.getOrganization().setAnnualTurnover(annualTurnover);
+        try (Context context = Context.newId()) {
+            logger.debug("Building worker data from server response");
+            WorkerData workerData = (WorkerData) serverResponse.getDataString();
+            List<MessageExceptionValidation> list = serverResponse.getErrors();
+            if (workerData.getName() == null) {
+                logger.debug("Name is null, requesting input");
+                io.println(WorkerPrint.NAME.getMessageError());
+                String name = io.readLine();
+                workerData.setName(name);
             }
-            if (workerData.getOrganization().getType().getId() == null) {
-                io.println(WorkerPrint.TYPE.getMessageError());
-                Arrays.stream(OrganizationTypeData.values()).forEach(type -> io.println(type.getId() + ": " + type.name()));
-                String type = io.readLine();
-                workerData.getOrganization().getType().setId(type);
+            if (workerData.getCoordinates().getX() == null) {
+                logger.debug("Coordinate X is null, requesting input");
+                io.println(WorkerPrint.X.getMessageError());
+                String x = io.readLine();
+                workerData.getCoordinates().setX(x);
             }
-            if (workerData.getOrganization().getOfficialAddress().getStreet() == null) {
-                io.println(WorkerPrint.STREET.getMessageError());
-                String address = io.readLine();
-                workerData.getOrganization().getOfficialAddress().setStreet(address);
+            if (workerData.getCoordinates().getY() == null) {
+                logger.debug("Coordinate Y is null, requesting input");
+                io.println(WorkerPrint.Y.getMessageError());
+                String y = io.readLine();
+                workerData.getCoordinates().setY(y);
             }
+            if (workerData.getSalary() == null) {
+                logger.debug("Salary is null, requesting input");
+                io.println(WorkerPrint.SALARY.getMessageError());
+                String salary = io.readLine();
+                workerData.setSalary(salary);
+            }
+            if (workerData.getStartDate() == null) {
+                logger.debug("Start date is null, requesting input");
+                io.println(WorkerPrint.START_DATE.getMessageError());
+                String startDate = io.readLine();
+                workerData.setStartDate(startDate);
+            }
+            if (workerData.getEndDate() == null) {
+                logger.debug("End date is null, requesting input");
+                io.println(WorkerPrint.END_DATE.getMessageError());
+                String endDate = io.readLine();
+                workerData.setEndDate(endDate);
+            }
+            if (workerData.getStatus().getId() == null) {
+                logger.debug("Status is null, requesting input");
+                io.println(WorkerPrint.STATUS.getMessageError());
+                Arrays.stream(StatusData.values()).forEach(statusData -> io.println(statusData.getId() + ": " + statusData.name()));
+                String status = io.readLine();
+                workerData.getStatus().setId(status);
+            }
+            if (workerData.getOrganization() != null) {
+                if (workerData.getOrganization().getAnnualTurnover() == null) {
+                    logger.debug("Organization annual turnover is null, requesting input");
+                    io.println(WorkerPrint.ANNUAL_TURNOVER.getMessageError());
+                    String annualTurnover = io.readLine();
+                    workerData.getOrganization().setAnnualTurnover(annualTurnover);
+                }
+                if (workerData.getOrganization().getType().getId() == null) {
+                    logger.debug("Organization type is null, requesting input");
+                    io.println(WorkerPrint.TYPE.getMessageError());
+                    Arrays.stream(OrganizationTypeData.values()).forEach(type -> io.println(type.getId() + ": " + type.name()));
+                    String type = io.readLine();
+                    workerData.getOrganization().getType().setId(type);
+                }
+                if (workerData.getOrganization().getOfficialAddress().getStreet() == null) {
+                    logger.debug("Organization street is null, requesting input");
+                    io.println(WorkerPrint.STREET.getMessageError());
+                    String address = io.readLine();
+                    workerData.getOrganization().getOfficialAddress().setStreet(address);
+                }
+            }
+            logger.debug("Worker data corrected");
+            return workerData;
+        } catch (Exception e) {
+            logger.error("Error building worker data: {}", e);
+            throw new RuntimeException(e);
         }
-        return workerData;
     }
 }

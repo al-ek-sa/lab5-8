@@ -1,6 +1,8 @@
 package edu.itmo.piikt.client.network;
 
 import edu.itmo.piikt.common.interfaceCommon.Client;
+import edu.itmo.piikt.common.logger.AppLogger;
+import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.common.util.DS;
@@ -16,46 +18,74 @@ import java.nio.channels.SocketChannel;
 public class Network implements Client {
     private static final Integer SIZE = 66666;
     private static final Integer TIME = 3000;
+    private static final AppLogger logger = new AppLogger(Network.class);
+
     private SocketChannel socketChannel;
     private final String host;
     private final Integer PORT = 6672;
     private ClientData clientData;
+
     public Network (String host) {
         this.host = host;
     }
+
     @Override
     public void connect() throws IOException {
-        socketChannel = SocketChannel.open();
-        socketChannel.configureBlocking(true);
-        socketChannel.connect(new InetSocketAddress(host, PORT));
-        clientData = new ClientData(SIZE);
+        try (Context context = Context.newId()) {
+            logger.info("Connecting to {}:{}", host, PORT);
+            socketChannel = SocketChannel.open();
+            socketChannel.configureBlocking(true);
+            socketChannel.connect(new InetSocketAddress(host, PORT));
+            clientData = new ClientData(SIZE);
+            logger.info("Connected successfully");
+        } catch (IOException e) {
+            logger.error("Connection failed: {}", e);
+            throw e;
+        }
     }
 
     @Override
     public ServerResponse send(ClientCommand clientResponse) throws Exception {
-        ByteBuffer writer = DS.serialize(clientResponse);
-        socketChannel.write(writer);
-        socketChannel.socket().setSoTimeout(TIME);
-        ByteBuffer reader = clientData.getReader();
-        reader.clear();
-        Integer bytes = socketChannel.read(reader);
-        if (bytes == -1) {
-            throw  new IOException("Соединение закрыто");
+        try (Context context = Context.newId()) {
+            logger.debug("Sending command: {}", clientResponse.getNameCommand());
+            ByteBuffer writer = DS.serialize(clientResponse);
+            socketChannel.write(writer);
+            socketChannel.socket().setSoTimeout(TIME);
+            ByteBuffer reader = clientData.getReader();
+            reader.clear();
+            Integer bytes = socketChannel.read(reader);
+            if (bytes == -1) {
+                logger.error("Connection closed by server");
+                throw new IOException("Соединение закрыто");
+            }
+            reader.flip();
+            ServerResponse serverResponse = (ServerResponse) DS.deserialize(reader);
+            logger.debug("Response received: success={}", serverResponse.isExecution());
+            return serverResponse;
+        } catch (Exception e) {
+            logger.error("Error sending command: {}", e);
+            throw e;
         }
-        reader.flip();
-        ServerResponse serverResponse = (ServerResponse) DS.deserialize(reader);
-        return serverResponse;
     }
 
     @Override
     public boolean connected() {
-        return socketChannel != null && socketChannel.isConnected();
+        boolean isConnected = socketChannel != null && socketChannel.isConnected();
+        logger.debug("Connection status: {}", isConnected);
+        return isConnected;
     }
 
     @Override
     public void close() throws IOException {
-        if (socketChannel != null) {
-            socketChannel.close();
+        try (Context context = Context.newId()) {
+            logger.info("Closing connection");
+            if (socketChannel != null) {
+                socketChannel.close();
+            }
+            logger.info("Connection closed");
+        } catch (IOException e) {
+            logger.error("Error closing connection: {}", e);
+            throw e;
         }
     }
 }

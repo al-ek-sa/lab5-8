@@ -2,46 +2,61 @@ package edu.itmo.piikt.client;
 
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.io.providerType.IOConsole;
+import edu.itmo.piikt.common.logger.AppLogger;
+import edu.itmo.piikt.common.logger.Config;
+import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.client.manager.ValidationCommand;
 import edu.itmo.piikt.client.network.Network;
 
 public class MainClient {
-
+    private static final AppLogger logger = new AppLogger(MainClient.class);
     private static final String HOST = "localhost";
     private static final int MAX_ATTEMPTS = 7;
 
     public static void main(String[] args) {
-        IOProvider io = new IOConsole();
-        Network client = null;
+        Config.configureFromArgs(args);
 
-        for (int attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-            try {
-                Network network = new Network(HOST);
-                network.connect();
-                client = network;
-                break;
-            } catch (Exception e) {
-                if (attempt == MAX_ATTEMPTS) {
-                    return;
-                }
+        try (Context context = Context.newId()) {
+            logger.info("Starting client...");
+
+            IOProvider io = new IOConsole();
+            Network client = null;
+
+            for (int attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
                 try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException ex) {
-                    return;
+                    logger.debug("Connection attempt {}/{}", attempt, MAX_ATTEMPTS);
+                    Network network = new Network(HOST);
+                    network.connect();
+                    client = network;
+                    logger.info("Connected to server");
+                    break;
+                } catch (Exception e) {
+                    logger.warn("Connection attempt {} failed: {}", attempt, e.getMessage());
+                    if (attempt == MAX_ATTEMPTS) {
+                        logger.error("Max connection attempts reached");
+                        return;
+                    }
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException ex) {
+                        logger.error("Interrupted while waiting to reconnect");
+                        return;
+                    }
                 }
             }
-        }
 
-        try {
-            ValidationCommand.INSTANCE.setNetwork(client);
-            ValidationCommand.INSTANCE.validation(io);
-        } catch (Exception e) {
-            //прописать исключение
-        } finally {
             try {
-                client.close();
+                ValidationCommand.INSTANCE.setNetwork(client);
+                ValidationCommand.INSTANCE.validation(io);
             } catch (Exception e) {
-                // прописать исключение
+                logger.error("Error in command processing: {}", e.getMessage());
+            } finally {
+                try {
+                    client.close();
+                    logger.info("Client stopped");
+                } catch (Exception e) {
+                    logger.error("Error closing connection: {}", e.getMessage());
+                }
             }
         }
     }

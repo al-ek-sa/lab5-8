@@ -2,6 +2,8 @@ package edu.itmo.piikt.server.validation.modelValidation;
 
 import edu.itmo.piikt.common.data.MessageExceptionValidation;
 import edu.itmo.piikt.common.data.WorkerData;
+import edu.itmo.piikt.common.logger.AppLogger;
+import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.models.Worker;
 import edu.itmo.piikt.server.validation.builder.Builder;
 import edu.itmo.piikt.server.validation.builder.RulesValidation;
@@ -33,7 +35,7 @@ import java.util.function.Function;
  * The class provides methods that validate the field values.
  *
  * @author Lishyk Aliaksandra
- * @version 2.0
+ * @version 2.1
  *
  * @see Function
  * @see Builder
@@ -45,6 +47,7 @@ import java.util.function.Function;
  * @see LocalDate
  */
 public class ValidationWorker {
+    private static final AppLogger logger = new AppLogger(ValidationWorker.class);
     private ValidationCoordinates coordinates;
     private ValidationStatus status;
     private ValidationOrganization organization;
@@ -57,31 +60,52 @@ public class ValidationWorker {
         this.coordinates = new ValidationCoordinates();
         this.status = new ValidationStatus();
         this.organization = new ValidationOrganization();
-
         this.startDateValidation = new Builder<String>("start date").add(RulesValidation.blank())
                 .add(RulesValidation.localDate()).build();
-
         this.endDateValidation = new Builder<String>("end date").add(RulesValidation.validationDate()).build();
-
         this.nameValidation = new Builder<String>("name").add(RulesValidation.blank()).build();
-
         this.salaryValidation = new Builder<String>("salary").add(RulesValidation.validationSalary()).build();
+        logger.debug("ValidationWorker initialized");
     }
 
     public Optional<MessageExceptionValidation> validationName(String name) {
-        return nameValidation.apply(name);
+        try (Context context = Context.newId()) {
+            logger.debug("Validating name: {}", name);
+            return nameValidation.apply(name);
+        } catch (Exception e) {
+            logger.error("Error validating name: {}", e.getMessage());
+            return Optional.of(new MessageExceptionValidation("name", "Validation error: " + e.getMessage()));
+        }
     }
 
     public Optional<MessageExceptionValidation> validationSalary(String salary) {
-        return salaryValidation.apply(salary);
+        try (Context context = Context.newId()) {
+            logger.debug("Validating salary: {}", salary);
+            return salaryValidation.apply(salary);
+        } catch (Exception e) {
+            logger.error("Error validating salary: {}", e.getMessage());
+            return Optional.of(new MessageExceptionValidation("salary", "Validation error: " + e.getMessage()));
+        }
     }
 
     public Optional<MessageExceptionValidation> validationStartDate(String startDate) {
-        return startDateValidation.apply(startDate);
+        try (Context context = Context.newId()) {
+            logger.debug("Validating start date: {}", startDate);
+            return startDateValidation.apply(startDate);
+        } catch (Exception e) {
+            logger.error("Error validating start date: {}", e.getMessage());
+            return Optional.of(new MessageExceptionValidation("start date", "Validation error: " + e.getMessage()));
+        }
     }
 
     public Optional<MessageExceptionValidation> validationEndDate(String endDate) {
-        return endDateValidation.apply(endDate);
+        try (Context context = Context.newId()) {
+            logger.debug("Validating end date: {}", endDate);
+            return endDateValidation.apply(endDate);
+        } catch (Exception e) {
+            logger.error("Error validating end date: {}", e.getMessage());
+            return Optional.of(new MessageExceptionValidation("end date", "Validation error: " + e.getMessage()));
+        }
     }
 
     /**
@@ -90,6 +114,12 @@ public class ValidationWorker {
      * @return Worker
      */
     public Worker worker(WorkerData data) {
-        return new Worker();
+        try (Context context = Context.newId()) {
+            logger.debug("Creating worker from data");
+            return new Worker();
+        } catch (Exception e) {
+            logger.error("Error creating worker: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }

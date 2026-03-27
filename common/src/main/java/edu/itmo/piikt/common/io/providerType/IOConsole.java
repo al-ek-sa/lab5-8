@@ -2,6 +2,8 @@ package edu.itmo.piikt.common.io.providerType;
 
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.io.data.NameIOProvider;
+import edu.itmo.piikt.common.logger.AppLogger;
+import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.util.InputReader;
 import lombok.NoArgsConstructor;
 
@@ -10,33 +12,51 @@ import lombok.NoArgsConstructor;
  * the console and reading from the console.
  *
  * @author Lishyk Aliaksandra
- * @version 1.1
+ * @version 1.2
  */
 @NoArgsConstructor
 public class IOConsole implements IOProvider {
+    private static final AppLogger logger = new AppLogger(IOConsole.class);
+
     @Override
     public String readLine() {
-        return InputReader.nextLine();
+        try (Context context = Context.newId()) {
+            String input = InputReader.nextLine();
+            logger.debug("Console input: {}", input);
+            return input;
+        }
     }
 
     @Override
     public void printError(String message) {
-        System.out.println(message);
+        try (Context context = Context.newId()) {
+            logger.warn("Console error output: {}", message);
+            System.out.println(message);
+        }
     }
 
     @Override
     public void printException(String message) {
-        System.out.println(message);
+        try (Context context = Context.newId()) {
+            logger.error("Console exception output: {}", message);
+            System.out.println(message);
+        }
     }
 
     @Override
     public void println(String message) {
-        System.out.println(message);
+        try (Context context = Context.newId()) {
+            logger.debug("Console output: {}", message);
+            System.out.println(message);
+        }
     }
 
     @Override
     public void printField(String message, String messageFiled) {
-        System.out.println(message+ " " + messageFiled);
+        try (Context context = Context.newId()) {
+            logger.debug("Console field output: {} {}", message, messageFiled);
+            System.out.println(message + " " + messageFiled);
+        }
     }
 
     @Override

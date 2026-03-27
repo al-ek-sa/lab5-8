@@ -1,6 +1,8 @@
 package edu.itmo.piikt.server.dispatcher;
 
 import edu.itmo.piikt.common.command.data.Commands;
+import edu.itmo.piikt.common.logger.AppLogger;
+import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.server.command.modelCommand.*;
@@ -9,6 +11,7 @@ import java.util.EnumMap;
 import java.util.function.Function;
 
 public class Dispatcher {
+    private static final AppLogger logger = new AppLogger(Dispatcher.class);
     private final EnumMap<Commands, Function<ClientCommand, ServerResponse>> enumMap = new EnumMap<>(Commands.class);
 
     public Dispatcher() {
@@ -28,17 +31,32 @@ public class Dispatcher {
                 com -> new PrintFieldDescendingEndDataCommand().execute());
         enumMap.put(Commands.EXIT, com -> new ExitCommand().execute());
     }
+
     //todo
     public ServerResponse dispatcher(ClientCommand command) {
-        String commandName = command.getNameCommand();
-        Commands commands = Commands.nameCommands(commandName);
-        if (commands == null) {
-            return ServerResponse.error("");
+        try (Context context = Context.newId()) {
+            String commandName = command.getNameCommand();
+            logger.debug("Dispatching command: {}", commandName);
+
+            Commands commands = Commands.nameCommands(commandName);
+            if (commands == null) {
+                logger.warn("Unknown command: {}", commandName);
+                return ServerResponse.error("Unknown command: " + commandName);
+            }
+
+            Function<ClientCommand, ServerResponse> input = enumMap.get(commands);
+            if (input == null) {
+                logger.error("Command {} not implemented in dispatcher", commandName);
+                return ServerResponse.error("Command not implemented");
+            }
+
+            logger.info("Executing command: {}", commandName);
+            ServerResponse response = input.apply(command);
+            logger.debug("Command {} completed: success={}", commandName, response.isExecution());
+            return response;
+        } catch (Exception e) {
+            logger.error("Error dispatching command: {}", e);
+            return ServerResponse.error("Internal server error");
         }
-        Function<ClientCommand, ServerResponse> input = enumMap.get(commands);
-        if (input == null) {
-            return ServerResponse.error("");
-        }
-        return input.apply(command);
     }
 }

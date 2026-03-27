@@ -13,6 +13,8 @@ import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.command.data.Commands;
 import edu.itmo.piikt.common.data.OrganizationData;
+import edu.itmo.piikt.common.logger.AppLogger;
+import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import lombok.Getter;
@@ -24,11 +26,13 @@ import java.util.stream.Collectors;
  * The main class of the program. The class determines which command was called.
  *
  * @author Lishyk Aliaksandra
- * @version 1.2
+ * @version 1.3
  */
 @Getter
 public enum ValidationCommand {
     INSTANCE;
+
+    private static final AppLogger logger = new AppLogger(ValidationCommand.class);
     private boolean flag;
     Worker worker = new Worker();
     private Network network;
@@ -43,6 +47,7 @@ public enum ValidationCommand {
     ValidationCommand() {
         this.flag = true;
     }
+
     public void setFlag(boolean flag) {
         this.flag = flag;
     }
@@ -63,12 +68,14 @@ public enum ValidationCommand {
      */
     // todo
     public void validation(IOProvider io) {
+        logger.info("Starting command validation loop");
         while (flag) {
             try {
                 String nameCommand = io.readLine();
                 if (nameCommand == null || nameCommand.isBlank()) {
                     continue;
                 }
+                logger.debug("User input: {}", nameCommand);
                 HistoryCommands.INSTANCE.add(nameCommand);
                 String command = nameCommand.trim();
                 String[] input = command.split("\\s+");
@@ -81,16 +88,19 @@ public enum ValidationCommand {
                                 continue;
                             }
                             if (com1.equals(Commands.EXIT.getName())) {
+                                logger.info("Exit command received");
                                 ExitCommand exitCommand = new ExitCommand();
                                 exitCommand.execute();
                                 //todo сразу отправить ответ
                             }
                             if (com1.equals(Commands.ADD.getName())) {
+                                logger.debug("Executing ADD command");
                                 var server = addCommand.execute(io);
                                 server.printToConsole();
                                 continue;
                             }
                             if (com1.equals(Commands.COUNT_BY_ORGANIZATION.getName())) {
+                                logger.debug("Executing COUNT_BY_ORGANIZATION command");
                                 OrganizationData organizationData = organization.build(io);
                                 ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.COUNT_BY_ORGANIZATION.getName()).data(organizationData)
                                         .build();
@@ -106,16 +116,17 @@ public enum ValidationCommand {
                         }
                     }
                 }
-
                 if (input.length == 2) {
                     String argument = input[1];
                     for (String com2 : argumentCommand) {
                         if (DamerauLevenshteinDistance.distance(com2, element) <= 1) {
                             if (com2.equals(Commands.EXECUTE_SCRIPT.getName())) {
+                                logger.debug("Executing script: {}", argument);
                                 executeScriptCommand.execute(io, argument);
                                 continue;
                             }
                             if (com2.equals(Commands.UPDATE.getName())) {
+                                logger.debug("Executing UPDATE command for id: {}", argument);
                                 updateCommand.update(io, com2, argument).printToConsole();
                                 continue;
                             }
@@ -125,10 +136,11 @@ public enum ValidationCommand {
                         }
                     }
                 }
-
             } catch (Exception e) {
+                logger.error("Error in validation loop: {}", e);
                 throw new RuntimeException(e);
             }
         }
+        logger.info("Command validation loop ended");
     }
 }

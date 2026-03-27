@@ -1,5 +1,7 @@
 package edu.itmo.piikt.server.netWork;
 
+import edu.itmo.piikt.common.logger.AppLogger;
+import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.common.util.DS;
@@ -8,34 +10,42 @@ import lombok.Data;
 
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
-
 import java.io.IOException;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
 @Data
 public class Connect {
+    private static final AppLogger logger = new AppLogger(Connect.class);
     private final Dispatcher dispatcher;
 
     public Connect(Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
     }
-//todo
+
     public void connected(SelectionKey selectionKey) throws IOException {
-        var serverChannel = (ServerSocketChannel) selectionKey.channel();
-        var clientChanel = serverChannel.accept();
-        clientChanel.configureBlocking(false);
-        edu.itmo.piikt.common.server_client.ClientData client = new edu.itmo.piikt.common.server_client.ClientData(6666);
-        clientChanel.register(selectionKey.selector(), SelectionKey.OP_READ, client);
+        try (Context context = Context.newId()) {
+            var serverChannel = (ServerSocketChannel) selectionKey.channel();
+            var clientChannel = serverChannel.accept();
+            clientChannel.configureBlocking(false);
+            logger.info("New client connected: {}", clientChannel.getRemoteAddress());
+            edu.itmo.piikt.common.server_client.ClientData client = new edu.itmo.piikt.common.server_client.ClientData(6666);
+            clientChannel.register(selectionKey.selector(), SelectionKey.OP_READ, client);
+        } catch (IOException e) {
+            logger.error("Error accepting connection: {}", e.getMessage());
+            throw e;
+        }
     }
 
     public void reader(SelectionKey selectionKey) throws IOException {
-        var clientChanel = (SocketChannel) selectionKey.channel();
+        var clientChannel = (SocketChannel) selectionKey.channel();
         var client = (edu.itmo.piikt.common.server_client.ClientData) selectionKey.attachment();
         var buffer = client.getReader();
-        var reader = clientChanel.read(buffer);
+        var reader = clientChannel.read(buffer);
+
         if (reader == -1) {
-            clientChanel.close();
+            logger.info("Client disconnected: {}", clientChannel.getRemoteAddress());
+            clientChannel.close();
             return;
         }
         if (reader == 0) {
@@ -43,28 +53,33 @@ public class Connect {
         }
 
         buffer.flip();
-        try {
+        try (Context context = Context.newId()) {
             ClientCommand clientCommand = (ClientCommand) DS.deserialize(buffer);
             client.setCommand(clientCommand);
+            logger.debug("Received command from {}: {}", clientChannel.getRemoteAddress(), clientCommand.getNameCommand());
             ServerResponse serverResponse = dispatcher.dispatcher(clientCommand);
             client.setMessage(serverResponse);
             selectionKey.interestOps(SelectionKey.OP_WRITE);
         } catch (Exception e) {
+            logger.error("Error processing command: {}", e.getMessage());
             client.clearReader();
         }
     }
 
-    public void writer (SelectionKey selectionKey) throws IOException {
-        var clientChanel = (SocketChannel) selectionKey.channel();
+    public void writer(SelectionKey selectionKey) throws IOException {
+        var clientChannel = (SocketChannel) selectionKey.channel();
         var client = (edu.itmo.piikt.common.server_client.ClientData) selectionKey.attachment();
         var serverResponse = (ServerResponse) client.getMessage();
-        try {
+
+        try (Context context = Context.newId()) {
             ByteBuffer byteBuffer = DS.serialize(serverResponse);
-            clientChanel.write(byteBuffer);
+            clientChannel.write(byteBuffer);
+            logger.debug("Response sent to {}", clientChannel.getRemoteAddress());
             client.setMessage(null);
             client.clearReader();
             selectionKey.interestOps(SelectionKey.OP_READ);
         } catch (Exception e) {
+            logger.error("Error sending response: {}", e.getMessage());
             selectionKey.interestOps(SelectionKey.OP_READ);
         }
     }
