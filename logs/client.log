@@ -1,0 +1,8 @@
+2026-03-27 23:12:42.216 [main] INFO  [id=ea55fcec-cfd4-44f4-8cc6-e1499cb28d9a] edu.itmo.piikt.client.MainClient - [MainClient] Starting client...
+2026-03-27 23:12:42.220 [main] INFO  [id=74e9af0e-cf2e-414f-843d-832d20445828] e.itmo.piikt.client.network.Network - [Network] Connecting to {}:{}
+2026-03-27 23:12:42.232 [main] INFO  [id=74e9af0e-cf2e-414f-843d-832d20445828] e.itmo.piikt.client.network.Network - [Network] Connected successfully
+2026-03-27 23:12:42.232 [main] INFO  [id=] edu.itmo.piikt.client.MainClient - [MainClient] Connected to server
+2026-03-27 23:12:42.237 [main] INFO  [id=] e.i.p.c.manager.ValidationCommand - [ValidationCommand] Starting command validation loop
+2026-03-27 23:13:19.951 [main] INFO  [id=bde72fb6-3856-4f53-b297-7772959ae11b] e.i.piikt.client.command.AddCommand - [AddCommand] ADD command started
+2026-03-27 23:13:28.099 [main] WARN  [id=13612b81-3ccc-467d-95ef-876770c74e14] e.i.piikt.client.command.AddCommand - [AddCommand] Validation error, requesting correction
+2026-03-27 23:13:38.612 [main] INFO  [id=b40fed46-3870-4ceb-ab1b-0b1b833499dc] e.i.piikt.client.command.AddCommand - [AddCommand] ADD command completed

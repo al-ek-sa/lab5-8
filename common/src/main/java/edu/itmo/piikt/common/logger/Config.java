@@ -32,9 +32,5 @@ public class Config {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         Logger rootLogger = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
         rootLogger.setLevel(Level.toLevel(logLevel, Level.INFO));
-
-        System.out.println("Logging configured: level=" + logLevel +
-                ", output=" + logOutput +
-                (logFile != null ? ", file=" + logFile : ""));
     }
 }

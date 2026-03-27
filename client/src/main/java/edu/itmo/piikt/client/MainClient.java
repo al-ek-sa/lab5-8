@@ -18,7 +18,6 @@ public class MainClient {
 
         try (Context context = Context.newId()) {
             logger.info("Starting client...");
-
             IOProvider io = new IOConsole();
             Network client = null;
 

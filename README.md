@@ -162,4 +162,4 @@ public enum OrganizationType {
 mvn clean compile
 mvn package
 java -jar client/target/client-1.0-SNAPSHOT-jar-with-dependencies.jar
-java -jar server/target/server-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar server/target/server-1.0-SNAPSHOT-jar-with-dependencies.jar --log-level INFO --log-output file --log-file server.log
