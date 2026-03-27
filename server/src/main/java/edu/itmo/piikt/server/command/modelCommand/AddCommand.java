@@ -10,7 +10,6 @@ import edu.itmo.piikt.server.WorkerObject.ValidationError;
 import edu.itmo.piikt.server.WorkerObject.WorkerBuilder;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
-import org.slf4j.LoggerFactory;
 
 /**
  * The class implements the command add {element} : add a new element to the
@@ -22,7 +21,7 @@ import org.slf4j.LoggerFactory;
  */
 @NoArgsConstructor
 public final class AddCommand {
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(AddCommand.class);
+
     private final BuilderWorker builderWorker = new BuilderWorker();
     private final WorkerBuilder workerBuilder = new WorkerBuilder();
     public ServerResponse execute(ClientCommand clientCommand) {

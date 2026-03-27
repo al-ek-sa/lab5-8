@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
  * @author Lishyk Aliaksandra
  * @version 1.2
  */
-//todo убрать синглтон
 @Getter
 public enum ValidationCommand {
     INSTANCE;
@@ -44,7 +43,6 @@ public enum ValidationCommand {
     ValidationCommand() {
         this.flag = true;
     }
-    // todo
     public void setFlag(boolean flag) {
         this.flag = flag;
     }
