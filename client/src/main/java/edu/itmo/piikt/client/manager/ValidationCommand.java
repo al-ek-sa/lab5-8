@@ -73,54 +73,54 @@ public enum ValidationCommand {
                 String command = nameCommand.trim();
                 String[] input = command.split("\\s+");
                 String element = input[0];
-                    if (input.length == 1) {
-                        for (String com1 : baseCommand) {
-                            if (DamerauLevenshteinDistance.distance(com1, element) <= 1) {
-                                if (com1.equals(Commands.HISTORY.getName())) {
-                                    historyCommand.execute(io);
-                                    continue;
-                                }
-                                if (com1.equals(Commands.EXIT.getName())) {
-                                    ExitCommand exitCommand = new ExitCommand();
-                                    exitCommand.execute();
-                                    //todo сразу отправить ответ
-                                }
-                                if (com1.equals(Commands.ADD.getName())) {
-                                    var server = addCommand.execute(io);
-                                    server.printToConsole();
-                                    continue;
-                                }
-                                if (com1.equals(Commands.COUNT_BY_ORGANIZATION.getName())) {
-                                    OrganizationData organizationData = organization.build(io);
-                                    ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.COUNT_BY_ORGANIZATION.getName()).data(organizationData)
-                                            .build();
-                                    ServerResponse serverResponse = network.send(clientCommand);
-                                    serverResponse.printToConsole();
-                                    continue;
-                                }
-                                ClientCommand clientCommand = ClientCommand.builder()
-                                        .nameCommand(com1)
+                if (input.length == 1) {
+                    for (String com1 : baseCommand) {
+                        if (DamerauLevenshteinDistance.distance(com1, element) <= 1) {
+                            if (com1.equals(Commands.HISTORY.getName())) {
+                                historyCommand.execute(io);
+                                continue;
+                            }
+                            if (com1.equals(Commands.EXIT.getName())) {
+                                ExitCommand exitCommand = new ExitCommand();
+                                exitCommand.execute();
+                                //todo сразу отправить ответ
+                            }
+                            if (com1.equals(Commands.ADD.getName())) {
+                                var server = addCommand.execute(io);
+                                server.printToConsole();
+                                continue;
+                            }
+                            if (com1.equals(Commands.COUNT_BY_ORGANIZATION.getName())) {
+                                OrganizationData organizationData = organization.build(io);
+                                ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.COUNT_BY_ORGANIZATION.getName()).data(organizationData)
                                         .build();
                                 ServerResponse serverResponse = network.send(clientCommand);
                                 serverResponse.printToConsole();
+                                continue;
                             }
+                            ClientCommand clientCommand = ClientCommand.builder()
+                                    .nameCommand(com1)
+                                    .build();
+                            ServerResponse serverResponse = network.send(clientCommand);
+                            serverResponse.printToConsole();
                         }
                     }
-
-                    if (input.length == 2) {
-                        String argument = input[1];
-                        for (String com2 : argumentCommand) {
-                            if (DamerauLevenshteinDistance.distance(com2, element) <= 1) {
-                                if (com2.equals(Commands.EXECUTE_SCRIPT.getName())) {
-                                    executeScriptCommand.execute(io, argument);
-                                    continue;
-                                }
-                                ClientCommand clientCommand = ClientCommand.builder().nameCommand(com2).argumentCommand(argument).build();
-                                ServerResponse serverResponse = network.send(clientCommand);
-                                serverResponse.printToConsole();
-                            }
                 }
+
+                if (input.length == 2) {
+                    String argument = input[1];
+                    for (String com2 : argumentCommand) {
+                        if (DamerauLevenshteinDistance.distance(com2, element) <= 1) {
+                            if (com2.equals(Commands.EXECUTE_SCRIPT.getName())) {
+                                executeScriptCommand.execute(io, argument);
+                                continue;
+                            }
+                            ClientCommand clientCommand = ClientCommand.builder().nameCommand(com2).argumentCommand(argument).build();
+                            ServerResponse serverResponse = network.send(clientCommand);
+                            serverResponse.printToConsole();
+                        }
                     }
+                }
 
             } catch (Exception e) {
                 throw new RuntimeException(e);

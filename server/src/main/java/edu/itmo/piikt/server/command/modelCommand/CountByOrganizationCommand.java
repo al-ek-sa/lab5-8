@@ -10,6 +10,7 @@ import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.common.models.Organization;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -39,11 +40,11 @@ public final class CountByOrganizationCommand {
             long size = listWorker.stream().filter(worker -> worker.getOrganization() != null)
                     .filter(worker -> worker.getOrganization().equals(organization)).count();
             logger.info(LoggerCommand.COUNT_BY_ORGANIZATION.getLogMessage());
-            return ServerResponse.successfulCompletion("COUNT_BY_ORGANIZATION: ", size);
+            return ServerResponse.successfulCompletion("COUNT_BY_ORGANIZATION: ", List.of(String.valueOf(size)));
         } else if (result instanceof ValidationError) {
             ValidationError validationError = (ValidationError) result;
             logger.info(LoggerCommand.COUNT_BY_ORGANIZATION.getLogMessage());
-            return ServerResponse.error("данные введены неверно ", validationError.getErrors());
+            return ServerResponse.error("данные введены неверно ", validationError.getErrors(), validationError.getData());
         }
         logger.info(LoggerCommand.COUNT_BY_ORGANIZATION.getLogMessage());
         return ServerResponse.error("Неизвестная ошибка");
