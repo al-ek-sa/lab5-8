@@ -23,7 +23,7 @@ public final class InfoCommand {
 
     /** The method outputs data about the collection. */
     public ServerResponse execute() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Executing INFO command");
             var listWorker = HistoryWorker.INSTANCE.getListWorker();
             var data = HistoryWorker.INSTANCE.getData();

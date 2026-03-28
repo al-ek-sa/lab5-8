@@ -19,7 +19,7 @@ public final class ClearCommand {
     private static final AppLogger logger = new AppLogger(ClearCommand.class);
 
     public ServerResponse execute() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Executing CLEAR command");
             int sizeBefore = HistoryWorker.INSTANCE.getListWorker().size();
             HistoryWorker.INSTANCE.clear();

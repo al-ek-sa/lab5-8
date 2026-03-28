@@ -15,9 +15,9 @@ public class OrganizationBuilder {
     private static final AppLogger logger = new AppLogger(OrganizationBuilder.class);
 
     public Organization organizationBuilder(OrganizationData organizationData) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Building organization from data");
-            Integer annualTurnover = Integer.parseInt(organizationData.getAnnualTurnover());
+            int annualTurnover = Integer.parseInt(organizationData.getAnnualTurnover());
             OrganizationType organizationType = OrganizationType
                     .values()[Integer.parseInt(organizationData.getType().getId()) - 1];
             Address address = new Address(organizationData.getOfficialAddress().getStreet());

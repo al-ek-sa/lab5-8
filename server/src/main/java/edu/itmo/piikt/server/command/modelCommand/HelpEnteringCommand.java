@@ -24,7 +24,7 @@ public final class HelpEnteringCommand {
     private static final AppLogger logger = new AppLogger(HelpEnteringCommand.class);
 
     public ServerResponse execute() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Executing HELP_ENTERING_COMMAND");
             List<String> list = Arrays.stream(Commands.values())
                     .sorted(Comparator.comparing(Commands::getName))

@@ -18,7 +18,7 @@ public final class ExitCommand {
     private static final AppLogger logger = new AppLogger(ExitCommand.class);
 
     public ServerResponse execute() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Executing EXIT command, saving collection");
             CSVParser csvParser = new CSVParser();
             csvParser.saveCollection();

@@ -25,7 +25,7 @@ public final class ShowCommand {
 
     /** The method outputs data of all registered employees. */
     public ServerResponse execute() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Executing SHOW command");
             var listHistory = HistoryWorker.INSTANCE.getListWorker();
             if (listHistory.isEmpty()) {

@@ -40,7 +40,7 @@ public class BuilderWorker implements Serializable {
             return new ValidationError(List.of(new MessageExceptionValidation("worker", "Worker data is null")), null);
         }
 
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             WorkerData data = workerData;
             List<MessageExceptionValidation> errors = new ArrayList<>();
 

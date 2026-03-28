@@ -23,30 +23,14 @@ public class IOFile implements IOProvider {
 
     public IOFile(String nameFile) throws IOException {
         this.reader = new BufferedReader(new FileReader(nameFile));
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("IOFile opened: {}", nameFile);
         }
     }
 
     @Override
-    public void printError(String message) {
-        try (Context context = Context.newId()) {
-            logger.warn("File error output: {}", message);
-            System.out.println(message);
-        }
-    }
-
-    @Override
-    public void printException(String message) {
-        try (Context context = Context.newId()) {
-            logger.error("File exception output: {}", message);
-            System.out.println(message);
-        }
-    }
-
-    @Override
     public void println(String message) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("File output (ignored): {}", message);
         }
     }
@@ -55,13 +39,11 @@ public class IOFile implements IOProvider {
      * The method reads data from a script. The data is read character by character
      * and converted into words.
      *
-     * @throws IOException
-     *             If file system errors occurred.
      * @return command
      */
     @Override
     public String readLine() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             String queued = dataQueue.poll();
             if (queued != null) {
                 logger.debug("Returning queued data: {}", queued);
@@ -84,13 +66,6 @@ public class IOFile implements IOProvider {
     }
 
     @Override
-    public void printField(String message, String messageFiled) {
-        try (Context context = Context.newId()) {
-            logger.debug("File field output (ignored): {} {}", message, messageFiled);
-        }
-    }
-
-    @Override
     public String name() {
         return NameIOProvider.FILE.getName();
     }
@@ -103,7 +78,7 @@ public class IOFile implements IOProvider {
      *            A string with data is passed as parameters to the method.
      */
     private void data(String data) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Parsing data: {}", data);
             if (data.startsWith("{") && data.endsWith("}")) {
                 data = data.substring(1, data.length() - 1);
@@ -130,7 +105,7 @@ public class IOFile implements IOProvider {
     }
 
     public void close() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Closing IOFile");
             if (reader != null) {
                 reader.close();

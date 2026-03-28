@@ -20,16 +20,4 @@ public class ClientData {
     public void clearReader() {
         reader.clear();
     }
-
-    public void flipReader() {
-        reader.flip();
-    }
-
-    public void clearWriter() {
-        writer.clear();
-    }
-
-    public void flipWriter() {
-        writer.flip();
-    }
 }

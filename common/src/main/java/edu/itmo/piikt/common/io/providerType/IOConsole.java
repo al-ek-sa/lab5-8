@@ -20,7 +20,7 @@ public class IOConsole implements IOProvider {
 
     @Override
     public String readLine() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             String input = InputReader.nextLine();
             logger.debug("Console input: {}", input);
             return input;
@@ -28,34 +28,10 @@ public class IOConsole implements IOProvider {
     }
 
     @Override
-    public void printError(String message) {
-        try (Context context = Context.newId()) {
-            logger.warn("Console error output: {}", message);
-            System.out.println(message);
-        }
-    }
-
-    @Override
-    public void printException(String message) {
-        try (Context context = Context.newId()) {
-            logger.error("Console exception output: {}", message);
-            System.out.println(message);
-        }
-    }
-
-    @Override
     public void println(String message) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Console output: {}", message);
             System.out.println(message);
-        }
-    }
-
-    @Override
-    public void printField(String message, String messageFiled) {
-        try (Context context = Context.newId()) {
-            logger.debug("Console field output: {} {}", message, messageFiled);
-            System.out.println(message + " " + messageFiled);
         }
     }
 

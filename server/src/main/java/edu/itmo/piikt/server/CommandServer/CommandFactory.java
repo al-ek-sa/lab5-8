@@ -9,7 +9,7 @@ public class CommandFactory {
     private final SaveCommand saveCommand = new SaveCommand();
 
     public void execute(String command) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Processing console command: {}", command);
             if (DamerauLevenshteinDistance.distance(command, saveCommand.getName()) <= 1) {
                 logger.info("Executing SAVE command from console");

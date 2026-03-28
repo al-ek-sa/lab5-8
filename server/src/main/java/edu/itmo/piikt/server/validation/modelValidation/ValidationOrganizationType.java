@@ -29,7 +29,7 @@ public class ValidationOrganizationType {
     }
 
     public Optional<MessageExceptionValidation> validationOrganizationType(String type) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Validating organization type: {}", type);
             return organizationValidation.apply(type);
         } catch (Exception e) {

@@ -24,15 +24,14 @@ public class OrganizationCommand {
     private Organization organization = new Organization();
 
     public ServerResponse execute(IOProvider io) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("COUNT_BY_ORGANIZATION started");
             OrganizationData organizationData = organization.build(io);
             ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.COUNT_BY_ORGANIZATION.getName())
                     .data(organizationData).build();
             ServerResponse serverResponse = network.send(clientCommand);
-            logger.debug("Initial response: success={}", serverResponse.isExecution());
-            ServerResponse server = organization(serverResponse, io);
-            return server;
+            logger.debug("Initial response: success={}", serverResponse.execution());
+            return organization(serverResponse, io);
         } catch (Exception e) {
             logger.error("COUNT_BY_ORGANIZATION failed: {}", e);
             throw new RuntimeException(e);
@@ -43,8 +42,8 @@ public class OrganizationCommand {
         var organizationServer = new OrganizationServer(io);
         var server = serverResponse;
         while (true) {
-            try (Context context = Context.newId()) {
-                if (server.isExecution()) {
+            try (Context ignored = Context.newId()) {
+                if (server.execution()) {
                     logger.info("COUNT_BY_ORGANIZATION completed successfully");
                     return server;
                 } else {

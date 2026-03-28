@@ -36,7 +36,7 @@ public class ValidationCoordinates {
     }
 
     public Optional<MessageExceptionValidation> validationX(String x) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Validating x: {}", x);
             return xValidation.apply(x);
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class ValidationCoordinates {
     }
 
     public Optional<MessageExceptionValidation> validationY(String y) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Validating y: {}", y);
             return yValidation.apply(y);
         } catch (Exception e) {

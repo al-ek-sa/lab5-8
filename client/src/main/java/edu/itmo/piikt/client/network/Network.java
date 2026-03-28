@@ -31,7 +31,7 @@ public class Network implements Client {
 
     @Override
     public void connect() throws IOException {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Connecting to {}:{}", host, PORT);
             socketChannel = SocketChannel.open();
             socketChannel.configureBlocking(true);
@@ -46,21 +46,21 @@ public class Network implements Client {
 
     @Override
     public ServerResponse send(ClientCommand clientResponse) throws Exception {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Sending command: {}", clientResponse.getNameCommand());
             ByteBuffer writer = DS.serialize(clientResponse);
             socketChannel.write(writer);
             socketChannel.socket().setSoTimeout(TIME);
             ByteBuffer reader = clientData.getReader();
             reader.clear();
-            Integer bytes = socketChannel.read(reader);
+            int bytes = socketChannel.read(reader);
             if (bytes == -1) {
                 logger.error("Connection closed by server");
                 throw new IOException("Соединение закрыто");
             }
             reader.flip();
             ServerResponse serverResponse = (ServerResponse) DS.deserialize(reader);
-            logger.debug("Response received: success={}", serverResponse.isExecution());
+            logger.debug("Response received: success={}", serverResponse.execution());
             return serverResponse;
         } catch (Exception e) {
             logger.error("Error sending command: {}", e);
@@ -77,7 +77,7 @@ public class Network implements Client {
 
     @Override
     public void close() throws IOException {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Closing connection");
             if (socketChannel != null) {
                 socketChannel.close();

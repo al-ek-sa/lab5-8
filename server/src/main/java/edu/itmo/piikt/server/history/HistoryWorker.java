@@ -27,7 +27,7 @@ public enum HistoryWorker {
     }
 
     public void add(Worker worker) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Adding worker: id={}, name={}", worker.getUuid(), worker.getName());
             listWorker.add(worker);
             logger.debug("Collection size: {}", listWorker.size());
@@ -38,7 +38,7 @@ public enum HistoryWorker {
     }
 
     public void clear() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Clearing collection, size before: {}", listWorker.size());
             listWorker.clear();
             logger.info("Collection cleared");

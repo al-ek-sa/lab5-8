@@ -23,24 +23,20 @@ public final class UpdateIdCommand {
      * The method replaces the element whose id is equal to the id specified by the
      * user.
      */
-    // todo дароботать на клиенте если успешное выполнение то будет добавление
     public ServerResponse execute(ClientCommand clientCommand) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             String id = clientCommand.getArgumentCommand();
             logger.info("Executing UPDATE command for id: {}", id);
-
             if (id == null || id.trim().isEmpty()) {
                 logger.warn("ID is empty");
                 return ServerResponse.error("ID не введен");
             }
-
             var workers = HistoryWorker.INSTANCE.getListWorker();
             boolean match = workers.stream().anyMatch(worker -> worker.getUuid().equals(id));
             if (!match) {
                 logger.warn("Worker with id {} not found", id);
                 return ServerResponse.error("Нет работника с таким ID");
             }
-
             workers.removeIf(worker -> worker.getUuid().equals(id));
             logger.info("Worker with id {} removed, ready for update", id);
             return ServerResponse.successfulCompletion("Работник найден");

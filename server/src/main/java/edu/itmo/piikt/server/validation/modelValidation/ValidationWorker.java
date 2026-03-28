@@ -48,18 +48,12 @@ import java.util.function.Function;
  */
 public class ValidationWorker {
     private static final AppLogger logger = new AppLogger(ValidationWorker.class);
-    private ValidationCoordinates coordinates;
-    private ValidationStatus status;
-    private ValidationOrganization organization;
     private final Function<String, Optional<MessageExceptionValidation>> nameValidation;
     private final Function<String, Optional<MessageExceptionValidation>> salaryValidation;
     private final Function<String, Optional<MessageExceptionValidation>> startDateValidation;
     private final Function<String, Optional<MessageExceptionValidation>> endDateValidation;
 
     public ValidationWorker() {
-        this.coordinates = new ValidationCoordinates();
-        this.status = new ValidationStatus();
-        this.organization = new ValidationOrganization();
         this.startDateValidation = new Builder<String>("start date").add(RulesValidation.blank())
                 .add(RulesValidation.localDate()).build();
         this.endDateValidation = new Builder<String>("end date").add(RulesValidation.validationDate()).build();
@@ -69,7 +63,7 @@ public class ValidationWorker {
     }
 
     public Optional<MessageExceptionValidation> validationName(String name) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Validating name: {}", name);
             return nameValidation.apply(name);
         } catch (Exception e) {
@@ -79,7 +73,7 @@ public class ValidationWorker {
     }
 
     public Optional<MessageExceptionValidation> validationSalary(String salary) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Validating salary: {}", salary);
             return salaryValidation.apply(salary);
         } catch (Exception e) {
@@ -89,7 +83,7 @@ public class ValidationWorker {
     }
 
     public Optional<MessageExceptionValidation> validationStartDate(String startDate) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Validating start date: {}", startDate);
             return startDateValidation.apply(startDate);
         } catch (Exception e) {
@@ -99,7 +93,7 @@ public class ValidationWorker {
     }
 
     public Optional<MessageExceptionValidation> validationEndDate(String endDate) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Validating end date: {}", endDate);
             return endDateValidation.apply(endDate);
         } catch (Exception e) {
@@ -114,7 +108,7 @@ public class ValidationWorker {
      * @return Worker
      */
     public Worker worker(WorkerData data) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Creating worker from data");
             return new Worker();
         } catch (Exception e) {

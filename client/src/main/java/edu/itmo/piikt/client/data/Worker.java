@@ -17,7 +17,7 @@ public class Worker {
     private static final AppLogger logger = new AppLogger(Worker.class);
 
     public WorkerData build(IOProvider io) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Building worker data");
             io.println(WorkerPrint.NAME.getMessage());
             String name = io.readLine();

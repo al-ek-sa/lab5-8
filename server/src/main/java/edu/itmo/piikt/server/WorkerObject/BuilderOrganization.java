@@ -30,7 +30,7 @@ public class BuilderOrganization implements Serializable {
     }
 
     public Object data(OrganizationData organizationData) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Validating organization data");
             List<MessageExceptionValidation> errors = new ArrayList<>();
 

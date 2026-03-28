@@ -28,7 +28,7 @@ public final class FilterContainsNameCommand {
      *
      */
     public ServerResponse execute(ClientCommand clientCommand) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             String argument = clientCommand.getArgumentCommand();
             logger.info("Executing FILTER_CONTAINS_NAME with argument: {}", argument);
             var listWorker = HistoryWorker.INSTANCE.getListWorker();

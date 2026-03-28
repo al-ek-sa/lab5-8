@@ -22,7 +22,7 @@ public final class ExitCommand {
      * Sets the validation flag to false, which breaks the main command loop.
      */
     public void execute() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Exit command received, shutting down client");
             ValidationCommand.INSTANCE.setFlag(false);
             logger.info("Client shutdown initiated");

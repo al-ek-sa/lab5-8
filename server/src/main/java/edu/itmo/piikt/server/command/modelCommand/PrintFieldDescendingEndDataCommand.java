@@ -29,7 +29,7 @@ public final class PrintFieldDescendingEndDataCommand {
      * sorted by id.
      */
     public ServerResponse execute() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Executing PRINT_FIELD_DESCENDING_END_DATE command");
             var listWorker = HistoryWorker.INSTANCE.getListWorker();
             if (listWorker.isEmpty()) {

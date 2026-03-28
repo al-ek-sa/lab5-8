@@ -3,20 +3,17 @@ package edu.itmo.piikt.common.server_client;
 import edu.itmo.piikt.common.data.MessageExceptionValidation;
 import lombok.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
 @Builder
-@Value
-@AllArgsConstructor
-public class ServerResponse implements Serializable {
+public record ServerResponse(boolean execution, String message, Object dataString, List<String> data,
+                             List<MessageExceptionValidation> errors) implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
-    boolean execution;
-    String message;
-    Object dataString;
-    List<String> data;
-    List<MessageExceptionValidation> errors;
+
     public static ServerResponse successfulCompletion(String message) {
         return ServerResponse.builder().execution(true).message(message).build();
     }
@@ -37,8 +34,8 @@ public class ServerResponse implements Serializable {
         return ServerResponse.builder().execution(false).message(message).build();
     }
 
-    public static ServerResponse error(String message, List<MessageExceptionValidation> exeption, Object object) {
-        return ServerResponse.builder().execution(false).message(message).errors(exeption).dataString(object).build();
+    public static ServerResponse error(String message, List<MessageExceptionValidation> exception, Object object) {
+        return ServerResponse.builder().execution(false).message(message).errors(exception).dataString(object).build();
     }
 
     public boolean exception() {
@@ -46,7 +43,7 @@ public class ServerResponse implements Serializable {
     }
 
     public void printToConsole() {
-        if (!isExecution()) {
+        if (!execution()) {
             System.out.println("Ошибка: " + message);
             if (errors != null && !errors.isEmpty()) {
                 for (MessageExceptionValidation error : errors) {

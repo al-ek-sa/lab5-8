@@ -8,10 +8,10 @@ public enum HistoryCommands {
     INSTANCE;
 
     private static final AppLogger logger = new AppLogger(HistoryCommands.class);
-    private LinkedList<String> listCommands = new LinkedList<>();
+    private final LinkedList<String> listCommands = new LinkedList<>();
 
     public void add(String command) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Adding command to history: {}", command);
             listCommands.addFirst(command);
             logger.debug("History size: {}", listCommands.size());
@@ -21,7 +21,7 @@ public enum HistoryCommands {
     }
 
     public LinkedList<String> getLinkedList() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Retrieving history list, size: {}", listCommands.size());
             return listCommands;
         } catch (Exception e) {

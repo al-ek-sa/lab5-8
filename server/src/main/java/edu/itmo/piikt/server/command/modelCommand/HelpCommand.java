@@ -23,7 +23,7 @@ public final class HelpCommand {
     private static final AppLogger logger = new AppLogger(HelpCommand.class);
 
     public ServerResponse execute() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Executing HELP command");
             List<String> list = Arrays.stream(Commands.values())
                     .sorted(Comparator.comparing(Commands::getName))

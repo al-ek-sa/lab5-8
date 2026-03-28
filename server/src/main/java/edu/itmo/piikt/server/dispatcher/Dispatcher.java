@@ -34,7 +34,7 @@ public class Dispatcher {
 
     //todo
     public ServerResponse dispatcher(ClientCommand command) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             String commandName = command.getNameCommand();
             logger.debug("Dispatching command: {}", commandName);
 
@@ -52,7 +52,7 @@ public class Dispatcher {
 
             logger.info("Executing command: {}", commandName);
             ServerResponse response = input.apply(command);
-            logger.debug("Command {} completed: success={}", commandName, response.isExecution());
+            logger.debug("Command {} completed: success={}", commandName, response.execution());
             return response;
         } catch (Exception e) {
             logger.error("Error dispatching command: {}", e);

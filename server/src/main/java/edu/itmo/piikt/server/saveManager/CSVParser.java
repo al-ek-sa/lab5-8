@@ -35,16 +35,11 @@ public class CSVParser {
      * The method implements parsing employee data with saving to a file.
      */
     public void saveCollection() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             List<Worker> workers = HistoryWorker.INSTANCE.getListWorker();
             logger.info("Saving collection, size: {}", workers.size());
             try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
-                ColumnPositionMappingStrategy<Worker> mappingStrategy = new ColumnPositionMappingStrategy<>();
-                mappingStrategy.setType(Worker.class);
-                String[] columns = new String[]{"id", "name", "coordinates.x", "coordinates.y", "creationDate", "salary",
-                        "startDate", "endDate", "status", "organization.annualTurnover", "organization.type",
-                        "organization.officialAddress.street"};
-                mappingStrategy.setColumnMapping(columns);
+                ColumnPositionMappingStrategy<Worker> mappingStrategy = getWorkerColumnPositionMappingStrategy();
                 StatefulBeanToCsv<Worker> beanWriter = new StatefulBeanToCsvBuilder<Worker>(writer)
                         .withMappingStrategy(mappingStrategy).withSeparator(';').build();
                 beanWriter.write(workers);
@@ -59,11 +54,21 @@ public class CSVParser {
         }
     }
 
+    private static ColumnPositionMappingStrategy<Worker> getWorkerColumnPositionMappingStrategy() {
+        ColumnPositionMappingStrategy<Worker> mappingStrategy = new ColumnPositionMappingStrategy<>();
+        mappingStrategy.setType(Worker.class);
+        String[] columns = new String[]{"id", "name", "coordinates.x", "coordinates.y", "creationDate", "salary",
+                "startDate", "endDate", "status", "organization.annualTurnover", "organization.type",
+                "organization.officialAddress.street"};
+        mappingStrategy.setColumnMapping(columns);
+        return mappingStrategy;
+    }
+
     /**
      * The method reads employee data from a file in CSV format.
      */
     public void readFile() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Reading file: {}", fileName);
             try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(fileName));
                  InputStreamReader reader = new InputStreamReader(input)) {

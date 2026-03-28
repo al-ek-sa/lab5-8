@@ -1,7 +1,6 @@
 package edu.itmo.piikt.client.data;
 
 import edu.itmo.piikt.common.io.provider.IOProvider;
-import edu.itmo.piikt.common.data.MessageExceptionValidation;
 import edu.itmo.piikt.common.data.OrganizationType.OrganizationTypeData;
 import edu.itmo.piikt.common.data.Status.StatusData;
 import edu.itmo.piikt.common.data.WorkerData;
@@ -13,7 +12,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -24,10 +22,9 @@ public class WorkerServer {
     // todo ошибка при приведении типов, привидение типов, есть поля которые могут
     // быть null по умолчанию
     public WorkerData build(ServerResponse serverResponse) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Building worker data from server response");
-            WorkerData workerData = (WorkerData) serverResponse.getDataString();
-            List<MessageExceptionValidation> list = serverResponse.getErrors();
+            WorkerData workerData = (WorkerData) serverResponse.dataString();
             if (workerData.getName() == null) {
                 logger.debug("Name is null, requesting input");
                 io.println(WorkerPrint.NAME.getMessageError());

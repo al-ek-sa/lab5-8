@@ -28,20 +28,16 @@ import java.util.function.Function;
  */
 public class ValidationOrganization {
     private static final AppLogger logger = new AppLogger(ValidationOrganization.class);
-    private ValidationOrganizationType type;
-    private ValidationAddress address;
     private final Function<String, Optional<MessageExceptionValidation>> annualTurnoverValidation;
 
     public ValidationOrganization() {
-        this.type = new ValidationOrganizationType();
-        this.address = new ValidationAddress();
         this.annualTurnoverValidation = new Builder<String>("annual turnover")
                 .add(RulesValidation.validationAnnualTurnover()).build();
         logger.debug("ValidationOrganization initialized");
     }
 
     public Optional<MessageExceptionValidation> validationAnnualTurnover(String annualTurnover) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Validating annual turnover: {}", annualTurnover);
             return annualTurnoverValidation.apply(annualTurnover);
         } catch (Exception e) {

@@ -34,15 +34,15 @@ public enum ValidationCommand {
 
     private static final AppLogger logger = new AppLogger(ValidationCommand.class);
     private boolean flag;
-    Worker worker = new Worker();
+    final Worker worker = new Worker();
     private Network network;
     private UpdateCommand updateCommand;
     private AddCommand addCommand;
-    HistoryCommand historyCommand = new HistoryCommand();
-    Organization organization = new Organization();
-    ExecuteScriptCommand executeScriptCommand = new ExecuteScriptCommand();
-    List<String> argumentCommand = Arrays.stream(Commands.values()).filter((Commands::getArgument)).map(Commands::getName).collect(Collectors.toList());
-    List<String> baseCommand = Arrays.stream(Commands.values()).filter(com -> !com.getArgument()).map(Commands::getName).collect(Collectors.toList());
+    final HistoryCommand historyCommand = new HistoryCommand();
+    final Organization organization = new Organization();
+    final ExecuteScriptCommand executeScriptCommand = new ExecuteScriptCommand();
+    final List<String> argumentCommand = Arrays.stream(Commands.values()).filter((Commands::getArgument)).map(Commands::getName).collect(Collectors.toList());
+    final List<String> baseCommand = Arrays.stream(Commands.values()).filter(com -> !com.getArgument()).map(Commands::getName).collect(Collectors.toList());
 
     ValidationCommand() {
         this.flag = true;

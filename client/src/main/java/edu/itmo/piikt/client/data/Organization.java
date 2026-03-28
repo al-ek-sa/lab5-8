@@ -13,7 +13,7 @@ public class Organization {
     private static final AppLogger logger = new AppLogger(Organization.class);
 
     public OrganizationData build(IOProvider io) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Building organization data");
             io.println(WorkerPrint.ANNUAL_TURNOVER.getMessage());
             String annualTurnover = io.readLine();

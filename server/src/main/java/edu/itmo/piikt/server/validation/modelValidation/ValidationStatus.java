@@ -28,7 +28,7 @@ public class ValidationStatus {
     }
 
     public Optional<MessageExceptionValidation> validationStatus(String status) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Validating status: {}", status);
             return statusValidation.apply(status);
         } catch (Exception e) {

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -18,6 +19,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public final class Organization implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     @CsvBindByPosition(position = 9)
     private int annualTurnover;

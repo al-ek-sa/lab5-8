@@ -8,32 +8,9 @@ package edu.itmo.piikt.common.io.provider;
  * @version 1.1
  */
 public interface IOProvider {
-    String ANSI_RESET = "\u001B[0m";
-    String ANSI_RED = "\u001B[38;5;210m";
-    String ANSI_GREEN = "\u001B[38;5;157m";
-    String ANSI_YELLOW = "\u001B[38;5;229m";
-    String ANSI_TURQUOISE_LIGHT = "\u001B[38;5;86m";
-    String ANSI_LAVENDER_LIGHT = "\u001B[38;5;189m";
-    String ANSI_BRIGHT_PINK = "\u001B[38;5;205m";
-    String ANSI_BRIGHT_BLUE = "\u001B[1;35m";
-    String ANSI_PINK_225 = "\u001B[38;5;225m";
     void println(String message);
-
-    void printException(String message);
-
-    void printError(String message);
-
-    void printField(String message, String messageField);
 
     String readLine();
 
     String name();
-
-    default void printlnInt(Integer message) {
-        System.out.println(message);
-    }
-
-    default void printlnCommand(String message) {
-        System.out.println(message);
-    }
 }

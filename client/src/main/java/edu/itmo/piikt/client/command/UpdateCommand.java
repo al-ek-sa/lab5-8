@@ -19,17 +19,16 @@ public class UpdateCommand {
     private AddCommand addCommand;
 
     public ServerResponse update(IOProvider io, String command, String argument) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("UPDATE command started: id={}", argument);
             ClientCommand clientCommand = ClientCommand.builder().nameCommand(command).argumentCommand(argument).build();
             ServerResponse serverResponse = network.send(clientCommand);
-            logger.debug("Initial response: success={}", serverResponse.isExecution());
-            if (serverResponse.isExecution()) {
+            logger.debug("Initial response: success={}", serverResponse.execution());
+            if (serverResponse.execution()) {
                 logger.info("Fetching current data for update");
-                ServerResponse server = addCommand.execute(io);
-                return server;
+                return addCommand.execute(io);
             }
-            logger.warn("Update failed: {}", serverResponse.getMessage());
+            logger.warn("Update failed: {}", serverResponse.message());
             return serverResponse;
         } catch (Exception e) {
             logger.error("UPDATE command failed: {}", e);

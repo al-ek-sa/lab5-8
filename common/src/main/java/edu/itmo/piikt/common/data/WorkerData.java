@@ -1,6 +1,8 @@
 package edu.itmo.piikt.common.data;
 import edu.itmo.piikt.common.data.Status.DataStatus;
 import lombok.*;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -13,6 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public final class WorkerData implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     // todo документация! обязательно проверить на null, перепроверить анатоции и
     // зависимости подключить

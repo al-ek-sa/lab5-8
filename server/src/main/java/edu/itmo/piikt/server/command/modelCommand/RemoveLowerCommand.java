@@ -23,7 +23,7 @@ public final class RemoveLowerCommand {
     private static final AppLogger logger = new AppLogger(RemoveLowerCommand.class);
 
     public ServerResponse execute(ClientCommand clientCommand) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             String argument = clientCommand.getArgumentCommand();
             logger.info("Executing REMOVE_LOWER with argument: {}", argument);
 

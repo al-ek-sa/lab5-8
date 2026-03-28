@@ -44,7 +44,7 @@ public class Builder<T> {
      */
     public Function<T, Optional<MessageExceptionValidation>> build() {
         return input -> {
-            try (Context context = Context.newId()) {
+            try (Context ignored = Context.newId()) {
                 for (ValidationRules<T> rule : rulesList) {
                     Optional<String> error = rule.validation(input);
                     if (error.isPresent()) {

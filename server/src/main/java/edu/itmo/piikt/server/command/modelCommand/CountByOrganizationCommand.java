@@ -34,7 +34,7 @@ public final class CountByOrganizationCommand {
      * equal to what the user enters.
      */
     public ServerResponse execute(ClientCommand clientCommand) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Executing COUNT_BY_ORGANIZATION command");
             OrganizationData organizationData = (OrganizationData) clientCommand.getData();
             logger.debug("Organization data: turnover={}, type={}, street={}",
@@ -49,10 +49,11 @@ public final class CountByOrganizationCommand {
                         .filter(worker -> worker.getOrganization().equals(organization)).count();
                 logger.info("Count result: {}", size);
                 return ServerResponse.successfulCompletion("COUNT_BY_ORGANIZATION: ", List.of(String.valueOf(size)));
-            } else if (result instanceof ValidationError) {
-                ValidationError validationError = (ValidationError) result;
-                logger.warn("Validation failed: {} errors", validationError.getErrors().size());
-                return ServerResponse.error("данные введены неверно ", validationError.getErrors(), validationError.getData());
+            } else if (result instanceof ValidationError(
+                    List<edu.itmo.piikt.common.data.MessageExceptionValidation> errors, Object data
+            )) {
+                logger.warn("Validation failed: {} errors", errors.size());
+                return ServerResponse.error("данные введены неверно ", errors, data);
             }
             logger.error("Unknown result type from builder");
             return ServerResponse.error("Неизвестная ошибка");

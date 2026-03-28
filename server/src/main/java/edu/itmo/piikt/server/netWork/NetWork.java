@@ -55,7 +55,7 @@ public class NetWork {
     }
 
     public void start() throws IOException {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Starting server on port {}", PORT);
             selector = Selector.open();
             serverSocketChannel = ServerSocketChannel.open();
@@ -100,7 +100,7 @@ public class NetWork {
     }
 
     public void stop() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Stopping server");
             run = false;
             if (selector != null) {

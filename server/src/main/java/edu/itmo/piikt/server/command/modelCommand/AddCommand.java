@@ -1,6 +1,5 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
-import ch.qos.logback.classic.Logger;
 import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.models.Worker;
 import edu.itmo.piikt.common.server_client.ClientCommand;
@@ -28,7 +27,7 @@ public final class AddCommand {
     private final WorkerBuilder workerBuilder = new WorkerBuilder();
 
     public ServerResponse execute(ClientCommand clientCommand) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Executing ADD command");
             WorkerData dataWorker = (WorkerData) clientCommand.getData();
             logger.debug("Worker data received: name={}, salary={}", dataWorker.getName(), dataWorker.getSalary());
@@ -38,10 +37,11 @@ public final class AddCommand {
                 HistoryWorker.INSTANCE.add(worker);
                 logger.info("Worker added successfully, total workers: {}", HistoryWorker.INSTANCE.getListWorker().size());
                 return ServerResponse.successfulCompletion("ADD");
-            } else if (result instanceof ValidationError) {
-                ValidationError error = (ValidationError) result;
-                logger.warn("Validation failed: {} errors", error.getErrors().size());
-                return ServerResponse.error("Введены неверные данные", error.getErrors(), error.getData());
+            } else if (result instanceof ValidationError(
+                    java.util.List<edu.itmo.piikt.common.data.MessageExceptionValidation> errors, Object data
+            )) {
+                logger.warn("Validation failed: {} errors", errors.size());
+                return ServerResponse.error("Введены неверные данные", errors, data);
             }
             logger.error("Unknown result type from builder");
             return ServerResponse.error("Какая-то ошибка");

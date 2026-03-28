@@ -16,6 +16,6 @@ public enum WorkerPrint {
     ANNUAL_TURNOVER("Введите годовой доход компании", "Введите доход компании"),
     STATUS("Выбирите статус и ввдите его номер*", "Введите номер статуса повторно*"),
     TYPE("Введите тип компании", "Введите номер типа повторно");
-    private String message;
-    private String messageError;
+    private final String message;
+    private final String messageError;
 }

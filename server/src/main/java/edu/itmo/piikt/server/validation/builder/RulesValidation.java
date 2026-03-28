@@ -32,7 +32,7 @@ public final class RulesValidation {
 
     public static ValidationRules<String> blank() {
         return line -> {
-            try (Context context = Context.newId()) {
+            try (Context ignored = Context.newId()) {
                 boolean isInvalid = line == null || line.isBlank() || "null".equalsIgnoreCase(line.trim());
                 if (isInvalid) {
                     logger.debug("Blank validation failed");

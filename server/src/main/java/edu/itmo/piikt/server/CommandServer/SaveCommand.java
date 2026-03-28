@@ -13,7 +13,7 @@ public class SaveCommand {
     private final String name = "save";
 
     public void execute() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Executing SAVE command");
             CSVParser csvParser = new CSVParser();
             csvParser.saveCollection();

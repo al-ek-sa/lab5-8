@@ -23,7 +23,7 @@ public class AddCommand {
     private Worker worker = new Worker();
 
     public ServerResponse execute(IOProvider io) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("ADD command started");
             WorkerData workerData = worker.build(io);
             ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName())
@@ -40,8 +40,8 @@ public class AddCommand {
         var workerServer = new WorkerServer(io);
         var server = serverResponse;
         while (true) {
-            try (Context context = Context.newId()) {
-                if (server.isExecution()) {
+            try (Context ignored = Context.newId()) {
+                if (server.execution()) {
                     logger.info("ADD command completed");
                     return server;
                 } else {

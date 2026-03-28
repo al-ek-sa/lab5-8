@@ -21,7 +21,7 @@ public class WorkerBuilder {
     // todo документация, нельзя вызывать перед строителем(ошибки парсинга не учтены
     // тогда будут)
     public Worker builerWorker(WorkerData workerData) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Building worker from data");
             String uuid = GeneratorId.getId();
             String name = workerData.getName();
@@ -42,7 +42,7 @@ public class WorkerBuilder {
             if (workerData.getOrganization() != null &&
                     workerData.getOrganization().getAnnualTurnover() != null &&
                     !workerData.getOrganization().getAnnualTurnover().trim().isEmpty()) {
-                Integer annualTurnover = Integer.parseInt(workerData.getOrganization().getAnnualTurnover());
+                int annualTurnover = Integer.parseInt(workerData.getOrganization().getAnnualTurnover());
                 OrganizationType type = OrganizationType
                         .values()[Integer.parseInt(workerData.getOrganization().getType().getId()) - 1];
                 Address address = new Address(workerData.getOrganization().getOfficialAddress().getStreet());

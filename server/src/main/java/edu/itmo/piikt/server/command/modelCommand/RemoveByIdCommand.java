@@ -20,7 +20,7 @@ public final class RemoveByIdCommand {
     private static final AppLogger logger = new AppLogger(RemoveByIdCommand.class);
 
     public ServerResponse execute(ClientCommand clientCommand) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             String id = clientCommand.getArgumentCommand();
             logger.info("Executing REMOVE_BY_ID with id: {}", id);
 

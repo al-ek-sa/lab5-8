@@ -36,7 +36,7 @@ public class ValidationAddress {
     }
 
     public Optional<MessageExceptionValidation> validation(String street) {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.debug("Validating street: {}", street);
             return addressValidation.apply(street);
         } catch (Exception e) {

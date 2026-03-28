@@ -22,7 +22,7 @@ public class OrganizationServer {
     public OrganizationData build(ServerResponse serverResponse) {
         try (Context context = Context.newId()) {
             logger.debug("Building organization data from server response");
-            OrganizationData organizationData = (OrganizationData) serverResponse.getDataString();
+            OrganizationData organizationData = (OrganizationData) serverResponse.dataString();
             if (organizationData.getAnnualTurnover() == null) {
                 logger.debug("Annual turnover is null, requesting input");
                 io.println(WorkerPrint.ANNUAL_TURNOVER.getMessageError());

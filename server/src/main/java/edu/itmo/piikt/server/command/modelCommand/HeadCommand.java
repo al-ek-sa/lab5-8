@@ -22,7 +22,7 @@ public final class HeadCommand {
 
     /** The method outputs the data of the first element in the collection. */
     public ServerResponse execute() {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Executing HEAD command");
             var listWorker = HistoryWorker.INSTANCE.getListWorker();
             if (listWorker.isEmpty()) {

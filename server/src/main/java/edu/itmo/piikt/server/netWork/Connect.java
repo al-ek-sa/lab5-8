@@ -24,7 +24,7 @@ public class Connect {
     }
 
     public void connected(SelectionKey selectionKey) throws IOException {
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             var serverChannel = (ServerSocketChannel) selectionKey.channel();
             var clientChannel = serverChannel.accept();
             clientChannel.configureBlocking(false);
@@ -53,7 +53,7 @@ public class Connect {
         }
 
         buffer.flip();
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             ClientCommand clientCommand = (ClientCommand) DS.deserialize(buffer);
             client.setCommand(clientCommand);
             logger.debug("Received command from {}: {}", clientChannel.getRemoteAddress(), clientCommand.getNameCommand());
@@ -71,7 +71,7 @@ public class Connect {
         var client = (edu.itmo.piikt.common.server_client.ClientData) selectionKey.attachment();
         var serverResponse = (ServerResponse) client.getMessage();
 
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             ByteBuffer byteBuffer = DS.serialize(serverResponse);
             clientChannel.write(byteBuffer);
             logger.debug("Response sent to {}", clientChannel.getRemoteAddress());
