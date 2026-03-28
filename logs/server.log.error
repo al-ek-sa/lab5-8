@@ -10,3 +10,16 @@
 2026-03-28 21:19:24.616 [main] INFO  [id=37146c03-68e8-460c-a0fe-52c4b56d850d] e.i.p.s.c.modelCommand.HelpCommand - [HelpCommand] Executing HELP command
 2026-03-28 21:19:29.086 [main] INFO  [id=0901e9e4-a3e8-4c10-b50e-0097c54cbf66] e.i.p.server.dispatcher.Dispatcher - [Dispatcher] Executing command: head
 2026-03-28 21:19:29.087 [main] INFO  [id=db19b11d-f422-461f-9217-ca27d8d51b2b] e.i.p.s.c.modelCommand.HeadCommand - [HeadCommand] Executing HEAD command
+2026-03-28 21:25:04.863 [Thread-2] INFO  [id=b5b98e60-0c06-4632-95ef-1dff926b92cb] edu.itmo.piikt.server.MainServer - [MainServer] Shutdown signal received
+2026-03-28 21:25:04.864 [Thread-2] INFO  [id=b47f8dd4-8dad-49cd-a229-a2640b36595f] e.itmo.piikt.server.netWork.NetWork - [NetWork] Stopping server
+2026-03-28 21:25:04.865 [Thread-2] INFO  [id=d769b21d-096d-4715-b5cd-30f1ab2ebd2f] e.i.p.server.saveManager.CSVParser - [CSVParser] Saving collection, size: 17
+2026-03-28 21:25:04.865 [main] INFO  [id=017d00b6-68bf-4059-9554-b56078f8657f] e.itmo.piikt.server.netWork.NetWork - [NetWork] Server stopped
+2026-03-28 21:25:04.907 [Thread-2] INFO  [id=d769b21d-096d-4715-b5cd-30f1ab2ebd2f] e.i.p.server.saveManager.CSVParser - [CSVParser] Data saved successfully to workers.csv
+2026-03-28 21:25:04.908 [Thread-2] INFO  [id=b5b98e60-0c06-4632-95ef-1dff926b92cb] edu.itmo.piikt.server.MainServer - [MainServer] Server stopped
+2026-03-28 21:25:06.596 [main] INFO  [id=a4620540-7efd-40f2-9805-27080c482502] edu.itmo.piikt.server.MainServer - [MainServer] Starting server...
+2026-03-28 21:25:06.605 [main] INFO  [id=a4620540-7efd-40f2-9805-27080c482502] e.i.p.server.saveManager.CSVParser - [CSVParser] CSVParser initialized, file: workers.csv
+2026-03-28 21:25:06.605 [main] INFO  [id=f3c68e82-63ce-418e-851f-599b7fa8502e] e.i.p.server.saveManager.CSVParser - [CSVParser] Reading file: workers.csv
+2026-03-28 21:25:06.833 [main] INFO  [id=f3c68e82-63ce-418e-851f-599b7fa8502e] e.i.p.server.saveManager.CSVParser - [CSVParser] Loaded 17 workers from file
+2026-03-28 21:25:06.834 [main] INFO  [id=a4620540-7efd-40f2-9805-27080c482502] edu.itmo.piikt.server.MainServer - [MainServer] Data loaded from file
+2026-03-28 21:25:06.845 [main] INFO  [id=46b79bb9-855f-417a-8bc0-63ba8926e864] e.itmo.piikt.server.netWork.NetWork - [NetWork] Starting server on port 6672
+2026-03-28 21:25:06.856 [main] INFO  [id=46b79bb9-855f-417a-8bc0-63ba8926e864] e.itmo.piikt.server.netWork.NetWork - [NetWork] Server started successfully
