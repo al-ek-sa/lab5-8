@@ -1,5 +1,6 @@
 package edu.itmo.piikt.client.command;
 
+import edu.itmo.piikt.client.algorithms.Graph;
 import edu.itmo.piikt.common.io.providerType.IOFile;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.io.data.NameIOProvider;
@@ -9,43 +10,82 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The class implements the command execute_script file_name : read and execute
- * a script from the specified file. The script contains commands in the same
- * format as the user enters them in interactive mode.
- *
- * @author Lishyk Aliaksandra
- * @version 3.0
- * @see IOProvider
- * @see ValidationCommand
- */
 @NoArgsConstructor
 public final class ExecuteScriptCommand {
     private final List<String> name = new ArrayList<>();
+    private final Graph graph = new Graph();
+
     public void execute(IOProvider io, String argument) {
+        IOFile ioProvider = null;
+
         try {
             if (io.name().equals(NameIOProvider.CONSOLE.getName())) {
                 name.clear();
             }
-            name.forEach(nameFile -> {
-                if (nameFile.equals(argument)) {
-                    io.println("error");
-                }
-            });
-            name.add(argument);
-            IOFile script = new IOFile(argument);
-            String input;
-            while((input = script.readLine()) != null) {
-                if (input.isBlank()) {
+
+            if (graph.copy(argument)) {
+                return;
+            }
+
+            graph.start(argument);
+            List<String> list = graph.getList();
+
+            if (list.size() > 1) {
+                String beforeScript = list.get(list.size() - 2);
+                graph.addScript(beforeScript, argument);
+            }
+
+            ioProvider = new IOFile(argument);
+            String line;
+            int number = 0;
+
+            while ((line = ioProvider.readLine()) != null) {
+                number++;
+                if (line.isBlank()) {
                     continue;
                 }
-                ValidationCommand.INSTANCE.validation(script);
+
+                IOProvider commandIO = getIoProvider(io, argument, line);
+
+                ValidationCommand.INSTANCE.validation(commandIO);
             }
-            script.close();
+
         } catch (IOException e) {
-            io.println("Error, script not read");
+            //todo
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            if (ioProvider != null) {
+                ioProvider.close();
+            }
+            graph.endScript(argument);
         }
+    }
+
+    private static IOProvider getIoProvider(IOProvider io, String argument, String line) {
+        String finalLine = line;
+        IOProvider commandIO = new IOProvider() {
+            private boolean read = false;
+
+            @Override
+            public String readLine() {
+                if (!read) {
+                    read = true;
+                    return finalLine;
+                }
+                return null;
+            }
+
+            @Override
+            public void println(String message) {
+                io.println(message);
+            }
+
+            @Override
+            public String name() {
+                return "script:" + argument;
+            }
+        };
+        return commandIO;
     }
 }
