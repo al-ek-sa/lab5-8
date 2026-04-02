@@ -15,7 +15,7 @@ public class Graph {
     }
 
     public void endScript(String script) {
-        list.removeLast();
+        if(!list.isEmpty()) list.removeLast();
     }
 
     public void start(String script) {
@@ -49,8 +49,8 @@ public class Graph {
             String to = list.get(i + 1);
             listMap.computeIfAbsent(from, a -> new ArrayList<>()).add(to);
         }
-            String lastScript = list.getLast();
-            listMap.computeIfAbsent(lastScript, a -> new ArrayList<>()).add(script);
+        if (!list.isEmpty()) {String lastScript = list.getLast();
+            listMap.computeIfAbsent(lastScript, a -> new ArrayList<>()).add(script);}
             Set<String> visited = new HashSet<>();
             return hasPath(script, listMap, visited);
     }

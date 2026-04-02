@@ -1,13 +1,72 @@
-2026-03-28 21:25:04.863 [Thread-2] INFO  [id=b5b98e60-0c06-4632-95ef-1dff926b92cb] edu.itmo.piikt.server.MainServer - [MainServer] Shutdown signal received
-2026-03-28 21:25:04.864 [Thread-2] INFO  [id=b47f8dd4-8dad-49cd-a229-a2640b36595f] e.itmo.piikt.server.netWork.NetWork - [NetWork] Stopping server
-2026-03-28 21:25:04.865 [Thread-2] INFO  [id=d769b21d-096d-4715-b5cd-30f1ab2ebd2f] e.i.p.server.saveManager.CSVParser - [CSVParser] Saving collection, size: 17
-2026-03-28 21:25:04.865 [main] INFO  [id=017d00b6-68bf-4059-9554-b56078f8657f] e.itmo.piikt.server.netWork.NetWork - [NetWork] Server stopped
-2026-03-28 21:25:04.907 [Thread-2] INFO  [id=d769b21d-096d-4715-b5cd-30f1ab2ebd2f] e.i.p.server.saveManager.CSVParser - [CSVParser] Data saved successfully to workers.csv
-2026-03-28 21:25:04.908 [Thread-2] INFO  [id=b5b98e60-0c06-4632-95ef-1dff926b92cb] edu.itmo.piikt.server.MainServer - [MainServer] Server stopped
-2026-03-28 21:25:06.596 [main] INFO  [id=a4620540-7efd-40f2-9805-27080c482502] edu.itmo.piikt.server.MainServer - [MainServer] Starting server...
-2026-03-28 21:25:06.605 [main] INFO  [id=a4620540-7efd-40f2-9805-27080c482502] e.i.p.server.saveManager.CSVParser - [CSVParser] CSVParser initialized, file: workers.csv
-2026-03-28 21:25:06.605 [main] INFO  [id=f3c68e82-63ce-418e-851f-599b7fa8502e] e.i.p.server.saveManager.CSVParser - [CSVParser] Reading file: workers.csv
-2026-03-28 21:25:06.833 [main] INFO  [id=f3c68e82-63ce-418e-851f-599b7fa8502e] e.i.p.server.saveManager.CSVParser - [CSVParser] Loaded 17 workers from file
-2026-03-28 21:25:06.834 [main] INFO  [id=a4620540-7efd-40f2-9805-27080c482502] edu.itmo.piikt.server.MainServer - [MainServer] Data loaded from file
-2026-03-28 21:25:06.845 [main] INFO  [id=46b79bb9-855f-417a-8bc0-63ba8926e864] e.itmo.piikt.server.netWork.NetWork - [NetWork] Starting server on port 6672
-2026-03-28 21:25:06.856 [main] INFO  [id=46b79bb9-855f-417a-8bc0-63ba8926e864] e.itmo.piikt.server.netWork.NetWork - [NetWork] Server started successfully
+2026-04-02 14:28:38.831 [main] INFO  [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] edu.itmo.piikt.client.MainClient - [MainClient] Starting client...
+2026-04-02 14:28:38.844 [main] INFO  [id=5d6a6c1b-d104-4424-85d1-06e5523d92f6] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6672
+2026-04-02 14:28:38.854 [main] ERROR [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] e.itmo.piikt.client.network.Network - [Network] Connection failed: {}
+java.net.ConnectException: В соединении отказано
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:601)
+	at java.base/sun.nio.ch.Net.connect(Net.java:608)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:880)
+	at edu.itmo.piikt.client.network.Network.connect(Network.java:38)
+	at edu.itmo.piikt.client.MainClient.main(MainClient.java:28)
+2026-04-02 14:28:38.856 [main] WARN  [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] edu.itmo.piikt.client.MainClient - [MainClient] Connection attempt 1 failed: В соединении отказано
+2026-04-02 14:28:43.856 [main] INFO  [id=d551f315-720a-445b-896f-974aff95e883] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6672
+2026-04-02 14:28:43.858 [main] ERROR [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] e.itmo.piikt.client.network.Network - [Network] Connection failed: {}
+java.net.ConnectException: В соединении отказано
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:601)
+	at java.base/sun.nio.ch.Net.connect(Net.java:608)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:880)
+	at edu.itmo.piikt.client.network.Network.connect(Network.java:38)
+	at edu.itmo.piikt.client.MainClient.main(MainClient.java:28)
+2026-04-02 14:28:43.858 [main] WARN  [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] edu.itmo.piikt.client.MainClient - [MainClient] Connection attempt 2 failed: В соединении отказано
+2026-04-02 14:28:48.859 [main] INFO  [id=6b346f2d-b35e-41e5-b22c-57335e49ca2a] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6672
+2026-04-02 14:28:48.861 [main] ERROR [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] e.itmo.piikt.client.network.Network - [Network] Connection failed: {}
+java.net.ConnectException: В соединении отказано
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:601)
+	at java.base/sun.nio.ch.Net.connect(Net.java:608)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:880)
+	at edu.itmo.piikt.client.network.Network.connect(Network.java:38)
+	at edu.itmo.piikt.client.MainClient.main(MainClient.java:28)
+2026-04-02 14:28:48.861 [main] WARN  [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] edu.itmo.piikt.client.MainClient - [MainClient] Connection attempt 3 failed: В соединении отказано
+2026-04-02 14:28:53.862 [main] INFO  [id=f399491f-fc20-4557-9353-c8291a2565c9] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6672
+2026-04-02 14:28:53.865 [main] ERROR [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] e.itmo.piikt.client.network.Network - [Network] Connection failed: {}
+java.net.ConnectException: В соединении отказано
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:601)
+	at java.base/sun.nio.ch.Net.connect(Net.java:608)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:880)
+	at edu.itmo.piikt.client.network.Network.connect(Network.java:38)
+	at edu.itmo.piikt.client.MainClient.main(MainClient.java:28)
+2026-04-02 14:28:53.866 [main] WARN  [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] edu.itmo.piikt.client.MainClient - [MainClient] Connection attempt 4 failed: В соединении отказано
+2026-04-02 14:28:58.867 [main] INFO  [id=66983f85-25b5-43ec-9dd8-6d597ed7aabc] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6672
+2026-04-02 14:28:58.867 [main] ERROR [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] e.itmo.piikt.client.network.Network - [Network] Connection failed: {}
+java.net.ConnectException: В соединении отказано
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:601)
+	at java.base/sun.nio.ch.Net.connect(Net.java:608)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:880)
+	at edu.itmo.piikt.client.network.Network.connect(Network.java:38)
+	at edu.itmo.piikt.client.MainClient.main(MainClient.java:28)
+2026-04-02 14:28:58.868 [main] WARN  [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] edu.itmo.piikt.client.MainClient - [MainClient] Connection attempt 5 failed: В соединении отказано
+2026-04-02 14:29:03.868 [main] INFO  [id=ce336535-79d7-4870-89d4-cd91070dfe39] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6672
+2026-04-02 14:29:03.869 [main] ERROR [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] e.itmo.piikt.client.network.Network - [Network] Connection failed: {}
+java.net.ConnectException: В соединении отказано
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:601)
+	at java.base/sun.nio.ch.Net.connect(Net.java:608)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:880)
+	at edu.itmo.piikt.client.network.Network.connect(Network.java:38)
+	at edu.itmo.piikt.client.MainClient.main(MainClient.java:28)
+2026-04-02 14:29:03.869 [main] WARN  [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] edu.itmo.piikt.client.MainClient - [MainClient] Connection attempt 6 failed: В соединении отказано
+2026-04-02 14:29:08.870 [main] INFO  [id=64538146-d6ef-40da-992e-e41be112436c] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6672
+2026-04-02 14:29:08.871 [main] ERROR [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] e.itmo.piikt.client.network.Network - [Network] Connection failed: {}
+java.net.ConnectException: В соединении отказано
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:601)
+	at java.base/sun.nio.ch.Net.connect(Net.java:608)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:880)
+	at edu.itmo.piikt.client.network.Network.connect(Network.java:38)
+	at edu.itmo.piikt.client.MainClient.main(MainClient.java:28)
+2026-04-02 14:29:08.872 [main] WARN  [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] edu.itmo.piikt.client.MainClient - [MainClient] Connection attempt 7 failed: В соединении отказано
+2026-04-02 14:29:08.873 [main] ERROR [id=0586a0ee-1460-43bb-b123-0f4cb69e1aba] edu.itmo.piikt.client.MainClient - [MainClient] Max connection attempts reached

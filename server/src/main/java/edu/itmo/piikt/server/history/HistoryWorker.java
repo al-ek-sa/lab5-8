@@ -19,8 +19,8 @@ public enum HistoryWorker {
     INSTANCE;
 
     private static final AppLogger logger = new AppLogger(HistoryWorker.class);
-    private Date data;
-    private LinkedList<Worker> listWorker = new LinkedList<>();
+    private final Date data;
+    private final LinkedList<Worker> listWorker = new LinkedList<>();
 
     HistoryWorker() {
         this.data = new Date();

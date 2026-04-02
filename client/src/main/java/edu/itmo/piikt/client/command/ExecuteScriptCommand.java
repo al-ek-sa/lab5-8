@@ -62,9 +62,8 @@ public final class ExecuteScriptCommand {
         }
     }
 
-    private static IOProvider getIoProvider(IOProvider io, String argument, String line) {
-        String finalLine = line;
-        IOProvider commandIO = new IOProvider() {
+    private static IOProvider getIoProvider(IOProvider io, String argument, String finalLine) {
+        return new IOProvider() {
             private boolean read = false;
 
             @Override
@@ -86,6 +85,5 @@ public final class ExecuteScriptCommand {
                 return "script:" + argument;
             }
         };
-        return commandIO;
     }
 }
