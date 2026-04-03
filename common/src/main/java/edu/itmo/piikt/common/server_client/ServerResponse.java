@@ -46,23 +46,23 @@ public record ServerResponse(boolean execution, String message, Object dataStrin
         if (!execution()) {
             System.out.println("Ошибка: " + message);
             if (errors != null && !errors.isEmpty()) {
-                for (MessageExceptionValidation error : errors) {
-                    System.out.println("  " + error.name() + ": " + error.message());
-                }
+                errors.forEach(System.out::println);
+                //for (MessageExceptionValidation error : errors) {
+                //    System.out.println("  " + error.name() + ": " + error.message());
+                //}
             }
         } else {
-            if (message != null && !message.isEmpty()) {
+            if (!message.isBlank()) {
                 System.out.println(message);
             }
             if (data != null && !data.isEmpty()) {
-                for (Object item : data) {
-                    System.out.println(item);
-                }
+                data.forEach(System.out::println);
             }
             if (errors != null && !errors.isEmpty()) {
-                for (MessageExceptionValidation error : errors) {
-                    System.out.println("  " + error.name() + ": " + error.message());
-                }
+                errors.forEach(System.out::println);
+                //for (MessageExceptionValidation error : errors) {
+                 //   System.out.println("  " + error.name() + ": " + error.message());
+                //}
             }
         }
     }

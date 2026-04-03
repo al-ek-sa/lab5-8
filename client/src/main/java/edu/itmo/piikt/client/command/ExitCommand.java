@@ -3,7 +3,6 @@ package edu.itmo.piikt.client.command;
 import edu.itmo.piikt.client.manager.ValidationCommand;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
-import edu.itmo.piikt.common.server_client.ServerResponse;
 import lombok.NoArgsConstructor;
 
 /**

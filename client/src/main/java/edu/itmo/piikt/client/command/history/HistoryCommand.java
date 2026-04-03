@@ -6,7 +6,6 @@ import edu.itmo.piikt.common.logger.Context;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * The class implements the command history : output the last 14 commands

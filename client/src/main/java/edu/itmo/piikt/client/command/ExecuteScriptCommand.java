@@ -15,8 +15,8 @@ public final class ExecuteScriptCommand {
     private final List<String> name = new ArrayList<>();
     private final Graph graph = new Graph();
 
-    public void execute(IOProvider io, String argument) {
-        IOFile ioProvider = null;
+    public void execute(IOProvider io, String argument) throws IOException {
+        IOFile ioProvider = new IOFile(argument);
 
         try {
             if (io.name().equals(NameIOProvider.CONSOLE.getName())) {
@@ -34,8 +34,6 @@ public final class ExecuteScriptCommand {
                 String beforeScript = list.get(list.size() - 2);
                 graph.addScript(beforeScript, argument);
             }
-
-            ioProvider = new IOFile(argument);
             String line;
             int number = 0;
 
@@ -50,14 +48,10 @@ public final class ExecuteScriptCommand {
                 ValidationCommand.INSTANCE.validation(commandIO);
             }
 
-        } catch (IOException e) {
-            //todo
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            if (ioProvider != null) {
-                ioProvider.close();
-            }
+            ioProvider.close();
             graph.endScript(argument);
         }
     }
