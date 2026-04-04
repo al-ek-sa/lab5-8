@@ -1,7 +1,4 @@
-help
-info
-history
-execute_script history.txt
+execute_script simple.txt
 execute_script history.txt
 
 

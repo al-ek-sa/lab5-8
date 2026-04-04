@@ -7,13 +7,16 @@ import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.common.util.DS;
 import edu.itmo.piikt.common.server_client.ClientData;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Network implements Client {
     private static final Integer SIZE = 66666;
@@ -21,21 +24,17 @@ public class Network implements Client {
     private static final AppLogger logger = new AppLogger(Network.class);
 
     private SocketChannel socketChannel;
-    private final String host;
-    private final Integer PORT = 6672;
+    private static final String HOST = System.getenv().getOrDefault("SERVER_HOST", "localhost");
+    private final Integer PORT = 6668;
     private ClientData clientData;
-
-    public Network (String host) {
-        this.host = host;
-    }
 
     @Override
     public void connect() throws IOException {
         try (Context ignored = Context.newId()) {
-            logger.info("Connecting to {}:{}", host, PORT);
+            logger.info("Connecting to {}:{}", HOST, PORT);
             socketChannel = SocketChannel.open();
             socketChannel.configureBlocking(true);
-            socketChannel.connect(new InetSocketAddress(host, PORT));
+            socketChannel.connect(new InetSocketAddress(HOST, PORT));
             clientData = new ClientData(SIZE);
             logger.info("Connected successfully");
         } catch (IOException e) {

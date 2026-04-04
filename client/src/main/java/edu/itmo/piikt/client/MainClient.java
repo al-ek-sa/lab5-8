@@ -10,7 +10,6 @@ import edu.itmo.piikt.client.network.Network;
 
 public class MainClient {
     private static final AppLogger logger = new AppLogger(MainClient.class);
-    private static final String HOST = "localhost";
     private static final int MAX_ATTEMPTS = 7;
 
     public static void main(String[] args) {
@@ -24,7 +23,7 @@ public class MainClient {
             for (int attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
                 try {
                     logger.debug("Connection attempt {}/{}", attempt, MAX_ATTEMPTS);
-                    Network network = new Network(HOST);
+                    Network network = new Network();
                     network.connect();
                     client = network;
                     logger.info("Connected to server");
@@ -51,6 +50,7 @@ public class MainClient {
                 logger.error("Error in command processing: {}", e.getMessage());
             } finally {
                 try {
+                    assert client != null;
                     client.close();
                     logger.info("Client stopped");
                 } catch (Exception e) {

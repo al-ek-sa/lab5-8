@@ -36,14 +36,11 @@ public final class ExecuteScriptCommand {
 
             IOFile ioProvider = new IOFile(argument);
 
-                ValidationCommand.INSTANCE.pushProvider(ioProvider);
+            ValidationCommand.INSTANCE.pushProvider(ioProvider);
 
 
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } finally {
-            graph.endScript(argument);
         }
     }
-
 }

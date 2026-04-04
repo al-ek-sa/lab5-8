@@ -18,7 +18,7 @@ import java.util.Iterator;
 @Data
 @AllArgsConstructor
 public class NetWork {
-    private static final int PORT = 6672;
+    private static final int PORT = 6668;
     private static final AppLogger logger = new AppLogger(NetWork.class);
 
     private final Dispatcher dispatcher;
