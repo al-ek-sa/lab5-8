@@ -18,7 +18,10 @@ import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import lombok.Getter;
+
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +46,8 @@ public enum ValidationCommand {
     final ExecuteScriptCommand executeScriptCommand = new ExecuteScriptCommand();
     final List<String> argumentCommand = Arrays.stream(Commands.values()).filter((Commands::getArgument)).map(Commands::getName).collect(Collectors.toList());
     final List<String> baseCommand = Arrays.stream(Commands.values()).filter(com -> !com.getArgument()).map(Commands::getName).collect(Collectors.toList());
-
+    private final Deque<IOProvider> dequeProvider = new ArrayDeque<>();
+    private IOProvider provider;
     ValidationCommand() {
         this.flag = true;
     }
@@ -58,6 +62,26 @@ public enum ValidationCommand {
         this.updateCommand = new UpdateCommand(network, addCommand);
     }
 
+    public void pushProvider(IOProvider io){
+        if (provider != null) {
+            dequeProvider.push(provider);
+        }
+        provider = io;
+    }
+
+    public void popProvider() {
+        if(!dequeProvider.isEmpty()) provider = dequeProvider.pop();
+    }
+
+    public String nextCommand() {
+        if (provider == null) return null;
+        String line = provider.readLine();
+        if(line == null && !dequeProvider.isEmpty()) {
+            popProvider();
+            return nextCommand();
+        }
+        return line;
+    }
     /**
      * The method selects from the registered commands the command that the user
      * entered. When entering, the user can make a mistake once.
@@ -68,10 +92,12 @@ public enum ValidationCommand {
      */
     // todo
     public void validation(IOProvider io) {
+        provider = io;
+        dequeProvider.clear();
         logger.info("Starting command validation loop");
         while (flag) {
             try {
-                String nameCommand = io.readLine();
+                String nameCommand = nextCommand();
                 if (nameCommand == null || nameCommand.isBlank()) {
                     continue;
                 }
@@ -84,7 +110,7 @@ public enum ValidationCommand {
                     for (String com1 : baseCommand) {
                         if (DamerauLevenshteinDistance.distance(com1, element) <= 1) {
                             if (com1.equals(Commands.HISTORY.getName())) {
-                                historyCommand.execute(io);
+                                historyCommand.execute(provider);
                                 continue;
                             }
                             if (com1.equals(Commands.EXIT.getName())) {
@@ -95,13 +121,13 @@ public enum ValidationCommand {
                             }
                             if (com1.equals(Commands.ADD.getName())) {
                                 logger.debug("Executing ADD command");
-                                var server = addCommand.execute(io);
+                                var server = addCommand.execute(provider);
                                 server.printToConsole();
                                 continue;
                             }
                             if (com1.equals(Commands.COUNT_BY_ORGANIZATION.getName())) {
                                 logger.debug("Executing COUNT_BY_ORGANIZATION command");
-                                OrganizationData organizationData = organization.build(io);
+                                OrganizationData organizationData = organization.build(provider);
                                 ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.COUNT_BY_ORGANIZATION.getName()).data(organizationData)
                                         .build();
                                 ServerResponse serverResponse = network.send(clientCommand);
@@ -122,12 +148,12 @@ public enum ValidationCommand {
                         if (DamerauLevenshteinDistance.distance(com2, element) <= 1) {
                             if (com2.equals(Commands.EXECUTE_SCRIPT.getName())) {
                                 logger.debug("Executing script: {}", argument);
-                                executeScriptCommand.execute(io, argument);
+                                executeScriptCommand.execute(provider, argument);
                                 continue;
                             }
                             if (com2.equals(Commands.UPDATE.getName())) {
                                 logger.debug("Executing UPDATE command for id: {}", argument);
-                                updateCommand.update(io, com2, argument).printToConsole();
+                                updateCommand.update(provider, com2, argument).printToConsole();
                                 continue;
                             }
                             ClientCommand clientCommand = ClientCommand.builder().nameCommand(com2).argumentCommand(argument).build();

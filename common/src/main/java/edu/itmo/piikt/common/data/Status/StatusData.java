@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @AllArgsConstructor
 @Getter
-public enum StatusData implements Serializable {
+public enum StatusData {
     FIRED("1"), HIRED("2"), RECOMMENDED_FOR_PROMOTION("3"), PROBATION("4");
     private static final long serialVersionUID = 1L;
     // todo документация! обязательно проверить на null, перепроверить анатоции и

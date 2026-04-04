@@ -16,7 +16,6 @@ public final class ExecuteScriptCommand {
     private final Graph graph = new Graph();
 
     public void execute(IOProvider io, String argument) throws IOException {
-        IOFile ioProvider = new IOFile(argument);
 
         try {
             if (io.name().equals(NameIOProvider.CONSOLE.getName())) {
@@ -34,50 +33,17 @@ public final class ExecuteScriptCommand {
                 String beforeScript = list.get(list.size() - 2);
                 graph.addScript(beforeScript, argument);
             }
-            String line;
-            int number = 0;
 
-            while ((line = ioProvider.readLine()) != null) {
-                number++;
-                if (line.isBlank()) {
-                    continue;
-                }
+            IOFile ioProvider = new IOFile(argument);
 
-                IOProvider commandIO = getIoProvider(io, argument, line);
+                ValidationCommand.INSTANCE.pushProvider(ioProvider);
 
-                ValidationCommand.INSTANCE.validation(commandIO);
-            }
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            ioProvider.close();
             graph.endScript(argument);
         }
     }
 
-    private static IOProvider getIoProvider(IOProvider io, String argument, String finalLine) {
-        return new IOProvider() {
-            private boolean read = false;
-
-            @Override
-            public String readLine() {
-                if (!read) {
-                    read = true;
-                    return finalLine;
-                }
-                return null;
-            }
-
-            @Override
-            public void println(String message) {
-                io.println(message);
-            }
-
-            @Override
-            public String name() {
-                return "script:" + argument;
-            }
-        };
-    }
 }

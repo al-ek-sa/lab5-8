@@ -1,5 +1,7 @@
 help
 info
 history
+execute_script history.txt
+execute_script history.txt
 
 

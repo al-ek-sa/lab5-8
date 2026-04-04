@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Getter
 @ToString(includeFieldNames = true)
 @AllArgsConstructor
-public enum OrganizationTypeData implements Serializable {
+public enum OrganizationTypeData {
     COMMERCIAL("1"), PUBLIC("2"), GOVERNMENT("3"), TRUST("4"), OPEN_JOINT_STOCK_COMPANY("5");
     // todo документация! обязательно проверить на null, перепроверить анатоции и
     // зависимости подключить

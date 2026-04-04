@@ -54,6 +54,7 @@ public class IOFile implements IOProvider {
                 commandLine = reader.readLine();
                 if (commandLine == null) {
                     logger.debug("End of file reached");
+                    close();
                     return null;
                 }
                 logger.debug("Read line from file: {}", commandLine);
