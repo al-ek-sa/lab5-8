@@ -1,8 +1,8 @@
 package edu.itmo.piikt.client.algorithms;
 
 import lombok.Getter;
-
 import java.util.*;
+
 @Getter
 public class Graph {
     private final Map<String, List<String>> graph = new HashMap<>();
@@ -15,15 +15,17 @@ public class Graph {
     }
 
     public void endScript(String script) {
-        if(!list.isEmpty()) list.removeLast();
+        if (!list.isEmpty() && list.getLast().equals(script)) {
+            list.removeLast();
+        }
     }
 
     public void start(String script) {
         list.add(script);
     }
 
-    public boolean hasPath(String startScript, Map<String, List<String>> graph, List<String> currentPath,
-                           Set<String> visited) {
+    public boolean hasPath(String startScript, Map<String, List<String>> graph,
+                           List<String> currentPath, Set<String> visited) {
         if (currentPath.contains(startScript)) {
             return true;
         }
@@ -36,7 +38,9 @@ public class Graph {
 
         if (graph.containsKey(startScript)) {
             for (String next : graph.get(startScript)) {
-                if (hasPath(next, graph, currentPath, visited)) return true;
+                if (hasPath(next, graph, currentPath, visited)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -45,41 +49,54 @@ public class Graph {
     public boolean copy(String script) {
         Map<String, List<String>> listMap = new HashMap<>(graph);
         List<String> currentPath = new ArrayList<>(list);
+
         for (int i = 0; i < list.size() - 1; i++) {
             String from = list.get(i);
             String to = list.get(i + 1);
             listMap.computeIfAbsent(from, a -> new ArrayList<>()).add(to);
         }
+
         if (!list.isEmpty()) {
             String lastScript = list.getLast();
             listMap.computeIfAbsent(lastScript, a -> new ArrayList<>()).add(script);
-            currentPath.add(script);
         }
-            Set<String> visited = new HashSet<>();
-            return hasPath(script, listMap, currentPath, visited);
+
+        Set<String> visited = new HashSet<>();
+        return hasPath(script, listMap, currentPath, visited);
     }
 
     private boolean cycle(String script, Map<String, Integer> color) {
         color.put(script, 1);
+
         if (graph.containsKey(script)) {
-            for (String string: graph.get(script)) {
+            for (String string : graph.get(script)) {
                 int stringColor = color.getOrDefault(string, 0);
-                if (stringColor == 1) return true;
-
-                if (stringColor == 0) if (cycle(string, color)) return true;
-
+                if (stringColor == 1) {
+                    return true;
+                }
+                if (stringColor == 0) {
+                    if (cycle(string, color)) {
+                        return true;
+                    }
+                }
             }
         }
+
         color.put(script, 2);
         return false;
     }
 
     public boolean hasCycle() {
         Map<String, Integer> color = new HashMap<>();
+
         for (String script : graph.keySet()) {
             if (color.getOrDefault(script, 0) == 0) {
-                if (cycle(script, color)) return  true;
+                if (cycle(script, color)) {
+                    return true;
+                }
             }
-        } return false;
+        }
+
+        return false;
     }
 }

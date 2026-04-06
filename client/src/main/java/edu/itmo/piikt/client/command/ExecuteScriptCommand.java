@@ -5,11 +5,12 @@ import edu.itmo.piikt.common.io.providerType.IOFile;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.io.data.NameIOProvider;
 import edu.itmo.piikt.client.manager.ValidationCommand;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+@Data
 @NoArgsConstructor
 public final class ExecuteScriptCommand {
     private final List<String> name = new ArrayList<>();
@@ -35,12 +36,58 @@ public final class ExecuteScriptCommand {
             }
 
             IOFile ioProvider = new IOFile(argument);
+            IOProvider provider = new ScriptProvider(ioProvider, graph, argument);
 
-            ValidationCommand.INSTANCE.pushProvider(ioProvider);
+            ValidationCommand.INSTANCE.pushProvider(provider);
 
 
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private static  class ScriptProvider implements IOProvider{
+        private boolean flag = false;
+        private IOFile ioFile;
+        private Graph graph;
+        private String name;
+
+        ScriptProvider(IOFile ioFile, Graph graph, String name){
+            this.ioFile = ioFile;
+            this.graph = graph;
+            this.name = name;
+        }
+
+        @Override
+        public String name() {
+            return "";
+        }
+
+        @Override
+        public void println(String message) {
+            ioFile.println(message);
+        }
+
+        @Override
+        public String readLine() {
+            if (flag) return null;
+            try{
+                String line = ioFile.readLine();
+                if (line == null) {
+                    flag = true;
+                    ioFile.close();
+                    graph.endScript(name);
+                    return null;
+                }
+                if (line.isBlank()) {
+                    return readLine();
+                }
+                return line;
+            } catch (RuntimeException e) {
+                flag = true;
+                graph.endScript(name);
+                return null;
+            }
         }
     }
 }
