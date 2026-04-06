@@ -3,12 +3,14 @@ package edu.itmo.piikt.common.protocol;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.UUID;
 
 @Data
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class ProtocolMessage implements Serializable {
     private static final long serialVersion = 1L;

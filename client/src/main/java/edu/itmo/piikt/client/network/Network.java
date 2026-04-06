@@ -3,39 +3,60 @@ package edu.itmo.piikt.client.network;
 import edu.itmo.piikt.common.interfaceCommon.Client;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
+import edu.itmo.piikt.common.protocol.Frame;
+import edu.itmo.piikt.common.protocol.Message;
+import edu.itmo.piikt.common.protocol.MessageBuffer;
+import edu.itmo.piikt.common.protocol.ProtocolMessage;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.common.util.DS;
-import edu.itmo.piikt.common.server_client.ClientData;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Network implements Client {
     private static final Integer SIZE = 66666;
+    private static final Integer MAX = 5;
     private static final Integer TIME = 3000;
     private static final AppLogger logger = new AppLogger(Network.class);
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    private static class PendingRequest {
+        private ProtocolMessage request;
+        private long sentTime;
+        private int retries;
+        private Object response;
+    }
 
     private SocketChannel socketChannel;
     private static final String HOST = System.getenv().getOrDefault("SERVER_HOST", "localhost");
     private final Integer PORT = 6668;
-    private ClientData clientData;
+    private final MessageBuffer messageBuffer = new MessageBuffer(SIZE);
+    private final Map<UUID, PendingRequest> pendingRequestMap = new ConcurrentHashMap<>();
 
     @Override
     public void connect() throws IOException {
         try (Context ignored = Context.newId()) {
             logger.info("Connecting to {}:{}", HOST, PORT);
             socketChannel = SocketChannel.open();
-            socketChannel.configureBlocking(true);
+            socketChannel.configureBlocking(false);
             socketChannel.connect(new InetSocketAddress(HOST, PORT));
-            clientData = new ClientData(SIZE);
+            while (!socketChannel.finishConnect()) {
+                Thread.yield();
+            }
             logger.info("Connected successfully");
         } catch (IOException e) {
             logger.error("Connection failed: {}", e);
@@ -43,24 +64,74 @@ public class Network implements Client {
         }
     }
 
-    @Override
-    public ServerResponse send(ClientCommand clientResponse) throws Exception {
-        try (Context ignored = Context.newId()) {
-            logger.debug("Sending command: {}", clientResponse.getNameCommand());
-            ByteBuffer writer = DS.serialize(clientResponse);
-            socketChannel.write(writer);
-            socketChannel.socket().setSoTimeout(TIME);
-            ByteBuffer reader = clientData.getReader();
-            reader.clear();
-            int bytes = socketChannel.read(reader);
-            if (bytes == -1) {
-                logger.error("Connection closed by server");
-                throw new IOException("Соединение закрыто");
+    private void readIncoming() throws IOException{
+        ByteBuffer buffer = ByteBuffer.allocate(SIZE);
+        int bytesRead = socketChannel.read(buffer);
+
+        if (bytesRead > 0) {
+            buffer.flip();
+            messageBuffer.append(buffer);
+
+            List<byte[]> messages = messageBuffer.extract();
+            for (byte[] msg : messages) {
+                ProtocolMessage response = (ProtocolMessage) DS.deserialize(ByteBuffer.wrap(msg));
+                handleResponse(response);
             }
-            reader.flip();
-            ServerResponse serverResponse = (ServerResponse) DS.deserialize(reader);
-            logger.debug("Response received: success={}", serverResponse.execution());
-            return serverResponse;
+        }
+    }
+
+    private void handleResponse(ProtocolMessage response) {
+        UUID id = response.getId();
+        PendingRequest pending = pendingRequestMap.get(id);
+
+        if (pending != null && response.getType() == Message.SERVER_RESPONSE) {
+            pending.setResponse(response.getData());
+        }
+    }
+
+    @Override
+    public ServerResponse send(ClientCommand clientCommand) throws Exception {
+        try (Context ignored = Context.newId()) {
+            logger.debug("Sending command: {}", clientCommand.getNameCommand());
+            UUID id = UUID.randomUUID();
+            ProtocolMessage message = ProtocolMessage.builder()
+                    .id(id)
+                    .type(Message.CUSTOMER_REQUEST)
+                    .data(clientCommand)
+                    .time(System.currentTimeMillis())
+                    .build();
+            ByteBuffer serialized = DS.serialize(message);
+            byte[] data = new byte[serialized.remaining()];
+            serialized.get(data);
+            ByteBuffer framed = Frame.encode(data);
+            pendingRequestMap.put(id, new PendingRequest(message, System.currentTimeMillis(), 0, null));
+            socketChannel.write(framed);
+            ServerResponse result = null;
+            while (result == null) {
+                readIncoming();
+                PendingRequest pending = pendingRequestMap.get(id);
+                if (pending != null && pending.getResponse() != null) {
+                    result = (ServerResponse) pending.getResponse();
+                    pendingRequestMap.remove(id);
+                    break;
+                }
+                if (pending != null && System.currentTimeMillis() - pending.getSentTime() > TIME) {
+                    if (pending.getRetries() >= MAX) {
+                        pendingRequestMap.remove(id);
+                        throw new IOException("No response from server");
+                    }
+                    pending.setRetries(pending.getRetries() + 1);
+                    pending.setSentTime(System.currentTimeMillis());
+                    ByteBuffer resendSerialized = DS.serialize(message);
+                    byte[] resendData = new byte[resendSerialized.remaining()];
+                    resendSerialized.get(resendData);
+                    ByteBuffer resendFramed = Frame.encode(resendData);
+                    socketChannel.write(resendFramed);
+                    logger.debug("Resent request: {}, retry {}", id, pending.getRetries());
+                }
+                Thread.sleep(1500);
+            }
+            return result;
         } catch (Exception e) {
             logger.error("Error sending command: {}", e);
             throw e;

@@ -1,6 +1,5 @@
 package edu.itmo.piikt.server.netWork;
 
-import edu.itmo.piikt.common.interfaceCommon.Server;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.server.CommandServer.CommandFactory;
@@ -17,9 +16,9 @@ import java.util.Iterator;
 
 @Data
 @AllArgsConstructor
-public class NetWork {
+public class Network {
     private static final int PORT = 6668;
-    private static final AppLogger logger = new AppLogger(NetWork.class);
+    private static final AppLogger logger = new AppLogger(Network.class);
 
     private final Dispatcher dispatcher;
     private Selector selector;
@@ -29,7 +28,7 @@ public class NetWork {
     private CommandFactory commandFactory;
     private final StringBuilder stringBuilder = new StringBuilder();
 
-    public NetWork(Dispatcher dispatcher) {
+    public Network(Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
         this.connect = new Connect(dispatcher);
         this.commandFactory = new CommandFactory();
