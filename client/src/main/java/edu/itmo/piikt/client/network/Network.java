@@ -32,6 +32,10 @@ public class Network implements Client {
 
     @Override
     public void connect() throws IOException {
+connectWithRetry(MAX);
+    }
+
+    private void connectWithRetry(int number) throws IOException{
         try (Context ignored = Context.newId()) {
             logger.info("Connecting to {}:{}", HOST, PORT);
             socketChannel = SocketChannel.open();
@@ -40,20 +44,19 @@ public class Network implements Client {
             clientData = new ClientData(SIZE);
             logger.info("Connected successfully");
         }catch (ConnectException e){
-            if (MAX >1) {
+            if (number >1) {
                 try {
                     Thread.sleep(1000);
-                    ;
                 } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                     throw new IOException();
                 }
-                connect();
+                connectWithRetry(number - 1);
             } else {
                 throw new IOException();
             }
         } catch (IOException e) {
-            if (MAX >1) {
+            if (number >1) {
                 try {
                     Thread.sleep(1000);
                     ;
@@ -61,7 +64,7 @@ public class Network implements Client {
                     Thread.currentThread().interrupt();
                     throw new IOException();
                 }
-                connect();
+                connectWithRetry(number - 1);
             } else {
                 throw e;
             }
