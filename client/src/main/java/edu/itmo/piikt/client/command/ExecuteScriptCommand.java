@@ -7,6 +7,8 @@ import edu.itmo.piikt.common.io.data.NameIOProvider;
 import edu.itmo.piikt.client.manager.ValidationCommand;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +19,6 @@ public final class ExecuteScriptCommand {
     private final Graph graph = new Graph();
 
     public void execute(IOProvider io, String argument) throws IOException {
-
         try {
             if (io.name().equals(NameIOProvider.CONSOLE.getName())) {
                 name.clear();
@@ -39,7 +40,12 @@ public final class ExecuteScriptCommand {
             IOProvider provider = new ScriptProvider(ioProvider, graph, argument);
 
             ValidationCommand.INSTANCE.pushProvider(provider);
-
+        }catch (FileNotFoundException e) {
+            io.println("Ошибка: файл скрипта '" + argument + "' не найден");
+            graph.endScript(argument);
+        } catch (IOException e) {
+            io.println("Ошибка при чтении файла скрипта '" + argument + "': " + e.getMessage());
+            graph.endScript(argument);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
