@@ -90,7 +90,6 @@ public enum ValidationCommand {
      * Attention! The command handles only single-word commands without arguments
      * and single-word commands with one argument.
      */
-    // todo
     public void validation(IOProvider io) {
         provider = io;
         dequeProvider.clear();
@@ -117,7 +116,6 @@ public enum ValidationCommand {
                                 logger.info("Exit command received");
                                 ExitCommand exitCommand = new ExitCommand();
                                 exitCommand.execute();
-                                //todo сразу отправить ответ
                             }
                             if (com1.equals(Commands.ADD.getName())) {
                                 logger.debug("Executing ADD command");

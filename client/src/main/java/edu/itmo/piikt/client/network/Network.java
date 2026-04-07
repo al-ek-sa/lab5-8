@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
@@ -21,6 +22,7 @@ import java.nio.channels.SocketChannel;
 public class Network implements Client {
     private static final Integer SIZE = 66666;
     private static final Integer TIME = 3000;
+    private static final Integer MAX = 5;
     private static final AppLogger logger = new AppLogger(Network.class);
 
     private SocketChannel socketChannel;
@@ -37,15 +39,41 @@ public class Network implements Client {
             socketChannel.connect(new InetSocketAddress(HOST, PORT));
             clientData = new ClientData(SIZE);
             logger.info("Connected successfully");
+        }catch (ConnectException e){
+            if (MAX >1) {
+                try {
+                    Thread.sleep(1000);
+                    ;
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                    throw new IOException();
+                }
+                connect();
+            } else {
+                throw new IOException();
+            }
         } catch (IOException e) {
-            logger.error("Connection failed: {}", e);
-            throw e;
+            if (MAX >1) {
+                try {
+                    Thread.sleep(1000);
+                    ;
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                    throw new IOException();
+                }
+                connect();
+            } else {
+                throw e;
+            }
         }
     }
 
     @Override
     public ServerResponse send(ClientCommand clientResponse) throws Exception {
         try (Context ignored = Context.newId()) {
+            if (socketChannel == null || !socketChannel.isConnected()){
+                connect();
+            }
             logger.debug("Sending command: {}", clientResponse.getNameCommand());
             ByteBuffer writer = DS.serialize(clientResponse);
             socketChannel.write(writer);

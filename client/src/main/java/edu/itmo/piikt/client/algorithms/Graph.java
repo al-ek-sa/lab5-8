@@ -64,39 +64,4 @@ public class Graph {
         Set<String> visited = new HashSet<>();
         return hasPath(script, listMap, currentPath, visited);
     }
-
-    private boolean cycle(String script, Map<String, Integer> color) {
-        color.put(script, 1);
-
-        if (graph.containsKey(script)) {
-            for (String string : graph.get(script)) {
-                int stringColor = color.getOrDefault(string, 0);
-                if (stringColor == 1) {
-                    return true;
-                }
-                if (stringColor == 0) {
-                    if (cycle(string, color)) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        color.put(script, 2);
-        return false;
-    }
-
-    public boolean hasCycle() {
-        Map<String, Integer> color = new HashMap<>();
-
-        for (String script : graph.keySet()) {
-            if (color.getOrDefault(script, 0) == 0) {
-                if (cycle(script, color)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
 }

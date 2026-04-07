@@ -89,7 +89,7 @@ public final class ExecuteScriptCommand {
                     return readLine();
                 }
                 return line;
-            } catch (RuntimeException e) {
+            } catch (Exception e) {
                 flag = true;
                 graph.endScript(name);
                 return null;
