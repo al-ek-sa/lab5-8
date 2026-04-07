@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
@@ -27,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Data
 public class Network implements Client {
     private static final Integer SIZE = 66666;
-    private static final Integer MAX = 5;
+    private static final int MAX = 5;
     private static final Integer TIME = 3000;
     private static final AppLogger logger = new AppLogger(Network.class);
 
@@ -49,6 +50,10 @@ public class Network implements Client {
 
     @Override
     public void connect() throws IOException {
+        connectWithRetry(MAX);
+    }
+
+    private void connectWithRetry(int number) throws IOException{
         try (Context ignored = Context.newId()) {
             logger.info("Connecting to {}:{}", HOST, PORT);
             socketChannel = SocketChannel.open();
@@ -58,13 +63,37 @@ public class Network implements Client {
                 Thread.yield();
             }
             logger.info("Connected successfully");
+        }catch (ConnectException e){
+            if (number > 1) {
+                try{
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                    throw new IOException();
+                }
+                connectWithRetry(number -1);
+            } else {
+                throw new IOException();
+            }
         } catch (IOException e) {
-            logger.error("Connection failed: {}", e);
-            throw e;
+            if (number > 1) {
+                try{
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                    throw new IOException();
+                }
+                connectWithRetry(number -1);
+            } else {
+                throw e;
+            }
         }
     }
 
     private void readIncoming() throws IOException{
+        if (socketChannel == null || !socketChannel.isConnected()){
+            return;
+        }
         ByteBuffer buffer = ByteBuffer.allocate(SIZE);
         int bytesRead = socketChannel.read(buffer);
 
@@ -77,6 +106,9 @@ public class Network implements Client {
                 ProtocolMessage response = (ProtocolMessage) DS.deserialize(ByteBuffer.wrap(msg));
                 handleResponse(response);
             }
+        } else if (bytesRead == -1){
+            close();
+            connect();
         }
     }
 
@@ -92,6 +124,9 @@ public class Network implements Client {
     @Override
     public ServerResponse send(ClientCommand clientCommand) throws Exception {
         try (Context ignored = Context.newId()) {
+            if (socketChannel == null || !socketChannel.isConnected()){
+                connect();
+            }
             logger.debug("Sending command: {}", clientCommand.getNameCommand());
             UUID id = UUID.randomUUID();
             ProtocolMessage message = ProtocolMessage.builder()

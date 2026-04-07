@@ -39,8 +39,8 @@ public final class ExecuteScriptCommand {
             IOProvider provider = new ScriptProvider(ioProvider, graph, argument);
 
             ValidationCommand.INSTANCE.pushProvider(provider);
-
-
+        } catch (RuntimeException ex) {
+            io.println("ошибка выполнения");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
