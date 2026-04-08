@@ -27,21 +27,21 @@ import java.util.function.Function;
  */
 @Getter
 public class ValidationAddress {
-    private static final AppLogger logger = new AppLogger(ValidationAddress.class);
-    private final Function<String, Optional<MessageExceptionValidation>> addressValidation;
+	private static final AppLogger logger = new AppLogger(ValidationAddress.class);
+	private final Function<String, Optional<MessageExceptionValidation>> addressValidation;
 
-    public ValidationAddress() {
-        this.addressValidation = new Builder<String>("street").add(RulesValidation.blank()).build();
-        logger.debug("ValidationAddress initialized");
-    }
+	public ValidationAddress() {
+		this.addressValidation = new Builder<String>("street").add(RulesValidation.blank()).build();
+		logger.debug("ValidationAddress initialized");
+	}
 
-    public Optional<MessageExceptionValidation> validation(String street) {
-        try (Context ignored = Context.newId()) {
-            logger.debug("Validating street: {}", street);
-            return addressValidation.apply(street);
-        } catch (Exception e) {
-            logger.error("Error validating street: {}", e.getMessage());
-            return Optional.of(new MessageExceptionValidation("street", "Validation error: " + e.getMessage()));
-        }
-    }
+	public Optional<MessageExceptionValidation> validation(String street) {
+		try (Context ignored = Context.newId()) {
+			logger.debug("Validating street: {}", street);
+			return addressValidation.apply(street);
+		} catch (Exception e) {
+			logger.error("Error validating street: {}", e.getMessage());
+			return Optional.of(new MessageExceptionValidation("street", "Validation error: " + e.getMessage()));
+		}
+	}
 }

@@ -21,23 +21,22 @@ import java.util.stream.Collectors;
  */
 @NoArgsConstructor
 public final class HelpEnteringCommand {
-    private static final AppLogger logger = new AppLogger(HelpEnteringCommand.class);
-    private static ServerResponse input = null;
+	private static final AppLogger logger = new AppLogger(HelpEnteringCommand.class);
+	private static ServerResponse input = null;
 
-    public ServerResponse execute() {
-        try (Context ignored = Context.newId()) {
-            logger.info("Executing HELP_ENTERING_COMMAND");
-            if (input != null) return input;
-            List<String> list = Arrays.stream(Commands.values())
-                    .sorted(Comparator.comparing(Commands::getName))
-                    .map(commands -> commands.getName() + ": " + commands.getHelp())
-                    .collect(Collectors.toList());
-            logger.debug("Help entries: {}", list.size());
-            input = ServerResponse.successfulCompletion("Help: ", list);
-            return input;
-        } catch (Exception e) {
-            logger.error("Error executing HELP_ENTERING_COMMAND: {}", e);
-            throw new RuntimeException(e);
-        }
-    }
+	public ServerResponse execute() {
+		try (Context ignored = Context.newId()) {
+			logger.info("Executing HELP_ENTERING_COMMAND");
+			if (input != null)
+				return input;
+			List<String> list = Arrays.stream(Commands.values()).sorted(Comparator.comparing(Commands::getName))
+					.map(commands -> commands.getName() + ": " + commands.getHelp()).collect(Collectors.toList());
+			logger.debug("Help entries: {}", list.size());
+			input = ServerResponse.successfulCompletion("Help: ", list);
+			return input;
+		} catch (Exception e) {
+			logger.error("Error executing HELP_ENTERING_COMMAND: {}", e);
+			throw new RuntimeException(e);
+		}
+	}
 }

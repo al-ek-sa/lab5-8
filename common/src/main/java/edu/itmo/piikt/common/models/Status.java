@@ -12,7 +12,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Status {
-    FIRED(1), HIRED(2), RECOMMENDED_FOR_PROMOTION(3), PROBATION(4);
-    private static final long serialVersionUID = 1L;
-    private final int id;
+	FIRED(1), HIRED(2), RECOMMENDED_FOR_PROMOTION(3), PROBATION(4);
+	private static final long serialVersionUID = 1L;
+	private final int id;
 }

@@ -20,36 +20,36 @@ import java.time.format.DateTimeParseException;
  */
 @NoArgsConstructor
 public final class RemoveLowerCommand {
-    private static final AppLogger logger = new AppLogger(RemoveLowerCommand.class);
+	private static final AppLogger logger = new AppLogger(RemoveLowerCommand.class);
 
-    public ServerResponse execute(ClientCommand clientCommand) {
-        try (Context ignored = Context.newId()) {
-            String argument = clientCommand.getArgumentCommand();
-            logger.info("Executing REMOVE_LOWER with argument: {}", argument);
+	public ServerResponse execute(ClientCommand clientCommand) {
+		try (Context ignored = Context.newId()) {
+			String argument = clientCommand.getArgumentCommand();
+			logger.info("Executing REMOVE_LOWER with argument: {}", argument);
 
-            if (argument == null || argument.trim().isEmpty()) {
-                logger.warn("Date argument is empty");
-                return ServerResponse.error("Дата не введена");
-            }
+			if (argument == null || argument.trim().isEmpty()) {
+				logger.warn("Date argument is empty");
+				return ServerResponse.error("Дата не введена");
+			}
 
-            LocalDate date;
-            try {
-                date = LocalDate.parse(argument.trim());
-                logger.debug("Parsed date: {}", date);
-            } catch (DateTimeParseException e) {
-                logger.warn("Invalid date format: {}", argument);
-                return ServerResponse.error("Неверный формат даты");
-            }
+			LocalDate date;
+			try {
+				date = LocalDate.parse(argument.trim());
+				logger.debug("Parsed date: {}", date);
+			} catch (DateTimeParseException e) {
+				logger.warn("Invalid date format: {}", argument);
+				return ServerResponse.error("Неверный формат даты");
+			}
 
-            var listWorker = HistoryWorker.INSTANCE.getListWorker();
-            int sizeBefore = listWorker.size();
-            listWorker.removeIf(worker -> worker.getStartDate().isAfter(date));
-            int removed = sizeBefore - listWorker.size();
-            logger.info("Removed {} workers with start date after {}", removed, date);
-            return ServerResponse.successfulCompletion("REMOVE LOWER");
-        } catch (Exception e) {
-            logger.error("Error executing REMOVE_LOWER: {}", e);
-            throw new RuntimeException(e);
-        }
-    }
+			var listWorker = HistoryWorker.INSTANCE.getListWorker();
+			int sizeBefore = listWorker.size();
+			listWorker.removeIf(worker -> worker.getStartDate().isAfter(date));
+			int removed = sizeBefore - listWorker.size();
+			logger.info("Removed {} workers with start date after {}", removed, date);
+			return ServerResponse.successfulCompletion("REMOVE LOWER");
+		} catch (Exception e) {
+			logger.error("Error executing REMOVE_LOWER: {}", e);
+			throw new RuntimeException(e);
+		}
+	}
 }

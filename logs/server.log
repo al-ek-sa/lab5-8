@@ -1,0 +1,13 @@
+2026-04-08 23:15:21.333 [main] INFO  [id=dc664cda-dca0-464c-9315-2aeb8ac4892b] edu.itmo.piikt.server.MainServer - [MainServer] Starting server...
+2026-04-08 23:15:21.335 [main] INFO  [id=dc664cda-dca0-464c-9315-2aeb8ac4892b] e.i.p.server.saveManager.CSVParser - [CSVParser] CSVParser initialized, file: workers.csv
+2026-04-08 23:15:21.336 [main] INFO  [id=2869dd37-e979-4a21-8823-723f1714df56] e.i.p.server.saveManager.CSVParser - [CSVParser] Reading file: workers.csv
+2026-04-08 23:15:21.418 [main] INFO  [id=2869dd37-e979-4a21-8823-723f1714df56] e.i.p.server.saveManager.CSVParser - [CSVParser] Loaded 17 workers from file
+2026-04-08 23:15:21.419 [main] INFO  [id=dc664cda-dca0-464c-9315-2aeb8ac4892b] edu.itmo.piikt.server.MainServer - [MainServer] Data loaded from file
+2026-04-08 23:15:21.422 [main] INFO  [id=1bbf56b3-b855-4948-baf8-55efd84cef08] e.itmo.piikt.server.netWork.NetWork - [NetWork] Starting server on port 6668
+2026-04-08 23:15:21.425 [main] ERROR [id=dc664cda-dca0-464c-9315-2aeb8ac4892b] e.itmo.piikt.server.netWork.NetWork - [NetWork] Server start failed: Адрес уже используется
+2026-04-08 23:15:21.425 [main] ERROR [id=dc664cda-dca0-464c-9315-2aeb8ac4892b] edu.itmo.piikt.server.MainServer - [MainServer] Failed to start server: Адрес уже используется
+2026-04-08 23:15:21.426 [Thread-2] INFO  [id=30d4e089-cd9b-4ba4-9ce8-c54f28827dc3] edu.itmo.piikt.server.MainServer - [MainServer] Shutdown signal received
+2026-04-08 23:15:21.427 [Thread-2] INFO  [id=d51d2482-f2b6-483f-9910-9706dd47657b] e.itmo.piikt.server.netWork.NetWork - [NetWork] Stopping server
+2026-04-08 23:15:21.427 [Thread-2] INFO  [id=f5d469d5-face-4c6d-815d-0b842aa328cd] e.i.p.server.saveManager.CSVParser - [CSVParser] Saving collection, size: 17
+2026-04-08 23:15:21.444 [Thread-2] INFO  [id=f5d469d5-face-4c6d-815d-0b842aa328cd] e.i.p.server.saveManager.CSVParser - [CSVParser] Data saved successfully to workers.csv
+2026-04-08 23:15:21.445 [Thread-2] INFO  [id=30d4e089-cd9b-4ba4-9ce8-c54f28827dc3] edu.itmo.piikt.server.MainServer - [MainServer] Server stopped

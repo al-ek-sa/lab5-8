@@ -25,33 +25,33 @@ import java.util.function.Function;
  * @see Builder
  */
 public class ValidationCoordinates {
-    private static final AppLogger logger = new AppLogger(ValidationCoordinates.class);
-    private final Function<String, Optional<MessageExceptionValidation>> xValidation;
-    private final Function<String, Optional<MessageExceptionValidation>> yValidation;
+	private static final AppLogger logger = new AppLogger(ValidationCoordinates.class);
+	private final Function<String, Optional<MessageExceptionValidation>> xValidation;
+	private final Function<String, Optional<MessageExceptionValidation>> yValidation;
 
-    public ValidationCoordinates() {
-        this.xValidation = new Builder<String>("x").add(RulesValidation.validationX2()).build();
-        this.yValidation = new Builder<String>("y").add(RulesValidation.validationY2()).build();
-        logger.debug("ValidationCoordinates initialized");
-    }
+	public ValidationCoordinates() {
+		this.xValidation = new Builder<String>("x").add(RulesValidation.validationX2()).build();
+		this.yValidation = new Builder<String>("y").add(RulesValidation.validationY2()).build();
+		logger.debug("ValidationCoordinates initialized");
+	}
 
-    public Optional<MessageExceptionValidation> validationX(String x) {
-        try (Context ignored = Context.newId()) {
-            logger.debug("Validating x: {}", x);
-            return xValidation.apply(x);
-        } catch (Exception e) {
-            logger.error("Error validating x: {}", e.getMessage());
-            return Optional.of(new MessageExceptionValidation("x", "Validation error: " + e.getMessage()));
-        }
-    }
+	public Optional<MessageExceptionValidation> validationX(String x) {
+		try (Context ignored = Context.newId()) {
+			logger.debug("Validating x: {}", x);
+			return xValidation.apply(x);
+		} catch (Exception e) {
+			logger.error("Error validating x: {}", e.getMessage());
+			return Optional.of(new MessageExceptionValidation("x", "Validation error: " + e.getMessage()));
+		}
+	}
 
-    public Optional<MessageExceptionValidation> validationY(String y) {
-        try (Context ignored = Context.newId()) {
-            logger.debug("Validating y: {}", y);
-            return yValidation.apply(y);
-        } catch (Exception e) {
-            logger.error("Error validating y: {}", e.getMessage());
-            return Optional.of(new MessageExceptionValidation("y", "Validation error: " + e.getMessage()));
-        }
-    }
+	public Optional<MessageExceptionValidation> validationY(String y) {
+		try (Context ignored = Context.newId()) {
+			logger.debug("Validating y: {}", y);
+			return yValidation.apply(y);
+		} catch (Exception e) {
+			logger.error("Error validating y: {}", e.getMessage());
+			return Optional.of(new MessageExceptionValidation("y", "Validation error: " + e.getMessage()));
+		}
+	}
 }

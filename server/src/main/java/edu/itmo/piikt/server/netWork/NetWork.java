@@ -4,122 +4,121 @@ import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.server.CommandServer.CommandFactory;
 import edu.itmo.piikt.server.dispatcher.Dispatcher;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.util.Iterator;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 @Data
 @AllArgsConstructor
 public class NetWork {
-    private static final int PORT = 6668;
-    private static final AppLogger logger = new AppLogger(NetWork.class);
+	private static final int PORT = 6668;
+	private static final AppLogger logger = new AppLogger(NetWork.class);
 
-    private final Dispatcher dispatcher;
-    private Selector selector;
-    private ServerSocketChannel serverSocketChannel;
-    private boolean run = true;
-    private final Connect connect;
-    private CommandFactory commandFactory;
-    private final StringBuilder stringBuilder = new StringBuilder();
+	private final Dispatcher dispatcher;
+	private Selector selector;
+	private ServerSocketChannel serverSocketChannel;
+	private boolean run = true;
+	private final Connect connect;
+	private CommandFactory commandFactory;
+	private final StringBuilder stringBuilder = new StringBuilder();
 
-    public NetWork(Dispatcher dispatcher) {
-        this.dispatcher = dispatcher;
-        this.connect = new Connect(dispatcher);
-        this.commandFactory = new CommandFactory();
-    }
+	public NetWork(Dispatcher dispatcher) {
+		this.dispatcher = dispatcher;
+		this.connect = new Connect(dispatcher);
+		this.commandFactory = new CommandFactory();
+	}
 
-    private void console() {
-        try {
-            if (System.in.available() > 0) {
-                while (System.in.available() > 0) {
-                    char c = (char) System.in.read();
-                    stringBuilder.append(c);
-                    if (c == '\n') {
-                        String command = stringBuilder.toString().trim();
-                        stringBuilder.setLength(0);
-                        if (!command.isEmpty()) {
-                            commandFactory.execute(command);
-                        }
-                    }
-                }
-            }
-        } catch (IOException e) {
-            logger.error("Console input error: {}", e.getMessage());
-        }
-    }
+	private void console() {
+		try {
+			if (System.in.available() > 0) {
+				while (System.in.available() > 0) {
+					char c = (char) System.in.read();
+					stringBuilder.append(c);
+					if (c == '\n') {
+						String command = stringBuilder.toString().trim();
+						stringBuilder.setLength(0);
+						if (!command.isEmpty()) {
+							commandFactory.execute(command);
+						}
+					}
+				}
+			}
+		} catch (IOException e) {
+			logger.error("Console input error: {}", e.getMessage());
+		}
+	}
 
-    public void start() throws IOException {
-        try (Context ignored = Context.newId()) {
-            logger.info("Starting server on port {}", PORT);
-            selector = Selector.open();
-            serverSocketChannel = ServerSocketChannel.open();
-            serverSocketChannel.configureBlocking(true);
-            serverSocketChannel.bind(new InetSocketAddress(PORT));
-            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-            logger.info("Server started successfully");
+	public void start() throws IOException {
+		try (Context ignored = Context.newId()) {
+			logger.info("Starting server on port {}", PORT);
+			selector = Selector.open();
+			serverSocketChannel = ServerSocketChannel.open();
+			serverSocketChannel.configureBlocking(true);
+			serverSocketChannel.bind(new InetSocketAddress(PORT));
+			serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+			logger.info("Server started successfully");
 
-            while (run) {
-                console();
-                selector.select(1000);
-                Iterator<SelectionKey> selectionKeyIterator = selector.selectedKeys().iterator();
-                while (selectionKeyIterator.hasNext()) {
-                    SelectionKey key = selectionKeyIterator.next();
-                    selectionKeyIterator.remove();
-                    if (!key.isValid()) {
-                        continue;
-                    }
-                    try {
-                        if (key.isAcceptable()) {
-                            connect.connected(key);
-                        } else if (key.isReadable()) {
-                            connect.reader(key);
-                        } else if (key.isWritable()) {
-                            connect.writer(key);
-                        }
-                    } catch (RuntimeException e) {
-                        logger.error("Error processing key: {}", e.getMessage());
-                        try {
-                            key.channel().close();
-                        } catch (IOException ex) {
-                            logger.error("Error closing channel: {}", ex.getMessage());
-                        }
-                    }
-                }
-            }
-            close();
-        } catch (IOException e) {
-            logger.error("Server start failed: {}", e.getMessage());
-            throw e;
-        }
-    }
+			while (run) {
+				console();
+				selector.select(1000);
+				Iterator<SelectionKey> selectionKeyIterator = selector.selectedKeys().iterator();
+				while (selectionKeyIterator.hasNext()) {
+					SelectionKey key = selectionKeyIterator.next();
+					selectionKeyIterator.remove();
+					if (!key.isValid()) {
+						continue;
+					}
+					try {
+						if (key.isAcceptable()) {
+							connect.connected(key);
+						} else if (key.isReadable()) {
+							connect.reader(key);
+						} else if (key.isWritable()) {
+							connect.writer(key);
+						}
+					} catch (RuntimeException e) {
+						logger.error("Error processing key: {}", e.getMessage());
+						try {
+							key.channel().close();
+						} catch (IOException ex) {
+							logger.error("Error closing channel: {}", ex.getMessage());
+						}
+					}
+				}
+			}
+			close();
+		} catch (IOException e) {
+			logger.error("Server start failed: {}", e.getMessage());
+			throw e;
+		}
+	}
 
-    public void stop() {
-        try (Context ignored = Context.newId()) {
-            logger.info("Stopping server");
-            run = false;
-            if (selector != null) {
-                selector.wakeup();
-            }
-        }
-    }
+	public void stop() {
+		try (Context ignored = Context.newId()) {
+			logger.info("Stopping server");
+			run = false;
+			if (selector != null) {
+				selector.wakeup();
+			}
+		}
+	}
 
-    private void close() {
-        try {
-            if (selector != null) {
-                selector.close();
-            }
-            if (serverSocketChannel != null) {
-                serverSocketChannel.close();
-            }
-            logger.info("Server stopped");
-        } catch (IOException e) {
-            logger.error("Error closing server: {}", e.getMessage());
-        }
-    }
+	private void close() {
+		try {
+			if (selector != null) {
+				selector.close();
+			}
+			if (serverSocketChannel != null) {
+				serverSocketChannel.close();
+			}
+			logger.info("Server stopped");
+		} catch (IOException e) {
+			logger.error("Error closing server: {}", e.getMessage());
+		}
+	}
 }

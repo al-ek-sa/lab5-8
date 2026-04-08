@@ -27,22 +27,23 @@ import java.util.function.Function;
  * @see Builder
  */
 public class ValidationOrganization {
-    private static final AppLogger logger = new AppLogger(ValidationOrganization.class);
-    private final Function<String, Optional<MessageExceptionValidation>> annualTurnoverValidation;
+	private static final AppLogger logger = new AppLogger(ValidationOrganization.class);
+	private final Function<String, Optional<MessageExceptionValidation>> annualTurnoverValidation;
 
-    public ValidationOrganization() {
-        this.annualTurnoverValidation = new Builder<String>("annual turnover")
-                .add(RulesValidation.validationAnnualTurnover()).build();
-        logger.debug("ValidationOrganization initialized");
-    }
+	public ValidationOrganization() {
+		this.annualTurnoverValidation = new Builder<String>("annual turnover")
+				.add(RulesValidation.validationAnnualTurnover()).build();
+		logger.debug("ValidationOrganization initialized");
+	}
 
-    public Optional<MessageExceptionValidation> validationAnnualTurnover(String annualTurnover) {
-        try (Context ignored = Context.newId()) {
-            logger.debug("Validating annual turnover: {}", annualTurnover);
-            return annualTurnoverValidation.apply(annualTurnover);
-        } catch (Exception e) {
-            logger.error("Error validating annual turnover: {}", e.getMessage());
-            return Optional.of(new MessageExceptionValidation("annual turnover", "Validation error: " + e.getMessage()));
-        }
-    }
+	public Optional<MessageExceptionValidation> validationAnnualTurnover(String annualTurnover) {
+		try (Context ignored = Context.newId()) {
+			logger.debug("Validating annual turnover: {}", annualTurnover);
+			return annualTurnoverValidation.apply(annualTurnover);
+		} catch (Exception e) {
+			logger.error("Error validating annual turnover: {}", e.getMessage());
+			return Optional
+					.of(new MessageExceptionValidation("annual turnover", "Validation error: " + e.getMessage()));
+		}
+	}
 }

@@ -25,35 +25,34 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 public final class AddCommand {
-    private static final AppLogger logger = new AppLogger(AddCommand.class);
-    private final BuilderWorker builderWorker = new BuilderWorker();
-    private final WorkerBuilder workerBuilder = new WorkerBuilder();
+	private static final AppLogger logger = new AppLogger(AddCommand.class);
+	private final BuilderWorker builderWorker = new BuilderWorker();
+	private final WorkerBuilder workerBuilder = new WorkerBuilder();
 
-    public ServerResponse execute(ClientCommand clientCommand) {
-        try (Context ignored = Context.newId()) {
-            logger.info("Executing ADD command");
-            WorkerData dataWorker = (WorkerData) clientCommand.getData();
-            logger.debug("Worker data received: name={}, salary={}", dataWorker.getName(), dataWorker.getSalary());
-            Object result = builderWorker.data(dataWorker);
-            if (result instanceof WorkerData) {
-                Worker worker = workerBuilder.builerWorker(dataWorker);
-                HistoryWorker.INSTANCE.add(worker);
-                HistoryCoordinate.INSTANCE.add(worker.getCoordinates());
-                HistoryOrganization.INSTANCE.add(worker.getOrganization());
-                HistoryAddress.INSTANCE.add(worker.getOrganization().getOfficialAddress());
-                logger.info("Worker added successfully, total workers: {}", HistoryWorker.INSTANCE.getListWorker().size());
-                return ServerResponse.successfulCompletion("ADD");
-            } else if (result instanceof ValidationError(
-                    java.util.List<edu.itmo.piikt.common.data.MessageExceptionValidation> errors, Object data
-            )) {
-                logger.warn("Validation failed: {} errors", errors.size());
-                return ServerResponse.error("Введены неверные данные", errors, data);
-            }
-            logger.error("Unknown result type from builder");
-            return ServerResponse.error("Какая-то ошибка");
-        } catch (Exception e) {
-            logger.error("Error executing ADD command: {}", e);
-            throw new RuntimeException(e);
-        }
-    }
+	public ServerResponse execute(ClientCommand clientCommand) {
+		try (Context ignored = Context.newId()) {
+			logger.info("Executing ADD command");
+			WorkerData dataWorker = (WorkerData) clientCommand.getData();
+			logger.debug("Worker data received: name={}, salary={}", dataWorker.getName(), dataWorker.getSalary());
+			Object result = builderWorker.data(dataWorker);
+			if (result instanceof WorkerData) {
+				Worker worker = workerBuilder.builerWorker(dataWorker);
+				HistoryWorker.INSTANCE.add(worker);
+				HistoryCoordinate.INSTANCE.add(worker.getCoordinates());
+				HistoryOrganization.INSTANCE.add(worker.getOrganization());
+				HistoryAddress.INSTANCE.add(worker.getOrganization().getOfficialAddress());
+				logger.info("Worker added successfully, total workers: {}",
+						HistoryWorker.INSTANCE.getListWorker().size());
+				return ServerResponse.successfulCompletion("ADD");
+			} else if (result instanceof ValidationError(java.util.List<edu.itmo.piikt.common.data.MessageExceptionValidation>errors,Object data)) {
+				logger.warn("Validation failed: {} errors", errors.size());
+				return ServerResponse.error("Введены неверные данные", errors, data);
+			}
+			logger.error("Unknown result type from builder");
+			return ServerResponse.error("Какая-то ошибка");
+		} catch (Exception e) {
+			logger.error("Error executing ADD command: {}", e);
+			throw new RuntimeException(e);
+		}
+	}
 }

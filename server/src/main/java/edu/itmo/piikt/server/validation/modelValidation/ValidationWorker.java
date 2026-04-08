@@ -45,58 +45,58 @@ import java.util.function.Function;
  * @see LocalDate
  */
 public class ValidationWorker {
-    private static final AppLogger logger = new AppLogger(ValidationWorker.class);
-    private final Function<String, Optional<MessageExceptionValidation>> nameValidation;
-    private final Function<String, Optional<MessageExceptionValidation>> salaryValidation;
-    private final Function<String, Optional<MessageExceptionValidation>> startDateValidation;
-    private final Function<String, Optional<MessageExceptionValidation>> endDateValidation;
+	private static final AppLogger logger = new AppLogger(ValidationWorker.class);
+	private final Function<String, Optional<MessageExceptionValidation>> nameValidation;
+	private final Function<String, Optional<MessageExceptionValidation>> salaryValidation;
+	private final Function<String, Optional<MessageExceptionValidation>> startDateValidation;
+	private final Function<String, Optional<MessageExceptionValidation>> endDateValidation;
 
-    public ValidationWorker() {
-        this.startDateValidation = new Builder<String>("start date").add(RulesValidation.blank())
-                .add(RulesValidation.localDate()).build();
-        this.endDateValidation = new Builder<String>("end date").add(RulesValidation.validationDate()).build();
-        this.nameValidation = new Builder<String>("name").add(RulesValidation.blank()).build();
-        this.salaryValidation = new Builder<String>("salary").add(RulesValidation.validationSalary()).build();
-        logger.debug("ValidationWorker initialized");
-    }
+	public ValidationWorker() {
+		this.startDateValidation = new Builder<String>("start date").add(RulesValidation.blank())
+				.add(RulesValidation.localDate()).build();
+		this.endDateValidation = new Builder<String>("end date").add(RulesValidation.validationDate()).build();
+		this.nameValidation = new Builder<String>("name").add(RulesValidation.blank()).build();
+		this.salaryValidation = new Builder<String>("salary").add(RulesValidation.validationSalary()).build();
+		logger.debug("ValidationWorker initialized");
+	}
 
-    public Optional<MessageExceptionValidation> validationName(String name) {
-        try (Context ignored = Context.newId()) {
-            logger.debug("Validating name: {}", name);
-            return nameValidation.apply(name);
-        } catch (Exception e) {
-            logger.error("Error validating name: {}", e.getMessage());
-            return Optional.of(new MessageExceptionValidation("name", "Validation error: " + e.getMessage()));
-        }
-    }
+	public Optional<MessageExceptionValidation> validationName(String name) {
+		try (Context ignored = Context.newId()) {
+			logger.debug("Validating name: {}", name);
+			return nameValidation.apply(name);
+		} catch (Exception e) {
+			logger.error("Error validating name: {}", e.getMessage());
+			return Optional.of(new MessageExceptionValidation("name", "Validation error: " + e.getMessage()));
+		}
+	}
 
-    public Optional<MessageExceptionValidation> validationSalary(String salary) {
-        try (Context ignored = Context.newId()) {
-            logger.debug("Validating salary: {}", salary);
-            return salaryValidation.apply(salary);
-        } catch (Exception e) {
-            logger.error("Error validating salary: {}", e.getMessage());
-            return Optional.of(new MessageExceptionValidation("salary", "Validation error: " + e.getMessage()));
-        }
-    }
+	public Optional<MessageExceptionValidation> validationSalary(String salary) {
+		try (Context ignored = Context.newId()) {
+			logger.debug("Validating salary: {}", salary);
+			return salaryValidation.apply(salary);
+		} catch (Exception e) {
+			logger.error("Error validating salary: {}", e.getMessage());
+			return Optional.of(new MessageExceptionValidation("salary", "Validation error: " + e.getMessage()));
+		}
+	}
 
-    public Optional<MessageExceptionValidation> validationStartDate(String startDate) {
-        try (Context ignored = Context.newId()) {
-            logger.debug("Validating start date: {}", startDate);
-            return startDateValidation.apply(startDate);
-        } catch (Exception e) {
-            logger.error("Error validating start date: {}", e.getMessage());
-            return Optional.of(new MessageExceptionValidation("start date", "Validation error: " + e.getMessage()));
-        }
-    }
+	public Optional<MessageExceptionValidation> validationStartDate(String startDate) {
+		try (Context ignored = Context.newId()) {
+			logger.debug("Validating start date: {}", startDate);
+			return startDateValidation.apply(startDate);
+		} catch (Exception e) {
+			logger.error("Error validating start date: {}", e.getMessage());
+			return Optional.of(new MessageExceptionValidation("start date", "Validation error: " + e.getMessage()));
+		}
+	}
 
-    public Optional<MessageExceptionValidation> validationEndDate(String endDate) {
-        try (Context ignored = Context.newId()) {
-            logger.debug("Validating end date: {}", endDate);
-            return endDateValidation.apply(endDate);
-        } catch (Exception e) {
-            logger.error("Error validating end date: {}", e.getMessage());
-            return Optional.of(new MessageExceptionValidation("end date", "Validation error: " + e.getMessage()));
-        }
-    }
+	public Optional<MessageExceptionValidation> validationEndDate(String endDate) {
+		try (Context ignored = Context.newId()) {
+			logger.debug("Validating end date: {}", endDate);
+			return endDateValidation.apply(endDate);
+		} catch (Exception e) {
+			logger.error("Error validating end date: {}", e.getMessage());
+			return Optional.of(new MessageExceptionValidation("end date", "Validation error: " + e.getMessage()));
+		}
+	}
 }

@@ -3,8 +3,6 @@ package edu.itmo.piikt.common.data.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.io.Serializable;
-
 /**
  * The Enum class contains instances of possible statuses.
  *
@@ -14,7 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 public enum StatusData {
-    FIRED("1"), HIRED("2"), RECOMMENDED_FOR_PROMOTION("3"), PROBATION("4");
-    private static final long serialVersionUID = 1L;
-    private final String id;
+	FIRED("1"), HIRED("2"), RECOMMENDED_FOR_PROMOTION("3"), PROBATION("4");
+	private static final long serialVersionUID = 1L;
+	private final String id;
 }

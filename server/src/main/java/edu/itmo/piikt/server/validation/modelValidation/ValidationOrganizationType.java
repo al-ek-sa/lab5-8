@@ -19,22 +19,23 @@ import java.util.function.Function;
  * @see OrganizationType
  */
 public class ValidationOrganizationType {
-    private static final AppLogger logger = new AppLogger(ValidationOrganizationType.class);
-    private final Function<String, Optional<MessageExceptionValidation>> organizationValidation;
+	private static final AppLogger logger = new AppLogger(ValidationOrganizationType.class);
+	private final Function<String, Optional<MessageExceptionValidation>> organizationValidation;
 
-    public ValidationOrganizationType() {
-        this.organizationValidation = new Builder<String>("organization type").add(RulesValidation.validationType())
-                .build();
-        logger.debug("ValidationOrganizationType initialized");
-    }
+	public ValidationOrganizationType() {
+		this.organizationValidation = new Builder<String>("organization type").add(RulesValidation.validationType())
+				.build();
+		logger.debug("ValidationOrganizationType initialized");
+	}
 
-    public Optional<MessageExceptionValidation> validationOrganizationType(String type) {
-        try (Context ignored = Context.newId()) {
-            logger.debug("Validating organization type: {}", type);
-            return organizationValidation.apply(type);
-        } catch (Exception e) {
-            logger.error("Error validating organization type: {}", e.getMessage());
-            return Optional.of(new MessageExceptionValidation("organization type", "Validation error: " + e.getMessage()));
-        }
-    }
+	public Optional<MessageExceptionValidation> validationOrganizationType(String type) {
+		try (Context ignored = Context.newId()) {
+			logger.debug("Validating organization type: {}", type);
+			return organizationValidation.apply(type);
+		} catch (Exception e) {
+			logger.error("Error validating organization type: {}", e.getMessage());
+			return Optional
+					.of(new MessageExceptionValidation("organization type", "Validation error: " + e.getMessage()));
+		}
+	}
 }

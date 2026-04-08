@@ -21,43 +21,43 @@ import java.util.function.Function;
  */
 @AllArgsConstructor
 public class Builder<T> {
-    private static final AppLogger logger = new AppLogger(Builder.class);
-    private final List<ValidationRules<T>> rulesList = new ArrayList<>();
-    private final String name;
+	private static final AppLogger logger = new AppLogger(Builder.class);
+	private final List<ValidationRules<T>> rulesList = new ArrayList<>();
+	private final String name;
 
-    /**
-     * Adds a validation rule to the chain.
-     *
-     * @param rules
-     *            the validation rule to add
-     * @return this builder for method chaining
-     */
-    public Builder<T> add(ValidationRules<T> rules) {
-        rulesList.add(rules);
-        return this;
-    }
+	/**
+	 * Adds a validation rule to the chain.
+	 *
+	 * @param rules
+	 *            the validation rule to add
+	 * @return this builder for method chaining
+	 */
+	public Builder<T> add(ValidationRules<T> rules) {
+		rulesList.add(rules);
+		return this;
+	}
 
-    /**
-     * Builds a validation function based on the configured rules and mode.
-     *
-     * @return a function that takes IOProvider and returns a validated value
-     */
-    public Function<T, Optional<MessageExceptionValidation>> build() {
-        return input -> {
-            try (Context ignored = Context.newId()) {
-                for (ValidationRules<T> rule : rulesList) {
-                    Optional<String> error = rule.validation(input);
-                    if (error.isPresent()) {
-                        logger.debug("Validation failed for field '{}': {}", name, error.get());
-                        return Optional.of(new MessageExceptionValidation(name, error.get()));
-                    }
-                }
-                logger.debug("Validation passed for field '{}'", name);
-                return Optional.empty();
-            } catch (Exception e) {
-                logger.error("Error validating field '{}': {}", name, e.getMessage());
-                return Optional.of(new MessageExceptionValidation(name, "Validation error: " + e.getMessage()));
-            }
-        };
-    }
+	/**
+	 * Builds a validation function based on the configured rules and mode.
+	 *
+	 * @return a function that takes IOProvider and returns a validated value
+	 */
+	public Function<T, Optional<MessageExceptionValidation>> build() {
+		return input -> {
+			try (Context ignored = Context.newId()) {
+				for (ValidationRules<T> rule : rulesList) {
+					Optional<String> error = rule.validation(input);
+					if (error.isPresent()) {
+						logger.debug("Validation failed for field '{}': {}", name, error.get());
+						return Optional.of(new MessageExceptionValidation(name, error.get()));
+					}
+				}
+				logger.debug("Validation passed for field '{}'", name);
+				return Optional.empty();
+			} catch (Exception e) {
+				logger.error("Error validating field '{}': {}", name, e.getMessage());
+				return Optional.of(new MessageExceptionValidation(name, "Validation error: " + e.getMessage()));
+			}
+		};
+	}
 }

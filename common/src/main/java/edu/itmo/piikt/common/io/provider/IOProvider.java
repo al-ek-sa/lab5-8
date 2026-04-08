@@ -8,9 +8,9 @@ package edu.itmo.piikt.common.io.provider;
  * @version 1.1
  */
 public interface IOProvider {
-    void println(String message);
+	void println(String message);
 
-    String readLine();
+	String readLine();
 
-    String name();
+	String name();
 }

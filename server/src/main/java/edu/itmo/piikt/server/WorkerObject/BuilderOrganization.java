@@ -7,51 +7,50 @@ import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.server.validation.modelValidation.ValidationAddress;
 import edu.itmo.piikt.server.validation.modelValidation.ValidationOrganization;
 import edu.itmo.piikt.server.validation.modelValidation.ValidationOrganizationType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 @Data
 @AllArgsConstructor
 public class BuilderOrganization implements Serializable {
-    private static final AppLogger logger = new AppLogger(BuilderOrganization.class);
-    private ValidationOrganizationType validationOrganizationType;
-    private ValidationOrganization validationOrganization;
-    private ValidationAddress validationAddress;
+	private static final AppLogger logger = new AppLogger(BuilderOrganization.class);
+	private ValidationOrganizationType validationOrganizationType;
+	private ValidationOrganization validationOrganization;
+	private ValidationAddress validationAddress;
 
-    public BuilderOrganization() {
-        this.validationAddress = new ValidationAddress();
-        this.validationOrganization = new ValidationOrganization();
-        this.validationOrganizationType = new ValidationOrganizationType();
-        logger.debug("BuilderOrganization initialized");
-    }
+	public BuilderOrganization() {
+		this.validationAddress = new ValidationAddress();
+		this.validationOrganization = new ValidationOrganization();
+		this.validationOrganizationType = new ValidationOrganizationType();
+		logger.debug("BuilderOrganization initialized");
+	}
 
-    public Object data(OrganizationData organizationData) {
-        try (Context ignored = Context.newId()) {
-            logger.debug("Validating organization data");
-            List<MessageExceptionValidation> errors = new ArrayList<>();
+	public Object data(OrganizationData organizationData) {
+		try (Context ignored = Context.newId()) {
+			logger.debug("Validating organization data");
+			List<MessageExceptionValidation> errors = new ArrayList<>();
 
-            validationOrganizationType.validationOrganizationType(organizationData.getType().getId())
-                    .ifPresent(errors::add);
-            validationAddress.validation(organizationData.getOfficialAddress().getStreet()).ifPresent(errors::add);
-            validationOrganization.validationAnnualTurnover(organizationData.getAnnualTurnover()).ifPresent(errors::add);
+			validationOrganizationType.validationOrganizationType(organizationData.getType().getId())
+					.ifPresent(errors::add);
+			validationAddress.validation(organizationData.getOfficialAddress().getStreet()).ifPresent(errors::add);
+			validationOrganization.validationAnnualTurnover(organizationData.getAnnualTurnover())
+					.ifPresent(errors::add);
 
-            if (errors.isEmpty()) {
-                logger.debug("Organization validation passed");
-                return organizationData;
-            } else {
-                logger.warn("Organization validation failed: {} errors", errors.size());
-                return new ValidationError(errors, organizationData);
-            }
-        } catch (Exception e) {
-            logger.error("Error validating organization: {}", e.getMessage());
-            List<MessageExceptionValidation> error = List.of(
-                    new MessageExceptionValidation("organization", "Validation error: " + e.getMessage())
-            );
-            return new ValidationError(error, organizationData);
-        }
-    }
+			if (errors.isEmpty()) {
+				logger.debug("Organization validation passed");
+				return organizationData;
+			} else {
+				logger.warn("Organization validation failed: {} errors", errors.size());
+				return new ValidationError(errors, organizationData);
+			}
+		} catch (Exception e) {
+			logger.error("Error validating organization: {}", e.getMessage());
+			List<MessageExceptionValidation> error = List
+					.of(new MessageExceptionValidation("organization", "Validation error: " + e.getMessage()));
+			return new ValidationError(error, organizationData);
+		}
+	}
 }

@@ -11,6 +11,6 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 public enum OrganizationTypeData {
-    COMMERCIAL("1"), PUBLIC("2"), GOVERNMENT("3"), TRUST("4"), OPEN_JOINT_STOCK_COMPANY("5");
-    private final String id;
+	COMMERCIAL("1"), PUBLIC("2"), GOVERNMENT("3"), TRUST("4"), OPEN_JOINT_STOCK_COMPANY("5");
+	private final String id;
 }

@@ -1,7 +1,7 @@
 package edu.itmo.piikt.common.io.providerType;
 
-import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.io.data.NameIOProvider;
+import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.util.InputReader;
@@ -16,27 +16,27 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 public class IOConsole implements IOProvider {
-    private static final AppLogger logger = new AppLogger(IOConsole.class);
+	private static final AppLogger logger = new AppLogger(IOConsole.class);
 
-    @Override
-    public String readLine() {
-        try (Context ignored = Context.newId()) {
-            String input = InputReader.nextLine();
-            logger.debug("Console input: {}", input);
-            return input;
-        }
-    }
+	@Override
+	public String readLine() {
+		try (Context ignored = Context.newId()) {
+			String input = InputReader.nextLine();
+			logger.debug("Console input: {}", input);
+			return input;
+		}
+	}
 
-    @Override
-    public void println(String message) {
-        try (Context ignored = Context.newId()) {
-            logger.debug("Console output: {}", message);
-            System.out.println(message);
-        }
-    }
+	@Override
+	public void println(String message) {
+		try (Context ignored = Context.newId()) {
+			logger.debug("Console output: {}", message);
+			System.out.println(message);
+		}
+	}
 
-    @Override
-    public String name() {
-        return NameIOProvider.CONSOLE.getName();
-    }
+	@Override
+	public String name() {
+		return NameIOProvider.CONSOLE.getName();
+	}
 }

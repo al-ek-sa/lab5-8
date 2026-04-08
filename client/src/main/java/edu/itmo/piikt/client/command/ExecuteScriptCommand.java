@@ -1,99 +1,100 @@
 package edu.itmo.piikt.client.command;
 
 import edu.itmo.piikt.client.algorithms.Graph;
-import edu.itmo.piikt.common.io.providerType.IOFile;
-import edu.itmo.piikt.common.io.provider.IOProvider;
-import edu.itmo.piikt.common.io.data.NameIOProvider;
 import edu.itmo.piikt.client.manager.ValidationCommand;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import edu.itmo.piikt.common.io.data.NameIOProvider;
+import edu.itmo.piikt.common.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.providerType.IOFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
 @NoArgsConstructor
 public final class ExecuteScriptCommand {
-    private final List<String> name = new ArrayList<>();
-    private final Graph graph = new Graph();
+	private final List<String> name = new ArrayList<>();
+	private final Graph graph = new Graph();
 
-    public void execute(IOProvider io, String argument) {
-        try {
-            if (io.name().equals(NameIOProvider.CONSOLE.getName())) {
-                name.clear();
-            }
+	public void execute(IOProvider io, String argument) {
+		try {
+			if (io.name().equals(NameIOProvider.CONSOLE.getName())) {
+				name.clear();
+			}
 
-            if (graph.copy(argument)) {
-                return;
-            }
+			if (graph.copy(argument)) {
+				return;
+			}
 
-            graph.start(argument);
-            List<String> list = graph.getList();
+			graph.start(argument);
+			List<String> list = graph.getList();
 
-            if (list.size() > 1) {
-                String beforeScript = list.get(list.size() - 2);
-                graph.addScript(beforeScript, argument);
-            }
+			if (list.size() > 1) {
+				String beforeScript = list.get(list.size() - 2);
+				graph.addScript(beforeScript, argument);
+			}
 
-            IOFile ioProvider = new IOFile(argument);
-            IOProvider provider = new ScriptProvider(ioProvider, graph, argument);
+			IOFile ioProvider = new IOFile(argument);
+			IOProvider provider = new ScriptProvider(ioProvider, graph, argument);
 
-            ValidationCommand.INSTANCE.pushProvider(provider);
-        }catch (FileNotFoundException e) {
-            io.println("Ошибка: файл скрипта '" + argument + "' не найден");
-            graph.endScript(argument);
-        } catch (IOException e) {
-            io.println("Ошибка при чтении файла скрипта '" + argument + "': " + e.getMessage());
-            graph.endScript(argument);
+			ValidationCommand.INSTANCE.pushProvider(provider);
+		} catch (FileNotFoundException e) {
+			io.println("Ошибка: файл скрипта '" + argument + "' не найден");
+			graph.endScript(argument);
+		} catch (IOException e) {
+			io.println("Ошибка при чтении файла скрипта '" + argument + "': " + e.getMessage());
+			graph.endScript(argument);
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    private static  class ScriptProvider implements IOProvider{
-        private boolean flag = false;
-        private final IOFile ioFile;
-        private final Graph graph;
-        private final String name;
+	private static class ScriptProvider implements IOProvider {
+		private boolean flag = false;
+		private final IOFile ioFile;
+		private final Graph graph;
+		private final String name;
 
-        ScriptProvider(IOFile ioFile, Graph graph, String name){
-            this.ioFile = ioFile;
-            this.graph = graph;
-            this.name = name;
-        }
+		ScriptProvider(IOFile ioFile, Graph graph, String name) {
+			this.ioFile = ioFile;
+			this.graph = graph;
+			this.name = name;
+		}
 
-        @Override
-        public String name() {
-            return "";
-        }
+		@Override
+		public String name() {
+			return "";
+		}
 
-        @Override
-        public void println(String message) {
-            ioFile.println(message);
-        }
+		@Override
+		public void println(String message) {
+			ioFile.println(message);
+		}
 
-        @Override
-        public String readLine() {
-            if (flag) return null;
-            try{
-                String line = ioFile.readLine();
-                if (line == null) {
-                    flag = true;
-                    ioFile.close();
-                    graph.endScript(name);
-                    return null;
-                }
-                if (line.isBlank()) {
-                    return readLine();
-                }
-                return line;
-            } catch (Exception e) {
-                flag = true;
-                graph.endScript(name);
-                return null;
-            }
-        }
-    }
+		@Override
+		public String readLine() {
+			if (flag)
+				return null;
+			try {
+				String line = ioFile.readLine();
+				if (line == null) {
+					flag = true;
+					ioFile.close();
+					graph.endScript(name);
+					return null;
+				}
+				if (line.isBlank()) {
+					return readLine();
+				}
+				return line;
+			} catch (Exception e) {
+				flag = true;
+				graph.endScript(name);
+				return null;
+			}
+		}
+	}
 }

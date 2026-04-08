@@ -19,21 +19,21 @@ import java.util.function.Function;
  * @see Status
  */
 public class ValidationStatus {
-    private static final AppLogger logger = new AppLogger(ValidationStatus.class);
-    private final Function<String, Optional<MessageExceptionValidation>> statusValidation;
+	private static final AppLogger logger = new AppLogger(ValidationStatus.class);
+	private final Function<String, Optional<MessageExceptionValidation>> statusValidation;
 
-    public ValidationStatus() {
-        this.statusValidation = new Builder<String>("status").add(RulesValidation.validationStatus()).build();
-        logger.debug("ValidationStatus initialized");
-    }
+	public ValidationStatus() {
+		this.statusValidation = new Builder<String>("status").add(RulesValidation.validationStatus()).build();
+		logger.debug("ValidationStatus initialized");
+	}
 
-    public Optional<MessageExceptionValidation> validationStatus(String status) {
-        try (Context ignored = Context.newId()) {
-            logger.debug("Validating status: {}", status);
-            return statusValidation.apply(status);
-        } catch (Exception e) {
-            logger.error("Error validating status: {}", e.getMessage());
-            return Optional.of(new MessageExceptionValidation("status", "Validation error: " + e.getMessage()));
-        }
-    }
+	public Optional<MessageExceptionValidation> validationStatus(String status) {
+		try (Context ignored = Context.newId()) {
+			logger.debug("Validating status: {}", status);
+			return statusValidation.apply(status);
+		} catch (Exception e) {
+			logger.error("Error validating status: {}", e.getMessage());
+			return Optional.of(new MessageExceptionValidation("status", "Validation error: " + e.getMessage()));
+		}
+	}
 }

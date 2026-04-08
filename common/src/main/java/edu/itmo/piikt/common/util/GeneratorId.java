@@ -1,8 +1,7 @@
 package edu.itmo.piikt.common.util;
 
-import lombok.experimental.UtilityClass;
-
 import java.util.UUID;
+import lombok.experimental.UtilityClass;
 
 /**
  * Utility class for generating unique identifiers.
@@ -13,12 +12,12 @@ import java.util.UUID;
  */
 @UtilityClass
 public class GeneratorId {
-    /**
-     * The getter returns the ID.
-     *
-     * @return id
-     */
-    public static String getId() {
-        return UUID.randomUUID().toString();
-    }
+	/**
+	 * The getter returns the ID.
+	 *
+	 * @return id
+	 */
+	public static String getId() {
+		return UUID.randomUUID().toString();
+	}
 }

@@ -12,6 +12,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum NameIOProvider {
-    CONSOLE("Console"), FILE("File");
-    private final String name;
+	CONSOLE("Console"), FILE("File");
+	private final String name;
 }

@@ -15,18 +15,18 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 public final class ExitCommand {
-    private static final AppLogger logger = new AppLogger(ExitCommand.class);
+	private static final AppLogger logger = new AppLogger(ExitCommand.class);
 
-    public ServerResponse execute() {
-        try (Context ignored = Context.newId()) {
-            logger.info("Executing EXIT command, saving collection");
-            CSVParser csvParser = new CSVParser();
-            csvParser.saveCollection();
-            logger.info("Collection saved, exiting");
-            return ServerResponse.successfulCompletion("EXIT");
-        } catch (Exception e) {
-            logger.error("Error during exit: {}", e);
-            throw new RuntimeException(e);
-        }
-    }
+	public ServerResponse execute() {
+		try (Context ignored = Context.newId()) {
+			logger.info("Executing EXIT command, saving collection");
+			CSVParser csvParser = new CSVParser();
+			csvParser.saveCollection();
+			logger.info("Collection saved, exiting");
+			return ServerResponse.successfulCompletion("EXIT");
+		} catch (Exception e) {
+			logger.error("Error during exit: {}", e);
+			throw new RuntimeException(e);
+		}
+	}
 }

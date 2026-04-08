@@ -21,28 +21,25 @@ import java.util.stream.Collectors;
  */
 @NoArgsConstructor
 public final class ShowCommand {
-    private static final AppLogger logger = new AppLogger(ShowCommand.class);
+	private static final AppLogger logger = new AppLogger(ShowCommand.class);
 
-    /** The method outputs data of all registered employees. */
-    public ServerResponse execute() {
-        try (Context ignored = Context.newId()) {
-            logger.info("Executing SHOW command");
-            var listHistory = HistoryWorker.INSTANCE.getListWorker();
-            if (listHistory.isEmpty()) {
-                logger.debug("Collection is empty");
-                return ServerResponse.error("COLLECTION IS EMPTY");
-            }
-            List<String> list = listHistory.stream()
-                    .sorted(Comparator.comparing(Worker::getName)
-                            .thenComparing(Worker::getStartDate)
-                            .thenComparing(Worker::getCreationDate))
-                    .map(Worker::toString)
-                    .collect(Collectors.toList());
-            logger.debug("Showing {} workers", list.size());
-            return ServerResponse.successfulCompletion("SHOW: ", list);
-        } catch (Exception e) {
-            logger.error("Error executing SHOW command: {}", e);
-            throw new RuntimeException(e);
-        }
-    }
+	/** The method outputs data of all registered employees. */
+	public ServerResponse execute() {
+		try (Context ignored = Context.newId()) {
+			logger.info("Executing SHOW command");
+			var listHistory = HistoryWorker.INSTANCE.getListWorker();
+			if (listHistory.isEmpty()) {
+				logger.debug("Collection is empty");
+				return ServerResponse.error("COLLECTION IS EMPTY");
+			}
+			List<String> list = listHistory.stream().sorted(Comparator.comparing(Worker::getName)
+					.thenComparing(Worker::getStartDate).thenComparing(Worker::getCreationDate)).map(Worker::toString)
+					.collect(Collectors.toList());
+			logger.debug("Showing {} workers", list.size());
+			return ServerResponse.successfulCompletion("SHOW: ", list);
+		} catch (Exception e) {
+			logger.error("Error executing SHOW command: {}", e);
+			throw new RuntimeException(e);
+		}
+	}
 }

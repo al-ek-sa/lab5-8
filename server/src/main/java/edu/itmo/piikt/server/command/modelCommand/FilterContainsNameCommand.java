@@ -21,27 +21,25 @@ import java.util.stream.Collectors;
  */
 @NoArgsConstructor
 public final class FilterContainsNameCommand {
-    private static final AppLogger logger = new AppLogger(FilterContainsNameCommand.class);
+	private static final AppLogger logger = new AppLogger(FilterContainsNameCommand.class);
 
-    /**
-     * The method outputs all employees with the same name as entered by the user.
-     *
-     */
-    public ServerResponse execute(ClientCommand clientCommand) {
-        try (Context ignored = Context.newId()) {
-            String argument = clientCommand.getArgumentCommand();
-            logger.info("Executing FILTER_CONTAINS_NAME with argument: {}", argument);
-            var listWorker = HistoryWorker.INSTANCE.getListWorker();
-            List<String> list = listWorker.stream()
-                    .filter(worker -> worker.getName() != null)
-                    .filter(worker -> worker.getName().contains(argument))
-                    .map(Worker::toString)
-                    .collect(Collectors.toList());
-            logger.debug("Found {} workers containing '{}'", list.size(), argument);
-            return ServerResponse.successfulCompletion("FILTER NAME", list);
-        } catch (Exception e) {
-            logger.error("Error executing FILTER_CONTAINS_NAME: {}", e);
-            throw new RuntimeException(e);
-        }
-    }
+	/**
+	 * The method outputs all employees with the same name as entered by the user.
+	 *
+	 */
+	public ServerResponse execute(ClientCommand clientCommand) {
+		try (Context ignored = Context.newId()) {
+			String argument = clientCommand.getArgumentCommand();
+			logger.info("Executing FILTER_CONTAINS_NAME with argument: {}", argument);
+			var listWorker = HistoryWorker.INSTANCE.getListWorker();
+			List<String> list = listWorker.stream().filter(worker -> worker.getName() != null)
+					.filter(worker -> worker.getName().contains(argument)).map(Worker::toString)
+					.collect(Collectors.toList());
+			logger.debug("Found {} workers containing '{}'", list.size(), argument);
+			return ServerResponse.successfulCompletion("FILTER NAME", list);
+		} catch (Exception e) {
+			logger.error("Error executing FILTER_CONTAINS_NAME: {}", e);
+			throw new RuntimeException(e);
+		}
+	}
 }

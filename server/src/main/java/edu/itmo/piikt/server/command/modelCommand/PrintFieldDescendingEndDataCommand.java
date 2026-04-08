@@ -22,31 +22,30 @@ import java.util.stream.Collectors;
  */
 @NoArgsConstructor
 public final class PrintFieldDescendingEndDataCommand {
-    private static final AppLogger logger = new AppLogger(PrintFieldDescendingEndDataCommand.class);
+	private static final AppLogger logger = new AppLogger(PrintFieldDescendingEndDataCommand.class);
 
-    /**
-     * The method sorts employees by endDate; if the data matches, employees are
-     * sorted by id.
-     */
-    public ServerResponse execute() {
-        try (Context ignored = Context.newId()) {
-            logger.info("Executing PRINT_FIELD_DESCENDING_END_DATE command");
-            var listWorker = HistoryWorker.INSTANCE.getListWorker();
-            if (listWorker.isEmpty()) {
-                logger.debug("Collection is empty");
-                return ServerResponse.successfulCompletion("COLLECTION IS EMPTY");
-            }
-            var sortedList = new LinkedList<>(listWorker);
-            List<String> list = sortedList.stream()
-                    .sorted(Comparator.comparing(Worker::getEndDate, Comparator.nullsFirst(Comparator.naturalOrder()))
-                            .reversed().thenComparing(Comparator.naturalOrder()))
-                    .map(Worker::toString)
-                    .collect(Collectors.toList());
-            logger.debug("Sorted {} workers by end date", list.size());
-            return ServerResponse.successfulCompletion("END DATE: ", list);
-        } catch (Exception e) {
-            logger.error("Error executing PRINT_FIELD_DESCENDING_END_DATE: {}", e);
-            throw new RuntimeException(e);
-        }
-    }
+	/**
+	 * The method sorts employees by endDate; if the data matches, employees are
+	 * sorted by id.
+	 */
+	public ServerResponse execute() {
+		try (Context ignored = Context.newId()) {
+			logger.info("Executing PRINT_FIELD_DESCENDING_END_DATE command");
+			var listWorker = HistoryWorker.INSTANCE.getListWorker();
+			if (listWorker.isEmpty()) {
+				logger.debug("Collection is empty");
+				return ServerResponse.successfulCompletion("COLLECTION IS EMPTY");
+			}
+			var sortedList = new LinkedList<>(listWorker);
+			List<String> list = sortedList.stream()
+					.sorted(Comparator.comparing(Worker::getEndDate, Comparator.nullsFirst(Comparator.naturalOrder()))
+							.reversed().thenComparing(Comparator.naturalOrder()))
+					.map(Worker::toString).collect(Collectors.toList());
+			logger.debug("Sorted {} workers by end date", list.size());
+			return ServerResponse.successfulCompletion("END DATE: ", list);
+		} catch (Exception e) {
+			logger.error("Error executing PRINT_FIELD_DESCENDING_END_DATE: {}", e);
+			throw new RuntimeException(e);
+		}
+	}
 }

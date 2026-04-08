@@ -13,5 +13,5 @@ import java.util.Optional;
  */
 @FunctionalInterface
 public interface ValidationRules<T> {
-    Optional<String> validation(T value);
+	Optional<String> validation(T value);
 }

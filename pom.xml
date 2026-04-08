@@ -23,6 +23,7 @@
         <logback.version>1.4.14</logback.version>
         <lombok.version>1.18.30</lombok.version>
         <opencsv.version>5.7.1</opencsv.version>
+        <spotless.version>2.43.0</spotless.version>
     </properties>
 
     <dependencyManagement>
@@ -47,4 +48,31 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>2.43.0</version>
+                <configuration>
+                    <java>
+                        <eclipse>
+                            <version>4.27</version>
+                        </eclipse>
+                        <trimTrailingWhitespace/>
+                        <endWithNewline/>
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>apply</goal>
+                        </goals>
+                        <phase>compile</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

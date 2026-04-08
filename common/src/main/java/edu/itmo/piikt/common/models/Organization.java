@@ -2,12 +2,11 @@ package edu.itmo.piikt.common.models;
 
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvRecurse;
+import java.io.Serial;
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serial;
-import java.io.Serializable;
 
 /**
  * The class of the Organization type object.
@@ -19,29 +18,30 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public final class Organization implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-    @CsvBindByPosition(position = 9)
-    private int annualTurnover;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    @CsvBindByPosition(position = 10)
-    private OrganizationType type;
+	@CsvBindByPosition(position = 9)
+	private int annualTurnover;
 
-    @CsvRecurse
-    private Address officialAddress;
+	@CsvBindByPosition(position = 10)
+	private OrganizationType type;
 
-    /**
-     * Returns a brief description of this Organization. The exact details of the
-     * representation are unspecified and subject to change, but the following may
-     * be regarded as typical:
-     *
-     * <p>
-     * "annualTurnover: annualTurnover, type: type, officialAddress:
-     * officialAddress"
-     */
-    @Override
-    public String toString() {
-        return " annualTurnover: " + annualTurnover + ", type: " + (type == null ? "null" : type.toString())
-                + ", officialAddress: " + (officialAddress == null ? "null" : officialAddress.toString());
-    }
+	@CsvRecurse
+	private Address officialAddress;
+
+	/**
+	 * Returns a brief description of this Organization. The exact details of the
+	 * representation are unspecified and subject to change, but the following may
+	 * be regarded as typical:
+	 *
+	 * <p>
+	 * "annualTurnover: annualTurnover, type: type, officialAddress:
+	 * officialAddress"
+	 */
+	@Override
+	public String toString() {
+		return " annualTurnover: " + annualTurnover + ", type: " + (type == null ? "null" : type.toString())
+				+ ", officialAddress: " + (officialAddress == null ? "null" : officialAddress.toString());
+	}
 }

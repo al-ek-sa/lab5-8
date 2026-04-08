@@ -16,18 +16,18 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 public final class ClearCommand {
-    private static final AppLogger logger = new AppLogger(ClearCommand.class);
+	private static final AppLogger logger = new AppLogger(ClearCommand.class);
 
-    public ServerResponse execute() {
-        try (Context ignored = Context.newId()) {
-            logger.info("Executing CLEAR command");
-            int sizeBefore = HistoryWorker.INSTANCE.getListWorker().size();
-            HistoryWorker.INSTANCE.clear();
-            logger.info("Collection cleared. Workers removed: {}", sizeBefore);
-            return ServerResponse.successfulCompletion(Commands.CLEAR.getName());
-        } catch (Exception e) {
-            logger.error("Error executing CLEAR command: {}", e);
-            throw new RuntimeException(e);
-        }
-    }
+	public ServerResponse execute() {
+		try (Context ignored = Context.newId()) {
+			logger.info("Executing CLEAR command");
+			int sizeBefore = HistoryWorker.INSTANCE.getListWorker().size();
+			HistoryWorker.INSTANCE.clear();
+			logger.info("Collection cleared. Workers removed: {}", sizeBefore);
+			return ServerResponse.successfulCompletion(Commands.CLEAR.getName());
+		} catch (Exception e) {
+			logger.error("Error executing CLEAR command: {}", e);
+			throw new RuntimeException(e);
+		}
+	}
 }
