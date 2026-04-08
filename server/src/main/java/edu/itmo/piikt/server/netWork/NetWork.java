@@ -17,6 +17,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class NetWork {
 	private static final int PORT = 6668;
+	private static final int NO_DATA = 0;
+	private static final int TIME = 1000;
 	private static final AppLogger logger = new AppLogger(NetWork.class);
 
 	private final Dispatcher dispatcher;
@@ -35,8 +37,8 @@ public class NetWork {
 
 	private void console() {
 		try {
-			if (System.in.available() > 0) {
-				while (System.in.available() > 0) {
+			if (System.in.available() > NO_DATA) {
+				while (System.in.available() > NO_DATA) {
 					char c = (char) System.in.read();
 					stringBuilder.append(c);
 					if (c == '\n') {
@@ -65,7 +67,7 @@ public class NetWork {
 
 			while (run) {
 				console();
-				selector.select(1000);
+				selector.select(TIME);
 				Iterator<SelectionKey> selectionKeyIterator = selector.selectedKeys().iterator();
 				while (selectionKeyIterator.hasNext()) {
 					SelectionKey key = selectionKeyIterator.next();

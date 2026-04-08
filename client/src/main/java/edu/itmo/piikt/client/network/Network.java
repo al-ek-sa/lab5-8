@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class Network implements Client {
 	private static final int SIZE = 66666;
 	private static final int TIME = 3000;
+	private static final int CONNECTION_CLOSED = -1;
 	private static final AppLogger logger = new AppLogger(Network.class);
 
 	private SocketChannel socketChannel;
@@ -62,7 +63,7 @@ public class Network implements Client {
 			ByteBuffer reader = clientData.getReader();
 			reader.clear();
 			int bytes = socketChannel.read(reader);
-			if (bytes == -1) {
+			if (bytes == CONNECTION_CLOSED) {
 				logger.error("Connection closed by server");
 				throw new IOException("Соединение закрыто");
 			}

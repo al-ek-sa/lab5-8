@@ -14,6 +14,8 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
 public record Connect(Dispatcher dispatcher) {
+	private static final int END_OF_STREAM = -1;
+	private static final int NO_DATA_READ = 0;
 	private static final AppLogger logger = new AppLogger(Connect.class);
 
 	public void connected(SelectionKey selectionKey) throws IOException {
@@ -36,12 +38,12 @@ public record Connect(Dispatcher dispatcher) {
 		var buffer = client.getReader();
 		var reader = clientChannel.read(buffer);
 
-		if (reader == -1) {
+		if (reader == END_OF_STREAM) {
 			logger.info("Client disconnected: {}", clientChannel.getRemoteAddress());
 			clientChannel.close();
 			return;
 		}
-		if (reader == 0) {
+		if (reader == NO_DATA_READ) {
 			return;
 		}
 
