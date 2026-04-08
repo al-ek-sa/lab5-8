@@ -29,7 +29,7 @@ public class Connect {
             var clientChannel = serverChannel.accept();
             clientChannel.configureBlocking(false);
             logger.info("New client connected: {}", clientChannel.getRemoteAddress());
-            edu.itmo.piikt.common.server_client.ClientData client = new edu.itmo.piikt.common.server_client.ClientData(6666);
+            edu.itmo.piikt.common.server_client.ClientData client = new edu.itmo.piikt.common.server_client.ClientData(66666);
             clientChannel.register(selectionKey.selector(), SelectionKey.OP_READ, client);
         } catch (IOException e) {
             logger.error("Error accepting connection: {}", e.getMessage());

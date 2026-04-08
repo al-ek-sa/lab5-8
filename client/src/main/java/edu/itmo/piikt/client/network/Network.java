@@ -20,9 +20,9 @@ import java.nio.channels.SocketChannel;
 @NoArgsConstructor
 @Data
 public class Network implements Client {
-    private static final Integer SIZE = 66666;
-    private static final Integer TIME = 3000;
-    private static final Integer MAX = 5;
+    private static final int SIZE = 66666;
+    private static final int TIME = 3000;
+    private static final int MAX = 5;
     private static final AppLogger logger = new AppLogger(Network.class);
 
     private SocketChannel socketChannel;

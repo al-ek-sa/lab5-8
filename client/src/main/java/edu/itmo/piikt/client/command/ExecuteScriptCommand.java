@@ -18,7 +18,7 @@ public final class ExecuteScriptCommand {
     private final List<String> name = new ArrayList<>();
     private final Graph graph = new Graph();
 
-    public void execute(IOProvider io, String argument) throws IOException {
+    public void execute(IOProvider io, String argument) {
         try {
             if (io.name().equals(NameIOProvider.CONSOLE.getName())) {
                 name.clear();
