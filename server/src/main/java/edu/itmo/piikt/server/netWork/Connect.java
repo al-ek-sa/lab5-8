@@ -3,10 +3,10 @@ package edu.itmo.piikt.server.netWork;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ClientCommand;
+import edu.itmo.piikt.common.server_client.ClientData;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.common.util.DS;
 import edu.itmo.piikt.server.dispatcher.Dispatcher;
-import lombok.Data;
 
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
@@ -14,14 +14,8 @@ import java.io.IOException;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
-@Data
-public class Connect {
+public record Connect(Dispatcher dispatcher) {
     private static final AppLogger logger = new AppLogger(Connect.class);
-    private final Dispatcher dispatcher;
-
-    public Connect(Dispatcher dispatcher) {
-        this.dispatcher = dispatcher;
-    }
 
     public void connected(SelectionKey selectionKey) throws IOException {
         try (Context ignored = Context.newId()) {
@@ -29,7 +23,7 @@ public class Connect {
             var clientChannel = serverChannel.accept();
             clientChannel.configureBlocking(false);
             logger.info("New client connected: {}", clientChannel.getRemoteAddress());
-            edu.itmo.piikt.common.server_client.ClientData client = new edu.itmo.piikt.common.server_client.ClientData(66666);
+            ClientData client = new ClientData(66666);
             clientChannel.register(selectionKey.selector(), SelectionKey.OP_READ, client);
         } catch (IOException e) {
             logger.error("Error accepting connection: {}", e.getMessage());
@@ -39,7 +33,7 @@ public class Connect {
 
     public void reader(SelectionKey selectionKey) throws IOException {
         var clientChannel = (SocketChannel) selectionKey.channel();
-        var client = (edu.itmo.piikt.common.server_client.ClientData) selectionKey.attachment();
+        var client = (ClientData) selectionKey.attachment();
         var buffer = client.getReader();
         var reader = clientChannel.read(buffer);
 
@@ -68,7 +62,7 @@ public class Connect {
 
     public void writer(SelectionKey selectionKey) throws IOException {
         var clientChannel = (SocketChannel) selectionKey.channel();
-        var client = (edu.itmo.piikt.common.server_client.ClientData) selectionKey.attachment();
+        var client = (ClientData) selectionKey.attachment();
         var serverResponse = (ServerResponse) client.getMessage();
 
         try (Context ignored = Context.newId()) {

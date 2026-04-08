@@ -24,15 +24,20 @@ public enum Commands {
     SHOW("show", "output all collection elements in string representation to stdout",
             "Both in the console and in the script, the command is entered as a single word without arguments. (\"show\")", false),
 
-    ADD("add", "add a new element to the collection", "In the console, only the "
-            + "command is entered without arguments (\"add\"). \nIn script mode, the data can be entered either as a single CSV line \n"
-            + "(add {\"name\";\"x\";\"y\";\"salary\";\"startDate\";\"endDate\";status\";\"annual turnover\";"
-            + "\"organization type\";\"street\"}), or line by line in the same order.", false),
+    ADD("add", "add a new element to the collection", """
+            In the console, only the \
+            command is entered without arguments ("add").\s
+            In script mode, the data can be entered either as a single CSV line\s
+            (add {"name";"x";"y";"salary";"startDate";"endDate";status";"annual turnover";\
+            "organization type";"street"}), or line by line in the same order.""", false),
 
     UPDATE("update", "update the value of the collection element whose id is equal to the specified one",
-            "In the console, the command is entered together with the id on one line\n(\"update _____\"). In the script, the command is "
-                    + "entered together with the\nid on one line (\"update _____\"), and then the data is entered line by line, in the same "
-                    + "order as the add command.", true),
+            """
+                    In the console, the command is entered together with the id on one line
+                    ("update _____"). In the script, the command is \
+                    entered together with the
+                    id on one line ("update _____"), and then the data is entered line by line, in the same \
+                    order as the add command.""", true),
 
     REMOVE_BY_ID("remove_by_id", "remove an element from the collection by its id",
             "Both in the console and in the script, the command is entered and \nthen the id is specified on the same line. (\"remove_by_id _____\")", true),
@@ -57,8 +62,10 @@ public enum Commands {
 
     COUNT_BY_ORGANIZATION("count_by_organization",
             "output the number of elements whose organization field value is equal to the specified one",
-            "In the console, only the command name is entered\n(\"count_by_organization\"), while in the script, the command is entered, and\n"
-                    + "then the data is entered line by line in the following order (annual turnover; type; street).", false),
+            """
+                    In the console, only the command name is entered
+                    ("count_by_organization"), while in the script, the command is entered, and
+                    then the data is entered line by line in the following order (annual turnover; type; street).""", false),
 
     FILTER_CONTAINS_NAME("filter_contains_name",
             "output elements whose name field value contains the specified substring",
@@ -75,8 +82,6 @@ public enum Commands {
     private final String description;
     private final String help;
     private final Boolean argument;
-
-    // todo возращает null очень аккуратно
     public static Commands nameCommands(String name) {
         for (Commands commands : values()) {
             if (commands.getName().equals(name)) {

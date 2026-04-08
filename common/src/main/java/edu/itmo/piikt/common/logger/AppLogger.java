@@ -66,18 +66,6 @@ public class AppLogger {
         }
     }
 
-    public void trace(String message) {
-        if (logger.isTraceEnabled()) {
-            logger.trace("[{}] {}", className, message);
-        }
-    }
-
-    public void trace(String message, Object... argument) {
-        if (logger.isTraceEnabled()) {
-            logger.trace("[{}] {}", className, format(message, argument));
-        }
-    }
-
     private String format(String message, Object... argument) {
         if (argument == null || argument.length == 0) {
             return message;

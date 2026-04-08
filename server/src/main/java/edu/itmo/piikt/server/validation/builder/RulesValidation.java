@@ -45,7 +45,7 @@ public final class RulesValidation {
 
     public static ValidationRules<String> localDate() {
         return input -> {
-            try (Context context = Context.newId()) {
+            try (Context ignored = Context.newId()) {
                 try {
                     LocalDate.parse(input);
                     return Optional.empty();
@@ -59,7 +59,7 @@ public final class RulesValidation {
 
     public static ValidationRules<String> validationDate() {
         return input -> {
-            try (Context context = Context.newId()) {
+            try (Context ignored = Context.newId()) {
                 if (input == null || input.isBlank() || "null".equalsIgnoreCase(input.trim())) {
                     return Optional.empty();
                 }
@@ -74,12 +74,11 @@ public final class RulesValidation {
         };
     }
 
-    // todo вынести парсинг
     public static ValidationRules<String> validationAnnualTurnover() {
         return input -> {
-            try (Context context = Context.newId()) {
+            try (Context ignored = Context.newId()) {
                 try {
-                    Integer annualTurnover = Integer.parseInt(input);
+                    int annualTurnover = Integer.parseInt(input);
                     if (annualTurnover <= 0) {
                         logger.debug("Annual turnover validation failed: {}", annualTurnover);
                         return Optional.of(ValidationMessage.ANNUAL_TURNOVER.getText());
@@ -95,9 +94,9 @@ public final class RulesValidation {
 
     public static ValidationRules<String> validationY2() {
         return input -> {
-            try (Context context = Context.newId()) {
+            try (Context ignored = Context.newId()) {
                 try {
-                    Float y = Float.parseFloat(input);
+                    float y = Float.parseFloat(input);
                     if (y <= -644) {
                         logger.debug("Coordinate Y validation failed: {}", y);
                         return Optional.of(ValidationMessage.COORDINATE_Y.getText());
@@ -113,7 +112,7 @@ public final class RulesValidation {
 
     public static ValidationRules<String> validationX2() {
         return input -> {
-            try (Context context = Context.newId()) {
+            try (Context ignored = Context.newId()) {
                 try {
                     long x = Long.parseLong(input);
                     if (x > 10) {
@@ -131,9 +130,9 @@ public final class RulesValidation {
 
     public static ValidationRules<String> validationType() {
         return input -> {
-            try (Context context = Context.newId()) {
+            try (Context ignored = Context.newId()) {
                 try {
-                    Integer type = Integer.parseInt(input);
+                    int type = Integer.parseInt(input);
                     if (type < 1 || type > OrganizationType.values().length) {
                         logger.debug("Organization type validation failed: {}", type);
                         return Optional.of(ValidationMessage.ENUM.getText());
@@ -149,9 +148,9 @@ public final class RulesValidation {
 
     public static ValidationRules<String> validationStatus() {
         return input -> {
-            try (Context context = Context.newId()) {
+            try (Context ignored = Context.newId()) {
                 try {
-                    Integer status = Integer.parseInt(input);
+                    int status = Integer.parseInt(input);
                     if (status < 1 || status > Status.values().length) {
                         logger.debug("Status validation failed: {}", status);
                         return Optional.of(ValidationMessage.ENUM.getText());
@@ -167,12 +166,12 @@ public final class RulesValidation {
 
     public static ValidationRules<String> validationSalary() {
         return input -> {
-            try (Context context = Context.newId()) {
+            try (Context ignored = Context.newId()) {
                 try {
                     if (input == null || input.isBlank()) {
                         return Optional.empty();
                     }
-                    Integer salary = Integer.parseInt(input);
+                    int salary = Integer.parseInt(input);
                     if (salary <= 0) {
                         logger.debug("Salary validation failed: {}", salary);
                         return Optional.of(ValidationMessage.SALARY.getText());

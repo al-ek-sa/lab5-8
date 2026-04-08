@@ -1,6 +1,5 @@
 package edu.itmo.piikt.server.netWork;
 
-import edu.itmo.piikt.common.interfaceCommon.Server;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.server.CommandServer.CommandFactory;
@@ -60,7 +59,7 @@ public class NetWork {
             logger.info("Starting server on port {}", PORT);
             selector = Selector.open();
             serverSocketChannel = ServerSocketChannel.open();
-            serverSocketChannel.configureBlocking(false);
+            serverSocketChannel.configureBlocking(true);
             serverSocketChannel.bind(new InetSocketAddress(PORT));
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
             logger.info("Server started successfully");

@@ -6,7 +6,6 @@ import edu.itmo.piikt.common.server_client.ServerResponse;
 public interface Client extends AutoCloseable {
     @Override
     void close() throws Exception;
-    boolean connected();
     void connect() throws Exception;
     ServerResponse send(ClientCommand clientResponse) throws Exception;
 }

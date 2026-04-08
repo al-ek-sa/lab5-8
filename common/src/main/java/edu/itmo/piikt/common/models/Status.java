@@ -3,8 +3,6 @@ package edu.itmo.piikt.common.models;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.io.Serializable;
-
 /**
  * The Enum class contains instances of possible statuses.
  *

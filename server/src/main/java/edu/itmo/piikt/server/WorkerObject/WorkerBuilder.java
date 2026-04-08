@@ -17,9 +17,6 @@ import java.util.Date;
 public class WorkerBuilder {
     private static final AppLogger logger = new AppLogger(WorkerBuilder.class);
 
-    // todo возращает null
-    // todo документация, нельзя вызывать перед строителем(ошибки парсинга не учтены
-    // тогда будут)
     public Worker builerWorker(WorkerData workerData) {
         try (Context ignored = Context.newId()) {
             logger.debug("Building worker from data");

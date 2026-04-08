@@ -1,12 +1,14 @@
 package edu.itmo.piikt.client;
 
+import edu.itmo.piikt.client.manager.ValidationCommand;
+import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.io.providerType.IOConsole;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Config;
 import edu.itmo.piikt.common.logger.Context;
-import edu.itmo.piikt.client.manager.ValidationCommand;
-import edu.itmo.piikt.client.network.Network;
+
+import static java.lang.Thread.sleep;
 
 public class MainClient {
     private static final AppLogger logger = new AppLogger(MainClient.class);
@@ -15,7 +17,7 @@ public class MainClient {
     public static void main(String[] args) {
         Config.configureFromArgs(args);
 
-        try (Context context = Context.newId()) {
+        try (Context ignored = Context.newId()) {
             logger.info("Starting client...");
             IOProvider io = new IOConsole();
             Network client = null;
@@ -35,7 +37,7 @@ public class MainClient {
                         return;
                     }
                     try {
-                        Thread.sleep(5000);
+                        sleep(5000);
                     } catch (InterruptedException ex) {
                         logger.error("Interrupted while waiting to reconnect");
                         return;

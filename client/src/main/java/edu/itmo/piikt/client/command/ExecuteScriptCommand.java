@@ -54,9 +54,9 @@ public final class ExecuteScriptCommand {
 
     private static  class ScriptProvider implements IOProvider{
         private boolean flag = false;
-        private IOFile ioFile;
-        private Graph graph;
-        private String name;
+        private final IOFile ioFile;
+        private final Graph graph;
+        private final String name;
 
         ScriptProvider(IOFile ioFile, Graph graph, String name){
             this.ioFile = ioFile;

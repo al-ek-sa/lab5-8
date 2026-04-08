@@ -36,16 +36,4 @@ public class ValidationStatus {
             return Optional.of(new MessageExceptionValidation("status", "Validation error: " + e.getMessage()));
         }
     }
-
-    // todo nullpointer оч аккуратно
-    public Status status(int status) {
-        try (Context context = Context.newId()) {
-            Status result = Status.values()[status - 1];
-            logger.debug("Status resolved: {}", result);
-            return result;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            logger.error("Invalid status index: {}", status);
-            return Status.FIRED;
-        }
-    }
 }

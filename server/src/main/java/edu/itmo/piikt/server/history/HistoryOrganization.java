@@ -5,7 +5,6 @@ import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.models.Organization;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;

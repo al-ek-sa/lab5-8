@@ -19,8 +19,6 @@ import java.util.Arrays;
 public class WorkerServer {
     private static final AppLogger logger = new AppLogger(WorkerServer.class);
     private IOProvider io;
-    // todo ошибка при приведении типов, привидение типов, есть поля которые могут
-    // быть null по умолчанию
     public WorkerData build(ServerResponse serverResponse) {
         try (Context ignored = Context.newId()) {
             logger.debug("Building worker data from server response");

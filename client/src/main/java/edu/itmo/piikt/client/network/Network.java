@@ -12,7 +12,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
@@ -22,7 +21,6 @@ import java.nio.channels.SocketChannel;
 public class Network implements Client {
     private static final int SIZE = 66666;
     private static final int TIME = 3000;
-    private static final int MAX = 5;
     private static final AppLogger logger = new AppLogger(Network.class);
 
     private SocketChannel socketChannel;
@@ -31,11 +29,12 @@ public class Network implements Client {
     private ClientData clientData;
 
     @Override
-    public void connect() throws IOException {
-connectWithRetry(MAX);
+    public void connect() {
+        connectWithRetry();
     }
 
-    private void connectWithRetry(int number) throws IOException{
+    private void connectWithRetry() {
+        while (!Thread.currentThread().isInterrupted()) {
         try (Context ignored = Context.newId()) {
             logger.info("Connecting to {}:{}", HOST, PORT);
             socketChannel = SocketChannel.open();
@@ -43,31 +42,10 @@ connectWithRetry(MAX);
             socketChannel.connect(new InetSocketAddress(HOST, PORT));
             clientData = new ClientData(SIZE);
             logger.info("Connected successfully");
-        }catch (ConnectException e){
-            if (number >1) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                    throw new IOException();
-                }
-                connectWithRetry(number - 1);
-            } else {
-                throw new IOException();
-            }
+            return;
         } catch (IOException e) {
-            if (number >1) {
-                try {
-                    Thread.sleep(1000);
-                    ;
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                    throw new IOException();
-                }
-                connectWithRetry(number - 1);
-            } else {
-                throw e;
-            }
+                logger.warn("Retry interrupted");
+        }
         }
     }
 

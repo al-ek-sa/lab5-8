@@ -14,8 +14,6 @@ import java.io.Serializable;
 public class OrganizationData implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    // todo документация! обязательно проверить на null, перепроверить анатоции и
-    // зависимости подключить
     private String annualTurnover;
     private TypeOrganizationDate type;
     private AddressData officialAddress;

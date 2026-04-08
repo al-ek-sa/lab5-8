@@ -17,8 +17,6 @@ import java.io.Serializable;
 public final class WorkerData implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    // todo документация! обязательно проверить на null, перепроверить анатоции и
-    // зависимости подключить
     private String name;
     private CoordinatesData coordinates;
     private String salary;

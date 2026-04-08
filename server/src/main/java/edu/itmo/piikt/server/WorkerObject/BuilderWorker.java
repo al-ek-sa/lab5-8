@@ -11,6 +11,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @AllArgsConstructor
 @Data
@@ -41,51 +42,51 @@ public class BuilderWorker implements Serializable {
         }
 
         try (Context ignored = Context.newId()) {
-            WorkerData data = workerData;
+            AtomicReference<WorkerData> data = new AtomicReference<>(workerData);
             List<MessageExceptionValidation> errors = new ArrayList<>();
 
             if (workerData.getName() != null) {
                 validationWorker.validationName(workerData.getName()).ifPresent(error -> {
                     errors.add(error);
-                    data.setName(null);
+                    data.get().setName(null);
                 });
             }
             if (workerData.getSalary() != null) {
                 validationWorker.validationSalary(workerData.getSalary()).ifPresent(error -> {
                     errors.add(error);
-                    data.setSalary(null);
+                    data.get().setSalary(null);
                 });
             }
             if (workerData.getEndDate() != null) {
                 validationWorker.validationEndDate(workerData.getEndDate()).ifPresent(error -> {
                     errors.add(error);
-                    data.setEndDate(null);
+                    data.get().setEndDate(null);
                 });
             }
             if (workerData.getStartDate() != null) {
                 validationWorker.validationStartDate(workerData.getStartDate()).ifPresent(error -> {
                     errors.add(error);
-                    data.setStartDate(null);
+                    data.get().setStartDate(null);
                 });
             }
             if (workerData.getCoordinates() != null) {
                 if (workerData.getCoordinates().getX() != null) {
                     validationCoordinates.validationX(workerData.getCoordinates().getX()).ifPresent(error -> {
                         errors.add(error);
-                        data.getCoordinates().setX(null);
+                        data.get().getCoordinates().setX(null);
                     });
                 }
                 if (workerData.getCoordinates().getY() != null) {
                     validationCoordinates.validationY(workerData.getCoordinates().getY()).ifPresent(error -> {
                         errors.add(error);
-                        data.getCoordinates().setY(null);
+                        data.get().getCoordinates().setY(null);
                     });
                 }
             }
             if (workerData.getStatus() != null && workerData.getStatus().getId() != null) {
                 validationStatus.validationStatus(workerData.getStatus().getId()).ifPresent(error -> {
                     errors.add(error);
-                    data.getStatus().setId(null);
+                    data.get().getStatus().setId(null);
                 });
             }
             if (workerData.getOrganization() != null) {
@@ -93,14 +94,14 @@ public class BuilderWorker implements Serializable {
                     validationOrganization.validationAnnualTurnover(workerData.getOrganization().getAnnualTurnover())
                             .ifPresent(error -> {
                                 errors.add(error);
-                                data.getOrganization().setAnnualTurnover(null);
+                                data.get().getOrganization().setAnnualTurnover(null);
                             });
                 }
                 if (workerData.getOrganization().getType() != null && workerData.getOrganization().getType().getId() != null) {
                     validationOrganizationType.validationOrganizationType(workerData.getOrganization().getType().getId())
                             .ifPresent(error -> {
                                 errors.add(error);
-                                data.getOrganization().getType().setId(null);
+                                data.get().getOrganization().getType().setId(null);
                             });
                 }
                 if (workerData.getOrganization().getOfficialAddress() != null &&
@@ -108,7 +109,7 @@ public class BuilderWorker implements Serializable {
                     validationAddress.validation(workerData.getOrganization().getOfficialAddress().getStreet())
                             .ifPresent(error -> {
                                 errors.add(error);
-                                data.getOrganization().getOfficialAddress().setStreet(null);
+                                data.get().getOrganization().getOfficialAddress().setStreet(null);
                             });
                 }
             }
