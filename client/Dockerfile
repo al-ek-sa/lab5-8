@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk-alpine
+FROM eclipse-temurin:17-jdk-alpine
 LABEL authors="Aliaksandra"
 WORKDIR /app
 COPY target/client-1.0-SNAPSHOT-jar-with-dependencies.jar /app/client.jar

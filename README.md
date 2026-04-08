@@ -163,3 +163,5 @@ mvn clean compile
 mvn package
 java -jar client/target/client-1.0-SNAPSHOT-jar-with-dependencies.jar
 java -jar server/target/server-1.0-SNAPSHOT-jar-with-dependencies.jar --log-level INFO --log-output file --log-file server.log
+docker run -it -p 6668:6668 --name server 2sem-server
+docker run -it --name client --link server:server -e SERVER_HOST=server 2sem-client

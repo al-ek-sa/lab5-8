@@ -8,6 +8,7 @@ import edu.itmo.piikt.common.util.GeneratorId;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.annotation.Nullable;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -38,16 +39,7 @@ public class WorkerBuilder {
                     ? ZonedDateTime.parse(workerData.getEndDate())
                     : null;
             Status status = Status.values()[Integer.parseInt(workerData.getStatus().getId()) - 1];
-            Organization organization = null;
-            if (workerData.getOrganization() != null &&
-                    workerData.getOrganization().getAnnualTurnover() != null &&
-                    !workerData.getOrganization().getAnnualTurnover().trim().isEmpty()) {
-                int annualTurnover = Integer.parseInt(workerData.getOrganization().getAnnualTurnover());
-                OrganizationType type = OrganizationType
-                        .values()[Integer.parseInt(workerData.getOrganization().getType().getId()) - 1];
-                Address address = new Address(workerData.getOrganization().getOfficialAddress().getStreet());
-                organization = new Organization(annualTurnover, type, address);
-            }
+            Organization organization = getOrganization(workerData);
             Worker worker = new Worker(uuid, name, coordinates, creationDate, salary, startDate, endDate, status, organization);
             logger.debug("Worker built successfully: id={}, name={}", uuid, name);
             return worker;
@@ -55,5 +47,20 @@ public class WorkerBuilder {
             logger.error("Error building worker: {}", e.getMessage());
             throw new RuntimeException("Failed to build worker: " + e.getMessage(), e);
         }
+    }
+
+    @Nullable
+    private static Organization getOrganization(WorkerData workerData) {
+        Organization organization = null;
+        if (workerData.getOrganization() != null &&
+                workerData.getOrganization().getAnnualTurnover() != null &&
+                !workerData.getOrganization().getAnnualTurnover().trim().isEmpty()) {
+            int annualTurnover = Integer.parseInt(workerData.getOrganization().getAnnualTurnover());
+            OrganizationType type = OrganizationType
+                    .values()[Integer.parseInt(workerData.getOrganization().getType().getId()) - 1];
+            Address address = new Address(workerData.getOrganization().getOfficialAddress().getStreet());
+            organization = new Organization(annualTurnover, type, address);
+        }
+        return organization;
     }
 }

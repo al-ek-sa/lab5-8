@@ -43,11 +43,10 @@ public final class AddCommand {
                 HistoryAddress.INSTANCE.add(worker.getOrganization().getOfficialAddress());
                 logger.info("Worker added successfully, total workers: {}", HistoryWorker.INSTANCE.getListWorker().size());
                 return ServerResponse.successfulCompletion("ADD");
-            } else if (result instanceof ValidationError(
-                    java.util.List<edu.itmo.piikt.common.data.MessageExceptionValidation> errors, Object data
-            )) {
-                logger.warn("Validation failed: {} errors", errors.size());
-                return ServerResponse.error("Введены неверные данные", errors, data);
+            } else if (result instanceof ValidationError) {
+                ValidationError error = (ValidationError) result;
+                logger.warn("Validation failed: {} errors", error.errors().size());
+                return ServerResponse.error("Введены неверные данные", error.errors(), error.data());
             }
             logger.error("Unknown result type from builder");
             return ServerResponse.error("Какая-то ошибка");

@@ -26,8 +26,10 @@ public class AddCommand {
         try (Context ignored = Context.newId()) {
             logger.info("ADD command started");
             WorkerData workerData = worker.build(io);
-            ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName())
-                    .data(workerData).build();
+            ClientCommand clientCommand = ClientCommand.builder()
+                    .nameCommand(Commands.ADD.getName())
+                    .data(workerData)
+                    .build();
             ServerResponse serverResponse = network.send(clientCommand);
             return add(serverResponse, io);
         } catch (Exception e) {
@@ -37,8 +39,9 @@ public class AddCommand {
     }
 
     private ServerResponse add(ServerResponse serverResponse, IOProvider io) {
-        var workerServer = new WorkerServer(io);
-        var server = serverResponse;
+        WorkerServer workerServer = new WorkerServer(io);
+        ServerResponse server = serverResponse;
+
         while (true) {
             try (Context ignored = Context.newId()) {
                 if (server.execution()) {
@@ -46,9 +49,11 @@ public class AddCommand {
                     return server;
                 } else {
                     logger.warn("Validation error, requesting correction");
-                    var data = workerServer.build(server);
-                    ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName())
-                            .data(data).build();
+                    WorkerData data = workerServer.build(server);
+                    ClientCommand clientCommand = ClientCommand.builder()
+                            .nameCommand(Commands.ADD.getName())
+                            .data(data)
+                            .build();
                     server = network.send(clientCommand);
                 }
             } catch (Exception e) {

@@ -35,12 +35,12 @@ public class MainServer {
                 netWork.start();
             } catch (IOException e) {
                 logger.error("Failed to start server: {}", e.getMessage());
-                e.printStackTrace();
+
             }
 
         } catch (Exception e) {
             logger.error("Server initialization failed: {}", e.getMessage());
-            e.printStackTrace();
+
         }
     }
 }

@@ -49,11 +49,10 @@ public final class CountByOrganizationCommand {
                         .filter(worker -> worker.getOrganization().equals(organization)).count();
                 logger.info("Count result: {}", size);
                 return ServerResponse.successfulCompletion("COUNT_BY_ORGANIZATION: ", List.of(String.valueOf(size)));
-            } else if (result instanceof ValidationError(
-                    List<edu.itmo.piikt.common.data.MessageExceptionValidation> errors, Object data
-            )) {
-                logger.warn("Validation failed: {} errors", errors.size());
-                return ServerResponse.error("данные введены неверно ", errors, data);
+            } else if (result instanceof ValidationError) {
+            ValidationError error = (ValidationError) result;
+            logger.warn("Validation failed: {} errors", error.errors().size());
+            return ServerResponse.error("данные введены неверно ", error.errors(), error.data());
             }
             logger.error("Unknown result type from builder");
             return ServerResponse.error("Неизвестная ошибка");
