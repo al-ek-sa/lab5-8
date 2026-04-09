@@ -155,11 +155,54 @@ public enum OrganizationType {
 # Системные требования
 - Java Development Kit (JDK) версии 21
 - Apache Maven версии 3.8.7 или выше
+- лмбо docker
 
-## Инструкция по сборке и запуску
-### Сборка проекта
+## Сборка проекта
 ```bash
-mvn clean compile
-mvn package
+mvn clean compile package
+```
+
+## При использование docker
+```bash
+#логгирование устанавливаеться по умолчанию и на клиенте, и на сервере
+#сервер
+docker run -it -p 6668:6668 --name server 2sem_server
+#клиент
+docker run -it --name client --link server:server -e SERVER_HOST=server 2sem_server
+```
+
+## Инструкция по запуску
+```bash
 java -jar client/target/client-1.0-SNAPSHOT-jar-with-dependencies.jar
-java -jar server/target/server-1.0-SNAPSHOT-jar-with-dependencies.jar --log-level INFO --log-output file --log-file server.log
+java -jar server/target/server-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
+## Инструкция по установлению логгирования
+(по умолчанию логгирование производиться в файл и в консоль на уровне INFO, по умолчанию создаеться общий файл для логгирования клиента и сервера, также создаеться отдальный файл для логгов уровня ERROR)
+```bash
+#После основного кода запуска в строке необходимо установить уровень логгирования, куда будет производиться логгирование, файл для логгирования (если необходимо)
+#место
+#логгирование в файл
+--log_output file
+#логгирование в консоль
+--log_output console
+#логгирование в файл и в консоль
+--log_output both
+#уровень логгирование
+#уровень TRACE (выводит логги всех уровней: TRACE + DEBAG + INFO + WARM + ERROR)
+--log_level TRACE
+#уровень DEBAG (выводит логги следующих уровней: DEBAG + INFO + WARM + ERROR)
+--log_level DEBAG
+#уровень INFO (выводит логги следующих уровней: INFO + WARM + ERROR)
+--log_level INFO
+#уровень WARM (выводит логги следующих уровней: WARM + ERROR)
+--log_level WARM
+#уровень ERROR (выводит логги следующих уровней: ERROR)
+--log_level ERROR
+#создание файла для логгирования
+--log-file название_файла
+```
+
+## Для выполнения только одной команды следует указать следуюющий код во время запуска
+```bash
+--cron название_команды #(execute_script указывать плохая идея)
+```

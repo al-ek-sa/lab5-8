@@ -2,6 +2,7 @@ package edu.itmo.piikt.client;
 
 import edu.itmo.piikt.client.manager.CronValidationCommand;
 import edu.itmo.piikt.client.manager.ValidationCommand;
+import edu.itmo.piikt.client.mode.CronMode;
 import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.io.providerType.IOConsole;
@@ -32,8 +33,8 @@ public class MainClient {
 				for (int i = 0; i < args.length; i++) {
 					if (args[i].equalsIgnoreCase("--cron") && i + 1 < args.length) {
 						String command = args[i + 1];
-						CronValidationCommand.INSTANCE.setNetwork(client);
-						CronValidationCommand.INSTANCE.validation(io, command);
+						CronMode cronMode = new CronMode(command);
+						cronMode.execute(client, io);
 						client.close();
 						return;
 					} else if (args[i].equalsIgnoreCase("--cron")) {
