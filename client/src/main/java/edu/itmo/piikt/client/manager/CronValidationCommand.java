@@ -109,7 +109,7 @@ public enum CronValidationCommand {
 						}
 						if (com2.equals(Commands.UPDATE.getName())) {
 							logger.debug("Executing UPDATE command for id: {}", argument);
-							updateCommand.update(provider, com2, argument).printToConsole();
+							updateCommand.execute(provider, com2, argument).printToConsole();
 							return;
 						}
 						ClientCommand clientCommand = ClientCommand.builder().nameCommand(com2)

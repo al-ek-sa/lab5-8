@@ -1,5 +1,6 @@
 package edu.itmo.piikt.client.command;
 
+import edu.itmo.piikt.client.commands.CommandExecute;
 import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.logger.AppLogger;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateCommand {
+public class UpdateCommand implements CommandExecute<ServerResponse> {
 	private static final AppLogger logger = new AppLogger(UpdateCommand.class);
 	/** Network client for sending requests to server */
 	private Network network;
@@ -30,14 +31,17 @@ public class UpdateCommand {
 	 *
 	 * @param io
 	 *            input/output provider
-	 * @param command
-	 *            command name (UPDATE)
-	 * @param argument
-	 *            Worker ID to update
 	 * @return server response
 	 */
-	public ServerResponse update(IOProvider io, String command, String argument) {
+	@Override
+	public ServerResponse execute(IOProvider io, Object... arg) {
 		try (Context ignored = Context.newId()) {
+			if (arg.length != 2) {
+				throw new RuntimeException();
+			}
+			if (!(arg[0] instanceof String command) || !(arg[1] instanceof String argument)) {
+				throw new RuntimeException();
+			}
 			logger.info("UPDATE command started: id={}", argument);
 			// Check if Worker exists
 			ClientCommand clientCommand = ClientCommand.builder().nameCommand(command).argumentCommand(argument)

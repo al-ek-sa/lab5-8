@@ -1,5 +1,6 @@
 package edu.itmo.piikt.client.command.history;
 
+import edu.itmo.piikt.client.commands.CommandVoid;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
  * @see HistoryCommands
  */
 @NoArgsConstructor
-public final class HistoryCommand {
+public final class HistoryCommand implements CommandVoid {
 	/** Maximum number of commands to display in history */
 	private static final int LIMIT_HISTORY = 14;
 	private static final AppLogger logger = new AppLogger(HistoryCommand.class);
@@ -27,7 +28,9 @@ public final class HistoryCommand {
 	 * @param io
 	 *            provider for outputting command results
 	 */
-	public void execute(IOProvider io) {
+	public void execute(IOProvider io, Object... arg) {
+		if (arg.length != 0)
+			throw new RuntimeException();
 		try (Context ignored = Context.newId()) {
 			logger.debug("Executing history command");
 			var history = HistoryCommands.INSTANCE.getLinkedList();

@@ -1,5 +1,6 @@
 package edu.itmo.piikt.client.command;
 
+import edu.itmo.piikt.client.commands.CommandExecute;
 import edu.itmo.piikt.client.data.Worker;
 import edu.itmo.piikt.client.data.WorkerServer;
 import edu.itmo.piikt.client.network.Network;
@@ -20,15 +21,17 @@ import lombok.NoArgsConstructor;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-@NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class AddCommand {
+public class AddCommand implements CommandExecute<ServerResponse> {
 	private static final AppLogger logger = new AppLogger(AddCommand.class);
 	/** Network client for sending requests to server */
 	private Network network;
 	/** Worker builder for collecting input data */
 	private Worker worker = new Worker();
+
+	public AddCommand(Network network) {
+	}
 
 	/**
 	 * Executes the ADD command.
@@ -37,8 +40,11 @@ public class AddCommand {
 	 *            input/output provider for user interaction
 	 * @return server response
 	 */
-	public ServerResponse execute(IOProvider io) {
+	public ServerResponse execute(IOProvider io, Object... arg) {
 		try (Context ignored = Context.newId()) {
+			if (arg.length > 0) {
+				throw new RuntimeException();
+			}
 			logger.info("ADD command started");
 			// Build Worker from user input
 			WorkerData workerData = worker.build(io);

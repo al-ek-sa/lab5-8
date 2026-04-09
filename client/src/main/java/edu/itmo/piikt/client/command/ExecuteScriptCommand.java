@@ -1,6 +1,8 @@
 package edu.itmo.piikt.client.command;
 
 import edu.itmo.piikt.client.algorithms.Graph;
+import edu.itmo.piikt.client.commands.CommandExecute;
+import edu.itmo.piikt.client.commands.CommandVoid;
 import edu.itmo.piikt.client.manager.ValidationCommand;
 import edu.itmo.piikt.common.io.data.NameIOProvider;
 import edu.itmo.piikt.common.io.provider.IOProvider;
@@ -9,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import edu.itmo.piikt.common.logger.AppLogger;
 import lombok.Data;
@@ -22,7 +25,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-public final class ExecuteScriptCommand {
+public final class ExecuteScriptCommand implements CommandVoid {
 	private static final AppLogger log = new AppLogger(ExecuteScriptCommand.class);
 	/** List of executed scripts to prevent recursion */
 	private final List<String> name = new ArrayList<>();
@@ -34,10 +37,13 @@ public final class ExecuteScriptCommand {
 	 *
 	 * @param io
 	 *            input/output provider
-	 * @param argument
-	 *            script file name
 	 */
-	public void execute(IOProvider io, String argument) {
+	@Override
+	public void execute(IOProvider io, Object... arg) {
+		if (arg.length != 1) {
+			throw new RuntimeException();
+		}
+		var argument = (String) arg[0];
 		try {
 			log.info("Executing script: {}", argument);
 			// Clear history for console commands

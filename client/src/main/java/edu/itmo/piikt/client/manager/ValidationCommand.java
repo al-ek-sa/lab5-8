@@ -162,7 +162,7 @@ public enum ValidationCommand {
 							}
 							if (com2.equals(Commands.UPDATE.getName())) {
 								logger.debug("Executing UPDATE command for id: {}", argument);
-								updateCommand.update(provider, com2, argument).printToConsole();
+								updateCommand.execute(provider, com2, argument).printToConsole();
 								continue;
 							}
 							ClientCommand clientCommand = ClientCommand.builder().nameCommand(com2)

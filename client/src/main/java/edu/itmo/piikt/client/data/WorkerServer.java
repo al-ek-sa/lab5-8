@@ -35,6 +35,11 @@ public class WorkerServer {
 	public WorkerData build(ServerResponse serverResponse) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Building worker data from server response");
+			Object dataObj = serverResponse.dataString();
+			if (dataObj == null) {
+				logger.error("Server response contains no data");
+				throw new RuntimeException("No data from server for correction");
+			}
 			WorkerData workerData = (WorkerData) serverResponse.dataString();
 			if (workerData.getName() == null) {
 				logger.debug("Name is null, requesting input");
