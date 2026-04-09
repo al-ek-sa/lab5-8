@@ -25,8 +25,8 @@ public final class PrintFieldDescendingEndDataCommand {
 	private static final AppLogger logger = new AppLogger(PrintFieldDescendingEndDataCommand.class);
 
 	/**
-	 * The method sorts employees by endDate; if the data matches, employees are
-	 * sorted by id.
+	 * Executes the PRINT_FIELD_DESCENDING_END_DATE command
+	 * @return ServerResponse with sorted worker list
 	 */
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {

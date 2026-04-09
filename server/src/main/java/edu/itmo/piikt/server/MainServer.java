@@ -8,14 +8,24 @@ import edu.itmo.piikt.server.netWork.NetWork;
 import edu.itmo.piikt.server.saveManager.CSVParser;
 import java.io.IOException;
 
+/**
+ * Initializes the server, loads data from CSV file, starts the network server, and handles graceful shutdown
+ * with data persistence
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 public class MainServer {
 	private static final AppLogger logger = new AppLogger(MainServer.class);
 
+	/**
+	 * Application entry point
+	 * @param args command line arguments for logging configuration
+	 */
 	public static void main(String[] args) {
 		Config.configureFromArgs(args);
 
 		try (Context ignored = Context.newId()) {
-			logger.info("Starting server...");
+			logger.info("Starting server");
 			CSVParser csvParser = new CSVParser();
 			csvParser.readFile();
 			logger.info("Data loaded from file");

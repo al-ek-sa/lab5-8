@@ -10,10 +10,22 @@ import edu.itmo.piikt.server.command.modelCommand.*;
 import java.util.EnumMap;
 import java.util.function.Function;
 
+/**
+ * Command dispatcher that routes client commands to appropriate handlers
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 public class Dispatcher {
 	private static final AppLogger logger = new AppLogger(Dispatcher.class);
+	/**
+	 * Map linking command enums to their execution functions
+	 */
 	private final EnumMap<Commands, Function<ClientCommand, ServerResponse>> enumMap = new EnumMap<>(Commands.class);
 
+	/**
+	 * Initializes the dispatcher with all command handlers
+	 */
 	public Dispatcher() {
 		enumMap.put(Commands.ADD, com -> new AddCommand().execute(com));
 		enumMap.put(Commands.UPDATE, com -> new UpdateIdCommand().execute(com));
@@ -32,7 +44,11 @@ public class Dispatcher {
 		enumMap.put(Commands.EXIT, com -> new ExitCommand().execute());
 	}
 
-	// todo
+	/**
+	 * Dispatches a client command to the appropriate handler
+	 * @param command client command to execute
+	 * @return ServerResponse containing execution result
+	 */
 	public ServerResponse dispatcher(ClientCommand command) {
 		try (Context ignored = Context.newId()) {
 			String commandName = command.getNameCommand();

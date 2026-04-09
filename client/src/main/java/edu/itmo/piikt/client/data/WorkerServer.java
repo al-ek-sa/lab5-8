@@ -12,6 +12,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Builder for correcting Worker data when validation fails
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,6 +25,11 @@ public class WorkerServer {
 	private static final AppLogger logger = new AppLogger(WorkerServer.class);
 	private IOProvider io;
 
+	/**
+	 * Builds corrected WorkerData based on validation errors
+	 * @param serverResponse server response containing partial WorkerData
+	 * @return corrected WorkerData
+	 */
 	public WorkerData build(ServerResponse serverResponse) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Building worker data from server response");

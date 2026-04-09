@@ -25,6 +25,10 @@ public enum HistoryWorker {
 		this.data = new Date();
 	}
 
+	/**
+	 * Adds a worker to the collection
+	 * @param worker worker to add
+	 */
 	public void add(Worker worker) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Adding worker: id={}, name={}", worker.getUuid(), worker.getName());
@@ -36,6 +40,9 @@ public enum HistoryWorker {
 		}
 	}
 
+	/**
+	 * Clears the entire collection
+	 */
 	public void clear() {
 		try (Context ignored = Context.newId()) {
 			logger.info("Clearing collection, size before: {}", listWorker.size());

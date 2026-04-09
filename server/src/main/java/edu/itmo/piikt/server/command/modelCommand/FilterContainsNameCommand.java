@@ -24,8 +24,9 @@ public final class FilterContainsNameCommand {
 	private static final AppLogger logger = new AppLogger(FilterContainsNameCommand.class);
 
 	/**
-	 * The method outputs all employees with the same name as entered by the user.
-	 *
+	 * Executes the FILTER_CONTAINS_NAME command
+	 *	@param clientCommand command containing the name substring
+	 *	@return ServerResponse with filtered worker list
 	 */
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {

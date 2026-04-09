@@ -14,18 +14,32 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Command for adding a new Worker to the collection
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class AddCommand {
 	private static final AppLogger logger = new AppLogger(AddCommand.class);
+	/**Network client for sending requests to server*/
 	private Network network;
+	/** Worker builder for collecting input data*/
 	private Worker worker = new Worker();
 
+	/**
+	 * Executes the ADD command.
+	 * @param io input/output provider for user interaction
+	 * @return server response
+	 */
 	public ServerResponse execute(IOProvider io) {
 		try (Context ignored = Context.newId()) {
 			logger.info("ADD command started");
+			// Build Worker from user input
 			WorkerData workerData = worker.build(io);
+			// Create and send command
 			ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName()).data(workerData)
 					.build();
 			ServerResponse serverResponse = network.send(clientCommand);
@@ -36,6 +50,12 @@ public class AddCommand {
 		}
 	}
 
+	/**
+	 * Handles validation retries for ADD command
+	 * @param serverResponse initial server response
+	 * @param io input/output provider for user interaction
+	 * @return  successful server response
+	 */
 	private ServerResponse add(ServerResponse serverResponse, IOProvider io) {
 		var workerServer = new WorkerServer(io);
 		var server = serverResponse;
@@ -46,6 +66,7 @@ public class AddCommand {
 					return server;
 				} else {
 					logger.warn("Validation error, requesting correction");
+					// Request corrected data from user
 					var data = workerServer.build(server);
 					ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName()).data(data)
 							.build();

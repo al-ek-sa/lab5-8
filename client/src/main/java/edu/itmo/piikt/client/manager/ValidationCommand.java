@@ -33,6 +33,7 @@ public enum ValidationCommand {
 	INSTANCE;
 
 	private static final AppLogger logger = new AppLogger(ValidationCommand.class);
+	/** Flag controlling the main command loop*/
 	private boolean flag;
 	final Worker worker = new Worker();
 	private Network network;
@@ -58,6 +59,11 @@ public enum ValidationCommand {
 		this.updateCommand = new UpdateCommand(network, addCommand);
 	}
 
+	/**
+	 * Pushes a new IOProvider onto the stack, switching the current input source
+	 *
+	 * @param io new IOProvider to activate
+	 */
 	public void pushProvider(IOProvider io) {
 		if (provider != null) {
 			dequeProvider.push(provider);
@@ -65,11 +71,15 @@ public enum ValidationCommand {
 		provider = io;
 	}
 
+	/**
+	 * Pops the previous IOProvider from the stack, restoring the previous input source
+	 */
 	public void popProvider() {
 		if (!dequeProvider.isEmpty())
 			provider = dequeProvider.pop();
 	}
 
+	/** Gets the next command from the current IOProvider*/
 	public String nextCommand() {
 		if (provider == null)
 			return null;
@@ -82,12 +92,8 @@ public enum ValidationCommand {
 	}
 
 	/**
-	 * The method selects from the registered commands the command that the user
-	 * entered. When entering, the user can make a mistake once.
-	 *
-	 * <p>
-	 * Attention! The command handles only single-word commands without arguments
-	 * and single-word commands with one argument.
+	 *Continuously reads commands, recognizes them
+	 * @param io initial IOProvider
 	 */
 	public void validation(IOProvider io) {
 		provider = io;
@@ -104,8 +110,10 @@ public enum ValidationCommand {
 				String command = nameCommand.trim();
 				String[] input = command.split("\\s+");
 				String element = input[0];
+				// Command without arguments
 				if (input.length == 1) {
 					for (String com1 : baseCommand) {
+						// Typo correction
 						if (DamerauLevenshteinDistance.distance(com1, element) <= 1) {
 							if (com1.equals(Commands.HISTORY.getName())) {
 								historyCommand.execute(provider);
@@ -138,6 +146,7 @@ public enum ValidationCommand {
 						}
 					}
 				}
+				// Command with argument
 				if (input.length == 2) {
 					String argument = input[1];
 					for (String com2 : argumentCommand) {

@@ -30,8 +30,9 @@ public final class CountByOrganizationCommand {
 	private final OrganizationBuilder organizationBuilder = new OrganizationBuilder();
 
 	/**
-	 * The method outputs the number of elements whose Organization parameter is
-	 * equal to what the user enters.
+	 * Executes the COUNT_BY_ORGANIZATION command
+	 * @param clientCommand command containing OrganizationData
+	 * @return  with count result or error
 	 */
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
@@ -39,6 +40,7 @@ public final class CountByOrganizationCommand {
 			OrganizationData organizationData = (OrganizationData) clientCommand.getData();
 			logger.debug("Organization data: turnover={}, type={}, street={}", organizationData.getAnnualTurnover(),
 					organizationData.getType().getId(), organizationData.getOfficialAddress().getStreet());
+			// Validate data
 			Object result = builderOrganization.data(organizationData);
 			if (result instanceof OrganizationData) {
 				Organization organization = organizationBuilder.organizationBuilder(organizationData);
@@ -49,10 +51,10 @@ public final class CountByOrganizationCommand {
 				return ServerResponse.successfulCompletion("COUNT_BY_ORGANIZATION: ", List.of(String.valueOf(size)));
 			} else if (result instanceof ValidationError(List<edu.itmo.piikt.common.data.MessageExceptionValidation>errors,Object data)) {
 				logger.warn("Validation failed: {} errors", errors.size());
-				return ServerResponse.error("данные введены неверно ", errors, data);
+				return ServerResponse.error("Invalid data entered", errors, data);
 			}
 			logger.error("Unknown result type from builder");
-			return ServerResponse.error("Неизвестная ошибка");
+			return ServerResponse.error("Internal server error while processing COUNT_BY_ORGANIZATION command");
 		} catch (Exception e) {
 			logger.error("Error executing COUNT_BY_ORGANIZATION: {}", e);
 			throw new RuntimeException(e);

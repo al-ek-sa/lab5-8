@@ -11,10 +11,20 @@ import edu.itmo.piikt.common.logger.Context;
 import java.util.Arrays;
 import lombok.NoArgsConstructor;
 
+/**
+ * Builder for Worker data
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @NoArgsConstructor
 public class Worker {
 	private static final AppLogger logger = new AppLogger(Worker.class);
 
+	/**
+	 * Builds WorkerData from user input
+	 * @param io input/output provider for user interaction
+	 * @return built WorkerData
+	 */
 	public WorkerData build(IOProvider io) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Building worker data");

@@ -12,6 +12,11 @@ import java.util.concurrent.atomic.AtomicReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * Builder for validating Worker data
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @AllArgsConstructor
 @Data
 public class BuilderWorker implements Serializable {
@@ -34,6 +39,11 @@ public class BuilderWorker implements Serializable {
 		logger.debug("BuilderWorker initialized");
 	}
 
+	/**
+	 * Validates WorkerData and returns either the validated data or validation errors
+	 * @param workerData worker data to validate
+	 * @return WorkerData if valid, ValidationError with errors otherwise
+	 */
 	public Object data(WorkerData workerData) {
 		if (workerData == null) {
 			logger.error("WorkerData is null");

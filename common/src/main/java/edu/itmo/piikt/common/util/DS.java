@@ -5,10 +5,22 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import lombok.experimental.UtilityClass;
 
+/**
+ * Serialization utility for converting objects to/from ByteBuffer
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @UtilityClass
 public class DS {
 	private static final AppLogger log = new AppLogger(DS.class);
 
+	/**
+	 * Deserializes an object from a ByteBuffer
+	 * @param byteBuffer buffer containing serialized data
+	 * @return deserialized object
+	 * @throws RuntimeException if deserialization fails
+	 */
 	public static Object deserialize(ByteBuffer byteBuffer) {
 		log.debug("Deserializing object from ByteBuffer, size: {} bytes", byteBuffer.remaining());
 		try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteBuffer.array(), 0,
@@ -29,6 +41,12 @@ public class DS {
 		}
 	}
 
+	/**
+	 * Serializes an object to a ByteBuffer
+	 * @param object object to serialize
+	 * @return ByteBuffer containing serialized data
+	 * @throws RuntimeException if serialization fails
+	 */
 	public static ByteBuffer serialize(Object object) {
 		log.debug("Serializing object: {}", object.getClass().getSimpleName());
 		try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

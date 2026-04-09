@@ -19,6 +19,11 @@ import lombok.NoArgsConstructor;
 public final class RemoveByIdCommand {
 	private static final AppLogger logger = new AppLogger(RemoveByIdCommand.class);
 
+	/**
+	 * Executes the REMOVE_BY_ID command
+	 * @param clientCommand command containing the worker ID
+	 * @return ServerResponse with success or error message
+	 */
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			String id = clientCommand.getArgumentCommand();

@@ -6,11 +6,20 @@ import edu.itmo.piikt.common.models.Coordinates;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Singleton storage for unique coordinates
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 public enum HistoryCoordinate {
 	INSTANCE;
 	private final List<Coordinates> list = new ArrayList<>();
 	private static final AppLogger logger = new AppLogger(HistoryCoordinate.class);
 
+	/**
+	 * Adds coordinates to the collection if they don't already exist
+	 * @param coordinates coordinates to add
+	 */
 	public void add(Coordinates coordinates) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Adding Coordinates: x={}, y={}", coordinates.getX(), coordinates.getY());

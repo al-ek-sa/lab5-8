@@ -17,6 +17,10 @@ import lombok.NoArgsConstructor;
 public final class ExitCommand {
 	private static final AppLogger logger = new AppLogger(ExitCommand.class);
 
+	/**
+	 * Executes the EXIT command
+	 * @return ServerResponse with success message
+	 */
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			logger.info("Executing EXIT command, saving collection");

@@ -3,6 +3,12 @@ package edu.itmo.piikt.client.data;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * Prompts for user input when building Worker data
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @AllArgsConstructor
 @Getter
 public enum WorkerPrint {

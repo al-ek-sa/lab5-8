@@ -23,7 +23,10 @@ import java.util.stream.Collectors;
 public final class ShowCommand {
 	private static final AppLogger logger = new AppLogger(ShowCommand.class);
 
-	/** The method outputs data of all registered employees. */
+	/**
+	 * Executes the SHOW command
+	 * @return ServerResponse with sorted worker list or error if collection is empty
+	 */
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			logger.info("Executing SHOW command");
@@ -32,6 +35,7 @@ public final class ShowCommand {
 				logger.debug("Collection is empty");
 				return ServerResponse.error("COLLECTION IS EMPTY");
 			}
+			// Sort workers: by name, then start date, then creation date
 			List<String> list = listHistory.stream().sorted(Comparator.comparing(Worker::getName)
 					.thenComparing(Worker::getStartDate).thenComparing(Worker::getCreationDate)).map(Worker::toString)
 					.collect(Collectors.toList());

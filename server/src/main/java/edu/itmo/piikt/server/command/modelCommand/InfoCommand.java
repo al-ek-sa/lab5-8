@@ -20,22 +20,22 @@ import java.util.List;
 @NoArgsConstructor
 public final class InfoCommand {
 	private static final AppLogger logger = new AppLogger(InfoCommand.class);
-	private static ServerResponse input = null;
 
-	/** The method outputs data about the collection. */
+	/**
+	 * Executes the INFO command
+	 * @return ServerResponse with collection information
+	 */
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			logger.info("Executing INFO command");
-			if (input != null)
-				return input;
 			var listWorker = HistoryWorker.INSTANCE.getListWorker();
 			var data = HistoryWorker.INSTANCE.getData();
 			List<String> list = List.of("Collection type: " + listWorker.getClass().getSimpleName()
 					+ "\nIdentification time: " + data + "\nNumber of elements: " + listWorker.size());
 			logger.debug("Collection info: type={}, size={}, created={}", listWorker.getClass().getSimpleName(),
 					listWorker.size(), data);
-			input = ServerResponse.successfulCompletion("INFO: ", list);
-			return input;
+			ServerResponse.successfulCompletion("INFO: ", list);
+			return ServerResponse.successfulCompletion("INFO: ", list);
 		} catch (Exception e) {
 			logger.error("Error executing INFO command: {}", e);
 			throw new RuntimeException(e);

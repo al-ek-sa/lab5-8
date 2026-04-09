@@ -12,11 +12,22 @@ import javax.annotation.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Builder for creating Worker objects from WorkerData
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @NoArgsConstructor
 @Data
 public class WorkerBuilder {
 	private static final AppLogger logger = new AppLogger(WorkerBuilder.class);
 
+	/**
+	 * Builds a Worker entity from WorkerData
+	 * @param workerData data transfer object containing worker information
+	 * @return built Worker entity
+	 * @throws RuntimeException if parsing fails
+	 */
 	public Worker builerWorker(WorkerData workerData) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Building worker from data");
@@ -44,6 +55,11 @@ public class WorkerBuilder {
 		}
 	}
 
+	/**
+	 *  Builds an Organization entity from WorkerData (maybe null)
+	 * @param workerData data transfer object containing worker information
+	 * @return built Organization entity or null if organization data is incomplete
+	 */
 	@Nullable
 	private static Organization getOrganization(WorkerData workerData) {
 		Organization organization = null;

@@ -20,7 +20,10 @@ import java.util.List;
 public final class HeadCommand {
 	private static final AppLogger logger = new AppLogger(HeadCommand.class);
 
-	/** The method outputs the data of the first element in the collection. */
+	/**
+	 * Executes the HEAD command
+	 * @return ServerResponse with the first worker or empty message
+	 */
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			logger.info("Executing HEAD command");

@@ -6,7 +6,7 @@ import edu.itmo.piikt.common.logger.AppLogger;
  * The class implements the Damerau-Levenshtein algorithm.
  *
  * @author Lishyk Aliaksandra
- * @version 1.1
+ * @version 1.2
  */
 public class DamerauLevenshteinDistance {
 	private static final AppLogger log = new AppLogger(DamerauLevenshteinDistance.class);

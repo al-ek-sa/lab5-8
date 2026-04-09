@@ -20,8 +20,9 @@ public final class UpdateIdCommand {
 	private static final AppLogger logger = new AppLogger(UpdateIdCommand.class);
 
 	/**
-	 * The method replaces the element whose id is equal to the id specified by the
-	 * user.
+	 * Executes the UPDATE command
+	 * @param clientCommand command containing the worker ID
+	 * @return ServerResponse indicating whether worker exists
 	 */
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {

@@ -29,11 +29,17 @@ public final class AddCommand {
 	private final BuilderWorker builderWorker = new BuilderWorker();
 	private final WorkerBuilder workerBuilder = new WorkerBuilder();
 
+	/**
+	 * Executes the ADD command
+	 * @param clientCommand command containing WorkerData
+	 * @return with success or error information
+	 */
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			logger.info("Executing ADD command");
 			WorkerData dataWorker = (WorkerData) clientCommand.getData();
 			logger.debug("Worker data received: name={}, salary={}", dataWorker.getName(), dataWorker.getSalary());
+			// Validate data
 			Object result = builderWorker.data(dataWorker);
 			if (result instanceof WorkerData) {
 				Worker worker = workerBuilder.builerWorker(dataWorker);
@@ -46,10 +52,10 @@ public final class AddCommand {
 				return ServerResponse.successfulCompletion("ADD");
 			} else if (result instanceof ValidationError(java.util.List<edu.itmo.piikt.common.data.MessageExceptionValidation>errors,Object data)) {
 				logger.warn("Validation failed: {} errors", errors.size());
-				return ServerResponse.error("Введены неверные данные", errors, data);
+				return ServerResponse.error("Incorrect data entered", errors, data);
 			}
 			logger.error("Unknown result type from builder");
-			return ServerResponse.error("Какая-то ошибка");
+			return ServerResponse.error("Internal server error while processing ADD command");
 		} catch (Exception e) {
 			logger.error("Error executing ADD command: {}", e);
 			throw new RuntimeException(e);

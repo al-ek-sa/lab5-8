@@ -6,7 +6,7 @@ import java.io.Serializable;
 import lombok.*;
 
 /**
- * The class of the Worker type object.
+ * Data transfer object for Worker information
  *
  * @author Lishyk Aliaksandra
  * @version 1.0

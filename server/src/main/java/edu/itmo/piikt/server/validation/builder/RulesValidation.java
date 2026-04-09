@@ -30,6 +30,10 @@ import java.util.Optional;
 public final class RulesValidation {
 	private static final AppLogger logger = new AppLogger(RulesValidation.class);
 
+	/**
+	 *  Validates that a string is not blank
+	 * @return validation rule for non-blank strings
+	 */
 	public static ValidationRules<String> blank() {
 		return line -> {
 			try (Context ignored = Context.newId()) {
@@ -43,6 +47,10 @@ public final class RulesValidation {
 		};
 	}
 
+	/**
+	 * Validates that a string is a valid date in format (YYYY-MM-DD)
+	 * @return validation rule for date strings
+	 */
 	public static ValidationRules<String> localDate() {
 		return input -> {
 			try (Context ignored = Context.newId()) {
@@ -57,6 +65,10 @@ public final class RulesValidation {
 		};
 	}
 
+	/**
+	 * Validates an optional date field (null or empty is allowed)
+	 * @return validation rule for optional date strings
+	 */
 	public static ValidationRules<String> validationDate() {
 		return input -> {
 			try (Context ignored = Context.newId()) {
@@ -74,6 +86,10 @@ public final class RulesValidation {
 		};
 	}
 
+	/**
+	 * Validates annual turnover (must be positive integer)
+	 * @return validation rule for annual turnover
+	 */
 	public static ValidationRules<String> validationAnnualTurnover() {
 		return input -> {
 			try (Context ignored = Context.newId()) {
@@ -92,6 +108,10 @@ public final class RulesValidation {
 		};
 	}
 
+	/**
+	 * Validates coordinate Y (must be greater than -644)
+	 * @return validation rule for coordinate Y
+	 */
 	public static ValidationRules<String> validationY2() {
 		return input -> {
 			try (Context ignored = Context.newId()) {
@@ -110,6 +130,10 @@ public final class RulesValidation {
 		};
 	}
 
+	/**
+	 * Validates coordinate X (must be less than or equal to 10)
+	 * @return validation rule for coordinate X
+	 */
 	public static ValidationRules<String> validationX2() {
 		return input -> {
 			try (Context ignored = Context.newId()) {
@@ -128,6 +152,10 @@ public final class RulesValidation {
 		};
 	}
 
+	/**
+	 * Validates organization type (must be a valid enum value)
+	 * @return validation rule for organization type
+	 */
 	public static ValidationRules<String> validationType() {
 		return input -> {
 			try (Context ignored = Context.newId()) {
@@ -146,6 +174,10 @@ public final class RulesValidation {
 		};
 	}
 
+	/**
+	 *  Validates worker status (must be a valid enum value)
+	 * @return validation rule for status
+	 */
 	public static ValidationRules<String> validationStatus() {
 		return input -> {
 			try (Context ignored = Context.newId()) {
@@ -164,6 +196,10 @@ public final class RulesValidation {
 		};
 	}
 
+	/**
+	 * Validates salary (must be positive integer, null is allowed for optional)
+	 * @return validation rule for salary
+	 */
 	public static ValidationRules<String> validationSalary() {
 		return input -> {
 			try (Context ignored = Context.newId()) {

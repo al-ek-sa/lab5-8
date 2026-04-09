@@ -18,6 +18,10 @@ import lombok.NoArgsConstructor;
 public final class ClearCommand {
 	private static final AppLogger logger = new AppLogger(ClearCommand.class);
 
+	/**
+	 * Executes the CLEAR command
+	 * @return ServerResponse with success message
+	 */
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			logger.info("Executing CLEAR command");

@@ -9,50 +9,78 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.itmo.piikt.common.logger.AppLogger;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Command for executing script files
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @Data
 @NoArgsConstructor
 public final class ExecuteScriptCommand {
+	private static final AppLogger log = new AppLogger(ExecuteScriptCommand.class);
+/** List of executed scripts to prevent recursion*/
 	private final List<String> name = new ArrayList<>();
+/** Graph for cycle detection in script calls*/
 	private final Graph graph = new Graph();
 
+	/**
+	 *  Executes a script from the specified file
+	 * @param io input/output provider
+	 * @param argument script file name
+	 */
 	public void execute(IOProvider io, String argument) {
 		try {
+			log.info("Executing script: {}", argument);
+			// Clear history for console commands
 			if (io.name().equals(NameIOProvider.CONSOLE.getName())) {
 				name.clear();
 			}
 
+			// Check for cycle before execution
 			if (graph.copy(argument)) {
 				return;
 			}
-
+			// Start script execution in graph
 			graph.start(argument);
 			List<String> list = graph.getList();
 
+			// Add dependency edge if parent script exists
 			if (list.size() > 1) {
 				String beforeScript = list.get(list.size() - 2);
 				graph.addScript(beforeScript, argument);
 			}
 
+			// Create provider for script file and switch context
 			IOFile ioProvider = new IOFile(argument);
 			IOProvider provider = new ScriptProvider(ioProvider, graph, argument);
 
 			ValidationCommand.INSTANCE.pushProvider(provider);
+			log.debug("Script provider pushed for: {}", argument);
 		} catch (FileNotFoundException e) {
+			log.error("Script file not found: {}", argument);
 			io.println("Ошибка: файл скрипта '" + argument + "' не найден");
 			graph.endScript(argument);
 		} catch (IOException e) {
+			log.error("IO error reading script: {}", e.getMessage());
 			io.println("Ошибка при чтении файла скрипта '" + argument + "': " + e.getMessage());
 			graph.endScript(argument);
 
 		} catch (Exception e) {
+			log.error("Unexpected error executing script: {}", e.getMessage());
 			throw new RuntimeException(e);
 		}
 	}
 
+	/**
+	 * IOProvider implementation for reading commands from a script file.
+	 */
 	private static class ScriptProvider implements IOProvider {
+/** Flag indicating end of file*/
 		private boolean flag = false;
 		private final IOFile ioFile;
 		private final Graph graph;

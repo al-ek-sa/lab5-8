@@ -3,10 +3,19 @@ package edu.itmo.piikt.common.logger;
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Application logger wrapper for consistent logging across the project
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 public class AppLogger {
 	private final Logger logger;
 	private final String className;
 
+	/**
+	 * Creates a new logger instance for the specified class
+	 * @param name the class to create logger for
+	 */
 	public AppLogger(Class<?> name) {
 		this.className = name.getSimpleName();
 		this.logger = (Logger) LoggerFactory.getLogger(name);

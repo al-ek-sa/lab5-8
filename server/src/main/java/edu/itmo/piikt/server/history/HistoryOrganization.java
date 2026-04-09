@@ -8,6 +8,11 @@ import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Singleton storage for unique organizations
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @Getter
 @NoArgsConstructor
 public enum HistoryOrganization {
@@ -15,6 +20,10 @@ public enum HistoryOrganization {
 	private static final AppLogger logger = new AppLogger(HistoryOrganization.class);
 	private final List<Organization> list = new ArrayList<>();
 
+	/**
+	 * Adds an organization to the collection if it doesn't already exist
+	 * @param organization organization to add
+	 */
 	public void add(Organization organization) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Adding worker: type={}", organization.getType());

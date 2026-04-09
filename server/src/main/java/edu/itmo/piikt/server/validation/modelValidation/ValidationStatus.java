@@ -27,6 +27,11 @@ public class ValidationStatus {
 		logger.debug("ValidationStatus initialized");
 	}
 
+	/**
+	 * Validates the status field
+	 * @param status status value to validate
+	 * @return empty Optional if valid, Optional with error message if invalid
+	 */
 	public Optional<MessageExceptionValidation> validationStatus(String status) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Validating status: {}", status);

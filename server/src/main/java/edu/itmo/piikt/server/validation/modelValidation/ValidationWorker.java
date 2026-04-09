@@ -46,9 +46,13 @@ import java.util.function.Function;
  */
 public class ValidationWorker {
 	private static final AppLogger logger = new AppLogger(ValidationWorker.class);
+	/**Validation function for name field*/
 	private final Function<String, Optional<MessageExceptionValidation>> nameValidation;
+	/**Validation function for salary field*/
 	private final Function<String, Optional<MessageExceptionValidation>> salaryValidation;
+	/**Validation function for start date field*/
 	private final Function<String, Optional<MessageExceptionValidation>> startDateValidation;
+	/**Validation function for end date field*/
 	private final Function<String, Optional<MessageExceptionValidation>> endDateValidation;
 
 	public ValidationWorker() {
@@ -60,6 +64,11 @@ public class ValidationWorker {
 		logger.debug("ValidationWorker initialized");
 	}
 
+	/**
+	 * Validates the name field
+	 * @param name name value to validate
+	 * @return empty Optional if valid, Optional with error message if invalid
+	 */
 	public Optional<MessageExceptionValidation> validationName(String name) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Validating name: {}", name);
@@ -70,6 +79,11 @@ public class ValidationWorker {
 		}
 	}
 
+	/**
+	 * Validates the salary field
+	 * @param salary salary value to validate
+	 * @return empty Optional if valid, Optional with error message if invalid
+	 */
 	public Optional<MessageExceptionValidation> validationSalary(String salary) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Validating salary: {}", salary);
@@ -80,6 +94,11 @@ public class ValidationWorker {
 		}
 	}
 
+	/**
+	 * Validates the start date field
+	 * @param startDate start date value to validate
+	 * @return empty Optional if valid, Optional with error message if invalid
+	 */
 	public Optional<MessageExceptionValidation> validationStartDate(String startDate) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Validating start date: {}", startDate);
@@ -90,6 +109,11 @@ public class ValidationWorker {
 		}
 	}
 
+	/**
+	 * Validates the end date field
+	 * @param endDate end date value to validate
+	 * @return empty Optional if valid, Optional with error message if invalid
+	 */
 	public Optional<MessageExceptionValidation> validationEndDate(String endDate) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Validating end date: {}", endDate);

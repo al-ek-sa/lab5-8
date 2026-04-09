@@ -4,6 +4,11 @@ import java.io.Serial;
 import java.io.Serializable;
 import lombok.*;
 
+/**
+ * Command sent from client to server for execution
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @Value
 @Builder
 public class ClientCommand implements Serializable {
