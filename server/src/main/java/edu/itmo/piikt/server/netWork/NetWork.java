@@ -27,7 +27,9 @@ public class NetWork {
 	/** No data available for console input */
 	private static final int NO_DATA = 0;
 	/** Selector timeout in milliseconds */
-	private static final int TIME = 1000;
+	private static final int TIME = 5;
+	/**Maximum bytes to read from console per iteration (1KB chunk)*/
+	private static final int MAX_CONSOLE = 1024;
 	private static final AppLogger logger = new AppLogger(NetWork.class);
 	private final Dispatcher dispatcher;
 	private Selector selector;
@@ -48,8 +50,10 @@ public class NetWork {
 	 */
 	private void console() {
 		try {
-			if (System.in.available() > NO_DATA) {
-				while (System.in.available() > NO_DATA) {
+			int input = System.in.available();
+			if (input > NO_DATA) {
+				int bytes = Math.min(input, MAX_CONSOLE);
+				for(int i = 0; i < bytes; i++){
 					char c = (char) System.in.read();
 					stringBuilder.append(c);
 					if (c == '\n') {
