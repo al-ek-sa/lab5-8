@@ -28,7 +28,7 @@ public class NetWork {
 	private static final int NO_DATA = 0;
 	/** Selector timeout in milliseconds */
 	private static final int TIME = 5;
-	/**Maximum bytes to read from console per iteration (1KB chunk)*/
+	/** Maximum bytes to read from console per iteration (1KB chunk) */
 	private static final int MAX_CONSOLE = 1024;
 	private static final AppLogger logger = new AppLogger(NetWork.class);
 	private final Dispatcher dispatcher;
@@ -53,7 +53,7 @@ public class NetWork {
 			int input = System.in.available();
 			if (input > NO_DATA) {
 				int bytes = Math.min(input, MAX_CONSOLE);
-				for(int i = 0; i < bytes; i++){
+				for (int i = 0; i < bytes; i++) {
 					char c = (char) System.in.read();
 					stringBuilder.append(c);
 					if (c == '\n') {
@@ -81,7 +81,7 @@ public class NetWork {
 			logger.info("Starting server on port {}", PORT);
 			selector = Selector.open();
 			serverSocketChannel = ServerSocketChannel.open();
-			serverSocketChannel.configureBlocking(true);
+			serverSocketChannel.configureBlocking(false);
 			serverSocketChannel.bind(new InetSocketAddress(PORT));
 			serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 			logger.info("Server started successfully");

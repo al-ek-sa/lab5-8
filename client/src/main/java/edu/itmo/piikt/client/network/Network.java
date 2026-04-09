@@ -118,4 +118,10 @@ public class Network implements Client {
 			throw e;
 		}
 	}
+
+	public boolean connected() {
+		boolean isConnected = socketChannel != null && socketChannel.isConnected();
+		logger.debug("Connection status: {}", isConnected);
+		return isConnected;
+	}
 }
