@@ -1,1 +1,4 @@
-учше
+execute_script simple.txt
+execute_script history.txt
+
+

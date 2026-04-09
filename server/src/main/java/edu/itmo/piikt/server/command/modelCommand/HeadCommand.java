@@ -1,0 +1,40 @@
+package edu.itmo.piikt.server.command.modelCommand;
+
+import edu.itmo.piikt.common.logger.AppLogger;
+import edu.itmo.piikt.common.logger.Context;
+import edu.itmo.piikt.common.server_client.ServerResponse;
+import edu.itmo.piikt.server.history.HistoryWorker;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+/**
+ * The class implements the command head : output the first element of the
+ * collection.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 3.1
+ * @see HistoryWorker
+ */
+@NoArgsConstructor
+public final class HeadCommand {
+    private static final AppLogger logger = new AppLogger(HeadCommand.class);
+
+    /** The method outputs the data of the first element in the collection. */
+    public ServerResponse execute() {
+        try (Context ignored = Context.newId()) {
+            logger.info("Executing HEAD command");
+            var listWorker = HistoryWorker.INSTANCE.getListWorker();
+            if (listWorker.isEmpty()) {
+                logger.debug("Collection is empty");
+                return ServerResponse.successfulCompletion("COLLECTION IS EMPTY");
+            }
+            String input = listWorker.getFirst().toString();
+            logger.debug("First worker: {}", input);
+            return ServerResponse.successfulCompletion("HEAD WORKER", List.of(input));
+        } catch (Exception e) {
+            logger.error("Error executing HEAD command: {}", e);
+            throw new RuntimeException(e);
+        }
+    }
+}
