@@ -133,7 +133,7 @@ public class BuilderWorker implements Serializable {
 				return workerData;
 			} else {
 				logger.warn("Worker validation failed: {} errors", errors.size());
-				return new ValidationError(errors, data);
+				return new ValidationError(errors, data.get());
 			}
 		} catch (Exception e) {
 			logger.error("Error validating worker: {}", e.getMessage());
