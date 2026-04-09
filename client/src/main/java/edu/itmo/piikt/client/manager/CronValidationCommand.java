@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Command validator for cron mode
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -46,15 +48,15 @@ public enum CronValidationCommand {
 		this.updateCommand = new UpdateCommand(network, addCommand);
 	}
 	/**
-	 * Continuously reads commands, recognizes them
+	 * Executes a single command and exits
 	 *
 	 * @param provider
-	 *            initial IOProvider
+	 *            input/output provider
 	 * @param nameCommand
 	 *            name command
 	 */
 	public void validation(IOProvider provider, String nameCommand) {
-		logger.info("Starting command validation loop");
+		logger.info("Starting cron validation");
 		try {
 			if (nameCommand == null || nameCommand.isBlank()) {
 				return;
@@ -118,7 +120,7 @@ public enum CronValidationCommand {
 				}
 			}
 		} catch (Exception e) {
-			logger.error("Error in validation loop: {}", e);
+			logger.error("Error in cron validation: {}", e.getMessage());
 			throw new RuntimeException(e);
 		}
 	}

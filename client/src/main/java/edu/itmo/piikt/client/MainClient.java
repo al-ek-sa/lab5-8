@@ -1,8 +1,7 @@
 package edu.itmo.piikt.client;
 
-import edu.itmo.piikt.client.manager.CronValidationCommand;
-import edu.itmo.piikt.client.manager.ValidationCommand;
 import edu.itmo.piikt.client.mode.CronMode;
+import edu.itmo.piikt.client.mode.InteractiveMode;
 import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.io.providerType.IOConsole;
@@ -43,8 +42,8 @@ public class MainClient {
 					}
 				}
 			}
-			ValidationCommand.INSTANCE.setNetwork(client);
-			ValidationCommand.INSTANCE.validation(io);
+			InteractiveMode interactiveMode = new InteractiveMode();
+			interactiveMode.execute(client, io);
 			client.close();
 		} catch (IOException e) {
 			logger.error("Client failed: {}", e.getMessage());

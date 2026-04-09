@@ -5,24 +5,24 @@ import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 /**
+ * Cron mode for executing a single command
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-@AllArgsConstructor
-@Data
-public class CronMode implements ClientMode {
+public record CronMode(String command) implements ClientMode {
 	private static final AppLogger log = new AppLogger(CronMode.class);
-	private final String command;
 
-	@Override
-	public String getName() {
-		return NameMode.CRON.getName();
-	}
-
+	/**
+	 * Executes the cron mode
+	 *
+	 * @param network
+	 *            network client instance
+	 * @param io
+	 *            input/output provider for console
+	 */
 	@Override
 	public void execute(Network network, IOProvider io) {
 		try (Context ignored = Context.newId()) {

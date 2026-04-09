@@ -11,5 +11,4 @@ import edu.itmo.piikt.common.io.provider.IOProvider;
  */
 public interface ClientMode {
 	void execute(Network network, IOProvider io);
-	String getName();
 }
