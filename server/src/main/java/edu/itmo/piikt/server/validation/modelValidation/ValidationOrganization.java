@@ -28,7 +28,7 @@ import java.util.function.Function;
  */
 public class ValidationOrganization {
 	private static final AppLogger logger = new AppLogger(ValidationOrganization.class);
-	/**Validation function for annual turnover field*/
+	/** Validation function for annual turnover field */
 	private final Function<String, Optional<MessageExceptionValidation>> annualTurnoverValidation;
 
 	public ValidationOrganization() {
@@ -39,7 +39,9 @@ public class ValidationOrganization {
 
 	/**
 	 * Validates the annual turnover field
-	 * @param annualTurnover annual turnover value to validate
+	 *
+	 * @param annualTurnover
+	 *            annual turnover value to validate
 	 * @return empty Optional if valid, Optional with error message if invalid
 	 */
 	public Optional<MessageExceptionValidation> validationAnnualTurnover(String annualTurnover) {

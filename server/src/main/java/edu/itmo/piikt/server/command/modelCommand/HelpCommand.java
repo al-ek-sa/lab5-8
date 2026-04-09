@@ -24,14 +24,16 @@ public final class HelpCommand {
 	private static ServerResponse cachedResponse = null;
 
 	/**
-	 *	Executes the HELP command
+	 * Executes the HELP command
+	 *
 	 * @return ServerResponse with help text
 	 */
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			logger.info("Executing HELP command");
 			// Return cached response if available
-			if (cachedResponse != null) return cachedResponse;
+			if (cachedResponse != null)
+				return cachedResponse;
 			List<String> list = Arrays.stream(Commands.values()).sorted(Comparator.comparing(Commands::getName))
 					.map(commands -> commands.getName() + ": " + commands.getDescription())
 					.collect(Collectors.toList());

@@ -5,25 +5,31 @@ import java.util.*;
 import lombok.Getter;
 
 /**
- * The class builds a directed graph of script calls and detects
- * whether adding a new edge would create a cycle. This prevents infinite
- * recursion when executing scripts.
+ * The class builds a directed graph of script calls and detects whether adding
+ * a new edge would create a cycle. This prevents infinite recursion when
+ * executing scripts.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
 @Getter
 public class Graph {
-	/** Graph of script dependencies. Key - script name, value - list of scripts it calls*/
+	/**
+	 * Graph of script dependencies. Key - script name, value - list of scripts it
+	 * calls
+	 */
 	private final Map<String, List<String>> graph = new HashMap<>();
-	/**Current execution stack (path of scripts being executed)*/
+	/** Current execution stack (path of scripts being executed) */
 	private final List<String> list = new ArrayList<>();
 	private static final AppLogger log = new AppLogger(Graph.class);
 
 	/**
 	 * Adds a directed edge from script to scriptTwo
-	 * @param script caller script
-	 * @param scriptTwo called script
+	 *
+	 * @param script
+	 *            caller script
+	 * @param scriptTwo
+	 *            called script
 	 */
 	public void addScript(String script, String scriptTwo) {
 		if (!script.equals(scriptTwo)) {
@@ -34,7 +40,9 @@ public class Graph {
 
 	/**
 	 * Removes script from execution stack when it finishes
-	 * @param script script name
+	 *
+	 * @param script
+	 *            script name
 	 */
 	public void endScript(String script) {
 		if (!list.isEmpty() && list.getLast().equals(script)) {
@@ -44,8 +52,10 @@ public class Graph {
 	}
 
 	/**
-	 *  Adds script to execution stack when it starts
-	 * @param script script name
+	 * Adds script to execution stack when it starts
+	 *
+	 * @param script
+	 *            script name
 	 */
 	public void start(String script) {
 		list.add(script);
@@ -53,11 +63,17 @@ public class Graph {
 	}
 
 	/**
-	 * Algorithm to check if there is a path from startScript to any script in currentPath
-	 * @param startScript starting vertex
-	 * @param graph graph to search in
-	 * @param currentPath current execution path
-	 * @param visited visited vertices set
+	 * Algorithm to check if there is a path from startScript to any script in
+	 * currentPath
+	 *
+	 * @param startScript
+	 *            starting vertex
+	 * @param graph
+	 *            graph to search in
+	 * @param currentPath
+	 *            current execution path
+	 * @param visited
+	 *            visited vertices set
 	 * @return true if path exists (cycle), false otherwise
 	 */
 	public boolean hasPath(String startScript, Map<String, List<String>> graph, List<String> currentPath,
@@ -88,11 +104,13 @@ public class Graph {
 	}
 
 	/**
-	 * This method temporarily adds an edge from the last script in the
-	 * execution stack to the new script, then checks if a path exists from the new
-	 * script back to any script in the current stack. If such a path exists, the
-	 * call would create a cycle
-	 * @param script script to check
+	 * This method temporarily adds an edge from the last script in the execution
+	 * stack to the new script, then checks if a path exists from the new script
+	 * back to any script in the current stack. If such a path exists, the call
+	 * would create a cycle
+	 *
+	 * @param script
+	 *            script to check
 	 * @return true if cycle would be created, false if safe
 	 */
 	public boolean copy(String script) {
@@ -101,7 +119,7 @@ public class Graph {
 		log.debug("Copy: current stack = {}", list);
 		Map<String, List<String>> listMap = new HashMap<>(graph);
 		List<String> currentPath = new ArrayList<>(list);
-		//Add edges from execution stack
+		// Add edges from execution stack
 		for (int i = 0; i < list.size() - 1; i++) {
 			String from = list.get(i);
 			String to = list.get(i + 1);

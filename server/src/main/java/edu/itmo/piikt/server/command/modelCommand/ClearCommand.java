@@ -20,6 +20,7 @@ public final class ClearCommand {
 
 	/**
 	 * Executes the CLEAR command
+	 *
 	 * @return ServerResponse with success message
 	 */
 	public ServerResponse execute() {

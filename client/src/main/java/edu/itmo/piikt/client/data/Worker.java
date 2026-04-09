@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Builder for Worker data
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -22,7 +23,9 @@ public class Worker {
 
 	/**
 	 * Builds WorkerData from user input
-	 * @param io input/output provider for user interaction
+	 *
+	 * @param io
+	 *            input/output provider for user interaction
 	 * @return built WorkerData
 	 */
 	public WorkerData build(IOProvider io) {

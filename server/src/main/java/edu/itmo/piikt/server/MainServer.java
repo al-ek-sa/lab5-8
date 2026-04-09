@@ -9,8 +9,9 @@ import edu.itmo.piikt.server.saveManager.CSVParser;
 import java.io.IOException;
 
 /**
- * Initializes the server, loads data from CSV file, starts the network server, and handles graceful shutdown
- * with data persistence
+ * Initializes the server, loads data from CSV file, starts the network server,
+ * and handles graceful shutdown with data persistence
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -19,7 +20,9 @@ public class MainServer {
 
 	/**
 	 * Application entry point
-	 * @param args command line arguments for logging configuration
+	 *
+	 * @param args
+	 *            command line arguments for logging configuration
 	 */
 	public static void main(String[] args) {
 		Config.configureFromArgs(args);

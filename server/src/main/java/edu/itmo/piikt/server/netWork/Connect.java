@@ -15,21 +15,26 @@ import java.nio.channels.SocketChannel;
 
 /**
  * Handles client connections, reading commands, and sending responses
- * @param dispatcher command dispatcher for processing client commands
+ *
+ * @param dispatcher
+ *            command dispatcher for processing client commands
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
 public record Connect(Dispatcher dispatcher) {
-/** Return value indicating end of stream*/
+	/** Return value indicating end of stream */
 	private static final int END_OF_STREAM = -1;
-/** Return value indicating no data available to read*/
+	/** Return value indicating no data available to read */
 	private static final int NO_DATA_READ = 0;
 	private static final AppLogger logger = new AppLogger(Connect.class);
 
 	/**
 	 * Handles new client connection
-	 * @param selectionKey key containing the server channel
-	 * @throws IOException  if accepting connection fails
+	 *
+	 * @param selectionKey
+	 *            key containing the server channel
+	 * @throws IOException
+	 *             if accepting connection fails
 	 */
 	public void connected(SelectionKey selectionKey) throws IOException {
 		try (Context ignored = Context.newId()) {
@@ -47,8 +52,11 @@ public record Connect(Dispatcher dispatcher) {
 
 	/**
 	 * Reads data from client
-	 * @param selectionKey key containing the client channel and attachment
-	 * @throws IOException if reading fails
+	 *
+	 * @param selectionKey
+	 *            key containing the client channel and attachment
+	 * @throws IOException
+	 *             if reading fails
 	 */
 	public void reader(SelectionKey selectionKey) throws IOException {
 		var clientChannel = (SocketChannel) selectionKey.channel();
@@ -85,8 +93,11 @@ public record Connect(Dispatcher dispatcher) {
 
 	/**
 	 * Sends response to client
-	 * @param selectionKey key containing the client channel and attachment
-	 * @throws IOException if writing fails
+	 *
+	 * @param selectionKey
+	 *            key containing the client channel and attachment
+	 * @throws IOException
+	 *             if writing fails
 	 */
 	public void writer(SelectionKey selectionKey) throws IOException {
 		var clientChannel = (SocketChannel) selectionKey.channel();

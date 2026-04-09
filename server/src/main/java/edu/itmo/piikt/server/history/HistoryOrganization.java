@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Singleton storage for unique organizations
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -22,7 +23,9 @@ public enum HistoryOrganization {
 
 	/**
 	 * Adds an organization to the collection if it doesn't already exist
-	 * @param organization organization to add
+	 *
+	 * @param organization
+	 *            organization to add
 	 */
 	public void add(Organization organization) {
 		try (Context ignored = Context.newId()) {

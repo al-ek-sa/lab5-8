@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Command for executing script files
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -23,15 +24,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public final class ExecuteScriptCommand {
 	private static final AppLogger log = new AppLogger(ExecuteScriptCommand.class);
-/** List of executed scripts to prevent recursion*/
+	/** List of executed scripts to prevent recursion */
 	private final List<String> name = new ArrayList<>();
-/** Graph for cycle detection in script calls*/
+	/** Graph for cycle detection in script calls */
 	private final Graph graph = new Graph();
 
 	/**
-	 *  Executes a script from the specified file
-	 * @param io input/output provider
-	 * @param argument script file name
+	 * Executes a script from the specified file
+	 *
+	 * @param io
+	 *            input/output provider
+	 * @param argument
+	 *            script file name
 	 */
 	public void execute(IOProvider io, String argument) {
 		try {
@@ -80,7 +84,7 @@ public final class ExecuteScriptCommand {
 	 * IOProvider implementation for reading commands from a script file.
 	 */
 	private static class ScriptProvider implements IOProvider {
-/** Flag indicating end of file*/
+		/** Flag indicating end of file */
 		private boolean flag = false;
 		private final IOFile ioFile;
 		private final Graph graph;

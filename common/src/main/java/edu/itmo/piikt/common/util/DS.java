@@ -17,9 +17,12 @@ public class DS {
 
 	/**
 	 * Deserializes an object from a ByteBuffer
-	 * @param byteBuffer buffer containing serialized data
+	 *
+	 * @param byteBuffer
+	 *            buffer containing serialized data
 	 * @return deserialized object
-	 * @throws RuntimeException if deserialization fails
+	 * @throws RuntimeException
+	 *             if deserialization fails
 	 */
 	public static Object deserialize(ByteBuffer byteBuffer) {
 		log.debug("Deserializing object from ByteBuffer, size: {} bytes", byteBuffer.remaining());
@@ -43,9 +46,12 @@ public class DS {
 
 	/**
 	 * Serializes an object to a ByteBuffer
-	 * @param object object to serialize
+	 *
+	 * @param object
+	 *            object to serialize
 	 * @return ByteBuffer containing serialized data
-	 * @throws RuntimeException if serialization fails
+	 * @throws RuntimeException
+	 *             if serialization fails
 	 */
 	public static ByteBuffer serialize(Object object) {
 		log.debug("Serializing object: {}", object.getClass().getSimpleName());

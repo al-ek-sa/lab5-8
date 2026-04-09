@@ -23,6 +23,7 @@ public final class InfoCommand {
 
 	/**
 	 * Executes the INFO command
+	 *
 	 * @return ServerResponse with collection information
 	 */
 	public ServerResponse execute() {

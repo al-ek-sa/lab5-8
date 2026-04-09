@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Application logger wrapper for consistent logging across the project
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -14,7 +15,9 @@ public class AppLogger {
 
 	/**
 	 * Creates a new logger instance for the specified class
-	 * @param name the class to create logger for
+	 *
+	 * @param name
+	 *            the class to create logger for
 	 */
 	public AppLogger(Class<?> name) {
 		this.className = name.getSimpleName();

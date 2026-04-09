@@ -6,6 +6,7 @@ import lombok.*;
 
 /**
  * Command sent from client to server for execution
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */

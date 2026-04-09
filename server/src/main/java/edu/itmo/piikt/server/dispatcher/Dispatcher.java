@@ -46,7 +46,9 @@ public class Dispatcher {
 
 	/**
 	 * Dispatches a client command to the appropriate handler
-	 * @param command client command to execute
+	 *
+	 * @param command
+	 *            client command to execute
 	 * @return ServerResponse containing execution result
 	 */
 	public ServerResponse dispatcher(ClientCommand command) {

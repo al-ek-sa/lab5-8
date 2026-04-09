@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Singleton storage for unique coordinates
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -18,7 +19,9 @@ public enum HistoryCoordinate {
 
 	/**
 	 * Adds coordinates to the collection if they don't already exist
-	 * @param coordinates coordinates to add
+	 *
+	 * @param coordinates
+	 *            coordinates to add
 	 */
 	public void add(Coordinates coordinates) {
 		try (Context ignored = Context.newId()) {

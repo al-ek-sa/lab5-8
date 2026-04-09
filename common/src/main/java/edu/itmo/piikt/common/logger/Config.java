@@ -12,22 +12,24 @@ import java.nio.charset.StandardCharsets;
 import org.slf4j.LoggerFactory;
 
 /**
- * Configures Logback logging based on command line arguments.
- * Supports console output, file output (with rotation), and separate error log file
+ * Configures Logback logging based on command line arguments. Supports console
+ * output, file output (with rotation), and separate error log file
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
 public class Config {
 	/**
-	 * Configures logging from command line arguments
-	 * Supports the following arguments:
+	 * Configures logging from command line arguments Supports the following
+	 * arguments:
 	 * <ul>
-	 *    <li>--log-level LEVEL (TRACE, DEBUG, INFO, WARN, ERROR)</li>
-	 *    <li>--log-file PATH (path to log file)</li>
-	 *    <li>--log-output MODE (console, file, both)</li>
+	 * <li>--log-level LEVEL (TRACE, DEBUG, INFO, WARN, ERROR)</li>
+	 * <li>--log-file PATH (path to log file)</li>
+	 * <li>--log-output MODE (console, file, both)</li>
 	 * </ul>
-	 * @param args command line arguments
+	 *
+	 * @param args
+	 *            command line arguments
 	 */
 	public static void configureFromArgs(String[] args) {
 		String logLevel = "INFO";

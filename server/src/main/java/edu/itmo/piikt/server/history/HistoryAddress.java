@@ -9,18 +9,21 @@ import java.util.Objects;
 
 /**
  * Singleton storage for unique addresses
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
 public enum HistoryAddress {
 	INSTANCE;
 	private static final AppLogger logger = new AppLogger(HistoryAddress.class);
-	/** List of unique addresses*/
+	/** List of unique addresses */
 	private final List<Address> list = new ArrayList<>();
 
 	/**
 	 * Adds an address to the collection if it doesn't already exist
-	 * @param address address to add
+	 *
+	 * @param address
+	 *            address to add
 	 */
 	public void add(Address address) {
 		try (Context ignored = Context.newId()) {

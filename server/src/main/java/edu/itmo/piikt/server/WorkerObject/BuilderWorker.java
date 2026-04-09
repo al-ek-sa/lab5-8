@@ -14,6 +14,7 @@ import lombok.Data;
 
 /**
  * Builder for validating Worker data
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -40,8 +41,11 @@ public class BuilderWorker implements Serializable {
 	}
 
 	/**
-	 * Validates WorkerData and returns either the validated data or validation errors
-	 * @param workerData worker data to validate
+	 * Validates WorkerData and returns either the validated data or validation
+	 * errors
+	 *
+	 * @param workerData
+	 *            worker data to validate
 	 * @return WorkerData if valid, ValidationError with errors otherwise
 	 */
 	public Object data(WorkerData workerData) {

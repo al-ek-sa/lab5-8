@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Command for updating an existing Worker by ID.
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -20,15 +21,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateCommand {
 	private static final AppLogger logger = new AppLogger(UpdateCommand.class);
-/** Network client for sending requests to server*/
+	/** Network client for sending requests to server */
 	private Network network;
 	private AddCommand addCommand;
 
 	/**
 	 * Executes the UPDATE command
-	 * @param io input/output provider
-	 * @param command command name (UPDATE)
-	 * @param argument Worker ID to update
+	 *
+	 * @param io
+	 *            input/output provider
+	 * @param command
+	 *            command name (UPDATE)
+	 * @param argument
+	 *            Worker ID to update
 	 * @return server response
 	 */
 	public ServerResponse update(IOProvider io, String command, String argument) {

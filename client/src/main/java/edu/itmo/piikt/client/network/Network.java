@@ -25,17 +25,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Network implements Client {
-	/**Buffer size for data transfer*/
+	/** Buffer size for data transfer */
 	private static final int SIZE = 66666;
-	/** Socket timeout in milliseconds*/
+	/** Socket timeout in milliseconds */
 	private static final int TIME = 3000;
 	/** Return value indicating connection closed */
 	private static final int CONNECTION_CLOSED = -1;
 	private static final AppLogger logger = new AppLogger(Network.class);
 	private SocketChannel socketChannel;
-	/** Server host address*/
+	/** Server host address */
 	private static final String HOST = System.getenv().getOrDefault("SERVER_HOST", "localhost");
-	/** Server port*/
+	/** Server port */
 	private final Integer PORT = 6668;
 	private ClientData clientData;
 
@@ -65,9 +65,12 @@ public class Network implements Client {
 
 	/**
 	 * Sends a command to the server and receives the response
-	 * @param clientResponse command to send
+	 *
+	 * @param clientResponse
+	 *            command to send
 	 * @return server response
-	 * @throws Exception Exception if communication fails
+	 * @throws Exception
+	 *             Exception if communication fails
 	 */
 	@Override
 	public ServerResponse send(ClientCommand clientResponse) throws Exception {
@@ -98,7 +101,9 @@ public class Network implements Client {
 
 	/**
 	 * Closes the network connection
-	 * @throws IOException if closing fails
+	 *
+	 * @throws IOException
+	 *             if closing fails
 	 */
 	@Override
 	public void close() throws IOException {

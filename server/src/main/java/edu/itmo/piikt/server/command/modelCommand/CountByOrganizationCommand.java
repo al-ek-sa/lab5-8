@@ -31,8 +31,10 @@ public final class CountByOrganizationCommand {
 
 	/**
 	 * Executes the COUNT_BY_ORGANIZATION command
-	 * @param clientCommand command containing OrganizationData
-	 * @return  with count result or error
+	 *
+	 * @param clientCommand
+	 *            command containing OrganizationData
+	 * @return with count result or error
 	 */
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {

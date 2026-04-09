@@ -20,7 +20,7 @@ import java.util.function.Function;
  */
 public class ValidationOrganizationType {
 	private static final AppLogger logger = new AppLogger(ValidationOrganizationType.class);
-	/**Validation function for organization type field*/
+	/** Validation function for organization type field */
 	private final Function<String, Optional<MessageExceptionValidation>> organizationValidation;
 
 	public ValidationOrganizationType() {
@@ -31,7 +31,9 @@ public class ValidationOrganizationType {
 
 	/**
 	 * Validates the organization type field
-	 * @param type organization type value to validate
+	 *
+	 * @param type
+	 *            organization type value to validate
 	 * @return empty Optional if valid, Optional with error message if invalid
 	 */
 	public Optional<MessageExceptionValidation> validationOrganizationType(String type) {

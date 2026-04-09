@@ -6,6 +6,7 @@ import edu.itmo.piikt.common.logger.Context;
 
 /**
  * Factory for processing console commands on the server side
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -15,7 +16,9 @@ public class CommandFactory {
 
 	/**
 	 * Executes a console command
-	 * @param command command string entered in console
+	 *
+	 * @param command
+	 *            command string entered in console
 	 */
 	public void execute(String command) {
 		try (Context ignored = Context.newId()) {

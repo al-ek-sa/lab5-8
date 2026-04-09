@@ -7,6 +7,7 @@ import lombok.Data;
 
 /**
  * Data transfer object for address information
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */

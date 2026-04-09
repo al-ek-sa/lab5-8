@@ -10,11 +10,17 @@ import lombok.*;
 
 /**
  * Response sent from server to client after command execution
- * @param execution indicates whether the command executed successfully
- * @param message message describing the result
- * @param dataString data object
- * @param data list of string data
- * @param errors list of validation errors for correction
+ *
+ * @param execution
+ *            indicates whether the command executed successfully
+ * @param message
+ *            message describing the result
+ * @param dataString
+ *            data object
+ * @param data
+ *            list of string data
+ * @param errors
+ *            list of validation errors for correction
  */
 @Builder
 public record ServerResponse(boolean execution, String message, Object dataString, List<String> data,

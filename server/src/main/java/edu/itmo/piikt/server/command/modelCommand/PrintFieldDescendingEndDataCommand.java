@@ -26,6 +26,7 @@ public final class PrintFieldDescendingEndDataCommand {
 
 	/**
 	 * Executes the PRINT_FIELD_DESCENDING_END_DATE command
+	 *
 	 * @return ServerResponse with sorted worker list
 	 */
 	public ServerResponse execute() {

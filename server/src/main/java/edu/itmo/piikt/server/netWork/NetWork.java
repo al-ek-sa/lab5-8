@@ -14,18 +14,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- *  Main network server class for handling client connections
- *  @author Lishyk Aliaksandra
- *  @version 1.0
+ * Main network server class for handling client connections
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
  */
 @Data
 @AllArgsConstructor
 public class NetWork {
-/** Server port number*/
+	/** Server port number */
 	private static final int PORT = 6668;
-/** No data available for console input*/
+	/** No data available for console input */
 	private static final int NO_DATA = 0;
-/** Selector timeout in milliseconds*/
+	/** Selector timeout in milliseconds */
 	private static final int TIME = 1000;
 	private static final AppLogger logger = new AppLogger(NetWork.class);
 	private final Dispatcher dispatcher;
@@ -67,7 +68,9 @@ public class NetWork {
 
 	/**
 	 * Starts the server and begins accepting client connections
-	 * @throws IOException if server fails to start
+	 *
+	 * @throws IOException
+	 *             if server fails to start
 	 */
 	public void start() throws IOException {
 		try (Context ignored = Context.newId()) {

@@ -22,7 +22,7 @@ import java.util.function.Function;
 @AllArgsConstructor
 public class Builder<T> {
 	private static final AppLogger logger = new AppLogger(Builder.class);
-	/** List of validation rules for this field*/
+	/** List of validation rules for this field */
 	private final List<ValidationRules<T>> rulesList = new ArrayList<>();
 	private final String name;
 
@@ -41,7 +41,7 @@ public class Builder<T> {
 	/**
 	 * Builds a validation function based on the configured rules
 	 *
-	 * @return  a function that takes a value and returns validation result
+	 * @return a function that takes a value and returns validation result
 	 */
 	public Function<T, Optional<MessageExceptionValidation>> build() {
 		return input -> {

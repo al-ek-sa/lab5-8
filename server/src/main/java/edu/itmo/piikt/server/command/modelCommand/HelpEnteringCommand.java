@@ -26,6 +26,7 @@ public final class HelpEnteringCommand {
 
 	/**
 	 * Executes the HELP_ENTERING_COMMAND
+	 *
 	 * @return ServerResponse with detailed help text
 	 */
 	public ServerResponse execute() {

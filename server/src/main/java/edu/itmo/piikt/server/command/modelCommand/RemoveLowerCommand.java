@@ -24,14 +24,16 @@ public final class RemoveLowerCommand {
 
 	/**
 	 * Executes the REMOVE_LOWER command
-	 * @param clientCommand command containing the date argument
+	 *
+	 * @param clientCommand
+	 *            command containing the date argument
 	 * @return ServerResponse with success or error message
 	 */
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			String argument = clientCommand.getArgumentCommand();
 			logger.info("Executing REMOVE_LOWER with argument: {}", argument);
-// Validate argument presence
+			// Validate argument presence
 			if (argument == null || argument.trim().isEmpty()) {
 				logger.warn("Date argument is empty");
 				return ServerResponse.error("Дата не введена");

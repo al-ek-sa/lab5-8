@@ -28,7 +28,7 @@ import java.util.function.Function;
 @Getter
 public class ValidationAddress {
 	private static final AppLogger logger = new AppLogger(ValidationAddress.class);
-	/**Validation function for address field*/
+	/** Validation function for address field */
 	private final Function<String, Optional<MessageExceptionValidation>> addressValidation;
 
 	public ValidationAddress() {
@@ -38,7 +38,9 @@ public class ValidationAddress {
 
 	/**
 	 * Validates the street field
-	 * @param street street value to validate
+	 *
+	 * @param street
+	 *            street value to validate
 	 * @return empty Optional if valid, Optional with error message if invalid
 	 */
 	public Optional<MessageExceptionValidation> validation(String street) {

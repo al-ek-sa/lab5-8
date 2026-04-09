@@ -21,7 +21,9 @@ public final class UpdateIdCommand {
 
 	/**
 	 * Executes the UPDATE command
-	 * @param clientCommand command containing the worker ID
+	 *
+	 * @param clientCommand
+	 *            command containing the worker ID
 	 * @return ServerResponse indicating whether worker exists
 	 */
 	public ServerResponse execute(ClientCommand clientCommand) {

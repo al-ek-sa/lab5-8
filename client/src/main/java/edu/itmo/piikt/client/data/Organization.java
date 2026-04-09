@@ -10,8 +10,8 @@ import edu.itmo.piikt.common.logger.Context;
 import java.util.Arrays;
 
 /**
- * Collects Organization data from user input through IOProvider
- * Collects Organization data from user input through IOProvider
+ * Collects Organization data from user input through IOProvider Collects
+ * Organization data from user input through IOProvider
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -21,7 +21,9 @@ public class Organization {
 
 	/**
 	 * Builds OrganizationData from user input
-	 * @param io input/output provider for user interaction
+	 *
+	 * @param io
+	 *            input/output provider for user interaction
 	 * @return built OrganizationData
 	 */
 	public OrganizationData build(IOProvider io) {

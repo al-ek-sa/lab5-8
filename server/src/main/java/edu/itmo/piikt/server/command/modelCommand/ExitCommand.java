@@ -19,6 +19,7 @@ public final class ExitCommand {
 
 	/**
 	 * Executes the EXIT command
+	 *
 	 * @return ServerResponse with success message
 	 */
 	public ServerResponse execute() {

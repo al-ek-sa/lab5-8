@@ -5,9 +5,11 @@ import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-/** Data transfer object for coordinates
- *  @author Lishyk Aliaksandra
- *	@version 1.0
+/**
+ * Data transfer object for coordinates
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
  */
 @Data
 @AllArgsConstructor

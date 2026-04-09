@@ -31,7 +31,9 @@ public final class AddCommand {
 
 	/**
 	 * Executes the ADD command
-	 * @param clientCommand command containing WorkerData
+	 *
+	 * @param clientCommand
+	 *            command containing WorkerData
 	 * @return with success or error information
 	 */
 	public ServerResponse execute(ClientCommand clientCommand) {

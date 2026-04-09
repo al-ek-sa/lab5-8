@@ -4,10 +4,12 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- *	Record for validation error messages
+ * Record for validation error messages
  *
- * @param name name of the field that failed validation
- * @param message error description
+ * @param name
+ *            name of the field that failed validation
+ * @param message
+ *            error description
  * @author Lishyk Aliaksandra
  * @version 1.0
  */

@@ -25,7 +25,9 @@ public final class ShowCommand {
 
 	/**
 	 * Executes the SHOW command
-	 * @return ServerResponse with sorted worker list or error if collection is empty
+	 *
+	 * @return ServerResponse with sorted worker list or error if collection is
+	 *         empty
 	 */
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {

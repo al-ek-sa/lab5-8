@@ -8,6 +8,7 @@ import lombok.Data;
 
 /**
  * Command to save the collection to a CSV file from the server console
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */

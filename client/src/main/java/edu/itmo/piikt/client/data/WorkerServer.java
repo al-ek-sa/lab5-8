@@ -27,7 +27,9 @@ public class WorkerServer {
 
 	/**
 	 * Builds corrected WorkerData based on validation errors
-	 * @param serverResponse server response containing partial WorkerData
+	 *
+	 * @param serverResponse
+	 *            server response containing partial WorkerData
 	 * @return corrected WorkerData
 	 */
 	public WorkerData build(ServerResponse serverResponse) {

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Builder for creating Organization objects from OrganizationData
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -21,9 +22,12 @@ public class OrganizationBuilder {
 
 	/**
 	 * Builds an Organization entity from OrganizationData
-	 * @param organizationData data transfer object containing organization information
+	 *
+	 * @param organizationData
+	 *            data transfer object containing organization information
 	 * @return built Organization entity
-	 * @throws RuntimeException if parsing fails
+	 * @throws RuntimeException
+	 *             if parsing fails
 	 */
 	public Organization organizationBuilder(OrganizationData organizationData) {
 		try (Context ignored = Context.newId()) {

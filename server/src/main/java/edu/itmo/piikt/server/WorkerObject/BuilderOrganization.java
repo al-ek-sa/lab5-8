@@ -15,6 +15,7 @@ import lombok.Data;
 
 /**
  * Builder for validating Organization data
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -34,8 +35,11 @@ public class BuilderOrganization implements Serializable {
 	}
 
 	/**
-	 *  Validates OrganizationData and returns either the validated data or validation errors
-	 * @param organizationData organization data to validate
+	 * Validates OrganizationData and returns either the validated data or
+	 * validation errors
+	 *
+	 * @param organizationData
+	 *            organization data to validate
 	 * @return OrganizationData if valid, ValidationError with errors otherwise
 	 */
 	public Object data(OrganizationData organizationData) {

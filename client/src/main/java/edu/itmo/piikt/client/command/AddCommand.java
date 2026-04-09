@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Command for adding a new Worker to the collection
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -24,14 +25,16 @@ import lombok.NoArgsConstructor;
 @Data
 public class AddCommand {
 	private static final AppLogger logger = new AppLogger(AddCommand.class);
-	/**Network client for sending requests to server*/
+	/** Network client for sending requests to server */
 	private Network network;
-	/** Worker builder for collecting input data*/
+	/** Worker builder for collecting input data */
 	private Worker worker = new Worker();
 
 	/**
 	 * Executes the ADD command.
-	 * @param io input/output provider for user interaction
+	 *
+	 * @param io
+	 *            input/output provider for user interaction
 	 * @return server response
 	 */
 	public ServerResponse execute(IOProvider io) {
@@ -52,9 +55,12 @@ public class AddCommand {
 
 	/**
 	 * Handles validation retries for ADD command
-	 * @param serverResponse initial server response
-	 * @param io input/output provider for user interaction
-	 * @return  successful server response
+	 *
+	 * @param serverResponse
+	 *            initial server response
+	 * @param io
+	 *            input/output provider for user interaction
+	 * @return successful server response
 	 */
 	private ServerResponse add(ServerResponse serverResponse, IOProvider io) {
 		var workerServer = new WorkerServer(io);

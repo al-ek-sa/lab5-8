@@ -16,14 +16,16 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 public final class HistoryCommand {
-	/**Maximum number of commands to display in history*/
+	/** Maximum number of commands to display in history */
 	private static final int LIMIT_HISTORY = 14;
 	private static final AppLogger logger = new AppLogger(HistoryCommand.class);
 
 	/**
-	 * Displays the last 14 commands entered by the user
-	 * (without their arguments). The history is stored in HistoryCommands
-	 * @param io provider for outputting command results
+	 * Displays the last 14 commands entered by the user (without their arguments).
+	 * The history is stored in HistoryCommands
+	 *
+	 * @param io
+	 *            provider for outputting command results
 	 */
 	public void execute(IOProvider io) {
 		try (Context ignored = Context.newId()) {

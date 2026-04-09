@@ -27,7 +27,9 @@ public enum HistoryWorker {
 
 	/**
 	 * Adds a worker to the collection
-	 * @param worker worker to add
+	 *
+	 * @param worker
+	 *            worker to add
 	 */
 	public void add(Worker worker) {
 		try (Context ignored = Context.newId()) {

@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Builder for creating Worker objects from WorkerData
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -24,9 +25,12 @@ public class WorkerBuilder {
 
 	/**
 	 * Builds a Worker entity from WorkerData
-	 * @param workerData data transfer object containing worker information
+	 *
+	 * @param workerData
+	 *            data transfer object containing worker information
 	 * @return built Worker entity
-	 * @throws RuntimeException if parsing fails
+	 * @throws RuntimeException
+	 *             if parsing fails
 	 */
 	public Worker builerWorker(WorkerData workerData) {
 		try (Context ignored = Context.newId()) {
@@ -56,8 +60,10 @@ public class WorkerBuilder {
 	}
 
 	/**
-	 *  Builds an Organization entity from WorkerData (maybe null)
-	 * @param workerData data transfer object containing worker information
+	 * Builds an Organization entity from WorkerData (maybe null)
+	 *
+	 * @param workerData
+	 *            data transfer object containing worker information
 	 * @return built Organization entity or null if organization data is incomplete
 	 */
 	@Nullable

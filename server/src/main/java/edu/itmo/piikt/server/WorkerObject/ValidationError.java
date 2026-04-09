@@ -5,8 +5,11 @@ import java.util.List;
 
 /**
  * Record representing validation errors for a data object
- * @param errors list of validation error messages
- * @param data data the original data object that failed validation
+ *
+ * @param errors
+ *            list of validation error messages
+ * @param data
+ *            data the original data object that failed validation
  * @author Lishyk Aliaksandra
  * @version 1.0
  */

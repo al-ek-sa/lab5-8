@@ -4,7 +4,8 @@ import java.util.UUID;
 import org.slf4j.MDC;
 
 /**
- * Context manager for Mapped Diagnostic Context (MDC) to track request IDs across logs
+ * Context manager for Mapped Diagnostic Context (MDC) to track request IDs
+ * across logs
  *
  * @author Lishyk Aliaksandra
  * @version 1.0

@@ -21,7 +21,9 @@ public final class RemoveByIdCommand {
 
 	/**
 	 * Executes the REMOVE_BY_ID command
-	 * @param clientCommand command containing the worker ID
+	 *
+	 * @param clientCommand
+	 *            command containing the worker ID
 	 * @return ServerResponse with success or error message
 	 */
 	public ServerResponse execute(ClientCommand clientCommand) {

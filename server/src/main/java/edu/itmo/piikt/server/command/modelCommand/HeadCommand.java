@@ -22,6 +22,7 @@ public final class HeadCommand {
 
 	/**
 	 * Executes the HEAD command
+	 *
 	 * @return ServerResponse with the first worker or empty message
 	 */
 	public ServerResponse execute() {

@@ -11,9 +11,8 @@ import edu.itmo.piikt.common.logger.Config;
 import edu.itmo.piikt.common.logger.Context;
 
 /**
- * Initializes the client, establishes connection to the server,
- * and starts the command processing loop. Handles reconnection attempts
- * and graceful shutdown
+ * Initializes the client, establishes connection to the server, and starts the
+ * command processing loop. Handles reconnection attempts and graceful shutdown
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -31,7 +30,7 @@ public class MainClient {
 			Network client;
 
 			// Infinite connection attempts
-			while (true){
+			while (true) {
 				try {
 					logger.info("Attempting to connect to server");
 					Network network = new Network();
@@ -60,7 +59,7 @@ public class MainClient {
 			} finally {
 				// Close connection
 				try {
-                    client.close();
+					client.close();
 					logger.info("Client stopped");
 				} catch (Exception e) {
 					logger.error("Error closing connection: {}", e.getMessage());
