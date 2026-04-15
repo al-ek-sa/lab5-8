@@ -9,6 +9,7 @@ import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.server.WorkerObject.BuilderWorker;
 import edu.itmo.piikt.server.WorkerObject.ValidationError;
 import edu.itmo.piikt.server.WorkerObject.WorkerBuilder;
+import edu.itmo.piikt.server.commands.CommandType;
 import edu.itmo.piikt.server.history.HistoryAddress;
 import edu.itmo.piikt.server.history.HistoryCoordinate;
 import edu.itmo.piikt.server.history.HistoryOrganization;
@@ -24,7 +25,7 @@ import lombok.NoArgsConstructor;
  * @see HistoryWorker
  */
 @NoArgsConstructor
-public final class AddCommand {
+public final class AddCommand implements CommandType {
 	private static final AppLogger logger = new AppLogger(AddCommand.class);
 	private final BuilderWorker builderWorker = new BuilderWorker();
 	private final WorkerBuilder workerBuilder = new WorkerBuilder();
@@ -36,6 +37,7 @@ public final class AddCommand {
 	 *            command containing WorkerData
 	 * @return with success or error information
 	 */
+	@Override
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			logger.info("Executing ADD command");

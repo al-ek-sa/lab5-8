@@ -5,6 +5,7 @@ import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
+import edu.itmo.piikt.server.commands.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  * @see HistoryWorker
  */
 @NoArgsConstructor
-public final class FilterContainsNameCommand {
+public final class FilterContainsNameCommand implements CommandType {
 	private static final AppLogger logger = new AppLogger(FilterContainsNameCommand.class);
 
 	/**
@@ -30,6 +31,7 @@ public final class FilterContainsNameCommand {
 	 *            command containing the name substring
 	 * @return ServerResponse with filtered worker list
 	 */
+	@Override
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			String argument = clientCommand.getArgumentCommand();

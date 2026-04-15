@@ -8,6 +8,7 @@ import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.server.WorkerObject.BuilderOrganization;
 import edu.itmo.piikt.server.WorkerObject.OrganizationBuilder;
 import edu.itmo.piikt.server.WorkerObject.ValidationError;
+import edu.itmo.piikt.server.commands.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.common.models.Organization;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ import java.util.List;
  * @see HistoryWorker
  */
 @NoArgsConstructor
-public final class CountByOrganizationCommand {
+public final class CountByOrganizationCommand implements CommandType {
 	private static final AppLogger logger = new AppLogger(CountByOrganizationCommand.class);
 	private final BuilderOrganization builderOrganization = new BuilderOrganization();
 	private final OrganizationBuilder organizationBuilder = new OrganizationBuilder();
@@ -36,6 +37,7 @@ public final class CountByOrganizationCommand {
 	 *            command containing OrganizationData
 	 * @return with count result or error
 	 */
+	@Override
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			logger.info("Executing COUNT_BY_ORGANIZATION command");

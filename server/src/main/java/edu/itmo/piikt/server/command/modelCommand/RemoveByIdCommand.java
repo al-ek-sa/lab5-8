@@ -4,6 +4,7 @@ import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
+import edu.itmo.piikt.server.commands.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
  * @see HistoryWorker
  */
 @NoArgsConstructor
-public final class RemoveByIdCommand {
+public final class RemoveByIdCommand implements CommandType {
 	private static final AppLogger logger = new AppLogger(RemoveByIdCommand.class);
 
 	/**
@@ -26,6 +27,7 @@ public final class RemoveByIdCommand {
 	 *            command containing the worker ID
 	 * @return ServerResponse with success or error message
 	 */
+	@Override
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			String id = clientCommand.getArgumentCommand();

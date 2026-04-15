@@ -4,6 +4,7 @@ import edu.itmo.piikt.common.command.data.Commands;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ServerResponse;
+import edu.itmo.piikt.server.commands.CommandSimple;
 import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  * @see Commands
  */
 @NoArgsConstructor
-public final class HelpEnteringCommand {
+public final class HelpEnteringCommand implements CommandSimple {
 	private static final AppLogger logger = new AppLogger(HelpEnteringCommand.class);
 	private static ServerResponse cachedResponse = null;
 
@@ -29,6 +30,7 @@ public final class HelpEnteringCommand {
 	 *
 	 * @return ServerResponse with detailed help text
 	 */
+	@Override
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			logger.info("Executing HELP_ENTERING_COMMAND");

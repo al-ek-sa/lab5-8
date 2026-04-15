@@ -4,6 +4,8 @@ import edu.itmo.piikt.common.command.data.Commands;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
+import edu.itmo.piikt.server.commands.CommandSimple;
+import edu.itmo.piikt.server.commands.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +17,7 @@ import lombok.NoArgsConstructor;
  * @see HistoryWorker
  */
 @NoArgsConstructor
-public final class ClearCommand {
+public final class ClearCommand implements CommandSimple {
 	private static final AppLogger logger = new AppLogger(ClearCommand.class);
 
 	/**
@@ -23,6 +25,7 @@ public final class ClearCommand {
 	 *
 	 * @return ServerResponse with success message
 	 */
+	@Override
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			logger.info("Executing CLEAR command");

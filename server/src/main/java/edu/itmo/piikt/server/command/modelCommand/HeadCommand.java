@@ -3,6 +3,7 @@ package edu.itmo.piikt.server.command.modelCommand;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ServerResponse;
+import edu.itmo.piikt.server.commands.CommandSimple;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +18,7 @@ import java.util.List;
  * @see HistoryWorker
  */
 @NoArgsConstructor
-public final class HeadCommand {
+public final class HeadCommand implements CommandSimple {
 	private static final AppLogger logger = new AppLogger(HeadCommand.class);
 
 	/**
@@ -25,6 +26,7 @@ public final class HeadCommand {
 	 *
 	 * @return ServerResponse with the first worker or empty message
 	 */
+	@Override
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			logger.info("Executing HEAD command");

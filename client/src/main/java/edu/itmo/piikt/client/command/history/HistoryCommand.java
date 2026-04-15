@@ -28,6 +28,7 @@ public final class HistoryCommand implements CommandVoid {
 	 * @param io
 	 *            provider for outputting command results
 	 */
+	@Override
 	public void execute(IOProvider io, Object... arg) {
 		if (arg.length != 0)
 			throw new RuntimeException();

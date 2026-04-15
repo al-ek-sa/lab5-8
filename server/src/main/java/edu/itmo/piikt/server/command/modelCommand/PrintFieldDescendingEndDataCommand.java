@@ -3,6 +3,7 @@ package edu.itmo.piikt.server.command.modelCommand;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ServerResponse;
+import edu.itmo.piikt.server.commands.CommandSimple;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.common.models.Worker;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
  * @see HistoryWorker
  */
 @NoArgsConstructor
-public final class PrintFieldDescendingEndDataCommand {
+public final class PrintFieldDescendingEndDataCommand implements CommandSimple {
 	private static final AppLogger logger = new AppLogger(PrintFieldDescendingEndDataCommand.class);
 
 	/**
@@ -29,6 +30,7 @@ public final class PrintFieldDescendingEndDataCommand {
 	 *
 	 * @return ServerResponse with sorted worker list
 	 */
+	@Override
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			logger.info("Executing PRINT_FIELD_DESCENDING_END_DATE command");

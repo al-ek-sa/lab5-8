@@ -40,6 +40,7 @@ public class AddCommand implements CommandExecute<ServerResponse> {
 	 *            input/output provider for user interaction
 	 * @return server response
 	 */
+	@Override
 	public ServerResponse execute(IOProvider io, Object... arg) {
 		try (Context ignored = Context.newId()) {
 			if (arg.length > 0) {
