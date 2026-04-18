@@ -59,6 +59,12 @@ public class Network implements Client {
 				return;
 			} catch (IOException e) {
 				logger.warn("Retry interrupted");
+				try {
+					Thread.sleep(250);
+				} catch (InterruptedException ex) {
+					Thread.currentThread().interrupt();
+					return;
+				}
 			}
 		}
 	}
@@ -87,7 +93,8 @@ public class Network implements Client {
 			int bytes = socketChannel.read(reader);
 			if (bytes == CONNECTION_CLOSED) {
 				logger.error("Connection closed by server");
-				throw new IOException("Соединение закрыто");
+				connect();
+				return send(clientResponse);
 			}
 			reader.flip();
 			ServerResponse serverResponse = (ServerResponse) DS.deserialize(reader);
@@ -122,6 +129,13 @@ public class Network implements Client {
 	public boolean connected() {
 		boolean isConnected = socketChannel != null && socketChannel.isConnected();
 		logger.debug("Connection status: {}", isConnected);
-		return isConnected;
+		try {
+			socketChannel.configureBlocking(false);
+			int bytes = socketChannel.read(ByteBuffer.allocate(0));
+			socketChannel.configureBlocking(true);
+			return bytes != -1;
+		} catch (IOException e) {
+			return false;
+		}
 	}
 }
