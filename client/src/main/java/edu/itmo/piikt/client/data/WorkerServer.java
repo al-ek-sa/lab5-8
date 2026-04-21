@@ -95,7 +95,7 @@ public class WorkerServer {
 				logger.debug("End date is null, requesting input");
 				io.println(WorkerPrint.END_DATE.getMessageError());
 				String endDate = io.readLine();
-				while (endDate.length() < 10) {
+				while (endDate.length() > 10) {
 					io.println("The string you entered is too long, please try entering it again.");
 					endDate = io.readLine();
 				}
