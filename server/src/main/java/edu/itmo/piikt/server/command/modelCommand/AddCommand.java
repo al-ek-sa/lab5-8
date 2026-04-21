@@ -1,5 +1,6 @@
 package edu.itmo.piikt.server.command.modelCommand;
 
+import edu.itmo.piikt.common.data.MessageExceptionValidation;
 import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.models.Worker;
 import edu.itmo.piikt.common.server_client.ClientCommand;
@@ -15,6 +16,8 @@ import edu.itmo.piikt.server.history.HistoryCoordinate;
 import edu.itmo.piikt.server.history.HistoryOrganization;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * The class implements the command add {element} : add a new element to the
@@ -54,7 +57,10 @@ public final class AddCommand implements CommandType {
 				logger.info("Worker added successfully, total workers: {}",
 						HistoryWorker.INSTANCE.getListWorker().size());
 				return ServerResponse.successfulCompletion("ADD");
-			} else if (result instanceof ValidationError(java.util.List<edu.itmo.piikt.common.data.MessageExceptionValidation>errors,Object data)) {
+			} else if (result instanceof ValidationError) {
+				ValidationError error = (ValidationError) result;
+				List<MessageExceptionValidation> errors = error.errors();
+				Object data = error.data();
 				logger.warn("Validation failed: {} errors", errors.size());
 				return ServerResponse.error("Incorrect data entered", errors, data);
 			}
