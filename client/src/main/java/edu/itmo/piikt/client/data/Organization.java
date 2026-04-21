@@ -31,11 +31,23 @@ public class Organization {
 			logger.debug("Building organization data");
 			io.println(WorkerPrint.ANNUAL_TURNOVER.getMessage());
 			String annualTurnover = io.readLine();
+			while (annualTurnover.length() > 10) {
+				io.println("The string you entered is too long, please try entering it again.");
+				annualTurnover = io.readLine();
+			}
 			io.println(WorkerPrint.TYPE.getMessage());
 			Arrays.stream(OrganizationTypeData.values()).forEach(type -> io.println(type.getId() + ": " + type.name()));
 			String type = io.readLine();
+			while (type.length() > 5) {
+				io.println("The string you entered is too long, please try entering it again.");
+				type = io.readLine();
+			}
 			io.println(WorkerPrint.STREET.getMessage());
 			String address = io.readLine();
+			while (address.length() > 100) {
+				io.println("The string you entered is too long, please try entering it again.");
+				address = io.readLine();
+			}
 			AddressData addressData = new AddressData(address);
 			TypeOrganizationDate typeData = new TypeOrganizationDate(type);
 			OrganizationData organizationData = new OrganizationData(annualTurnover, typeData, addressData);

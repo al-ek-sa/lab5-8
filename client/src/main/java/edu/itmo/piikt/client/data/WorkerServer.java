@@ -45,36 +45,60 @@ public class WorkerServer {
 				logger.debug("Name is null, requesting input");
 				io.println(WorkerPrint.NAME.getMessageError());
 				String name = io.readLine();
+				while (name.length() > 75) {
+					io.println("The string you entered is too long, please try entering it again.");
+					name = io.readLine();
+				}
 				workerData.setName(name);
 			}
 			if (workerData.getCoordinates().getX() == null) {
 				logger.debug("Coordinate X is null, requesting input");
 				io.println(WorkerPrint.X.getMessageError());
 				String x = io.readLine();
+				while (x.length() > 20) {
+					io.println("The string you entered is too long, please try entering it again.");
+					x = io.readLine();
+				}
 				workerData.getCoordinates().setX(x);
 			}
 			if (workerData.getCoordinates().getY() == null) {
 				logger.debug("Coordinate Y is null, requesting input");
 				io.println(WorkerPrint.Y.getMessageError());
 				String y = io.readLine();
+				while (y.length() > 20) {
+					io.println("The string you entered is too long, please try entering it again.");
+					y = io.readLine();
+				}
 				workerData.getCoordinates().setY(y);
 			}
 			if (workerData.getSalary() == null) {
 				logger.debug("Salary is null, requesting input");
 				io.println(WorkerPrint.SALARY.getMessageError());
 				String salary = io.readLine();
+				while (salary.length() > 10) {
+					io.println("The string you entered is too long, please try entering it again.");
+					salary = io.readLine();
+				}
 				workerData.setSalary(salary);
 			}
 			if (workerData.getStartDate() == null) {
 				logger.debug("Start date is null, requesting input");
 				io.println(WorkerPrint.START_DATE.getMessageError());
 				String startDate = io.readLine();
+				while (startDate.length() > 10) {
+					io.println("The string you entered is too long, please try entering it again.");
+					startDate = io.readLine();
+				}
 				workerData.setStartDate(startDate);
 			}
 			if (workerData.getEndDate() == null) {
 				logger.debug("End date is null, requesting input");
 				io.println(WorkerPrint.END_DATE.getMessageError());
 				String endDate = io.readLine();
+				while (endDate.length() < 10) {
+					io.println("The string you entered is too long, please try entering it again.");
+					endDate = io.readLine();
+				}
 				workerData.setEndDate(endDate);
 			}
 			if (workerData.getStatus().getId() == null) {
@@ -83,6 +107,10 @@ public class WorkerServer {
 				Arrays.stream(StatusData.values())
 						.forEach(statusData -> io.println(statusData.getId() + ": " + statusData.name()));
 				String status = io.readLine();
+				while (status.length() > 5) {
+					io.println("The string you entered is too long, please try entering it again.");
+					status = io.readLine();
+				}
 				workerData.getStatus().setId(status);
 			}
 			if (workerData.getOrganization() != null) {
@@ -90,6 +118,10 @@ public class WorkerServer {
 					logger.debug("Organization annual turnover is null, requesting input");
 					io.println(WorkerPrint.ANNUAL_TURNOVER.getMessageError());
 					String annualTurnover = io.readLine();
+					while (annualTurnover.length() > 10) {
+						io.println("The string you entered is too long, please try entering it again.");
+						annualTurnover = io.readLine();
+					}
 					workerData.getOrganization().setAnnualTurnover(annualTurnover);
 				}
 				if (workerData.getOrganization().getType().getId() == null) {
@@ -98,12 +130,20 @@ public class WorkerServer {
 					Arrays.stream(OrganizationTypeData.values())
 							.forEach(type -> io.println(type.getId() + ": " + type.name()));
 					String type = io.readLine();
+					while (type.length() > 5) {
+						io.println("The string you entered is too long, please try entering it again.");
+						type = io.readLine();
+					}
 					workerData.getOrganization().getType().setId(type);
 				}
 				if (workerData.getOrganization().getOfficialAddress().getStreet() == null) {
 					logger.debug("Organization street is null, requesting input");
 					io.println(WorkerPrint.STREET.getMessageError());
 					String address = io.readLine();
+					while (address.length() > 100) {
+						io.println("The string you entered is too long, please try entering it again.");
+						address = io.readLine();
+					}
 					workerData.getOrganization().getOfficialAddress().setStreet(address);
 				}
 			}

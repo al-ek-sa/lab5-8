@@ -155,6 +155,10 @@ public enum ValidationCommand {
 				// Command with argument
 				if (input.length == 2) {
 					String argument = input[1];
+					if (argument.length() > 100) {
+						io.println("argument is too big");
+						continue;
+					}
 					for (String com2 : argumentCommand) {
 						if (DamerauLevenshteinDistance.distance(com2, element) <= 1) {
 							if (com2.equals(Commands.EXECUTE_SCRIPT.getName())) {
