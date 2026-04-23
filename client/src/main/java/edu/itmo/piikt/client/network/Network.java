@@ -36,7 +36,7 @@ public class Network implements Client {
 	/** Server host address */
 	private static final String HOST = System.getenv().getOrDefault("SERVER_HOST", "localhost");
 	/** Server port */
-	private final Integer PORT = 6969;
+	private final Integer PORT = 6652;
 	private ClientData clientData;
 
 	@Override
