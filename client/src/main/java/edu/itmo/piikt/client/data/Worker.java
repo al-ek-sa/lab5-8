@@ -5,7 +5,7 @@ import edu.itmo.piikt.common.data.OrganizationType.OrganizationTypeData;
 import edu.itmo.piikt.common.data.OrganizationType.TypeOrganizationDate;
 import edu.itmo.piikt.common.data.Status.DataStatus;
 import edu.itmo.piikt.common.data.Status.StatusData;
-import edu.itmo.piikt.common.io.provider.IOProvider;
+import edu.itmo.piikt.client.io.provider.IOProvider;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import java.util.Arrays;

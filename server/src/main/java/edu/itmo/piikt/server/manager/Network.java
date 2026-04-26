@@ -1,4 +1,4 @@
-package edu.itmo.piikt.server.netWork;
+package edu.itmo.piikt.server.manager;
 
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
@@ -21,7 +21,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class NetWork {
+public class Network {
 	/** Server port number */
 	private static final int PORT = 6652;
 	/** No data available for console input */
@@ -30,7 +30,7 @@ public class NetWork {
 	private static final int TIME = 5;
 	/** Maximum bytes to read from console per iteration (1KB chunk) */
 	private static final int MAX_CONSOLE = 1024;
-	private static final AppLogger logger = new AppLogger(NetWork.class);
+	private static final AppLogger logger = new AppLogger(Network.class);
 	private final Dispatcher dispatcher;
 	private Selector selector;
 	private ServerSocketChannel serverSocketChannel;
@@ -39,7 +39,7 @@ public class NetWork {
 	private CommandFactory commandFactory;
 	private final StringBuilder stringBuilder = new StringBuilder();
 
-	public NetWork(Dispatcher dispatcher) {
+	public Network(Dispatcher dispatcher) {
 		this.dispatcher = dispatcher;
 		this.connect = new Connect(dispatcher);
 		this.commandFactory = new CommandFactory();

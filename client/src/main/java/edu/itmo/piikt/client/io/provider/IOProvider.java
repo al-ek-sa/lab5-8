@@ -1,4 +1,4 @@
-package edu.itmo.piikt.common.io.provider;
+package edu.itmo.piikt.client.io.provider;
 
 /**
  * An interface that is required for outputting data to the console, as well as

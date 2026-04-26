@@ -1,4 +1,4 @@
-package edu.itmo.piikt.server.netWork;
+package edu.itmo.piikt.server.manager;
 
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;

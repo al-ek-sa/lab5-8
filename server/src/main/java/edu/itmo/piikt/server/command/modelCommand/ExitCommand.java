@@ -4,7 +4,6 @@ import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.server.commands.CommandSimple;
-import edu.itmo.piikt.server.saveManager.CSVParser;
 import lombok.NoArgsConstructor;
 
 /**
@@ -27,8 +26,6 @@ public final class ExitCommand implements CommandSimple {
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			logger.info("Executing EXIT command, saving collection");
-			CSVParser csvParser = new CSVParser();
-			csvParser.saveCollection();
 			logger.info("Collection saved, exiting");
 			return ServerResponse.successfulCompletion("EXIT");
 		} catch (Exception e) {

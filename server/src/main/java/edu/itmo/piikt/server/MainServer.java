@@ -4,8 +4,8 @@ import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Config;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.server.dispatcher.Dispatcher;
-import edu.itmo.piikt.server.netWork.NetWork;
-import edu.itmo.piikt.server.saveManager.CSVParser;
+import edu.itmo.piikt.server.manager.Network;
+
 import java.io.IOException;
 
 /**
@@ -29,20 +29,13 @@ public class MainServer {
 
 		try (Context ignored = Context.newId()) {
 			logger.info("Starting server");
-			CSVParser csvParser = new CSVParser();
-			csvParser.readFile();
 			logger.info("Data loaded from file");
 			Dispatcher dispatcher = new Dispatcher();
-			NetWork netWork = new NetWork(dispatcher);
+			Network netWork = new Network(dispatcher);
 			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 				try (Context ignored1 = Context.newId()) {
 					logger.info("Shutdown signal received");
 					netWork.stop();
-					try {
-						csvParser.saveCollection();
-					} catch (IOException e) {
-						logger.error("Failed to save collection on shutdown: {}", e.getMessage());
-					}
 					logger.info("Server stopped");
 				}
 			}));

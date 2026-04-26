@@ -1,7 +1,6 @@
-package edu.itmo.piikt.common.io.providerType;
+package edu.itmo.piikt.client.io.providerType;
 
-import edu.itmo.piikt.common.io.data.NameIOProvider;
-import edu.itmo.piikt.common.io.provider.IOProvider;
+import edu.itmo.piikt.client.io.*;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import java.io.*;
