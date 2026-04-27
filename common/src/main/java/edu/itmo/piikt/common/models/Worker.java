@@ -1,8 +1,5 @@
 package edu.itmo.piikt.common.models;
 
-import com.opencsv.bean.CsvBindByPosition;
-import com.opencsv.bean.CsvDate;
-import com.opencsv.bean.CsvRecurse;
 import edu.itmo.piikt.common.util.GeneratorId;
 import java.io.Serial;
 import java.io.Serializable;
@@ -24,34 +21,22 @@ public final class Worker implements Comparable<Worker>, Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
-	@CsvBindByPosition(position = 0)
 	private String uuid;
 
-	@CsvBindByPosition(position = 1)
 	private String name;
 
-	@CsvRecurse
 	private Coordinates coordinates;
 
-	@CsvBindByPosition(position = 4)
-	@CsvDate("yyyy-MM-dd HH:mm:ss")
 	private java.util.Date creationDate;
 
-	@CsvBindByPosition(position = 5)
 	private Float salary;
 
-	@CsvBindByPosition(position = 6)
-	@CsvDate("yyyy-MM-dd")
 	private java.time.LocalDate startDate;
 
-	@CsvBindByPosition(position = 7)
-	@CsvDate("yyyy-MM-dd'T'HH:mm:ssXXX")
 	private java.time.ZonedDateTime endDate;
 
-	@CsvBindByPosition(position = 8)
 	private Status status;
 
-	@CsvRecurse
 	private Organization organization;
 
 	public Worker(String name, Coordinates coordinates, Float salary, LocalDate startDate, ZonedDateTime endDate,
