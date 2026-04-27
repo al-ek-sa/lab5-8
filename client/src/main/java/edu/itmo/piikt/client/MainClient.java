@@ -1,10 +1,11 @@
 package edu.itmo.piikt.client;
 
-import edu.itmo.piikt.client.mode.CronMode;
 import edu.itmo.piikt.client.mode.InteractiveMode;
 import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.client.io.provider.IOProvider;
 import edu.itmo.piikt.client.io.providerType.IOConsole;
+import edu.itmo.piikt.client.registration.FactoryRequest;
+import edu.itmo.piikt.client.registration.Request;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Config;
 import edu.itmo.piikt.common.logger.Context;
@@ -28,17 +29,27 @@ public class MainClient {
 			Network client = new Network();
 			client.connect();
 			IOProvider io = new IOConsole();
-			if (args.length > 0) {
-				for (int i = 0; i < args.length; i++) {
-					if (args[i].equalsIgnoreCase("--cron") && i + 1 < args.length) {
-						String command = args[i + 1];
-						CronMode cronMode = new CronMode(command);
-						cronMode.execute(client, io);
-						client.close();
-						return;
-					} else if (args[i].equalsIgnoreCase("--cron")) {
-						client.close();
-						return;
+			String request = io.readLine();
+			Request request1 = null;
+			while (request1 == null) {
+				io.println("Выберите способ входа и введите соответствующую команду: \n> регистрация (register)"
+						+ " \n> вход в аккаунт (login) \n> восстановление пароля (reset_password)");
+				switch (request) {
+					case "login" -> {
+						String login = io.readLine();
+						String password = io.readLine();
+						request1 = FactoryRequest.createLoginRequest(login, password);
+					}
+					case "register" -> {
+						String login = io.readLine();
+						String password = io.readLine();
+						String email = io.readLine();
+						request1 = FactoryRequest.createRegisterRequest(login, password, email);
+					}
+					case "reset_password" -> {
+						String email = io.readLine();
+						String password = io.readLine();
+						request1 = FactoryRequest.createResetPasswordRequest(email, password);
 					}
 				}
 			}
