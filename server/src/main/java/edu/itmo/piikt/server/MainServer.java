@@ -4,6 +4,7 @@ import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Config;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.server.dispatcher.Dispatcher;
+import edu.itmo.piikt.server.manager.BDConnect;
 import edu.itmo.piikt.server.manager.Network;
 import java.io.IOException;
 
@@ -27,6 +28,7 @@ public class MainServer {
 		Config.configureFromArgs(args);
 
 		try (Context ignored = Context.newId()) {
+			BDConnect.INSTANCE.connection();
 			logger.info("Starting server");
 			logger.info("Data loaded from file");
 			Dispatcher dispatcher = new Dispatcher();
