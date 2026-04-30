@@ -113,7 +113,7 @@ public enum ValidationCommand {
 				HistoryCommands.INSTANCE.add(nameCommand);
 				String command = nameCommand.trim();
 				String[] input = command.split("\\s+");
-				String element = input[0];
+				String element = input[0].toLowerCase();
 				if (!network.connected())
 					network.connect();
 				// Command without arguments

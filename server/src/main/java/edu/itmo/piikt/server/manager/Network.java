@@ -10,6 +10,8 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.util.Iterator;
+
+import edu.itmo.piikt.server.registration.Command;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -38,10 +40,12 @@ public class Network {
 	private final Connect connect;
 	private CommandFactory commandFactory;
 	private final StringBuilder stringBuilder = new StringBuilder();
+	private final Command user;
 
-	public Network(Dispatcher dispatcher) {
+	public Network(Dispatcher dispatcher, Command user) {
 		this.dispatcher = dispatcher;
-		this.connect = new Connect(dispatcher);
+		this.user = user;
+		this.connect = new Connect(dispatcher, user);
 		this.commandFactory = new CommandFactory();
 	}
 

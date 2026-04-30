@@ -6,6 +6,9 @@ import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.server.command.modelCommand.*;
+import edu.itmo.piikt.server.registration.Login;
+import edu.itmo.piikt.server.registration.Register;
+import edu.itmo.piikt.server.registration.ResetPassword;
 
 import java.util.EnumMap;
 import java.util.function.Function;

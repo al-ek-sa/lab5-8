@@ -18,7 +18,6 @@ public record RegisterRequest(IOProvider io) implements Request {
 		String login = io.readLine();
 		io.println("Введите пароль");
 		String password = io.readLine();
-		return ClientCommand.builder().nameCommand("register").email(email).
-				login(login).password(password).build();
+		return ClientCommand.builder().nameCommand("register").email(email).login(login).password(password).build();
 	}
 }

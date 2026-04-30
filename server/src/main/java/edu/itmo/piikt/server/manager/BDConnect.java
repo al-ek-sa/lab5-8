@@ -17,7 +17,7 @@ public enum BDConnect {
 
 	public void connection() throws SQLException, InterruptedException {
 		while (true) {
-			try{
+			try {
 				connection = DriverManager.getConnection(URL, USER, PASSWORD);
 				break;
 			} catch (SQLException e) {
@@ -54,7 +54,7 @@ public enum BDConnect {
 		} catch (SQLException e) {
 			return false;
 		}
-    }
+	}
 
 	public boolean login(String login, String password) {
 		String sql = "select id from user where login = ? and password = ?";
@@ -67,8 +67,8 @@ public enum BDConnect {
 				return true;
 			}
 		} catch (SQLException e) {
-            return false;
-        }
+			return false;
+		}
 		return false;
-    }
+	}
 }

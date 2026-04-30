@@ -53,10 +53,9 @@ public final class CountByOrganizationCommand implements CommandType {
 						.filter(worker -> worker.getOrganization().equals(organization)).count();
 				logger.info("Count result: {}", size);
 				return ServerResponse.successfulCompletion("COUNT_BY_ORGANIZATION: ", List.of(String.valueOf(size)));
-			} else if (result instanceof ValidationError) {
-				ValidationError validationError = (ValidationError) result;
-				logger.warn("Validation failed: {} errors", validationError.errors().size());
-				return ServerResponse.error("Invalid data entered", validationError.errors(), validationError.data());
+			} else if (result instanceof ValidationError(List<edu.itmo.piikt.common.data.MessageExceptionValidation>errors,Object data)) {
+				logger.warn("Validation failed: {} errors", errors.size());
+				return ServerResponse.error("Invalid data entered", errors, data);
 			}
 			logger.error("Unknown result type from builder");
 			return ServerResponse.error("Internal server error while processing COUNT_BY_ORGANIZATION command");

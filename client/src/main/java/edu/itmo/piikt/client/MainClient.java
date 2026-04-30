@@ -1,5 +1,6 @@
 package edu.itmo.piikt.client;
 
+import edu.itmo.piikt.client.entrance.Registr;
 import edu.itmo.piikt.client.entrance.registration.LoginRequest;
 import edu.itmo.piikt.client.entrance.registration.RegisterRequest;
 import edu.itmo.piikt.client.entrance.registration.Request;
@@ -11,8 +12,6 @@ import edu.itmo.piikt.client.io.providerType.IOConsole;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Config;
 import edu.itmo.piikt.common.logger.Context;
-import edu.itmo.piikt.common.server_client.ClientCommand;
-import edu.itmo.piikt.common.server_client.ServerResponse;
 
 import java.io.IOException;
 
@@ -35,15 +34,15 @@ public class MainClient {
 			IOProvider io = new IOConsole();
 			io.println("Выберите способ входа и введите соответствующую команду: \n> регистрация (register)"
 					+ " \n> вход в аккаунт (login) \n> восстановление пароля (reset_password)");
-			String request = io.readLine();
-
+			Registr registr = new Registr(io);
+			registr.registration();
 			InteractiveMode interactiveMode = new InteractiveMode();
 			interactiveMode.execute(client, io);
 			client.close();
 		} catch (IOException e) {
 			logger.error("Client failed: {}", e.getMessage());
 		} catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+			throw new RuntimeException(e);
+		}
+	}
 }

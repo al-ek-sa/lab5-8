@@ -57,10 +57,7 @@ public final class AddCommand implements CommandType {
 				logger.info("Worker added successfully, total workers: {}",
 						HistoryWorker.INSTANCE.getListWorker().size());
 				return ServerResponse.successfulCompletion("ADD");
-			} else if (result instanceof ValidationError) {
-				ValidationError error = (ValidationError) result;
-				List<MessageExceptionValidation> errors = error.errors();
-				Object data = error.data();
+			} else if (result instanceof ValidationError(List<MessageExceptionValidation>errors,Object data)) {
 				logger.warn("Validation failed: {} errors", errors.size());
 				return ServerResponse.error("Incorrect data entered", errors, data);
 			}

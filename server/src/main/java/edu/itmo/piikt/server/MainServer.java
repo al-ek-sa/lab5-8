@@ -6,6 +6,8 @@ import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.server.dispatcher.Dispatcher;
 import edu.itmo.piikt.server.manager.BDConnect;
 import edu.itmo.piikt.server.manager.Network;
+import edu.itmo.piikt.server.registration.Command;
+
 import java.io.IOException;
 
 /**
@@ -32,7 +34,8 @@ public class MainServer {
 			logger.info("Starting server");
 			logger.info("Data loaded from file");
 			Dispatcher dispatcher = new Dispatcher();
-			Network netWork = new Network(dispatcher);
+			Command user = new Command();
+			Network netWork = new Network(dispatcher, user);
 			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 				try (Context ignored1 = Context.newId()) {
 					logger.info("Shutdown signal received");

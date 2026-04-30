@@ -7,6 +7,8 @@ import edu.itmo.piikt.common.server_client.ClientData;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.common.util.DS;
 import edu.itmo.piikt.server.dispatcher.Dispatcher;
+import edu.itmo.piikt.server.registration.Command;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
@@ -21,7 +23,7 @@ import java.nio.channels.SocketChannel;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-public record Connect(Dispatcher dispatcher) {
+public record Connect(Dispatcher dispatcher, Command command) {
 	/** Return value indicating end of stream */
 	private static final int END_OF_STREAM = -1;
 	/** Return value indicating no data available to read */
@@ -83,6 +85,9 @@ public record Connect(Dispatcher dispatcher) {
 			logger.debug("Received command from {}: {}", clientChannel.getRemoteAddress(),
 					clientCommand.getNameCommand());
 			ServerResponse serverResponse = dispatcher.dispatcher(clientCommand);
+			if (serverResponse == null) {
+				serverResponse = command.execute(clientCommand);
+			}
 			client.setMessage(serverResponse);
 			selectionKey.interestOps(SelectionKey.OP_WRITE);
 		} catch (Exception e) {

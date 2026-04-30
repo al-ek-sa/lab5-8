@@ -13,23 +13,23 @@ import java.util.Map;
 
 @Data
 public class Command {
-    private Map<String, Request> command = new HashMap<>();
-    private final IOProvider io;
-    public Command (IOProvider io){
-        this.io = io;
-        command.put("login", new LoginRequest(io));
-        command.put("register", new RegisterRequest(io));
-        command.put("reset_password", new ResetPasswordRequest(io));
-    }
+	private Map<String, Request> command = new HashMap<>();
+	private final IOProvider io;
+	public Command(IOProvider io) {
+		this.io = io;
+		command.put("login", new LoginRequest(io));
+		command.put("register", new RegisterRequest(io));
+		command.put("reset_password", new ResetPasswordRequest(io));
+	}
 
-    public ClientCommand executeCommand(String commandName) {
-        Request request = command.get(commandName);
-        request.getDescription();
-        return request.execute();
-    }
+	public ClientCommand executeCommand(String commandName) {
+		Request request = command.get(commandName);
+		request.getDescription();
+		return request.execute();
+	}
 
-    public void show() {
-        io.println("Выберите один из вариантов входа и введите команду");
-        
-    }
+	public void show() {
+		io.println("Выберите один из вариантов входа и введите команду");
+
+	}
 }
