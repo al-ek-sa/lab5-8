@@ -32,6 +32,14 @@ public enum BDConnect {
 		}
 	}
 
+	public boolean isConnected() {
+		try {
+			return connection != null && !connection.isClosed();
+		} catch (SQLException e) {
+			return false;
+		}
+	}
+
 	public String hashPassword(String password) {
 		try {
 			MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");

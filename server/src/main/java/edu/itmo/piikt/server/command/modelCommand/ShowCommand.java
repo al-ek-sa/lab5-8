@@ -7,6 +7,7 @@ import edu.itmo.piikt.server.commands.CommandSimple;
 import edu.itmo.piikt.server.commands.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.common.models.Worker;
+import edu.itmo.piikt.server.manager.BDConnect;
 import lombok.NoArgsConstructor;
 
 import java.util.Comparator;
@@ -34,6 +35,9 @@ public final class ShowCommand implements CommandSimple {
 	@Override
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
+			if (!BDConnect.INSTANCE.isConnected()) {
+				return ServerResponse.error("на данный момент, команда не доступна, повторите попытку позже");
+			}
 			logger.info("Executing SHOW command");
 			var listHistory = HistoryWorker.INSTANCE.getListWorker();
 			if (listHistory.isEmpty()) {

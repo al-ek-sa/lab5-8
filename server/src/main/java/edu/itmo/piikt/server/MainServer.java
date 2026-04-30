@@ -9,6 +9,7 @@ import edu.itmo.piikt.server.manager.Network;
 import edu.itmo.piikt.server.registration.Command;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Initializes the server, loads data from CSV file, starts the network server,
@@ -31,6 +32,17 @@ public class MainServer {
 
 		try (Context ignored = Context.newId()) {
 			BDConnect.INSTANCE.connection();
+			Thread.startVirtualThread(() -> {
+				while(true) {
+					if (!BDConnect.INSTANCE.isConnected()) {
+						try {
+							BDConnect.INSTANCE.connection();
+						} catch (SQLException | InterruptedException e) {
+							throw new RuntimeException(e);
+						}
+					}
+				}
+            });
 			logger.info("Starting server");
 			logger.info("Data loaded from file");
 			Dispatcher dispatcher = new Dispatcher();

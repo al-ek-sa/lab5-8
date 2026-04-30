@@ -7,6 +7,7 @@ import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.server.commands.CommandSimple;
 import edu.itmo.piikt.server.commands.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
+import edu.itmo.piikt.server.manager.BDConnect;
 import lombok.NoArgsConstructor;
 
 /**
@@ -28,6 +29,9 @@ public final class ClearCommand implements CommandSimple {
 	@Override
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
+			if (!BDConnect.INSTANCE.isConnected()) {
+				return ServerResponse.error("на данный момент, команда не доступна, повторите попытку позже");
+			}
 			logger.info("Executing CLEAR command");
 			int sizeBefore = HistoryWorker.INSTANCE.getListWorker().size();
 			HistoryWorker.INSTANCE.clear();

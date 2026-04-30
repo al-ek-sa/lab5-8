@@ -6,6 +6,7 @@ import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.server.commands.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
+import edu.itmo.piikt.server.manager.BDConnect;
 import lombok.NoArgsConstructor;
 
 /**
@@ -30,6 +31,9 @@ public final class UpdateIdCommand implements CommandType {
 	@Override
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
+			if (!BDConnect.INSTANCE.isConnected()) {
+				return ServerResponse.error("на данный момент, команда не доступна, повторите попытку позже");
+			}
 			String id = clientCommand.getArgumentCommand();
 			logger.info("Executing UPDATE command for id: {}", id);
 			if (id == null || id.trim().isEmpty()) {

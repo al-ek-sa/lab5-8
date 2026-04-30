@@ -15,6 +15,7 @@ import edu.itmo.piikt.server.history.HistoryAddress;
 import edu.itmo.piikt.server.history.HistoryCoordinate;
 import edu.itmo.piikt.server.history.HistoryOrganization;
 import edu.itmo.piikt.server.history.HistoryWorker;
+import edu.itmo.piikt.server.manager.BDConnect;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -43,6 +44,9 @@ public final class AddCommand implements CommandType {
 	@Override
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
+			if (!BDConnect.INSTANCE.isConnected()) {
+				return ServerResponse.error("на данный момент, команда не доступна, повторите попытку позже");
+			}
 			logger.info("Executing ADD command");
 			WorkerData dataWorker = (WorkerData) clientCommand.getData();
 			logger.debug("Worker data received: name={}, salary={}", dataWorker.getName(), dataWorker.getSalary());

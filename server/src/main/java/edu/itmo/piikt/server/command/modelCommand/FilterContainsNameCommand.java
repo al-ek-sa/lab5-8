@@ -7,6 +7,7 @@ import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.server.commands.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
+import edu.itmo.piikt.server.manager.BDConnect;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -34,6 +35,9 @@ public final class FilterContainsNameCommand implements CommandType {
 	@Override
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
+			if (!BDConnect.INSTANCE.isConnected()) {
+				return ServerResponse.error("на данный момент, команда не доступна, повторите попытку позже");
+			}
 			String argument = clientCommand.getArgumentCommand();
 			logger.info("Executing FILTER_CONTAINS_NAME with argument: {}", argument);
 			var listWorker = HistoryWorker.INSTANCE.getListWorker();

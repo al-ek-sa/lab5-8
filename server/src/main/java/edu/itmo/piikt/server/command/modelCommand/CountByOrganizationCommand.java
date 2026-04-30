@@ -11,6 +11,7 @@ import edu.itmo.piikt.server.WorkerObject.ValidationError;
 import edu.itmo.piikt.server.commands.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.common.models.Organization;
+import edu.itmo.piikt.server.manager.BDConnect;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -40,6 +41,9 @@ public final class CountByOrganizationCommand implements CommandType {
 	@Override
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
+			if (!BDConnect.INSTANCE.isConnected()) {
+				return ServerResponse.error("на данный момент, команда не доступна, повторите попытку позже");
+			}
 			logger.info("Executing COUNT_BY_ORGANIZATION command");
 			OrganizationData organizationData = (OrganizationData) clientCommand.getData();
 			logger.debug("Organization data: turnover={}, type={}, street={}", organizationData.getAnnualTurnover(),

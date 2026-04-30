@@ -5,6 +5,7 @@ import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.server.commands.CommandSimple;
 import edu.itmo.piikt.server.history.HistoryWorker;
+import edu.itmo.piikt.server.manager.BDConnect;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -29,6 +30,9 @@ public final class HeadCommand implements CommandSimple {
 	@Override
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
+			if (!BDConnect.INSTANCE.isConnected()) {
+				return ServerResponse.error("на данный момент, команда не доступна, повторите попытку позже");
+			}
 			logger.info("Executing HEAD command");
 			var listWorker = HistoryWorker.INSTANCE.getListWorker();
 			if (listWorker.isEmpty()) {
