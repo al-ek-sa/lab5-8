@@ -24,7 +24,7 @@ import lombok.*;
  */
 @Builder
 public record ServerResponse(boolean execution, String message, Object dataString, List<String> data,
-		List<MessageExceptionValidation> errors) implements Serializable {
+		List<MessageExceptionValidation> errors, String login, String email, String password) implements Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 	private static final AppLogger log = new AppLogger(ServerResponse.class);

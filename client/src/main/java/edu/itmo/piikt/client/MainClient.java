@@ -9,6 +9,8 @@ import edu.itmo.piikt.client.registration.Request;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Config;
 import edu.itmo.piikt.common.logger.Context;
+import edu.itmo.piikt.common.server_client.ClientCommand;
+import edu.itmo.piikt.common.server_client.ServerResponse;
 
 import java.io.IOException;
 
@@ -52,6 +54,7 @@ public class MainClient {
 						request1 = FactoryRequest.createResetPasswordRequest(email, password);
 					}
 				}
+				//ClientCommand clientCommand = ClientCommand.builder().build();
 			}
 			InteractiveMode interactiveMode = new InteractiveMode();
 			interactiveMode.execute(client, io);

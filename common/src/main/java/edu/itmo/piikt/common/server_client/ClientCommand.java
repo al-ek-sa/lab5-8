@@ -18,4 +18,7 @@ public class ClientCommand implements Serializable {
 	String nameCommand;
 	String argumentCommand;
 	Object data;
+	String login;
+	String email;
+	String password;
 }
