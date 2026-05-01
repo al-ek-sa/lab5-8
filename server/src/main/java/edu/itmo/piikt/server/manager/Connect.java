@@ -7,7 +7,7 @@ import edu.itmo.piikt.common.server_client.ClientData;
 import edu.itmo.piikt.common.server_client.ServerResponse;
 import edu.itmo.piikt.common.util.DS;
 import edu.itmo.piikt.server.dispatcher.Dispatcher;
-import edu.itmo.piikt.server.registration.Command;
+import edu.itmo.piikt.server.registration.User;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -23,7 +23,7 @@ import java.nio.channels.SocketChannel;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-public record Connect(Dispatcher dispatcher, Command command) {
+public record Connect(Dispatcher dispatcher, User command) {
 	/** Return value indicating end of stream */
 	private static final int END_OF_STREAM = -1;
 	/** Return value indicating no data available to read */

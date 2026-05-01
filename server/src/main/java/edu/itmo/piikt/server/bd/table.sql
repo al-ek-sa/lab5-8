@@ -1,3 +1,14 @@
+create table "user" (
+                        id serial primary key,
+                        login varchar(25),
+                        password varchar(40),
+                        name varchar(25),
+                        email varchar(30),
+                        check (char_length(login) > 8 and char_length(password) > 8),
+                        unique (name),
+                        unique (login)
+);
+
 create table worker (
                         worker_id varchar(25) primary key,
                         name varchar(100),
@@ -6,18 +17,6 @@ create table worker (
                         check (name is not null),
                         unique(worker_id)
 );
-
-create table "user" (
-                      id serial primary key,
-                      login varchar(25),
-                      password varchar(40),
-                      name varchar(25),
-                      email varchar(30),
-                      check (char_length(login) > 8 and char_length(password) > 8),
-                      unique (name),
-                      unique (login)
-);
-
 
 create index idx_worker_worker_id on worker(worker_id);
 create index idx_worker_name on worker(name);

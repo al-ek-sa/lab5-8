@@ -8,6 +8,7 @@ import edu.itmo.piikt.common.io.providerType.IOConsole;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Config;
 import edu.itmo.piikt.common.logger.Context;
+import edu.itmo.piikt.common.server_client.ClientCommand;
 
 import java.io.IOException;
 
@@ -31,7 +32,8 @@ public class MainClient {
 			io.println("Выберите способ входа и введите соответствующую команду: \n> регистрация (register)"
 					+ " \n> вход в аккаунт (login) \n> восстановление пароля (reset_password)");
 			Registr registr = new Registr(io);
-			registr.registration();
+			ClientCommand clientCommand = registr.registration();
+			client.send(clientCommand);
 			InteractiveMode interactiveMode = new InteractiveMode();
 			interactiveMode.execute(client, io);
 			client.close();

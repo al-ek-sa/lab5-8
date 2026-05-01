@@ -16,12 +16,32 @@ public class ResetPassword implements CommandType {
 	@Override
 	public ServerResponse execute(ClientCommand command) {
 		try (Context ignored = Context.newId()) {
+			String login = command.getLogin();
+			String email = command.getEmail();
+			String newPassword = command.getPassword();
+
+			logger.info("Processing reset password request for login: {}, email: {}", login, email);
+
 			if (!BDConnect.INSTANCE.isConnected()) {
-				return ServerResponse.error("сервер временно не доступен");
+				logger.warn("Database unavailable for reset password request - login: {}", login);
+				return ServerResponse.error("Service temporarily unavailable, please try again later");
 			}
-			return bd.newPassword(command.getEmail(), command.getLogin(), command.getPassword());
+
+			logger.debug("Executing password reset in database for login: {}", login);
+			ServerResponse response = bd.newPassword(email, login, newPassword);
+
+			if (response.execution()) {
+				logger.info("Password reset successful for login: {}", login);
+			} else {
+				logger.warn("Password reset failed for login: {}", login);
+			}
+
+			return response;
+
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			logger.error("Unexpected error during password reset for login {}: {}", command.getLogin(), e.getMessage(),
+					e);
+			return ServerResponse.error("Internal server error");
 		}
 	}
 }

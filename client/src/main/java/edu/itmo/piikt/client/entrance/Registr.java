@@ -2,6 +2,7 @@ package edu.itmo.piikt.client.entrance;
 
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.algorithms.DamerauLevenshteinDistance;
+import edu.itmo.piikt.common.server_client.ClientCommand;
 import lombok.Data;
 
 @Data
@@ -13,22 +14,17 @@ public class Registr {
 		this.io = io;
 		this.command = new Command(io);
 	}
-	public void registration() {
-		while (true) {
-			String type = io.readLine();
-			if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "login") <= 1) {
-				if (count > 0) {
-					command.executeCommand("login");
-					count = count - 1;
-				} else {
-					command.executeCommand("reset_password");
-				}
-			} else if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "register") <= 1) {
-				command.executeCommand("register");
+	public ClientCommand registration() {
+		String type = io.readLine();
+		if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "login") <= 1) {
+			return command.executeCommand("login");
+		} else if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "register") <= 1) {
+			return command.executeCommand("register");
 
-			} else if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "reset_password") <= 1) {
-				command.executeCommand("reset_password");
-			}
+		} else if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "reset_password") <= 1) {
+			return command.executeCommand("reset_password");
 		}
+
+		return null;
 	}
 }

@@ -1,12 +1,3 @@
-create table worker (
-                        worker_id varchar(25) primary key,
-                        name varchar(100),
-                        user_id integer references "user"(id),
-                        check (worker_id is not null),
-                        check (name is not null),
-                        unique(worker_id)
-);
-
 create table "user" (
                         id serial primary key,
                         login varchar(25),
@@ -18,6 +9,14 @@ create table "user" (
                         unique (login)
 );
 
+create table worker (
+                        worker_id varchar(25) primary key,
+                        name varchar(100),
+                        user_id integer references "user"(id),
+                        check (worker_id is not null),
+                        check (name is not null),
+                        unique(worker_id)
+);
 
 create index idx_worker_worker_id on worker(worker_id);
 create index idx_worker_name on worker(name);

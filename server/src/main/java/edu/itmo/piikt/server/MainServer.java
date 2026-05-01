@@ -9,7 +9,7 @@ import edu.itmo.piikt.server.CommandServer.CommandConsole;
 import edu.itmo.piikt.server.dispatcher.Dispatcher;
 import edu.itmo.piikt.server.manager.BDConnect;
 import edu.itmo.piikt.server.manager.Network;
-import edu.itmo.piikt.server.registration.Command;
+import edu.itmo.piikt.server.registration.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -57,7 +57,7 @@ public class MainServer {
 			logger.info("Starting server");
 			logger.info("Data loaded from file");
 			Dispatcher dispatcher = new Dispatcher();
-			Command user = new Command();
+			User user = new User();
 			Network netWork = new Network(dispatcher, user);
 			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 				try (Context ignored1 = Context.newId()) {

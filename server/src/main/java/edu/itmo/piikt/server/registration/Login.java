@@ -18,12 +18,23 @@ public class Login implements CommandType {
 	@Override
 	public ServerResponse execute(ClientCommand command) {
 		try (Context ignored = Context.newId()) {
+			String login = command.getLogin();
+			String password = command.getPassword();
+
+			logger.info("Processing login request for user: {}", login);
+
 			if (!BDConnect.INSTANCE.isConnected()) {
-				return ServerResponse.error("сервер временно не доступен");
+				logger.warn("Database unavailable for login request from user: {}", login);
+				return ServerResponse.error("Service temporarily unavailable, please try again later");
 			}
-			return bd.login(command.getLogin(), command.getPassword());
+
+			logger.debug("Authenticating user in database: {}", login);
+
+			return bd.login(login, password);
+
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			logger.error("Unexpected error during login for user {}: {}", command.getLogin(), e.getMessage(), e);
+			return ServerResponse.error("Internal server error");
 		}
 	}
 }

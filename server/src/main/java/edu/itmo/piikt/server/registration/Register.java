@@ -16,12 +16,32 @@ public class Register implements CommandType {
 	@Override
 	public ServerResponse execute(ClientCommand command) {
 		try (Context ignored = Context.newId()) {
+			String login = command.getLogin();
+			String email = command.getEmail();
+			String password = command.getPassword();
+
+			logger.info("Processing registration request for login: {}, email: {}", login, email);
+
 			if (!BDConnect.INSTANCE.isConnected()) {
-				return ServerResponse.error("сервер временно не доступен");
+				logger.warn("Database unavailable for registration request - login: {}", login);
+				return ServerResponse.error("Service temporarily unavailable, please try again later");
 			}
-			return bd.newUser(command.getEmail(), command.getLogin(), command.getPassword());
+
+			logger.debug("Executing user registration in database for login: {}", login);
+			ServerResponse response = bd.newUser(email, login, password);
+
+			if (response.execution()) {
+				logger.info("Registration successful for login: {}", login);
+			} else {
+				logger.warn("Registration failed for login: {}", login);
+			}
+
+			return response;
+
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			logger.error("Unexpected error during registration for login {}: {}", command.getLogin(), e.getMessage(),
+					e);
+			return ServerResponse.error("Internal server error");
 		}
 	}
 }

@@ -62,7 +62,7 @@ public class Dispatcher {
 			Commands commands = Commands.nameCommands(commandName);
 			if (commands == null) {
 				logger.warn("Unknown command: {}", commandName);
-				return ServerResponse.error("Unknown command: " + commandName);
+				return null;
 			}
 
 			Function<ClientCommand, ServerResponse> input = enumMap.get(commands);
