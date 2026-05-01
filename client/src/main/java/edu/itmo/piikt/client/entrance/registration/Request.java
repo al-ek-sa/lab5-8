@@ -1,6 +1,6 @@
 package edu.itmo.piikt.client.entrance.registration;
 
-import edu.itmo.piikt.common.server_client.ClientCommand;
+import edu.itmo.piikt.common.sc.ClientCommand;
 
 public interface Request {
 	ClientCommand execute();

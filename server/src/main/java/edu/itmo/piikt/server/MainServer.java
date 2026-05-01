@@ -5,7 +5,7 @@ import edu.itmo.piikt.common.io.providerType.IOConsole;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Config;
 import edu.itmo.piikt.common.logger.Context;
-import edu.itmo.piikt.server.CommandServer.CommandConsole;
+import edu.itmo.piikt.server.command.server.CommandConsole;
 import edu.itmo.piikt.server.dispatcher.Dispatcher;
 import edu.itmo.piikt.server.manager.BDConnect;
 import edu.itmo.piikt.server.manager.Network;

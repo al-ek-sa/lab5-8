@@ -2,7 +2,7 @@ package edu.itmo.piikt.server.manager;
 
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
-import edu.itmo.piikt.server.CommandServer.CommandFactory;
+import edu.itmo.piikt.server.command.server.CommandFactory;
 import edu.itmo.piikt.server.dispatcher.Dispatcher;
 import java.io.IOException;
 import java.net.InetSocketAddress;

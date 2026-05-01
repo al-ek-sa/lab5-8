@@ -9,8 +9,8 @@ import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
-import edu.itmo.piikt.common.server_client.ClientCommand;
-import edu.itmo.piikt.common.server_client.ServerResponse;
+import edu.itmo.piikt.common.sc.ClientCommand;
+import edu.itmo.piikt.common.sc.ServerResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

@@ -1,6 +1,6 @@
 package edu.itmo.piikt.common.data;
 
-import edu.itmo.piikt.common.data.OrganizationType.TypeOrganizationDate;
+import edu.itmo.piikt.common.data.organization.type.TypeOrganizationDate;
 import java.io.Serial;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;

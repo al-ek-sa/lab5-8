@@ -1,11 +1,11 @@
 package edu.itmo.piikt.client.network;
 
-import edu.itmo.piikt.common.interfaceCommon.Client;
+import edu.itmo.piikt.common.sc.Client;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
-import edu.itmo.piikt.common.server_client.ClientCommand;
-import edu.itmo.piikt.common.server_client.ClientData;
-import edu.itmo.piikt.common.server_client.ServerResponse;
+import edu.itmo.piikt.common.sc.ClientCommand;
+import edu.itmo.piikt.common.sc.ClientData;
+import edu.itmo.piikt.common.sc.ServerResponse;
 import edu.itmo.piikt.common.util.DS;
 import java.io.IOException;
 import java.net.InetSocketAddress;

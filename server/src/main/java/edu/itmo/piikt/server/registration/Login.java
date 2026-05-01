@@ -2,9 +2,9 @@ package edu.itmo.piikt.server.registration;
 
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
-import edu.itmo.piikt.common.server_client.ClientCommand;
-import edu.itmo.piikt.common.server_client.ServerResponse;
-import edu.itmo.piikt.server.commands.CommandType;
+import edu.itmo.piikt.common.sc.ClientCommand;
+import edu.itmo.piikt.common.sc.ServerResponse;
+import edu.itmo.piikt.server.command.interfaces.CommandType;
 import edu.itmo.piikt.server.manager.BDConnect;
 import lombok.Data;
 import lombok.NoArgsConstructor;
