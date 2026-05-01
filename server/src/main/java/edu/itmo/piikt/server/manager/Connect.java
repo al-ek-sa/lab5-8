@@ -14,6 +14,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Handles client connections, reading commands, and sending responses
@@ -29,6 +31,8 @@ public record Connect(Dispatcher dispatcher, User command) {
 	/** Return value indicating no data available to read */
 	private static final int NO_DATA_READ = 0;
 	private static final AppLogger logger = new AppLogger(Connect.class);
+	//todo
+	private static final ExecutorService responsePool = Executors.newFixedThreadPool(10);
 
 	/**
 	 * Handles new client connection
@@ -79,21 +83,42 @@ public record Connect(Dispatcher dispatcher, User command) {
 
 		// Process the received command
 		buffer.flip();
-		try (Context ignored = Context.newId()) {
-			ClientCommand clientCommand = (ClientCommand) DS.deserialize(buffer);
-			client.setCommand(clientCommand);
-			logger.debug("Received command from {}: {}", clientChannel.getRemoteAddress(),
-					clientCommand.getNameCommand());
-			ServerResponse serverResponse = dispatcher.dispatcher(clientCommand);
-			if (serverResponse == null) {
-				serverResponse = command.execute(clientCommand);
+		byte[] data = new byte[buffer.remaining()];
+		buffer.get(data);
+		client.clearReader();
+		Thread readThread = new Thread(() -> {
+			try (Context ignored = Context.newId()) {
+				ByteBuffer bb = ByteBuffer.wrap(data);
+				ClientCommand clientCommand = (ClientCommand) DS.deserialize(bb);
+				client.setCommand(clientCommand);
+				logger.debug("Received command from {}: {}", clientChannel.getRemoteAddress(),
+						clientCommand.getNameCommand());
+
+				Thread processThread = new Thread(() -> {
+					try (Context ignored2 = Context.newId()) {
+						ServerResponse serverResponse = dispatcher.dispatcher(clientCommand);
+						if (serverResponse == null) {
+							serverResponse = command.execute(clientCommand);
+						}
+						client.setMessage(serverResponse);
+						selectionKey.interestOps(SelectionKey.OP_WRITE);
+						selectionKey.selector().wakeup();
+					} catch (Exception e) {
+						logger.error("Error processing command: {}", e.getMessage());
+						client.clearReader();
+						selectionKey.interestOps(SelectionKey.OP_READ);
+						selectionKey.selector().wakeup();
+					}
+				});
+				processThread.start();
+			} catch (Exception e) {
+				logger.error("Error deserializing command: {}", e.getMessage());
+				client.clearReader();
+				selectionKey.interestOps(SelectionKey.OP_READ);
+				selectionKey.selector().wakeup();
 			}
-			client.setMessage(serverResponse);
-			selectionKey.interestOps(SelectionKey.OP_WRITE);
-		} catch (Exception e) {
-			logger.error("Error processing command: {}", e.getMessage());
-			client.clearReader();
-		}
+		});
+		readThread.start();
 	}
 
 	/**
@@ -108,17 +133,18 @@ public record Connect(Dispatcher dispatcher, User command) {
 		var clientChannel = (SocketChannel) selectionKey.channel();
 		var client = (ClientData) selectionKey.attachment();
 		var serverResponse = (ServerResponse) client.getMessage();
-
-		try (Context ignored = Context.newId()) {
-			ByteBuffer byteBuffer = DS.serialize(serverResponse);
-			clientChannel.write(byteBuffer);
-			logger.debug("Response sent to {}", clientChannel.getRemoteAddress());
-			client.setMessage(null);
-			client.clearReader();
-			selectionKey.interestOps(SelectionKey.OP_READ);
-		} catch (Exception e) {
-			logger.error("Error sending response: {}", e.getMessage());
-			selectionKey.interestOps(SelectionKey.OP_READ);
-		}
+		responsePool.submit(() -> {
+			try (Context ignored = Context.newId()) {
+				ByteBuffer byteBuffer = DS.serialize(serverResponse);
+				clientChannel.write(byteBuffer);
+				logger.debug("Response sent to {}", clientChannel.getRemoteAddress());
+				client.setMessage(null);
+				client.clearReader();
+				selectionKey.interestOps(SelectionKey.OP_READ);
+			} catch (Exception e) {
+				logger.error("Error sending response: {}", e.getMessage());
+				selectionKey.interestOps(SelectionKey.OP_READ);
+			}
+		});
 	}
 }

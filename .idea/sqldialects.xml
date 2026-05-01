@@ -5,8 +5,8 @@
     <file url="file://$PROJECT_DIR$/server/src/main/java/edu/itmo/piikt/server/command/bd/EmployeeSearch.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/server/src/main/java/edu/itmo/piikt/server/command/bd/WorkerAdd.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/server/src/main/java/edu/itmo/piikt/server/command/bd/WorkerDelete.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/server/src/main/java/edu/itmo/piikt/server/command/bd/WorkerUpdate.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/server/src/main/java/edu/itmo/piikt/server/manager/BDConnect.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/server/src/main/java/edu/itmo/piikt/server/registration/BD.java" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/server/src/main/java/edu/itmo/piikt/server/registration/WorkerUpdate.java" dialect="GenericSQL" />
   </component>
 </project>
