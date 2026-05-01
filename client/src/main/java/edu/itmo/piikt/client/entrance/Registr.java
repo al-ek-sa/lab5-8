@@ -10,12 +10,19 @@ public class Registr {
 	private int count = 3;
 	private final IOProvider io;
 	private final Command command;
+	private String type;
+
 	public Registr(IOProvider io) {
 		this.io = io;
 		this.command = new Command(io);
 	}
+
+	public String user(){
+		command.user(type);
+	}
+
 	public ClientCommand registration() {
-		String type = io.readLine();
+		type = io.readLine();
 		if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "login") <= 1) {
 			return command.executeCommand("login");
 		} else if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "register") <= 1) {

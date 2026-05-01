@@ -17,6 +17,7 @@ public class ClientData {
 	private final ByteBuffer writer;
 	private Object command;
 	private Object message;
+	private String user;
 
 	public ClientData(Integer number) {
 		this.reader = ByteBuffer.allocate(number);

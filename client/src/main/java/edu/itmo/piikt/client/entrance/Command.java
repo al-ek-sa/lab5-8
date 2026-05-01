@@ -30,6 +30,10 @@ public class Command {
 
 	public void show() {
 		io.println("Выберите один из вариантов входа и введите команду");
+		io.println("");
+	}
 
+	public String user(String commandName){
+		return command.get(commandName).user();
 	}
 }

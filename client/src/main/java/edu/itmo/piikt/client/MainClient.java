@@ -35,7 +35,7 @@ public class MainClient {
 			ClientCommand clientCommand = registr.registration();
 			client.send(clientCommand);
 			InteractiveMode interactiveMode = new InteractiveMode();
-			interactiveMode.execute(client, io);
+			interactiveMode.execute(client, io, registr);
 			client.close();
 		} catch (IOException e) {
 			logger.error("Client failed: {}", e.getMessage());

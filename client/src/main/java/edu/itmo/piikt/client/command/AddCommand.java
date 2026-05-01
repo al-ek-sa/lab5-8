@@ -42,14 +42,14 @@ public class AddCommand implements CommandExecute<ServerResponse> {
 	@Override
 	public ServerResponse execute(IOProvider io, Object... arg) {
 		try (Context ignored = Context.newId()) {
-			if (arg.length > 0) {
+			if (arg.length > 1) {
 				throw new RuntimeException();
 			}
 			logger.info("ADD command started");
 			// Build Worker from user input
 			WorkerData workerData = worker.build(io);
 			// Create and send command
-			ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName()).data(workerData)
+			ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName()).user((String) arg[0]).data(workerData)
 					.build();
 			ServerResponse serverResponse = network.send(clientCommand);
 			return add(serverResponse, io);

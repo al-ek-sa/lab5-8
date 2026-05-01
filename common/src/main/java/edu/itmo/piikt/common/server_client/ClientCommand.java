@@ -21,4 +21,5 @@ public class ClientCommand implements Serializable {
 	String login;
 	String email;
 	String password;
+	String user;
 }
