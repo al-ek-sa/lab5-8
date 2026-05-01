@@ -17,8 +17,8 @@ public class Registr {
 		this.command = new Command(io);
 	}
 
-	public String user(){
-		command.user(type);
+	public String user() {
+		return command.user(type);
 	}
 
 	public ClientCommand registration() {

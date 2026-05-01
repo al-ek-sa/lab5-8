@@ -51,7 +51,7 @@ public enum ValidationCommand {
 	private final Deque<IOProvider> dequeProvider = new ArrayDeque<>();
 	private IOProvider provider;
 	@Setter
-    private String user;
+	private String user;
 
 	ValidationCommand() {
 		this.flag = true;
@@ -63,7 +63,7 @@ public enum ValidationCommand {
 		this.updateCommand = new UpdateCommand(network, addCommand);
 	}
 
-    /**
+	/**
 	 * Pushes a new IOProvider onto the stack, switching the current input source
 	 *
 	 * @param io
@@ -144,8 +144,8 @@ public enum ValidationCommand {
 								logger.debug("Executing COUNT_BY_ORGANIZATION command");
 								OrganizationData organizationData = organization.build(provider);
 								ClientCommand clientCommand = ClientCommand.builder()
-										.nameCommand(Commands.COUNT_BY_ORGANIZATION.getName()).user(user).data(organizationData)
-										.build();
+										.nameCommand(Commands.COUNT_BY_ORGANIZATION.getName()).user(user)
+										.data(organizationData).build();
 								ServerResponse serverResponse = network.send(clientCommand);
 								serverResponse.printToConsole();
 								continue;
@@ -175,8 +175,7 @@ public enum ValidationCommand {
 								updateCommand.execute(provider, com2, argument).printToConsole();
 								continue;
 							}
-							ClientCommand clientCommand = ClientCommand.builder().nameCommand(com2)
-									.user(user)
+							ClientCommand clientCommand = ClientCommand.builder().nameCommand(com2).user(user)
 									.argumentCommand(argument).build();
 							ServerResponse serverResponse = network.send(clientCommand);
 							serverResponse.printToConsole();

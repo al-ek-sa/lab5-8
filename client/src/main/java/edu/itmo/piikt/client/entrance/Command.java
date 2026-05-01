@@ -33,7 +33,7 @@ public class Command {
 		io.println("");
 	}
 
-	public String user(String commandName){
+	public String user(String commandName) {
 		return command.get(commandName).user();
 	}
 }

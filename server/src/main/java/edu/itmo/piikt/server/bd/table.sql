@@ -1,18 +1,14 @@
 create table "user" (
-                        id serial primary key,
-                        login varchar(25),
+                        login varchar(25) primary key ,
                         password varchar(40),
-                        name varchar(25),
                         email varchar(30),
-                        check (char_length(login) > 8 and char_length(password) > 8),
-                        unique (name),
-                        unique (login)
+                        check (char_length(login) > 8 and char_length(password) > 8)
 );
 
 create table worker (
                         worker_id varchar(25) primary key,
                         name varchar(100),
-                        user_id integer references "user"(id),
+                        user_login integer references "user"(login),
                         check (worker_id is not null),
                         check (name is not null),
                         unique(worker_id)

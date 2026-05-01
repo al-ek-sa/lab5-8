@@ -11,7 +11,7 @@ public class ResetPasswordRequest implements Request {
 		this.io = io;
 	}
 
-	public String user(){
+	public String user() {
 		return login;
 	}
 	@Override

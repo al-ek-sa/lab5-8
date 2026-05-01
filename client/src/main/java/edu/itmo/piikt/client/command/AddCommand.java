@@ -49,8 +49,8 @@ public class AddCommand implements CommandExecute<ServerResponse> {
 			// Build Worker from user input
 			WorkerData workerData = worker.build(io);
 			// Create and send command
-			ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName()).user((String) arg[0]).data(workerData)
-					.build();
+			ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName())
+					.user((String) arg[0]).data(workerData).build();
 			ServerResponse serverResponse = network.send(clientCommand);
 			return add(serverResponse, io);
 		} catch (Exception e) {

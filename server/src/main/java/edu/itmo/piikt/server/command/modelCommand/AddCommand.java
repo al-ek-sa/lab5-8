@@ -13,6 +13,7 @@ import edu.itmo.piikt.server.WorkerObject.WorkerBuilder;
 import edu.itmo.piikt.server.commands.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.server.manager.BDConnect;
+import edu.itmo.piikt.server.registration.WorkerAdd;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public final class AddCommand implements CommandType {
 	private static final AppLogger logger = new AppLogger(AddCommand.class);
 	private final BuilderWorker builderWorker = new BuilderWorker();
 	private final WorkerBuilder workerBuilder = new WorkerBuilder();
+	WorkerAdd workerAdd = new WorkerAdd();
 
 	/**
 	 * Executes the ADD command
@@ -51,10 +53,15 @@ public final class AddCommand implements CommandType {
 			Object result = builderWorker.data(dataWorker);
 			if (result instanceof WorkerData) {
 				Worker worker = workerBuilder.builerWorker(dataWorker);
-				HistoryWorker.INSTANCE.add(worker);
-				logger.info("Worker added successfully, total workers: {}",
-						HistoryWorker.INSTANCE.getListWorker().size());
-				return ServerResponse.successfulCompletion("ADD");
+				ServerResponse serverResponse = workerAdd.newWorker(clientCommand, worker);
+				if (serverResponse.execution()) {
+					HistoryWorker.INSTANCE.add(worker);
+					logger.info("Worker added successfully, total workers: {}",
+							HistoryWorker.INSTANCE.getListWorker().size());
+					return ServerResponse.successfulCompletion("ADD");
+				} else {
+					return serverResponse;
+				}
 			} else if (result instanceof ValidationError(List<MessageExceptionValidation>errors,Object data)) {
 				logger.warn("Validation failed: {} errors", errors.size());
 				return ServerResponse.error("Incorrect data entered", errors, data);
