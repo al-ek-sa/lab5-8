@@ -10,8 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Database operations class for user management.
- * Provides methods for user registration, authentication, and password reset.
+ * Database operations class for user management. Provides methods for user
+ * registration, authentication, and password reset.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -20,12 +20,15 @@ public class BD {
 	private static final AppLogger logger = new AppLogger(BD.class);
 
 	/**
-	 * Registers a new user in the database.
-	 * Creates a new user record with email, login, and hashed password.
+	 * Registers a new user in the database. Creates a new user record with email,
+	 * login, and hashed password.
 	 *
-	 * @param email    user's email address
-	 * @param login    user's login name
-	 * @param password user's password (will be hashed)
+	 * @param email
+	 *            user's email address
+	 * @param login
+	 *            user's login name
+	 * @param password
+	 *            user's password (will be hashed)
 	 * @return ServerResponse indicating success or failure
 	 */
 	public ServerResponse newUser(String email, String login, String password) {
@@ -60,11 +63,13 @@ public class BD {
 	}
 
 	/**
-	 * Authenticates a user by login and password.
-	 * Returns user ID upon successful authentication.
+	 * Authenticates a user by login and password. Returns user ID upon successful
+	 * authentication.
 	 *
-	 * @param login    user's login name
-	 * @param password user's password (will be hashed for comparison)
+	 * @param login
+	 *            user's login name
+	 * @param password
+	 *            user's password (will be hashed for comparison)
 	 * @return ServerResponse with user ID on success, error message on failure
 	 */
 	public ServerResponse login(String login, String password) {
@@ -98,12 +103,15 @@ public class BD {
 	}
 
 	/**
-	 * Resets a user's password.
-	 * Updates the password for the user matching the provided login and email.
+	 * Resets a user's password. Updates the password for the user matching the
+	 * provided login and email.
 	 *
-	 * @param email       user's email address for verification
-	 * @param login       user's login name
-	 * @param newPassword new password to set (will be hashed)
+	 * @param email
+	 *            user's email address for verification
+	 * @param login
+	 *            user's login name
+	 * @param newPassword
+	 *            new password to set (will be hashed)
 	 * @return ServerResponse indicating success or failure
 	 */
 	public ServerResponse newPassword(String email, String login, String newPassword) {

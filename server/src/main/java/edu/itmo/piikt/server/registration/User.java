@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * Authentication command router.
- * Routes authentication-related commands (login, register, reset_password) to their respective handlers.
+ * Authentication command router. Routes authentication-related commands (login,
+ * register, reset_password) to their respective handlers.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -21,8 +21,8 @@ public class User {
 	private final Map<String, Function<ClientCommand, ServerResponse>> handlers = new HashMap<>();
 
 	/**
-	 * Initializes the authentication command router.
-	 * Registers handlers for login, registration, and password reset commands.
+	 * Initializes the authentication command router. Registers handlers for login,
+	 * registration, and password reset commands.
 	 */
 	public User() {
 		handlers.put("login", com -> new Login().execute(com));
@@ -32,10 +32,11 @@ public class User {
 	}
 
 	/**
-	 * Executes an authentication command.
-	 * Routes the command to the appropriate handler based on the command name.
+	 * Executes an authentication command. Routes the command to the appropriate
+	 * handler based on the command name.
 	 *
-	 * @param command client command containing authentication request
+	 * @param command
+	 *            client command containing authentication request
 	 * @return ServerResponse with the result of the authentication operation
 	 */
 	public ServerResponse execute(ClientCommand command) {

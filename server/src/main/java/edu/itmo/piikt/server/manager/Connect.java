@@ -31,7 +31,7 @@ public record Connect(Dispatcher dispatcher, User command) {
 	/** Return value indicating no data available to read */
 	private static final int NO_DATA_READ = 0;
 	private static final AppLogger logger = new AppLogger(Connect.class);
-	//todo
+	// todo
 	private static final ExecutorService responsePool = Executors.newFixedThreadPool(10);
 
 	/**

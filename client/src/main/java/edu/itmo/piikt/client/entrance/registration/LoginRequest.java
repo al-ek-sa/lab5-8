@@ -4,8 +4,9 @@ import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.sc.ClientCommand;
 
 /**
- * Login request handler for the client side.
- * Collects login and password from user input and creates a login command.
+ * Login request handler for the client side. Collects login and password from
+ * user input and creates a login command.
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -18,8 +19,8 @@ public class LoginRequest implements Request {
 	}
 
 	/**
-	 * Displays the description of the login operation.
-	 * Shows prompt message for account login.
+	 * Displays the description of the login operation. Shows prompt message for
+	 * account login.
 	 */
 	@Override
 	public void getDescription() {
@@ -36,8 +37,8 @@ public class LoginRequest implements Request {
 	}
 
 	/**
-	 * Executes the login request.
-	 * Prompts the user for login and password, then creates a command for the server.
+	 * Executes the login request. Prompts the user for login and password, then
+	 * creates a command for the server.
 	 *
 	 * @return ClientCommand configured for login operation
 	 */

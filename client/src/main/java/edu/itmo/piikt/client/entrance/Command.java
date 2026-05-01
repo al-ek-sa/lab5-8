@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Command router for client-side authentication.
- * Manages login, registration, and password reset requests.
+ * Command router for client-side authentication. Manages login, registration,
+ * and password reset requests.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -30,10 +30,11 @@ public class Command {
 	}
 
 	/**
-	 * Executes an authentication command by its name.
-	 * Displays the command description and returns the built client command.
+	 * Executes an authentication command by its name. Displays the command
+	 * description and returns the built client command.
 	 *
-	 * @param commandName name of the command to execute (login, register, reset_password)
+	 * @param commandName
+	 *            name of the command to execute (login, register, reset_password)
 	 * @return ClientCommand ready to be sent to the server
 	 */
 	public ClientCommand executeCommand(String commandName) {
@@ -43,22 +44,23 @@ public class Command {
 	}
 
 	/**
-	 * Displays the authentication menu.
-	 * Shows available options for entering the system.
+	 * Displays the authentication menu. Shows available options for entering the
+	 * system.
 	 */
 	public void show() {
 		io.println("""
-                Выберите способ входа и введите соответствующую команду:\s
-                > регистрация (register)\
-                \s
-                > вход в аккаунт (login)\s
-                > восстановление пароля (reset_password)""");
+				Выберите способ входа и введите соответствующую команду:\s
+				> регистрация (register)\
+				\s
+				> вход в аккаунт (login)\s
+				> восстановление пароля (reset_password)""");
 	}
 
 	/**
 	 * Returns the login name associated with the specified command.
 	 *
-	 * @param commandName name of the command to get the login from
+	 * @param commandName
+	 *            name of the command to get the login from
 	 * @return user login string
 	 */
 	public String user(String commandName) {

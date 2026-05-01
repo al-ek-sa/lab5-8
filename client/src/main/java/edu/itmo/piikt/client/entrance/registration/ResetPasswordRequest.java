@@ -4,8 +4,8 @@ import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.sc.ClientCommand;
 
 /**
- * Password reset request handler for the client side.
- * Collects login and email from user input and creates a password reset command.
+ * Password reset request handler for the client side. Collects login and email
+ * from user input and creates a password reset command.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -27,8 +27,8 @@ public class ResetPasswordRequest implements Request {
 		return login;
 	}
 	/**
-	 * Displays the description of the password reset operation.
-	 * Shows prompt message for password recovery.
+	 * Displays the description of the password reset operation. Shows prompt
+	 * message for password recovery.
 	 */
 	@Override
 	public void getDescription() {
@@ -36,8 +36,8 @@ public class ResetPasswordRequest implements Request {
 	}
 
 	/**
-	 * Executes the password reset request.
-	 * Prompts the user for login and email, then creates a command for the server.
+	 * Executes the password reset request. Prompts the user for login and email,
+	 * then creates a command for the server.
 	 *
 	 * @return ClientCommand configured for password reset operation
 	 */

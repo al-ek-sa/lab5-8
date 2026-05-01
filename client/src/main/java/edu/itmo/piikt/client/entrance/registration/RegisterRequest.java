@@ -4,8 +4,9 @@ import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.sc.ClientCommand;
 
 /**
- * Registration request handler for the client side.
- * Collects email, login, and password from user input and creates a registration command.
+ * Registration request handler for the client side. Collects email, login, and
+ * password from user input and creates a registration command.
+ *
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -27,8 +28,8 @@ public class RegisterRequest implements Request {
 	}
 
 	/**
-	 * Displays the description of the registration operation.
-	 * Shows prompt message for user registration.
+	 * Displays the description of the registration operation. Shows prompt message
+	 * for user registration.
 	 */
 	@Override
 	public void getDescription() {
@@ -36,8 +37,8 @@ public class RegisterRequest implements Request {
 	}
 
 	/**
-	 * Executes the registration request.
-	 * Prompts the user for email, login, and password, then creates a command for the server.
+	 * Executes the registration request. Prompts the user for email, login, and
+	 * password, then creates a command for the server.
 	 *
 	 * @return ClientCommand configured for registration operation
 	 */

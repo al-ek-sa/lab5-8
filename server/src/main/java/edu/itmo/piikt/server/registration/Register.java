@@ -9,8 +9,8 @@ import edu.itmo.piikt.server.manager.BDConnect;
 import lombok.Data;
 
 /**
- * Command handler for user registration.
- * Processes new user registration requests and creates user accounts in the database.
+ * Command handler for user registration. Processes new user registration
+ * requests and creates user accounts in the database.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -21,10 +21,11 @@ public class Register implements CommandType {
 	private BD bd = new BD();
 
 	/**
-	 * Executes the registration command.
-	 * Creates a new user account with the provided login, email, and password.
+	 * Executes the registration command. Creates a new user account with the
+	 * provided login, email, and password.
 	 *
-	 * @param command client command containing login, email, and password
+	 * @param command
+	 *            client command containing login, email, and password
 	 * @return ServerResponse indicating success or failure of registration
 	 */
 	@Override

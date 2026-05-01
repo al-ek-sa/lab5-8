@@ -9,8 +9,8 @@ import edu.itmo.piikt.server.manager.BDConnect;
 import lombok.Data;
 
 /**
- * Command handler for password reset.
- * Processes password reset requests and updates user passwords in the database.
+ * Command handler for password reset. Processes password reset requests and
+ * updates user passwords in the database.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -21,10 +21,11 @@ public class ResetPassword implements CommandType {
 	private BD bd = new BD();
 
 	/**
-	 * Executes the password reset command.
-	 * Updates the user's password after verifying login and email.
+	 * Executes the password reset command. Updates the user's password after
+	 * verifying login and email.
 	 *
-	 * @param command client command containing login, email, and new password
+	 * @param command
+	 *            client command containing login, email, and new password
 	 * @return ServerResponse indicating success or failure of the password reset
 	 */
 	@Override

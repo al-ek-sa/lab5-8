@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Console command handler for the server-side.
- * Provides an interactive console loop for executing server commands.
+ * Console command handler for the server-side. Provides an interactive console
+ * loop for executing server commands.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -21,28 +21,29 @@ public enum CommandConsole {
 	private final CommandFactory commandFactory = new CommandFactory();
 
 	/**
-	 * Starts the console command execution loop.
-	 * Continuously reads commands from input and processes them.
-	 * The loop runs indefinitely until the application is terminated.
+	 * Starts the console command execution loop. Continuously reads commands from
+	 * input and processes them. The loop runs indefinitely until the application is
+	 * terminated.
 	 *
-	 * @param io input/output provider for reading console commands
+	 * @param io
+	 *            input/output provider for reading console commands
 	 */
 	public void execute(IOProvider io) {
-        while (true) {
-            String command = io.readLine().toLowerCase();
-            logger.debug("Console input received : '{}'", command);
+		while (true) {
+			String command = io.readLine().toLowerCase();
+			logger.debug("Console input received : '{}'", command);
 
-            try {
-                if (command.equals("exit")) {
-                    logger.info("Shutting down server console");
-                    break;
-                }
+			try {
+				if (command.equals("exit")) {
+					logger.info("Shutting down server console");
+					break;
+				}
 				commandFactory.execute(command, io);
-                logger.debug("Command '{}' executed successfully", command);
-            } catch (Exception e) {
-                logger.error("Failed to execute console command '{}': {}", command, e.getMessage(), e);
-                io.println("Error executing command: " + e.getMessage());
-            }
-        }
+				logger.debug("Command '{}' executed successfully", command);
+			} catch (Exception e) {
+				logger.error("Failed to execute console command '{}': {}", command, e.getMessage(), e);
+				io.println("Error executing command: " + e.getMessage());
+			}
+		}
 	}
 }

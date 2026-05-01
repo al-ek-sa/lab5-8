@@ -8,8 +8,9 @@ import java.sql.*;
 import java.util.HexFormat;
 
 /**
- * Database connection manager implemented as an enum singleton.
- * Provides database operations for user registration, authentication, and connection management.
+ * Database connection manager implemented as an enum singleton. Provides
+ * database operations for user registration, authentication, and connection
+ * management.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -23,11 +24,13 @@ public enum BDConnect {
 	private Connection connection;
 
 	/**
-	 * Establishes a connection to the database.
-	 * Attempts to connect in a loop with a 100ms delay between attempts.
+	 * Establishes a connection to the database. Attempts to connect in a loop with
+	 * a 100ms delay between attempts.
 	 *
-	 * @throws SQLException           if a database access error occurs
-	 * @throws InterruptedException   if the thread is interrupted while sleeping
+	 * @throws SQLException
+	 *             if a database access error occurs
+	 * @throws InterruptedException
+	 *             if the thread is interrupted while sleeping
 	 */
 	public void connection() throws SQLException, InterruptedException {
 		while (true) {
@@ -43,7 +46,8 @@ public enum BDConnect {
 	/**
 	 * Closes the database connection if it is open.
 	 *
-	 * @throws SQLException if a database access error occurs
+	 * @throws SQLException
+	 *             if a database access error occurs
 	 */
 	public void close() throws SQLException {
 		if (connection != null && !connection.isClosed()) {
@@ -67,9 +71,11 @@ public enum BDConnect {
 	/**
 	 * Hashes a password using the SHA-1 algorithm.
 	 *
-	 * @param password the password to hash
+	 * @param password
+	 *            the password to hash
 	 * @return hexadecimal string representation of the hash
-	 * @throws RuntimeException if SHA-1 algorithm is not available
+	 * @throws RuntimeException
+	 *             if SHA-1 algorithm is not available
 	 */
 	public String hashPassword(String password) {
 		try {

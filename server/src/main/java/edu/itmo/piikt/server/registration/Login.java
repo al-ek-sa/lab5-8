@@ -10,8 +10,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Command handler for user login.
- * Processes authentication requests, validates credentials against the database.
+ * Command handler for user login. Processes authentication requests, validates
+ * credentials against the database.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -23,11 +23,13 @@ public class Login implements CommandType {
 	private BD bd = new BD();
 
 	/**
-	 * Executes the login command.
-	 * Authenticates the user using provided login and password.
+	 * Executes the login command. Authenticates the user using provided login and
+	 * password.
 	 *
-	 * @param command client command containing login and password
-	 * @return ServerResponse with authentication result (includes user ID on success)
+	 * @param command
+	 *            client command containing login and password
+	 * @return ServerResponse with authentication result (includes user ID on
+	 *         success)
 	 */
 	@Override
 	public ServerResponse execute(ClientCommand command) {
