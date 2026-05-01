@@ -11,6 +11,13 @@ import lombok.Data;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Command router for client-side authentication.
+ * Manages login, registration, and password reset requests.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @Data
 public class Command {
 	private Map<String, Request> command = new HashMap<>();
@@ -22,17 +29,34 @@ public class Command {
 		command.put("reset_password", new ResetPasswordRequest(io));
 	}
 
+	/**
+	 * Executes an authentication command by its name.
+	 * Displays the command description and returns the built client command.
+	 *
+	 * @param commandName name of the command to execute (login, register, reset_password)
+	 * @return ClientCommand ready to be sent to the server
+	 */
 	public ClientCommand executeCommand(String commandName) {
 		Request request = command.get(commandName);
 		request.getDescription();
 		return request.execute();
 	}
 
+	/**
+	 * Displays the authentication menu.
+	 * Shows available options for entering the system.
+	 */
 	public void show() {
 		io.println("Выберите один из вариантов входа и введите команду");
 		io.println("");
 	}
 
+	/**
+	 * Returns the login name associated with the specified command.
+	 *
+	 * @param commandName name of the command to get the login from
+	 * @return user login string
+	 */
 	public String user(String commandName) {
 		return command.get(commandName).user();
 	}

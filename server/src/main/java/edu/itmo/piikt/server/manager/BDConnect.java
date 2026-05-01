@@ -7,6 +7,13 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.HexFormat;
 
+/**
+ * Database connection manager implemented as an enum singleton.
+ * Provides database operations for user registration, authentication, and connection management.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @Getter
 public enum BDConnect {
 	INSTANCE();
@@ -15,6 +22,13 @@ public enum BDConnect {
 	private static final String PASSWORD = "123";
 	private Connection connection;
 
+	/**
+	 * Establishes a connection to the database.
+	 * Attempts to connect in a loop with a 100ms delay between attempts.
+	 *
+	 * @throws SQLException           if a database access error occurs
+	 * @throws InterruptedException   if the thread is interrupted while sleeping
+	 */
 	public void connection() throws SQLException, InterruptedException {
 		while (true) {
 			try {
@@ -26,12 +40,22 @@ public enum BDConnect {
 		}
 	}
 
+	/**
+	 * Closes the database connection if it is open.
+	 *
+	 * @throws SQLException if a database access error occurs
+	 */
 	public void close() throws SQLException {
 		if (connection != null && !connection.isClosed()) {
 			connection.close();
 		}
 	}
 
+	/**
+	 * Checks whether the database connection is active and open
+	 *
+	 * @return true if connected, false otherwise
+	 */
 	public boolean isConnected() {
 		try {
 			return connection != null && !connection.isClosed();
@@ -40,6 +64,13 @@ public enum BDConnect {
 		}
 	}
 
+	/**
+	 * Hashes a password using the SHA-1 algorithm.
+	 *
+	 * @param password the password to hash
+	 * @return hexadecimal string representation of the hash
+	 * @throws RuntimeException if SHA-1 algorithm is not available
+	 */
 	public String hashPassword(String password) {
 		try {
 			MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");

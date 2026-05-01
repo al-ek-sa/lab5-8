@@ -10,9 +10,24 @@ import edu.itmo.piikt.server.manager.BDConnect;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Class for adding new workers to the database.
+ * Handles insertion of worker records into the worker table with user association.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 public class WorkerAdd {
 	private static final AppLogger logger = new AppLogger(WorkerAdd.class);
 
+	/**
+	 * Saves a new worker to the database.
+	 * Inserts a record into the worker table with worker ID, name, and associated user ID.
+	 *
+	 * @param clientCommand client command containing user authentication information
+	 * @param worker        worker object to be saved containing UUID, name and other fields
+	 * @return ServerResponse indicating success or failure of the operation
+	 */
 	public ServerResponse newWorker(ClientCommand clientCommand, Worker worker) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Saving worker to database: id={}, name={}", worker.getUuid(), worker.getName());

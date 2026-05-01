@@ -9,9 +9,23 @@ import edu.itmo.piikt.server.manager.BDConnect;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Class for deleting workers from the database.
+ * Performs deletion of worker records with ownership verification.
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 public class WorkerDelete {
     private static final AppLogger logger = new AppLogger(WorkerDelete.class);
 
+    /**
+     * Deletes a worker from the database by its ID.
+     * The deletion is only performed if the worker belongs to the user specified in the command.
+     *
+     * @param clientCommand client command containing user authentication information
+     * @param workerId      unique identifier of the worker to delete
+     * @return ServerResponse indicating success or failure of the operation
+     */
     public ServerResponse deleteWorker(ClientCommand clientCommand, String workerId) {
         try (Context ignored = Context.newId()) {
             int userId = EmployeeSearch.idUser(clientCommand);

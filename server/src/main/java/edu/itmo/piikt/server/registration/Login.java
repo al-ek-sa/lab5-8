@@ -9,12 +9,26 @@ import edu.itmo.piikt.server.manager.BDConnect;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Command handler for user login.
+ * Processes authentication requests, validates credentials against the database.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @Data
 @NoArgsConstructor
 public class Login implements CommandType {
 	private static final AppLogger logger = new AppLogger(Login.class);
 	private BD bd = new BD();
 
+	/**
+	 * Executes the login command.
+	 * Authenticates the user using provided login and password.
+	 *
+	 * @param command client command containing login and password
+	 * @return ServerResponse with authentication result (includes user ID on success)
+	 */
 	@Override
 	public ServerResponse execute(ClientCommand command) {
 		try (Context ignored = Context.newId()) {

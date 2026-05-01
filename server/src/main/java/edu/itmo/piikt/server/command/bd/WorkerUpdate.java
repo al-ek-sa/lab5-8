@@ -9,7 +9,13 @@ import edu.itmo.piikt.server.manager.BDConnect;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+/**
+ * Class for updating worker information in the database.
+ * Performs updates of worker records with ownership verification.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 public class WorkerUpdate {
     private static final AppLogger logger = new AppLogger(WorkerUpdate.class);
 
