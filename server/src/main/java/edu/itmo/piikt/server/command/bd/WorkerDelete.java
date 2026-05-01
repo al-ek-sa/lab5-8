@@ -1,4 +1,4 @@
-package edu.itmo.piikt.server.registration;
+package edu.itmo.piikt.server.command.bd;
 
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
@@ -7,7 +7,6 @@ import edu.itmo.piikt.common.sc.ServerResponse;
 import edu.itmo.piikt.server.manager.BDConnect;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class WorkerDelete {
@@ -15,7 +14,7 @@ public class WorkerDelete {
 
     public ServerResponse deleteWorker(ClientCommand clientCommand, String workerId) {
         try (Context ignored = Context.newId()) {
-            int userId = idUser(clientCommand);
+            int userId = EmployeeSearch.idUser(clientCommand);
             logger.debug("Deleting worker: id={}, userId={}", workerId, userId);
             String sql = "DELETE FROM worker WHERE user_id = ? AND worker_id = ?";
 
@@ -38,21 +37,6 @@ public class WorkerDelete {
         } catch (Exception e) {
             logger.error("Unexpected error in deleteWorker: {}", e.getMessage(), e);
             return ServerResponse.error("Internal server error");
-        }
-    }
-
-    private int idUser(ClientCommand clientCommand) {
-        String sql = "SELECT id FROM \"user\" WHERE login = ? LIMIT 1";
-        try (PreparedStatement preparedStatement = BDConnect.INSTANCE.getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, clientCommand.getUser());
-            ResultSet res = preparedStatement.executeQuery();
-            if (res.next()) {
-                return res.getInt("id");
-            } else {
-                throw new RuntimeException("User not found: " + clientCommand.getUser());
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 }

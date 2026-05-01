@@ -2,11 +2,13 @@ package edu.itmo.piikt.server.command.model;
 
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
+import edu.itmo.piikt.common.models.Worker;
 import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
 import edu.itmo.piikt.server.command.interfaces.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.server.manager.BDConnect;
+import edu.itmo.piikt.server.command.bd.WorkerUpdate;
 import lombok.NoArgsConstructor;
 
 /**
@@ -20,6 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public final class UpdateIdCommand implements CommandType {
 	private static final AppLogger logger = new AppLogger(UpdateIdCommand.class);
+	private final WorkerUpdate workerUpdate = new WorkerUpdate();
 
 	/**
 	 * Executes the UPDATE command
@@ -40,6 +43,7 @@ public final class UpdateIdCommand implements CommandType {
 				logger.warn("ID is empty");
 				return ServerResponse.error("ID не введен");
 			}
+			workerUpdate.updateWorker(clientCommand, (Worker) clientCommand.getData());
 			var workers = HistoryWorker.INSTANCE.getListWorker();
 			boolean match = workers.stream().anyMatch(worker -> worker.getUuid().equals(id));
 			if (!match) {

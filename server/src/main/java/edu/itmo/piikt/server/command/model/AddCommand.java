@@ -13,7 +13,7 @@ import edu.itmo.piikt.server.validation.object.WorkerBuilder;
 import edu.itmo.piikt.server.command.interfaces.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.server.manager.BDConnect;
-import edu.itmo.piikt.server.registration.WorkerAdd;
+import edu.itmo.piikt.server.command.bd.WorkerAdd;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
