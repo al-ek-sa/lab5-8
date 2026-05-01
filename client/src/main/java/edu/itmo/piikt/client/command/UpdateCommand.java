@@ -2,7 +2,7 @@ package edu.itmo.piikt.client.command;
 
 import edu.itmo.piikt.client.commands.CommandExecute;
 import edu.itmo.piikt.client.network.Network;
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ClientCommand;

@@ -1,6 +1,6 @@
 package edu.itmo.piikt.client.entrance;
 
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.algorithms.DamerauLevenshteinDistance;
 import lombok.Data;
 

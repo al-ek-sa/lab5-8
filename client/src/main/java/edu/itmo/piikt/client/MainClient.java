@@ -1,14 +1,10 @@
 package edu.itmo.piikt.client;
 
 import edu.itmo.piikt.client.entrance.Registr;
-import edu.itmo.piikt.client.entrance.registration.LoginRequest;
-import edu.itmo.piikt.client.entrance.registration.RegisterRequest;
-import edu.itmo.piikt.client.entrance.registration.Request;
-import edu.itmo.piikt.client.entrance.registration.ResetPasswordRequest;
 import edu.itmo.piikt.client.mode.InteractiveMode;
 import edu.itmo.piikt.client.network.Network;
-import edu.itmo.piikt.client.io.provider.IOProvider;
-import edu.itmo.piikt.client.io.providerType.IOConsole;
+import edu.itmo.piikt.common.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.providerType.IOConsole;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Config;
 import edu.itmo.piikt.common.logger.Context;

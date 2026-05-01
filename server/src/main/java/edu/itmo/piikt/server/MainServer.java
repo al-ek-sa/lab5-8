@@ -1,8 +1,11 @@
 package edu.itmo.piikt.server;
 
+import edu.itmo.piikt.common.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.providerType.IOConsole;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Config;
 import edu.itmo.piikt.common.logger.Context;
+import edu.itmo.piikt.server.CommandServer.CommandConsole;
 import edu.itmo.piikt.server.dispatcher.Dispatcher;
 import edu.itmo.piikt.server.manager.BDConnect;
 import edu.itmo.piikt.server.manager.Network;
@@ -31,9 +34,12 @@ public class MainServer {
 		Config.configureFromArgs(args);
 
 		try (Context ignored = Context.newId()) {
-			BDConnect.INSTANCE.connection();
 			Thread.startVirtualThread(() -> {
-				while(true) {
+				IOProvider io = new IOConsole();
+				CommandConsole.INSTANCE.execute(io);
+			});
+			Thread.startVirtualThread(() -> {
+				while (true) {
 					if (!BDConnect.INSTANCE.isConnected()) {
 						try {
 							BDConnect.INSTANCE.connection();
@@ -41,8 +47,13 @@ public class MainServer {
 							throw new RuntimeException(e);
 						}
 					}
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					}
 				}
-            });
+			});
 			logger.info("Starting server");
 			logger.info("Data loaded from file");
 			Dispatcher dispatcher = new Dispatcher();

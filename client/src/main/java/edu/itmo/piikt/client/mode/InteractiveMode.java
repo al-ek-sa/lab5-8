@@ -2,7 +2,7 @@ package edu.itmo.piikt.client.mode;
 
 import edu.itmo.piikt.client.manager.ValidationCommand;
 import edu.itmo.piikt.client.network.Network;
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 

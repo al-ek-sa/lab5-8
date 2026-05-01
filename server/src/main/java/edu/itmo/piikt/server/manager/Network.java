@@ -25,7 +25,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class Network {
 	/** Server port number */
-	private static final int PORT = 6652;
+	private static final int PORT = 6653;
 	/** No data available for console input */
 	private static final int NO_DATA = 0;
 	/** Selector timeout in milliseconds */
@@ -50,31 +50,6 @@ public class Network {
 	}
 
 	/**
-	 * Reads and processes console commands
-	 */
-	private void console() {
-		try {
-			int input = System.in.available();
-			if (input > NO_DATA) {
-				int bytes = Math.min(input, MAX_CONSOLE);
-				for (int i = 0; i < bytes; i++) {
-					char c = (char) System.in.read();
-					stringBuilder.append(c);
-					if (c == '\n') {
-						String command = stringBuilder.toString().trim();
-						stringBuilder.setLength(0);
-						if (!command.isEmpty()) {
-							commandFactory.execute(command);
-						}
-					}
-				}
-			}
-		} catch (IOException e) {
-			logger.error("Console input error: {}", e.getMessage());
-		}
-	}
-
-	/**
 	 * Starts the server and begins accepting client connections
 	 *
 	 * @throws IOException
@@ -91,8 +66,7 @@ public class Network {
 			logger.info("Server started successfully");
 
 			while (run) {
-				console();
-				selector.select(TIME);
+				selector.select();
 				Iterator<SelectionKey> selectionKeyIterator = selector.selectedKeys().iterator();
 				while (selectionKeyIterator.hasNext()) {
 					SelectionKey key = selectionKeyIterator.next();

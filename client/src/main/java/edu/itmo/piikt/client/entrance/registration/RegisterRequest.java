@@ -1,6 +1,6 @@
 package edu.itmo.piikt.client.entrance.registration;
 
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 
 public record RegisterRequest(IOProvider io) implements Request {

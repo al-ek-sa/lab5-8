@@ -11,7 +11,7 @@ import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.algorithms.DamerauLevenshteinDistance;
 import edu.itmo.piikt.common.command.data.Commands;
 import edu.itmo.piikt.common.data.OrganizationData;
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import edu.itmo.piikt.common.server_client.ServerResponse;

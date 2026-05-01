@@ -6,7 +6,7 @@ import edu.itmo.piikt.client.data.WorkerServer;
 import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.command.data.Commands;
 import edu.itmo.piikt.common.data.WorkerData;
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.server_client.ClientCommand;

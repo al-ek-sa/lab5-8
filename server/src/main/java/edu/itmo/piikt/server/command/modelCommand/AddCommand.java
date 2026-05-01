@@ -11,9 +11,6 @@ import edu.itmo.piikt.server.WorkerObject.BuilderWorker;
 import edu.itmo.piikt.server.WorkerObject.ValidationError;
 import edu.itmo.piikt.server.WorkerObject.WorkerBuilder;
 import edu.itmo.piikt.server.commands.CommandType;
-import edu.itmo.piikt.server.history.HistoryAddress;
-import edu.itmo.piikt.server.history.HistoryCoordinate;
-import edu.itmo.piikt.server.history.HistoryOrganization;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.server.manager.BDConnect;
 import lombok.NoArgsConstructor;
@@ -55,9 +52,6 @@ public final class AddCommand implements CommandType {
 			if (result instanceof WorkerData) {
 				Worker worker = workerBuilder.builerWorker(dataWorker);
 				HistoryWorker.INSTANCE.add(worker);
-				HistoryCoordinate.INSTANCE.add(worker.getCoordinates());
-				HistoryOrganization.INSTANCE.add(worker.getOrganization());
-				HistoryAddress.INSTANCE.add(worker.getOrganization().getOfficialAddress());
 				logger.info("Worker added successfully, total workers: {}",
 						HistoryWorker.INSTANCE.getListWorker().size());
 				return ServerResponse.successfulCompletion("ADD");

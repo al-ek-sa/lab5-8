@@ -1,6 +1,7 @@
 package edu.itmo.piikt.server.CommandServer;
 
 import edu.itmo.piikt.common.algorithms.DamerauLevenshteinDistance;
+import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 
@@ -20,13 +21,13 @@ public class CommandFactory {
 	 * @param command
 	 *            command string entered in console
 	 */
-	public void execute(String command) {
+	public void execute(String command, IOProvider io) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Processing console command: {}", command);
 			// Check for "save" command with typo correction
 			if (DamerauLevenshteinDistance.distance(command, saveCommand.getName()) <= 1) {
 				logger.info("Executing SAVE command from console");
-				saveCommand.execute();
+				saveCommand.execute(io);
 			} else {
 				logger.debug("Unknown console command: {}", command);
 			}

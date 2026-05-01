@@ -4,7 +4,7 @@ import edu.itmo.piikt.client.entrance.registration.LoginRequest;
 import edu.itmo.piikt.client.entrance.registration.RegisterRequest;
 import edu.itmo.piikt.client.entrance.registration.Request;
 import edu.itmo.piikt.client.entrance.registration.ResetPasswordRequest;
-import edu.itmo.piikt.client.io.provider.IOProvider;
+import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.server_client.ClientCommand;
 import lombok.Data;
 
