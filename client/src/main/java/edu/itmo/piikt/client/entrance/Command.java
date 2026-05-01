@@ -47,8 +47,12 @@ public class Command {
 	 * Shows available options for entering the system.
 	 */
 	public void show() {
-		io.println("Выберите один из вариантов входа и введите команду");
-		io.println("");
+		io.println("""
+                Выберите способ входа и введите соответствующую команду:\s
+                > регистрация (register)\
+                \s
+                > вход в аккаунт (login)\s
+                > восстановление пароля (reset_password)""");
 	}
 
 	/**

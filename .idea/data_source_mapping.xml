@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="DataSourcePerFileMappings">
-    <file url="file://$PROJECT_DIR$/server/src/main/java/edu/itmo/piikt/server/bd/table.sql" value="3da00041-91bc-437b-a5b9-9ddd4a75e2c4" />
-  </component>
-</project>

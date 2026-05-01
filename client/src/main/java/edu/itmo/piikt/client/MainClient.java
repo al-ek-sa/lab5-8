@@ -29,8 +29,6 @@ public class MainClient {
 			Network client = new Network();
 			client.connect();
 			IOProvider io = new IOConsole();
-			io.println("Выберите способ входа и введите соответствующую команду: \n> регистрация (register)"
-					+ " \n> вход в аккаунт (login) \n> восстановление пароля (reset_password)");
 			Registr registr = new Registr(io);
 			ClientCommand clientCommand = registr.registration();
 			client.send(clientCommand);

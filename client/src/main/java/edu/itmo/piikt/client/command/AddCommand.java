@@ -27,10 +27,7 @@ public class AddCommand implements CommandExecute<ServerResponse> {
 	/** Network client for sending requests to server */
 	private Network network;
 	/** Worker builder for collecting input data */
-	private Worker worker = new Worker();
-
-	public AddCommand(Network network) {
-	}
+	private Worker worker;
 
 	/**
 	 * Executes the ADD command.

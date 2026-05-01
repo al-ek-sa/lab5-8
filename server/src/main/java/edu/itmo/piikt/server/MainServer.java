@@ -14,6 +14,8 @@ import edu.itmo.piikt.server.registration.User;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Initializes the server, loads data from CSV file, starts the network server,
  * and handles graceful shutdown with data persistence
@@ -48,7 +50,7 @@ public class MainServer {
 						}
 					}
 					try {
-						Thread.sleep(5000);
+						sleep(5000);
 					} catch (InterruptedException e) {
 						Thread.currentThread().interrupt();
 					}

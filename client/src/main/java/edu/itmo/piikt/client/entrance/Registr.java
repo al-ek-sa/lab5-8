@@ -41,6 +41,7 @@ public class Registr {
 	 * @return ClientCommand for the selected authentication method, or null if command not recognized
 	 */
 	public ClientCommand registration() {
+		command.show();
 		type = io.readLine();
 		if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "login") <= 1) {
 			return command.executeCommand("login");

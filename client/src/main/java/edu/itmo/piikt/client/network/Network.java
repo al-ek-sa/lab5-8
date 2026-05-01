@@ -1,19 +1,22 @@
 package edu.itmo.piikt.client.network;
 
-import edu.itmo.piikt.common.sc.Client;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
+import edu.itmo.piikt.common.sc.Client;
 import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ClientData;
 import edu.itmo.piikt.common.sc.ServerResponse;
 import edu.itmo.piikt.common.util.DS;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Network client for communication with the server
@@ -60,7 +63,7 @@ public class Network implements Client {
 			} catch (IOException e) {
 				logger.warn("Retry interrupted");
 				try {
-					Thread.sleep(250);
+					sleep(250);
 				} catch (InterruptedException ex) {
 					Thread.currentThread().interrupt();
 					return;
