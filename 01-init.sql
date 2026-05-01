@@ -1,25 +1,25 @@
-create table "user" (
-                        id serial primary key,
-                        login varchar(25),
-                        password varchar(40),
-                        name varchar(25),
-                        email varchar(30),
-                        check (char_length(login) > 8 and char_length(password) > 8),
-                        unique (name),
-                        unique (login)
+CREATE TABLE "user" (
+                        id SERIAL PRIMARY KEY,
+                        login VARCHAR(25),
+                        password VARCHAR(40),
+                        name VARCHAR(25),
+                        email VARCHAR(30),
+                        CHECK (CHAR_LENGTH(login) > 8 AND CHAR_LENGTH(password) > 8),
+                        UNIQUE (name),
+                        UNIQUE (login)
 );
 
-create table worker (
-                        worker_id varchar(25) primary key,
-                        name varchar(100),
-                        user_id integer references "user"(id),
-                        check (worker_id is not null),
-                        check (name is not null),
-                        unique(worker_id)
+CREATE TABLE worker (
+                        worker_id VARCHAR(25) PRIMARY KEY,
+                        name VARCHAR(100),
+                        user_id INTEGER REFERENCES "user"(id),
+                        CHECK (worker_id IS NOT NULL),
+                        CHECK (name IS NOT NULL),
+                        UNIQUE(worker_id)
 );
 
-create index idx_worker_worker_id on worker(worker_id);
-create index idx_worker_name on worker(name);
-create index idx_user_login on "user"(login);
-create index idx_user_password on "user"(password);
-create index idx_user_login_password on "user"(login, password);
+CREATE INDEX idx_worker_worker_id ON worker(worker_id);
+CREATE INDEX idx_worker_name ON worker(name);
+CREATE INDEX idx_user_login ON "user"(login);
+CREATE INDEX idx_user_password ON "user"(password);
+CREATE INDEX idx_user_login_password ON "user"(login, password);
