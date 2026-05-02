@@ -36,8 +36,8 @@ public interface Request {
 	 * @return true if email matches pattern, false otherwise
 	 */
 	default boolean isValidEmail(String email) {
-		if (email == null || email.isBlank()) return true;
-		return !email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+		if (email == null || email.isBlank()) return false;
+		return email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
 	}
 
 	/**
@@ -47,8 +47,8 @@ public interface Request {
 	 * @return true if special character found, false otherwise
 	 */
 	default boolean hasSpecialCharacter(String str) {
-		if (str == null) return true;
-		return !str.contains("*") && !str.contains("_") && !str.contains(".");
+		if (str == null) return false;
+		return str.contains("*") || str.contains("_") || str.contains(".");
 	}
 
 	/**
@@ -59,6 +59,7 @@ public interface Request {
 	 * @return true if length >= minLength, false otherwise
 	 */
 	default boolean isLongEnough(String str, int minLength) {
-		return str == null || str.length() < minLength;
+		if (str == null) return false;
+		return str.length() >= minLength;
 	}
 }
