@@ -18,10 +18,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Handles client connections, reading commands, and sending responses
+ * Handles client connections, reading commands, and sending responses.
  *
- * @param dispatcher
- *            command dispatcher for processing client commands
+ * @param dispatcher command dispatcher for processing client commands
+ * @param command authentication command router
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -31,16 +31,14 @@ public record Connect(Dispatcher dispatcher, User command) {
 	/** Return value indicating no data available to read */
 	private static final int NO_DATA_READ = 0;
 	private static final AppLogger logger = new AppLogger(Connect.class);
-	// todo
+	/** Fixed thread pool for sending responses */
 	private static final ExecutorService responsePool = Executors.newFixedThreadPool(10);
 
 	/**
-	 * Handles new client connection
+	 * Handles new client connection.
 	 *
-	 * @param selectionKey
-	 *            key containing the server channel
-	 * @throws IOException
-	 *             if accepting connection fails
+	 * @param selectionKey key containing the server channel
+	 * @throws IOException if accepting connection fails
 	 */
 	public void connected(SelectionKey selectionKey) throws IOException {
 		try (Context ignored = Context.newId()) {
@@ -57,35 +55,37 @@ public record Connect(Dispatcher dispatcher, User command) {
 	}
 
 	/**
-	 * Reads data from client
+	 * Reads data from client.
 	 *
-	 * @param selectionKey
-	 *            key containing the client channel and attachment
-	 * @throws IOException
-	 *             if reading fails
+	 * @param selectionKey key containing the client channel and attachment
+	 * @throws IOException if reading fails
 	 */
 	public void reader(SelectionKey selectionKey) throws IOException {
 		var clientChannel = (SocketChannel) selectionKey.channel();
 		var client = (ClientData) selectionKey.attachment();
 		var buffer = client.getReader();
-		var reader = clientChannel.read(buffer);
-
-		// Client disconnected
+		int reader;
+		try {
+			reader = clientChannel.read(buffer);
+		} catch (IOException e) {
+			logger.warn("Client disconnected unexpectedly: {}", e.getMessage());
+			clientChannel.close();
+			return;
+		}
 		if (reader == END_OF_STREAM) {
 			logger.info("Client disconnected: {}", clientChannel.getRemoteAddress());
 			clientChannel.close();
 			return;
 		}
-		// No data available
 		if (reader == NO_DATA_READ) {
 			return;
 		}
 
-		// Process the received command
 		buffer.flip();
 		byte[] data = new byte[buffer.remaining()];
 		buffer.get(data);
 		client.clearReader();
+
 		Thread readThread = new Thread(() -> {
 			try (Context ignored = Context.newId()) {
 				ByteBuffer bb = ByteBuffer.wrap(data);
@@ -99,6 +99,10 @@ public record Connect(Dispatcher dispatcher, User command) {
 						ServerResponse serverResponse = dispatcher.dispatcher(clientCommand);
 						if (serverResponse == null) {
 							serverResponse = command.execute(clientCommand);
+						}
+						if (serverResponse == null) {
+							logger.error("Command returned null response for: {}", clientCommand.getNameCommand());
+							serverResponse = ServerResponse.error("Internal server error");
 						}
 						client.setMessage(serverResponse);
 						selectionKey.interestOps(SelectionKey.OP_WRITE);
@@ -122,17 +126,23 @@ public record Connect(Dispatcher dispatcher, User command) {
 	}
 
 	/**
-	 * Sends response to client
+	 * Sends response to client.
 	 *
-	 * @param selectionKey
-	 *            key containing the client channel and attachment
-	 * @throws IOException
-	 *             if writing fails
+	 * @param selectionKey key containing the client channel and attachment
+	 * @throws IOException if writing fails
 	 */
 	public void writer(SelectionKey selectionKey) throws IOException {
 		var clientChannel = (SocketChannel) selectionKey.channel();
 		var client = (ClientData) selectionKey.attachment();
 		var serverResponse = (ServerResponse) client.getMessage();
+
+		if (serverResponse == null) {
+			logger.warn("No response to send for client {}", clientChannel.getRemoteAddress());
+			selectionKey.interestOps(SelectionKey.OP_READ);
+			selectionKey.selector().wakeup();
+			return;
+		}
+
 		responsePool.submit(() -> {
 			try (Context ignored = Context.newId()) {
 				ByteBuffer byteBuffer = DS.serialize(serverResponse);
@@ -141,9 +151,18 @@ public record Connect(Dispatcher dispatcher, User command) {
 				client.setMessage(null);
 				client.clearReader();
 				selectionKey.interestOps(SelectionKey.OP_READ);
-			} catch (Exception e) {
+				selectionKey.selector().wakeup();
+			} catch (IOException e) {
 				logger.error("Error sending response: {}", e.getMessage());
+				try {
+					clientChannel.close();
+				} catch (IOException ex) {
+					logger.error("Error closing channel: {}", ex.getMessage());
+				}
+			} catch (Exception e) {
+				logger.error("Unexpected error sending response: {}", e.getMessage());
 				selectionKey.interestOps(SelectionKey.OP_READ);
+				selectionKey.selector().wakeup();
 			}
 		});
 	}

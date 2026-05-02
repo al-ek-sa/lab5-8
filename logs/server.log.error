@@ -1,33 +1,7 @@
-2026-05-02 20:45:11.179 [main] INFO  [id=1154c09f-81c6-4c3a-be48-0096dd489e47] edu.itmo.piikt.server.MainServer - [MainServer] Starting server
-2026-05-02 20:45:11.180 [main] INFO  [id=1154c09f-81c6-4c3a-be48-0096dd489e47] edu.itmo.piikt.server.MainServer - [MainServer] Data loaded from file
-2026-05-02 20:45:11.186 [main] INFO  [id=d531ddea-734e-465f-af23-0642f6ed9c47] e.itmo.piikt.server.manager.Network - [Network] Starting server on port 6653
-2026-05-02 20:45:11.191 [main] INFO  [id=d531ddea-734e-465f-af23-0642f6ed9c47] e.itmo.piikt.server.manager.Network - [Network] Server started successfully
-2026-05-02 20:46:34.810 [main] INFO  [id=cbea6a0a-f0f7-42ef-a4b4-0307949db440] edu.itmo.piikt.client.MainClient - [MainClient] Starting client
-2026-05-02 20:46:34.814 [main] INFO  [id=3648c87b-bf3b-4738-8c6d-44d01b7d98b9] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6653
-2026-05-02 20:46:34.824 [main] INFO  [id=3648c87b-bf3b-4738-8c6d-44d01b7d98b9] e.itmo.piikt.client.network.Network - [Network] Connected successfully
-2026-05-02 20:46:34.824 [main] INFO  [id=7d9dc1aa-a115-4f40-be8a-98d797e9b3b9] e.itmo.piikt.server.manager.Connect - [Connect] New client connected: /127.0.0.1:39112
-2026-05-02 20:46:43.308 [main] INFO  [id=cbea6a0a-f0f7-42ef-a4b4-0307949db440] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'login'
-2026-05-02 20:46:43.309 [main] INFO  [id=cbea6a0a-f0f7-42ef-a4b4-0307949db440] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'register'
-2026-05-02 20:46:59.198 [Thread-2] WARN  [id=7ba5d1ba-906d-49ad-a9c7-070eadf5551c] e.i.p.server.dispatcher.Dispatcher - [Dispatcher] Unknown command: register_email
-2026-05-02 20:46:59.199 [Thread-2] INFO  [id=fff05698-fd94-4096-9696-e651abb29df6] e.i.piikt.server.registration.User - [User] Processing auth command: register_email
-2026-05-02 20:46:59.237 [Thread-2] WARN  [id=fff05698-fd94-4096-9696-e651abb29df6] e.i.piikt.server.registration.User - [User] Auth command completed with error: register_email
-2026-05-02 20:46:59.271 [pool-1-thread-10] ERROR [id=] e.itmo.piikt.server.manager.Connect - [Connect] Error sending response: Cannot invoke "Object.getClass()" because "object" is null
-2026-05-02 20:49:11.080 [main] ERROR [id=1154c09f-81c6-4c3a-be48-0096dd489e47] e.itmo.piikt.server.manager.Network - [Network] Server start failed: Connection reset
-2026-05-02 20:49:11.080 [main] ERROR [id=1154c09f-81c6-4c3a-be48-0096dd489e47] edu.itmo.piikt.server.MainServer - [MainServer] Failed to start server: Connection reset
-2026-05-02 20:49:12.395 [main] INFO  [id=f474d4e0-6a0e-44aa-b066-2522affe64b4] edu.itmo.piikt.client.MainClient - [MainClient] Starting client
-2026-05-02 20:49:12.400 [main] INFO  [id=4a5d3035-b997-4384-bbd7-b0b84424f5a5] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6653
-2026-05-02 20:49:12.412 [main] INFO  [id=4a5d3035-b997-4384-bbd7-b0b84424f5a5] e.itmo.piikt.client.network.Network - [Network] Connected successfully
-2026-05-02 20:49:19.580 [main] INFO  [id=f474d4e0-6a0e-44aa-b066-2522affe64b4] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'login'
-2026-05-02 20:49:19.581 [main] INFO  [id=f474d4e0-6a0e-44aa-b066-2522affe64b4] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'register'
-2026-05-02 20:52:50.707 [main] INFO  [id=3dd331ac-c9bd-43be-ba54-389a23ec13e1] edu.itmo.piikt.client.MainClient - [MainClient] Starting client
-2026-05-02 20:52:50.712 [main] INFO  [id=07554faf-8195-43b6-a764-004e14ead5a9] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6653
-2026-05-02 20:52:50.728 [main] INFO  [id=07554faf-8195-43b6-a764-004e14ead5a9] e.itmo.piikt.client.network.Network - [Network] Connected successfully
-2026-05-02 20:52:58.349 [main] INFO  [id=3dd331ac-c9bd-43be-ba54-389a23ec13e1] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'login'
-2026-05-02 20:52:58.351 [main] INFO  [id=3dd331ac-c9bd-43be-ba54-389a23ec13e1] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'register'
-2026-05-02 20:53:33.431 [Thread-0] INFO  [id=e01fa1a7-f6ce-4b27-b918-d37fee8881b6] edu.itmo.piikt.server.MainServer - [MainServer] Shutdown signal received
-2026-05-02 20:53:33.432 [Thread-0] INFO  [id=b0cc3d9d-6329-4ce8-a42d-357a9eace422] e.itmo.piikt.server.manager.Network - [Network] Stopping server
-2026-05-02 20:53:33.433 [Thread-0] INFO  [id=e01fa1a7-f6ce-4b27-b918-d37fee8881b6] edu.itmo.piikt.server.MainServer - [MainServer] Server stopped
-2026-05-02 20:53:33.770 [main] ERROR [id=3dd331ac-c9bd-43be-ba54-389a23ec13e1] e.itmo.piikt.client.network.Network - [Network] Error sending command: {}
+2026-05-02 21:51:54.847 [Thread-0] INFO  [id=d835f484-f359-4828-838e-5d3c1bd145bd] edu.itmo.piikt.server.MainServer - [MainServer] Shutdown signal received
+2026-05-02 21:51:54.848 [Thread-0] INFO  [id=1e6af822-6199-4a62-bdb9-4aebde048833] e.itmo.piikt.server.manager.Network - [Network] Stopping server
+2026-05-02 21:51:54.849 [Thread-0] INFO  [id=d835f484-f359-4828-838e-5d3c1bd145bd] edu.itmo.piikt.server.MainServer - [MainServer] Server stopped
+2026-05-02 21:51:55.198 [main] ERROR [id=e6a861b4-8abb-4da4-8c63-16bdebcb2c55] e.itmo.piikt.client.network.Network - [Network] Error sending command: {}
 java.net.SocketException: Connection reset
 	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
 	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
@@ -37,159 +11,54 @@ java.net.SocketException: Connection reset
 	at edu.itmo.piikt.client.entrance.Command.executeCommand(Command.java:43)
 	at edu.itmo.piikt.client.entrance.Registr.registration(Registr.java:48)
 	at edu.itmo.piikt.client.MainClient.main(MainClient.java:33)
-2026-05-02 20:53:33.773 [main] ERROR [id=] edu.itmo.piikt.client.MainClient - [MainClient] Client failed: Connection reset
-2026-05-02 20:54:24.979 [main] INFO  [id=35c7e7c4-719d-488b-b87a-1d5621b0df1b] edu.itmo.piikt.server.MainServer - [MainServer] Starting server
-2026-05-02 20:54:24.981 [main] INFO  [id=35c7e7c4-719d-488b-b87a-1d5621b0df1b] edu.itmo.piikt.server.MainServer - [MainServer] Data loaded from file
-2026-05-02 20:54:24.998 [main] INFO  [id=c9f9942e-4d3a-41ba-81cc-55f0d039da6c] e.itmo.piikt.server.manager.Network - [Network] Starting server on port 6653
-2026-05-02 20:54:25.009 [main] INFO  [id=c9f9942e-4d3a-41ba-81cc-55f0d039da6c] e.itmo.piikt.server.manager.Network - [Network] Server started successfully
-2026-05-02 20:54:28.823 [main] INFO  [id=7c38fdea-0e53-4f7d-8c72-a18ec7ebe219] edu.itmo.piikt.client.MainClient - [MainClient] Starting client
-2026-05-02 20:54:28.828 [main] INFO  [id=3abe42d5-1bfc-479b-907d-465b601a642c] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6653
-2026-05-02 20:54:28.843 [main] INFO  [id=3abe42d5-1bfc-479b-907d-465b601a642c] e.itmo.piikt.client.network.Network - [Network] Connected successfully
-2026-05-02 20:54:28.843 [main] INFO  [id=1308fa21-c652-47d2-9efe-43882344e831] e.itmo.piikt.server.manager.Connect - [Connect] New client connected: /127.0.0.1:36946
-2026-05-02 20:54:34.709 [main] INFO  [id=7c38fdea-0e53-4f7d-8c72-a18ec7ebe219] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'login'
-2026-05-02 20:54:34.711 [main] INFO  [id=7c38fdea-0e53-4f7d-8c72-a18ec7ebe219] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'register'
-2026-05-02 20:54:42.321 [Thread-2] WARN  [id=e7ceee86-8aa0-4716-b7bc-a6a3b30151c1] e.i.p.server.dispatcher.Dispatcher - [Dispatcher] Unknown command: register_email
-2026-05-02 20:54:42.321 [Thread-2] INFO  [id=0f951934-7792-4d63-b022-9365d746160d] e.i.piikt.server.registration.User - [User] Processing auth command: register_email
-2026-05-02 20:54:44.771 [Thread-2] INFO  [id=0f951934-7792-4d63-b022-9365d746160d] e.i.piikt.server.registration.User - [User] Auth command completed successfully: register_email
-2026-05-02 20:54:44.812 [pool-1-thread-3] ERROR [id=] e.itmo.piikt.server.manager.Connect - [Connect] Error sending response: Cannot invoke "Object.getClass()" because "object" is null
-2026-05-02 20:54:44.812 [pool-1-thread-9] ERROR [id=] e.itmo.piikt.server.manager.Connect - [Connect] Error sending response: Cannot invoke "Object.getClass()" because "object" is null
-2026-05-02 20:54:44.812 [pool-1-thread-4] ERROR [id=] e.itmo.piikt.server.manager.Connect - [Connect] Error sending response: Cannot invoke "Object.getClass()" because "object" is null
-2026-05-02 20:54:54.652 [main] INFO  [id=7c38fdea-0e53-4f7d-8c72-a18ec7ebe219] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between '606177' and 'отправить код повторно'
-2026-05-02 20:57:23.362 [main] ERROR [id=35c7e7c4-719d-488b-b87a-1d5621b0df1b] e.itmo.piikt.server.manager.Network - [Network] Server start failed: Connection reset
-2026-05-02 20:57:23.363 [main] ERROR [id=35c7e7c4-719d-488b-b87a-1d5621b0df1b] edu.itmo.piikt.server.MainServer - [MainServer] Failed to start server: Connection reset
-2026-05-02 20:57:25.154 [main] INFO  [id=12aa1ab2-2aa9-49cb-8f51-86ad87539d13] edu.itmo.piikt.client.MainClient - [MainClient] Starting client
-2026-05-02 20:57:25.159 [main] INFO  [id=32b5ec3b-0b3d-4d17-88cd-97cefe1090f8] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6653
-2026-05-02 20:57:25.174 [main] INFO  [id=32b5ec3b-0b3d-4d17-88cd-97cefe1090f8] e.itmo.piikt.client.network.Network - [Network] Connected successfully
-2026-05-02 20:57:30.902 [main] INFO  [id=12aa1ab2-2aa9-49cb-8f51-86ad87539d13] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'login'
-2026-05-02 20:57:30.904 [main] INFO  [id=12aa1ab2-2aa9-49cb-8f51-86ad87539d13] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'register'
-2026-05-02 20:59:09.041 [main] INFO  [id=7e37f077-db17-439d-a371-3f8cde2d12c0] edu.itmo.piikt.client.MainClient - [MainClient] Starting client
-2026-05-02 20:59:09.046 [main] INFO  [id=e268c30d-9151-46e4-926d-b19fa3f0d443] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6653
-2026-05-02 20:59:09.059 [main] INFO  [id=e268c30d-9151-46e4-926d-b19fa3f0d443] e.itmo.piikt.client.network.Network - [Network] Connected successfully
-2026-05-02 20:59:17.326 [main] INFO  [id=7e37f077-db17-439d-a371-3f8cde2d12c0] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'login'
-2026-05-02 20:59:17.328 [main] INFO  [id=7e37f077-db17-439d-a371-3f8cde2d12c0] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'register'
-2026-05-02 21:00:28.077 [] WARN  [id=23042341-fb77-41db-8485-eab4df5f84bd] e.itmo.piikt.common.util.InputReader - [InputReader] Failed to read input, retrying...
-2026-05-02 21:00:28.079 [] WARN  [id=23042341-fb77-41db-8485-eab4df5f84bd] e.itmo.piikt.common.util.InputReader - [InputReader] Failed to read input, retrying...
-2026-05-02 21:00:28.079 [] WARN  [id=23042341-fb77-41db-8485-eab4df5f84bd] e.itmo.piikt.common.util.InputReader - [InputReader] Failed to read input, retrying...
-2026-05-02 21:00:28.079 [] WARN  [id=23042341-fb77-41db-8485-eab4df5f84bd] e.itmo.piikt.common.util.InputReader - [InputReader] Failed to read input, retrying...
-2026-05-02 21:00:28.079 [Thread-0] INFO  [id=6454d80c-03c8-4fc9-968a-8a7e5e04b768] edu.itmo.piikt.server.MainServer - [MainServer] Shutdown signal received
-2026-05-02 21:00:28.079 [] WARN  [id=23042341-fb77-41db-8485-eab4df5f84bd] e.itmo.piikt.common.util.InputReader - [InputReader] Failed to read input, retrying...
-2026-05-02 21:00:28.079 [Thread-0] INFO  [id=3c78c553-268c-4669-8fab-1e2181068dc6] e.itmo.piikt.server.manager.Network - [Network] Stopping server
-2026-05-02 21:00:28.080 [] WARN  [id=23042341-fb77-41db-8485-eab4df5f84bd] e.itmo.piikt.common.util.InputReader - [InputReader] Failed to read input, retrying...
-2026-05-02 21:00:28.080 [Thread-0] INFO  [id=6454d80c-03c8-4fc9-968a-8a7e5e04b768] edu.itmo.piikt.server.MainServer - [MainServer] Server stopped
-2026-05-02 21:00:28.080 [] WARN  [id=23042341-fb77-41db-8485-eab4df5f84bd] e.itmo.piikt.common.util.InputReader - [InputReader] Failed to read input, retrying...
-2026-05-02 21:00:28.420 [main] ERROR [id=7e37f077-db17-439d-a371-3f8cde2d12c0] e.itmo.piikt.client.network.Network - [Network] Error sending command: {}
-java.net.SocketException: Connection reset
-	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
-	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
-	at edu.itmo.piikt.client.network.Network.send(Network.java:96)
-	at edu.itmo.piikt.client.entrance.registration.RegisterRequest.email(RegisterRequest.java:97)
-	at edu.itmo.piikt.client.entrance.registration.RegisterRequest.execute(RegisterRequest.java:62)
-	at edu.itmo.piikt.client.entrance.Command.executeCommand(Command.java:43)
-	at edu.itmo.piikt.client.entrance.Registr.registration(Registr.java:48)
-	at edu.itmo.piikt.client.MainClient.main(MainClient.java:33)
-2026-05-02 21:00:28.423 [main] ERROR [id=] edu.itmo.piikt.client.MainClient - [MainClient] Client failed: Connection reset
-2026-05-02 21:01:01.452 [main] INFO  [id=d33f4ddd-927c-4bf1-a77d-ee5ddebc7d84] edu.itmo.piikt.server.MainServer - [MainServer] Starting server
-2026-05-02 21:01:01.454 [main] INFO  [id=d33f4ddd-927c-4bf1-a77d-ee5ddebc7d84] edu.itmo.piikt.server.MainServer - [MainServer] Data loaded from file
-2026-05-02 21:01:01.472 [main] INFO  [id=44a7a65f-29be-4d5d-9832-c7e0819e4939] e.itmo.piikt.server.manager.Network - [Network] Starting server on port 6653
-2026-05-02 21:01:01.483 [main] INFO  [id=44a7a65f-29be-4d5d-9832-c7e0819e4939] e.itmo.piikt.server.manager.Network - [Network] Server started successfully
-2026-05-02 21:01:04.225 [main] INFO  [id=5c2d917d-4d47-4370-aefe-1c74cb0194a0] edu.itmo.piikt.client.MainClient - [MainClient] Starting client
-2026-05-02 21:01:04.229 [main] INFO  [id=5b441296-813e-4357-82b1-3eacc0f11ae5] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6653
-2026-05-02 21:01:04.241 [main] INFO  [id=5b441296-813e-4357-82b1-3eacc0f11ae5] e.itmo.piikt.client.network.Network - [Network] Connected successfully
-2026-05-02 21:01:04.242 [main] INFO  [id=1b0e912f-ac7c-4650-b450-8f901a5c56bb] e.itmo.piikt.server.manager.Connect - [Connect] New client connected: /127.0.0.1:37888
-2026-05-02 21:01:11.613 [main] INFO  [id=5c2d917d-4d47-4370-aefe-1c74cb0194a0] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'login'
-2026-05-02 21:01:11.615 [main] INFO  [id=5c2d917d-4d47-4370-aefe-1c74cb0194a0] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'register'
-2026-05-02 21:01:25.235 [Thread-2] WARN  [id=7c9d99ed-6dd9-46d1-897d-7fe1079dfd83] e.i.p.server.dispatcher.Dispatcher - [Dispatcher] Unknown command: register_email
-2026-05-02 21:01:25.236 [Thread-2] INFO  [id=4ccabee8-fd78-4f5f-93b3-9b36d1cfd5ca] e.i.piikt.server.registration.User - [User] Processing auth command: register_email
-2026-05-02 21:01:27.504 [Thread-2] INFO  [id=4ccabee8-fd78-4f5f-93b3-9b36d1cfd5ca] e.i.piikt.server.registration.User - [User] Auth command completed successfully: register_email
-2026-05-02 21:01:27.541 [pool-1-thread-1] ERROR [id=] e.itmo.piikt.server.manager.Connect - [Connect] Error sending response: Cannot invoke "Object.getClass()" because "object" is null
-2026-05-02 21:01:27.541 [pool-1-thread-6] ERROR [id=] e.itmo.piikt.server.manager.Connect - [Connect] Error sending response: Cannot invoke "Object.getClass()" because "object" is null
-2026-05-02 21:02:43.981 [main] INFO  [id=5c2d917d-4d47-4370-aefe-1c74cb0194a0] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between '870327' and 'отправить код повторно'
-2026-05-02 21:13:50.888 [Thread-0] INFO  [id=a2158ab3-e1c6-4bcd-b478-7c54731a511c] edu.itmo.piikt.server.MainServer - [MainServer] Shutdown signal received
-2026-05-02 21:13:50.889 [Thread-0] INFO  [id=a10673ac-5f5c-466b-9d2d-983429a5a342] e.itmo.piikt.server.manager.Network - [Network] Stopping server
-2026-05-02 21:13:50.889 [Thread-0] INFO  [id=a2158ab3-e1c6-4bcd-b478-7c54731a511c] edu.itmo.piikt.server.MainServer - [MainServer] Server stopped
-2026-05-02 21:13:52.815 [main] INFO  [id=3aad93ba-fdf2-40ad-9744-7fe774527d24] edu.itmo.piikt.server.MainServer - [MainServer] Starting server
-2026-05-02 21:13:52.816 [main] INFO  [id=3aad93ba-fdf2-40ad-9744-7fe774527d24] edu.itmo.piikt.server.MainServer - [MainServer] Data loaded from file
-2026-05-02 21:13:52.824 [main] INFO  [id=655ac61e-1212-42d2-9d8e-9b71c0cf31f5] e.itmo.piikt.server.manager.Network - [Network] Starting server on port 6653
-2026-05-02 21:13:52.830 [main] INFO  [id=655ac61e-1212-42d2-9d8e-9b71c0cf31f5] e.itmo.piikt.server.manager.Network - [Network] Server started successfully
-2026-05-02 21:14:03.371 [main] INFO  [id=46305b0a-c96d-44b9-835e-0cdd61067838] edu.itmo.piikt.client.MainClient - [MainClient] Starting client
-2026-05-02 21:14:03.374 [main] INFO  [id=fed805b2-8022-4d32-bd40-d674bb1ae432] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6653
-2026-05-02 21:14:03.383 [main] INFO  [id=fed805b2-8022-4d32-bd40-d674bb1ae432] e.itmo.piikt.client.network.Network - [Network] Connected successfully
-2026-05-02 21:14:03.383 [main] INFO  [id=883349a3-283d-4e89-a21b-7ee44cb2601e] e.itmo.piikt.server.manager.Connect - [Connect] New client connected: /127.0.0.1:57794
-2026-05-02 21:14:09.178 [main] INFO  [id=46305b0a-c96d-44b9-835e-0cdd61067838] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'login'
-2026-05-02 21:14:09.180 [main] INFO  [id=46305b0a-c96d-44b9-835e-0cdd61067838] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'register'
-2026-05-02 21:14:24.086 [Thread-2] WARN  [id=04e3619f-2748-4f7c-a199-b10bc8e5fe56] e.i.p.server.dispatcher.Dispatcher - [Dispatcher] Unknown command: register_email
-2026-05-02 21:14:24.086 [Thread-2] INFO  [id=c0c2232d-530b-422e-a719-d48ab538c718] e.i.piikt.server.registration.User - [User] Processing auth command: register_email
-2026-05-02 21:14:25.981 [Thread-2] INFO  [id=c0c2232d-530b-422e-a719-d48ab538c718] e.i.piikt.server.registration.User - [User] Auth command completed successfully: register_email
-2026-05-02 21:14:25.988 [main] WARN  [id=655ac61e-1212-42d2-9d8e-9b71c0cf31f5] e.itmo.piikt.server.manager.Connect - [Connect] No response to send for client /127.0.0.1:57794
-2026-05-02 21:14:42.789 [main] INFO  [id=46305b0a-c96d-44b9-835e-0cdd61067838] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between '475672' and 'отправить код повторно'
-2026-05-02 21:15:00.871 [main] INFO  [id=46305b0a-c96d-44b9-835e-0cdd61067838] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between '478672' and 'отправить код повторно'
-2026-05-02 21:18:13.152 [main] ERROR [id=3aad93ba-fdf2-40ad-9744-7fe774527d24] e.itmo.piikt.server.manager.Network - [Network] Server start failed: Connection reset
-2026-05-02 21:18:13.153 [main] ERROR [id=3aad93ba-fdf2-40ad-9744-7fe774527d24] edu.itmo.piikt.server.MainServer - [MainServer] Failed to start server: Connection reset
-2026-05-02 21:18:20.869 [main] INFO  [id=e21a88e5-0094-4caf-a9f1-61cd242da6f8] edu.itmo.piikt.client.MainClient - [MainClient] Starting client
-2026-05-02 21:18:20.872 [main] INFO  [id=b29eaac7-71b9-4542-b1e2-5298620fa873] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6653
-2026-05-02 21:18:20.880 [main] INFO  [id=b29eaac7-71b9-4542-b1e2-5298620fa873] e.itmo.piikt.client.network.Network - [Network] Connected successfully
-2026-05-02 21:18:27.412 [main] INFO  [id=e21a88e5-0094-4caf-a9f1-61cd242da6f8] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'login'
-2026-05-02 21:18:27.414 [main] INFO  [id=e21a88e5-0094-4caf-a9f1-61cd242da6f8] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'register'
-2026-05-02 21:18:47.011 [Thread-0] INFO  [id=d94b138f-ba9c-4698-b771-ffb67e905007] edu.itmo.piikt.server.MainServer - [MainServer] Shutdown signal received
-2026-05-02 21:18:47.012 [Thread-0] INFO  [id=7e546209-a49b-4bcc-9776-9fda2522351e] e.itmo.piikt.server.manager.Network - [Network] Stopping server
-2026-05-02 21:18:47.012 [Thread-0] INFO  [id=d94b138f-ba9c-4698-b771-ffb67e905007] edu.itmo.piikt.server.MainServer - [MainServer] Server stopped
-2026-05-02 21:18:47.336 [main] ERROR [id=e21a88e5-0094-4caf-a9f1-61cd242da6f8] e.itmo.piikt.client.network.Network - [Network] Error sending command: {}
-java.net.SocketException: Connection reset
-	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
-	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
-	at edu.itmo.piikt.client.network.Network.send(Network.java:96)
-	at edu.itmo.piikt.client.entrance.registration.RegisterRequest.email(RegisterRequest.java:97)
-	at edu.itmo.piikt.client.entrance.registration.RegisterRequest.execute(RegisterRequest.java:62)
-	at edu.itmo.piikt.client.entrance.Command.executeCommand(Command.java:43)
-	at edu.itmo.piikt.client.entrance.Registr.registration(Registr.java:48)
-	at edu.itmo.piikt.client.MainClient.main(MainClient.java:33)
-2026-05-02 21:18:47.338 [main] ERROR [id=] edu.itmo.piikt.client.MainClient - [MainClient] Client failed: Connection reset
-2026-05-02 21:19:02.370 [main] INFO  [id=c8034c4a-a13d-40c8-80e6-774fdda42196] edu.itmo.piikt.server.MainServer - [MainServer] Starting server
-2026-05-02 21:19:02.372 [main] INFO  [id=c8034c4a-a13d-40c8-80e6-774fdda42196] edu.itmo.piikt.server.MainServer - [MainServer] Data loaded from file
-2026-05-02 21:19:02.382 [main] INFO  [id=8b95f4ef-dea2-4f3d-8afd-90ca12f987b9] e.itmo.piikt.server.manager.Network - [Network] Starting server on port 6653
-2026-05-02 21:19:02.386 [main] INFO  [id=8b95f4ef-dea2-4f3d-8afd-90ca12f987b9] e.itmo.piikt.server.manager.Network - [Network] Server started successfully
-2026-05-02 21:19:04.959 [main] INFO  [id=20fd7b90-c31a-46c8-a8c1-8702d56679ad] edu.itmo.piikt.client.MainClient - [MainClient] Starting client
-2026-05-02 21:19:04.963 [main] INFO  [id=133beaed-9b9f-4e06-b719-850dbdd02bcd] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6653
-2026-05-02 21:19:04.972 [main] INFO  [id=133beaed-9b9f-4e06-b719-850dbdd02bcd] e.itmo.piikt.client.network.Network - [Network] Connected successfully
-2026-05-02 21:19:04.972 [main] INFO  [id=f3443762-cc41-4d3b-bdb5-0edb1fe0ecb5] e.itmo.piikt.server.manager.Connect - [Connect] New client connected: /127.0.0.1:43120
-2026-05-02 21:19:11.559 [main] INFO  [id=20fd7b90-c31a-46c8-a8c1-8702d56679ad] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'login'
-2026-05-02 21:19:11.560 [main] INFO  [id=20fd7b90-c31a-46c8-a8c1-8702d56679ad] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'register'
-2026-05-02 21:19:20.802 [Thread-2] WARN  [id=d95ca273-78a5-4842-893c-24f1fd4343eb] e.i.p.server.dispatcher.Dispatcher - [Dispatcher] Unknown command: register_email
-2026-05-02 21:19:20.803 [Thread-2] INFO  [id=1d236b35-a865-4518-b0ed-00ace4ef05b3] e.i.piikt.server.registration.User - [User] Processing auth command: register_email
-2026-05-02 21:19:23.525 [Thread-2] INFO  [id=1d236b35-a865-4518-b0ed-00ace4ef05b3] e.i.piikt.server.registration.User - [User] Auth command completed successfully: register_email
-2026-05-02 21:19:23.543 [pool-1-thread-3] ERROR [id=] e.itmo.piikt.server.manager.Connect - [Connect] Error sending response: Cannot invoke "Object.getClass()" because "object" is null
-2026-05-02 21:19:23.543 [pool-1-thread-4] ERROR [id=] e.itmo.piikt.server.manager.Connect - [Connect] Error sending response: Cannot invoke "Object.getClass()" because "object" is null
-2026-05-02 21:19:34.982 [main] INFO  [id=20fd7b90-c31a-46c8-a8c1-8702d56679ad] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between '591410' and 'отправить код повторно'
-2026-05-02 21:21:20.964 [main] ERROR [id=c8034c4a-a13d-40c8-80e6-774fdda42196] e.itmo.piikt.server.manager.Network - [Network] Server start failed: Connection reset
-2026-05-02 21:21:20.964 [main] ERROR [id=c8034c4a-a13d-40c8-80e6-774fdda42196] edu.itmo.piikt.server.MainServer - [MainServer] Failed to start server: Connection reset
-2026-05-02 21:21:25.489 [Thread-0] INFO  [id=827807a1-2410-49b5-b225-1c96397228ee] edu.itmo.piikt.server.MainServer - [MainServer] Shutdown signal received
-2026-05-02 21:21:25.494 [Thread-0] INFO  [id=9ef0f765-3309-4daa-ad26-dc584f0f51b2] e.itmo.piikt.server.manager.Network - [Network] Stopping server
-2026-05-02 21:21:25.494 [Thread-0] INFO  [id=827807a1-2410-49b5-b225-1c96397228ee] edu.itmo.piikt.server.MainServer - [MainServer] Server stopped
-2026-05-02 21:21:33.786 [main] INFO  [id=bae06964-1811-42c5-9018-76597dff1943] edu.itmo.piikt.server.MainServer - [MainServer] Starting server
-2026-05-02 21:21:33.788 [main] INFO  [id=bae06964-1811-42c5-9018-76597dff1943] edu.itmo.piikt.server.MainServer - [MainServer] Data loaded from file
-2026-05-02 21:21:33.796 [main] INFO  [id=2b439d23-6ff3-46ec-ad02-f5b1198a977c] e.itmo.piikt.server.manager.Network - [Network] Starting server on port 6653
-2026-05-02 21:21:33.800 [main] INFO  [id=2b439d23-6ff3-46ec-ad02-f5b1198a977c] e.itmo.piikt.server.manager.Network - [Network] Server started successfully
-2026-05-02 21:21:37.577 [] INFO  [id=d4843401-03a7-4c48-b07a-dd2a66b14a02] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between '[a' and 'save'
-2026-05-02 21:21:44.149 [main] INFO  [id=50cbfb8a-2733-4bfc-a90b-2f1f308541d2] edu.itmo.piikt.client.MainClient - [MainClient] Starting client
-2026-05-02 21:21:44.151 [main] INFO  [id=1f4a3489-5f77-4c4b-b6bc-2b55b405d44c] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6653
-2026-05-02 21:21:44.159 [main] INFO  [id=1f4a3489-5f77-4c4b-b6bc-2b55b405d44c] e.itmo.piikt.client.network.Network - [Network] Connected successfully
-2026-05-02 21:21:44.159 [main] INFO  [id=3289089e-785c-42f0-84b7-a4a0eb2b2197] e.itmo.piikt.server.manager.Connect - [Connect] New client connected: /127.0.0.1:52858
-2026-05-02 21:21:51.426 [main] INFO  [id=50cbfb8a-2733-4bfc-a90b-2f1f308541d2] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'login'
-2026-05-02 21:21:51.427 [main] INFO  [id=50cbfb8a-2733-4bfc-a90b-2f1f308541d2] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'register'
-2026-05-02 21:21:57.364 [Thread-2] WARN  [id=33a8b76a-1224-4289-a6ce-b66fb5b265be] e.i.p.server.dispatcher.Dispatcher - [Dispatcher] Unknown command: register_email
-2026-05-02 21:21:57.364 [Thread-2] INFO  [id=f8c26dfb-a4f2-4c4c-9d4a-8fc571856c2d] e.i.piikt.server.registration.User - [User] Processing auth command: register_email
-2026-05-02 21:22:00.620 [Thread-2] INFO  [id=f8c26dfb-a4f2-4c4c-9d4a-8fc571856c2d] e.i.piikt.server.registration.User - [User] Auth command completed successfully: register_email
-2026-05-02 21:22:00.640 [pool-1-thread-3] ERROR [id=] e.itmo.piikt.server.manager.Connect - [Connect] Error sending response: Cannot invoke "Object.getClass()" because "object" is null
-2026-05-02 21:22:00.640 [pool-1-thread-7] ERROR [id=] e.itmo.piikt.server.manager.Connect - [Connect] Error sending response: Cannot invoke "Object.getClass()" because "object" is null
-2026-05-02 21:22:16.120 [] INFO  [id=6f0c844e-45b3-4797-96c0-1b7ab1997f38] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between '827679' and 'save'
-2026-05-02 21:22:29.126 [main] INFO  [id=50cbfb8a-2733-4bfc-a90b-2f1f308541d2] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between '827679' and 'отправить код повторно'
-2026-05-02 21:22:44.750 [main] INFO  [id=86cd85ab-a5ac-4b09-a795-65a9b0d93360] e.i.p.client.mode.InteractiveMode - [InteractiveMode] Starting interactive mode
-2026-05-02 21:22:44.752 [Thread-4] WARN  [id=20ceac6f-9893-48c4-947e-def22966c4ad] e.i.p.server.dispatcher.Dispatcher - [Dispatcher] Unknown command: register
-2026-05-02 21:22:44.752 [Thread-4] INFO  [id=3a3ecd30-f427-478a-a184-55ffb08e7866] e.i.piikt.server.registration.User - [User] Processing auth command: register
-2026-05-02 21:22:44.753 [Thread-4] INFO  [id=91efab92-8f07-4513-9e8b-2e0f770c6a2a] e.i.p.server.registration.Register - [Register] Processing registration request for login: alexa123456, email: alexandra.lishik@gmail.com
-2026-05-02 21:22:44.756 [main] INFO  [id=86cd85ab-a5ac-4b09-a795-65a9b0d93360] e.i.p.c.manager.ValidationCommand - [ValidationCommand] Starting command validation loop
-2026-05-02 21:22:44.770 [Thread-4] INFO  [id=012f92c4-0801-427b-8a8b-3738fcc457ff] e.itmo.piikt.server.registration.BD - [BD] User registered successfully: login=alexa123456, rowsAffected=1
-2026-05-02 21:22:44.771 [Thread-4] INFO  [id=91efab92-8f07-4513-9e8b-2e0f770c6a2a] e.i.p.server.registration.Register - [Register] Registration successful for login: alexa123456
-2026-05-02 21:22:44.771 [Thread-4] INFO  [id=3a3ecd30-f427-478a-a184-55ffb08e7866] e.i.piikt.server.registration.User - [User] Auth command completed successfully: register
-2026-05-02 21:22:44.773 [pool-1-thread-3] ERROR [id=] e.itmo.piikt.server.manager.Connect - [Connect] Error sending response: Cannot invoke "Object.getClass()" because "object" is null
-2026-05-02 21:22:44.773 [pool-1-thread-4] ERROR [id=] e.itmo.piikt.server.manager.Connect - [Connect] Error sending response: Cannot invoke "Object.getClass()" because "object" is null
+2026-05-02 21:51:55.203 [main] ERROR [id=] edu.itmo.piikt.client.MainClient - [MainClient] Client failed: Connection reset
+2026-05-02 21:51:56.813 [main] INFO  [id=cc6f9d9e-21e1-4180-b3aa-c571d810d159] edu.itmo.piikt.server.MainServer - [MainServer] Starting server
+2026-05-02 21:51:56.816 [main] INFO  [id=cc6f9d9e-21e1-4180-b3aa-c571d810d159] edu.itmo.piikt.server.MainServer - [MainServer] Data loaded from file
+2026-05-02 21:51:56.836 [main] INFO  [id=c4c513b5-6872-452e-b735-a026813759ea] e.itmo.piikt.server.manager.Network - [Network] Starting server on port 6653
+2026-05-02 21:51:56.850 [main] INFO  [id=c4c513b5-6872-452e-b735-a026813759ea] e.itmo.piikt.server.manager.Network - [Network] Server started successfully
+2026-05-02 21:52:05.654 [main] INFO  [id=abbd8929-c87b-438d-a512-4f1b95c3240a] edu.itmo.piikt.client.MainClient - [MainClient] Starting client
+2026-05-02 21:52:05.662 [main] INFO  [id=aa7bfb1c-2c49-4774-b5cf-0f36071d0418] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6653
+2026-05-02 21:52:05.681 [main] INFO  [id=aa7bfb1c-2c49-4774-b5cf-0f36071d0418] e.itmo.piikt.client.network.Network - [Network] Connected successfully
+2026-05-02 21:52:05.682 [main] INFO  [id=309e9b39-7ce5-48a2-8c0d-86b5f6092272] e.itmo.piikt.server.manager.Connect - [Connect] New client connected: /127.0.0.1:32818
+2026-05-02 21:52:11.162 [main] INFO  [id=abbd8929-c87b-438d-a512-4f1b95c3240a] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'login'
+2026-05-02 21:52:11.163 [main] INFO  [id=abbd8929-c87b-438d-a512-4f1b95c3240a] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'register'
+2026-05-02 21:52:38.877 [Thread-2] WARN  [id=3045846a-a9ed-40b7-a844-fe5927ee536a] e.i.p.server.dispatcher.Dispatcher - [Dispatcher] Unknown command: register_email
+2026-05-02 21:52:38.878 [Thread-2] INFO  [id=563ff78b-70d9-44d7-a6ac-2476a6bcc04f] e.i.piikt.server.registration.User - [User] Processing auth command: register_email
+2026-05-02 21:52:42.244 [Thread-2] INFO  [id=563ff78b-70d9-44d7-a6ac-2476a6bcc04f] e.i.piikt.server.registration.User - [User] Auth command completed successfully: register_email
+2026-05-02 21:52:56.060 [main] INFO  [id=abbd8929-c87b-438d-a512-4f1b95c3240a] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between '424033' and 'отправить код повторно'
+2026-05-02 21:53:05.426 [main] INFO  [id=ecfc7cc3-f995-492f-a26f-0a76be00cd74] e.i.p.client.mode.InteractiveMode - [InteractiveMode] Starting interactive mode
+2026-05-02 21:53:05.427 [Thread-4] WARN  [id=03c64098-3974-41e0-a970-2c57399238e5] e.i.p.server.dispatcher.Dispatcher - [Dispatcher] Unknown command: register
+2026-05-02 21:53:05.428 [Thread-4] INFO  [id=01aea558-405c-4536-abd5-b9102a45a969] e.i.piikt.server.registration.User - [User] Processing auth command: register
+2026-05-02 21:53:05.430 [Thread-4] INFO  [id=b795df91-cb7c-4ed5-8c3d-bd4a8f80d3c8] e.i.p.server.registration.Register - [Register] Processing registration request for login: фывапролджфывапрл, email: alexandra.lishik@gmail.com
+2026-05-02 21:53:05.439 [main] INFO  [id=ecfc7cc3-f995-492f-a26f-0a76be00cd74] e.i.p.c.manager.ValidationCommand - [ValidationCommand] Starting command validation loop
+2026-05-02 21:53:05.454 [Thread-4] INFO  [id=df63717d-dcc5-44ae-b93e-b14d025bc540] e.itmo.piikt.server.registration.BD - [BD] User registered successfully: login=фывапролджфывапрл, rowsAffected=1
+2026-05-02 21:53:05.455 [Thread-4] INFO  [id=b795df91-cb7c-4ed5-8c3d-bd4a8f80d3c8] e.i.p.server.registration.Register - [Register] Registration successful for login: фывапролджфывапрл
+2026-05-02 21:53:05.456 [Thread-4] INFO  [id=01aea558-405c-4536-abd5-b9102a45a969] e.i.piikt.server.registration.User - [User] Auth command completed successfully: register
+2026-05-02 21:53:08.826 [main] WARN  [id=c4c513b5-6872-452e-b735-a026813759ea] e.itmo.piikt.server.manager.Connect - [Connect] Client disconnected unexpectedly: Connection reset
+2026-05-02 21:53:10.428 [main] INFO  [id=348ac00d-ea8d-4300-99bf-dad1480b79d7] edu.itmo.piikt.client.MainClient - [MainClient] Starting client
+2026-05-02 21:53:10.436 [main] INFO  [id=cdf90b92-9497-436c-be50-3b235c28467d] e.itmo.piikt.client.network.Network - [Network] Connecting to localhost:6653
+2026-05-02 21:53:10.457 [main] INFO  [id=159c7959-437b-45cc-b38a-bdf9a7cb3033] e.itmo.piikt.server.manager.Connect - [Connect] New client connected: /127.0.0.1:46544
+2026-05-02 21:53:10.457 [main] INFO  [id=cdf90b92-9497-436c-be50-3b235c28467d] e.itmo.piikt.client.network.Network - [Network] Connected successfully
+2026-05-02 21:53:17.419 [main] INFO  [id=348ac00d-ea8d-4300-99bf-dad1480b79d7] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'login'
+2026-05-02 21:53:17.422 [main] INFO  [id=348ac00d-ea8d-4300-99bf-dad1480b79d7] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'register' and 'register'
+2026-05-02 21:53:30.081 [Thread-6] WARN  [id=24b61a8d-8977-4791-a42a-555e9f0bc464] e.i.p.server.dispatcher.Dispatcher - [Dispatcher] Unknown command: register_email
+2026-05-02 21:53:30.082 [Thread-6] INFO  [id=ce52aaab-d954-4d2d-b6ae-1db048861f2d] e.i.piikt.server.registration.User - [User] Processing auth command: register_email
+2026-05-02 21:53:31.925 [Thread-6] INFO  [id=ce52aaab-d954-4d2d-b6ae-1db048861f2d] e.i.piikt.server.registration.User - [User] Auth command completed successfully: register_email
+2026-05-02 21:53:31.927 [main] WARN  [id=c4c513b5-6872-452e-b735-a026813759ea] e.itmo.piikt.server.manager.Connect - [Connect] No response to send for client /127.0.0.1:46544
+2026-05-02 21:53:42.197 [main] INFO  [id=348ac00d-ea8d-4300-99bf-dad1480b79d7] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between '234567890-=' and 'отправить код повторно'
+2026-05-02 21:53:43.655 [main] INFO  [id=348ac00d-ea8d-4300-99bf-dad1480b79d7] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between '234567890' and 'отправить код повторно'
+2026-05-02 21:53:44.997 [main] INFO  [id=348ac00d-ea8d-4300-99bf-dad1480b79d7] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between '234567890' and 'отправить код повторно'
+2026-05-02 21:53:55.824 [main] INFO  [id=348ac00d-ea8d-4300-99bf-dad1480b79d7] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'отправить код повторно' and 'exit'
+2026-05-02 21:53:55.826 [main] INFO  [id=348ac00d-ea8d-4300-99bf-dad1480b79d7] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between 'отправить код повторно' and 'отправить код повторно'
+2026-05-02 21:53:55.832 [Thread-8] WARN  [id=9743fc37-04d3-414f-824f-f708aedab14d] e.i.p.server.dispatcher.Dispatcher - [Dispatcher] Unknown command: register_email
+2026-05-02 21:53:55.833 [Thread-8] INFO  [id=50527c08-981a-4920-b474-d7283d897ed5] e.i.piikt.server.registration.User - [User] Processing auth command: register_email
+2026-05-02 21:53:59.159 [Thread-8] INFO  [id=50527c08-981a-4920-b474-d7283d897ed5] e.i.piikt.server.registration.User - [User] Auth command completed successfully: register_email
+2026-05-02 21:54:16.583 [main] INFO  [id=348ac00d-ea8d-4300-99bf-dad1480b79d7] e.i.p.c.a.DamerauLevenshteinDistance - [DamerauLevenshteinDistance] Calculating Damerau-Levenshtein distance between '517236' and 'отправить код повторно'
+2026-05-02 21:54:24.626 [Thread-10] WARN  [id=870659b5-bb21-4082-aa5f-a3439f2ecf5f] e.i.p.server.dispatcher.Dispatcher - [Dispatcher] Unknown command: register
+2026-05-02 21:54:24.626 [main] INFO  [id=74474150-c3fd-44b5-9df5-4a49bc3a8c03] e.i.p.client.mode.InteractiveMode - [InteractiveMode] Starting interactive mode
+2026-05-02 21:54:24.627 [Thread-10] INFO  [id=8ffdfe9e-8cff-4f7e-a462-b10a4a566ba3] e.i.piikt.server.registration.User - [User] Processing auth command: register
+2026-05-02 21:54:24.627 [Thread-10] INFO  [id=aa473704-34dd-4825-a96a-39c58f78f38c] e.i.p.server.registration.Register - [Register] Processing registration request for login: asdfghjui, email: alexandra.lishik@gmail.com
+2026-05-02 21:54:24.636 [Thread-10] INFO  [id=1cd9d1fa-eb39-4369-a485-4eae2ecbd6aa] e.itmo.piikt.server.registration.BD - [BD] User registered successfully: login=asdfghjui, rowsAffected=1
+2026-05-02 21:54:24.637 [Thread-10] INFO  [id=aa473704-34dd-4825-a96a-39c58f78f38c] e.i.p.server.registration.Register - [Register] Registration successful for login: asdfghjui
+2026-05-02 21:54:24.637 [Thread-10] INFO  [id=8ffdfe9e-8cff-4f7e-a462-b10a4a566ba3] e.i.piikt.server.registration.User - [User] Auth command completed successfully: register
+2026-05-02 21:54:24.639 [main] INFO  [id=74474150-c3fd-44b5-9df5-4a49bc3a8c03] e.i.p.c.manager.ValidationCommand - [ValidationCommand] Starting command validation loop
