@@ -43,16 +43,10 @@ public class ResetPassword implements CommandType {
 			}
 
 			logger.debug("Executing password reset in database for login: {}", login);
-			ServerResponse response = bd.newPassword(email, login, newPassword);
-
-			if (response.execution()) {
-				logger.info("Password reset successful for login: {}", login);
-			} else {
-				logger.warn("Password reset failed for login: {}", login);
+			if (command.getPassword() == null || newPassword.isEmpty()) {
+				return bd.selectUser(command.getLogin(), command.getEmail());
 			}
-
-			return response;
-
+			return bd.newPassword(email, login, newPassword);
 		} catch (Exception e) {
 			logger.error("Unexpected error during password reset for login {}: {}", command.getLogin(), e.getMessage(),
 					e);

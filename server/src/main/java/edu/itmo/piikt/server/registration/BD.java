@@ -144,4 +144,34 @@ public class BD {
 			return ServerResponse.error("Internal server error");
 		}
 	}
+
+	public ServerResponse selectUser(String login, String email) {
+		try (Context ignored = Context.newId()) {
+			String sql = "SELECT id FROM \"user\" WHERE login = ? AND email = ?";
+
+			logger.debug("Checking if user exists: login={}, email={}", login, email);
+
+			try (PreparedStatement preparedStatement = BDConnect.INSTANCE.getConnection().prepareStatement(sql)) {
+				preparedStatement.setString(1, login);
+				preparedStatement.setString(2, email);
+
+				try (ResultSet rs = preparedStatement.executeQuery()) {
+					if (rs.next()) {
+						int userId = rs.getInt("id");
+						logger.info("User found: login={}, email={}, userId={}", login, email, userId);
+						return ServerResponse.successfulCompletion("User found", userId);
+					} else {
+						logger.warn("User not found: login={}, email={}", login, email);
+						return ServerResponse.error("User with this login and email not found");
+					}
+				}
+			} catch (SQLException e) {
+				logger.error("Database error while checking user: {}", e.getMessage(), e);
+				return ServerResponse.error("Database error, please try again later");
+			}
+		} catch (Exception e) {
+			logger.error("Unexpected error in selectUser: {}", e.getMessage(), e);
+			return ServerResponse.error("Internal server error");
+		}
+	}
 }
