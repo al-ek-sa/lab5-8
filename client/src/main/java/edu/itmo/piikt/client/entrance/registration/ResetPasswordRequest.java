@@ -55,8 +55,8 @@ public class ResetPasswordRequest implements Request {
 			io.println("Логин должен быть не менее 8 символов");
 			login = io.readLine();
 		}
-		ClientCommand clientCommand = ClientCommand.builder().nameCommand("reset_password").login(login).email(email).build();
+		ClientCommand clientCommand = ClientCommand.builder().nameCommand("reset_password").login(login).email(email)
+				.build();
 		ServerResponse serverResponse = network.send(clientCommand);
-		return ClientCommand.builder().nameCommand("reset_password").login(login).email(email).build();
 	}
 }

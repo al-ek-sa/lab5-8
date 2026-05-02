@@ -42,11 +42,13 @@ public class LoginRequest implements Request {
 	}
 
 	/**
-	 * Executes login: prompts for login and password, validates them,
-	 * sends command to server and repeats input on failure.
+	 * Executes login: prompts for login and password, validates them, sends command
+	 * to server and repeats input on failure.
 	 *
-	 * @param network network client for sending command
-	 * @throws Exception if I/O error occurs
+	 * @param network
+	 *            network client for sending command
+	 * @throws Exception
+	 *             if I/O error occurs
 	 */
 	@Override
 	public void execute(Network network) throws Exception {
@@ -71,10 +73,7 @@ public class LoginRequest implements Request {
 				password = io.readLine();
 			}
 
-			ClientCommand clientCommand = ClientCommand.builder()
-					.nameCommand("login")
-					.login(login)
-					.password(password)
+			ClientCommand clientCommand = ClientCommand.builder().nameCommand("login").login(login).password(password)
 					.build();
 
 			ServerResponse serverResponse = network.send(clientCommand);

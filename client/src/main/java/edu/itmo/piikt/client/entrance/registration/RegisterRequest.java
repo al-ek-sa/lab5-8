@@ -66,7 +66,8 @@ public class RegisterRequest implements Request {
 			}
 			password = io.readLine();
 		}
-		ClientCommand clientCommand = ClientCommand.builder().nameCommand("register").email(email).login(login).password(password).build();
+		ClientCommand clientCommand = ClientCommand.builder().nameCommand("register").email(email).login(login)
+				.password(password).build();
 		ServerResponse serverResponse = network.send(clientCommand);
 		serverResponse.printToConsole();
 	}
