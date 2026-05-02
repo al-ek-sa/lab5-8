@@ -1,10 +1,9 @@
 package edu.itmo.piikt.client.entrance.registration;
 
-import edu.itmo.piikt.client.data.WorkerServer;
+import edu.itmo.piikt.client.entrance.Registr;
 import edu.itmo.piikt.client.network.Network;
-import edu.itmo.piikt.common.command.data.Commands;
+import edu.itmo.piikt.common.algorithms.DamerauLevenshteinDistance;
 import edu.itmo.piikt.common.io.provider.IOProvider;
-import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
 
@@ -82,7 +81,14 @@ public class LoginRequest implements Request {
 			if (serverResponse.execution()) {
 				success = true;
 			} else {
-				io.println("Ошибка входа. Попробуйте снова.");
+				io.println("Ошибка входа. Попробуйте снова (введите login), либо вернитесь в меню регистрации (exit).");
+				String string = io.readLine().toLowerCase();
+				if (DamerauLevenshteinDistance.distance(string, "exit") <= 1) {
+					Registr registr = new Registr(io);
+					registr.registration(network);
+					return;
+				}
+				execute(network);
 			}
 		}
 	}

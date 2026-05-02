@@ -21,31 +21,3 @@ CREATE INDEX idx_worker_name ON worker(name);
 CREATE INDEX idx_user_login ON "user"(login);
 CREATE INDEX idx_user_password ON "user"(password);
 CREATE INDEX idx_user_login_password ON "user"(login, password);
-
-ALTER TABLE "user" ADD COLUMN IF NOT EXISTS login_attempts INTEGER DEFAULT 0;
-ALTER TABLE "user" ADD COLUMN IF NOT EXISTS locked_until TIMESTAMP DEFAULT NULL;
-
-CREATE TABLE IF NOT EXISTS password_reset_tokens (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    code VARCHAR(6) NOT NULL,
-    expires_at TIMESTAMP NOT NULL,
-    attempts INTEGER DEFAULT 0,
-    used BOOLEAN DEFAULT FALSE
-    );
-
-CREATE TABLE email_verification_tokens (
-    id SERIAL PRIMARY KEY,
-    email VARCHAR(30) NOT NULL,
-    login VARCHAR(25) NOT NULL,
-    password_hash VARCHAR(40) NOT NULL,
-    code VARCHAR(6) NOT NULL,
-    expires_at TIMESTAMP NOT NULL,
-    attempts INTEGER DEFAULT 0,
-    used BOOLEAN DEFAULT FALSE
-);
-
-CREATE INDEX idx_reset_tokens_user_id ON password_reset_tokens(user_id);
-CREATE INDEX idx_reset_tokens_code ON password_reset_tokens(code);
-CREATE INDEX idx_email_verification_code ON email_verification_tokens(code);
-CREATE INDEX idx_email_verification_email ON email_verification_tokens(email);

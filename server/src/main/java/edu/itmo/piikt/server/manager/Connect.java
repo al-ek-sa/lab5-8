@@ -20,8 +20,10 @@ import java.util.concurrent.Executors;
 /**
  * Handles client connections, reading commands, and sending responses.
  *
- * @param dispatcher command dispatcher for processing client commands
- * @param command authentication command router
+ * @param dispatcher
+ *            command dispatcher for processing client commands
+ * @param command
+ *            authentication command router
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
@@ -37,8 +39,10 @@ public record Connect(Dispatcher dispatcher, User command) {
 	/**
 	 * Handles new client connection.
 	 *
-	 * @param selectionKey key containing the server channel
-	 * @throws IOException if accepting connection fails
+	 * @param selectionKey
+	 *            key containing the server channel
+	 * @throws IOException
+	 *             if accepting connection fails
 	 */
 	public void connected(SelectionKey selectionKey) throws IOException {
 		try (Context ignored = Context.newId()) {
@@ -57,8 +61,10 @@ public record Connect(Dispatcher dispatcher, User command) {
 	/**
 	 * Reads data from client.
 	 *
-	 * @param selectionKey key containing the client channel and attachment
-	 * @throws IOException if reading fails
+	 * @param selectionKey
+	 *            key containing the client channel and attachment
+	 * @throws IOException
+	 *             if reading fails
 	 */
 	public void reader(SelectionKey selectionKey) throws IOException {
 		var clientChannel = (SocketChannel) selectionKey.channel();
@@ -128,8 +134,10 @@ public record Connect(Dispatcher dispatcher, User command) {
 	/**
 	 * Sends response to client.
 	 *
-	 * @param selectionKey key containing the client channel and attachment
-	 * @throws IOException if writing fails
+	 * @param selectionKey
+	 *            key containing the client channel and attachment
+	 * @throws IOException
+	 *             if writing fails
 	 */
 	public void writer(SelectionKey selectionKey) throws IOException {
 		var clientChannel = (SocketChannel) selectionKey.channel();
