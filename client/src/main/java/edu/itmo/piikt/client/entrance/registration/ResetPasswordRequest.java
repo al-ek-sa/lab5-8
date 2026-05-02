@@ -43,10 +43,18 @@ public class ResetPasswordRequest implements Request {
 	 */
 	@Override
 	public ClientCommand execute() {
-		io.println("Введите логин");
-		login = io.readLine();
 		io.println("Введите электронную почту");
 		String email = io.readLine();
+		while (!isValidEmail(email)) {
+			io.println("Некорректный email. Пример: user@example.com");
+			email = io.readLine();
+		}
+		io.println("Введите логин (не менее 8 символов)");
+		login = io.readLine();
+		while (!isLongEnough(login, 8)) {
+			io.println("Логин должен быть не менее 8 символов");
+			login = io.readLine();
+		}
 		return ClientCommand.builder().nameCommand("reset_password").login(login).email(email).build();
 	}
 }

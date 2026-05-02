@@ -29,4 +29,37 @@ public interface Request {
 	 * @return user login string
 	 */
 	String user();
+
+	/**
+	 * Basic email format validation.
+	 *
+	 * @param email email to validate
+	 * @return true if email matches pattern, false otherwise
+	 */
+	default boolean isValidEmail(String email) {
+		if (email == null || email.isBlank()) return false;
+		return email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+	}
+
+	/**
+	 * Checks if string contains at least one special character: *, _, .
+	 *
+	 * @param str string to check
+	 * @return true if special character found, false otherwise
+	 */
+	default boolean hasSpecialCharacter(String str) {
+		if (str == null) return false;
+		return str.contains("*") || str.contains("_") || str.contains(".");
+	}
+
+	/**
+	 * Checks if string length is at least minLength.
+	 *
+	 * @param str string to check
+	 * @param minLength minimum required length
+	 * @return true if length >= minLength, false otherwise
+	 */
+	default boolean isLongEnough(String str, int minLength) {
+		return str != null && str.length() >= minLength;
+	}
 }
