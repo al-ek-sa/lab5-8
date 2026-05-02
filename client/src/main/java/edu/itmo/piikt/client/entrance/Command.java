@@ -4,6 +4,7 @@ import edu.itmo.piikt.client.entrance.registration.LoginRequest;
 import edu.itmo.piikt.client.entrance.registration.RegisterRequest;
 import edu.itmo.piikt.client.entrance.registration.Request;
 import edu.itmo.piikt.client.entrance.registration.ResetPasswordRequest;
+import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.sc.ClientCommand;
 import lombok.Data;
@@ -35,12 +36,11 @@ public class Command {
 	 *
 	 * @param commandName
 	 *            name of the command to execute (login, register, reset_password)
-	 * @return ClientCommand ready to be sent to the server
 	 */
-	public ClientCommand executeCommand(String commandName) {
+	public void executeCommand(String commandName, Network network) throws Exception {
 		Request request = command.get(commandName);
 		request.getDescription();
-		return request.execute();
+		request.execute(network);
 	}
 
 	/**

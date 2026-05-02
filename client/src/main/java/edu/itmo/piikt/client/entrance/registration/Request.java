@@ -1,5 +1,6 @@
 package edu.itmo.piikt.client.entrance.registration;
 
+import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.sc.ClientCommand;
 
 /**
@@ -13,10 +14,8 @@ public interface Request {
 	/**
 	 * Executes the request and creates a client command for the server. Collects
 	 * necessary data from user input and builds a command object.
-	 *
-	 * @return ClientCommand ready to be sent to the server
 	 */
-	ClientCommand execute();
+	void execute(Network network) throws Exception;
 	/**
 	 * Displays the description of the request operation. Shows a prompt message to
 	 * guide the user through the authentication process.
@@ -37,8 +36,8 @@ public interface Request {
 	 * @return true if email matches pattern, false otherwise
 	 */
 	default boolean isValidEmail(String email) {
-		if (email == null || email.isBlank()) return false;
-		return email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+		if (email == null || email.isBlank()) return true;
+		return !email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
 	}
 
 	/**
@@ -48,8 +47,8 @@ public interface Request {
 	 * @return true if special character found, false otherwise
 	 */
 	default boolean hasSpecialCharacter(String str) {
-		if (str == null) return false;
-		return str.contains("*") || str.contains("_") || str.contains(".");
+		if (str == null) return true;
+		return !str.contains("*") && !str.contains("_") && !str.contains(".");
 	}
 
 	/**
@@ -60,6 +59,6 @@ public interface Request {
 	 * @return true if length >= minLength, false otherwise
 	 */
 	default boolean isLongEnough(String str, int minLength) {
-		return str != null && str.length() >= minLength;
+		return str == null || str.length() < minLength;
 	}
 }

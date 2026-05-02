@@ -1,7 +1,9 @@
 package edu.itmo.piikt.client.entrance.registration;
 
+import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.sc.ClientCommand;
+import edu.itmo.piikt.common.sc.ServerResponse;
 
 /**
  * Password reset request handler for the client side. Collects login and email
@@ -38,23 +40,23 @@ public class ResetPasswordRequest implements Request {
 	/**
 	 * Executes the password reset request. Prompts the user for login and email,
 	 * then creates a command for the server.
-	 *
-	 * @return ClientCommand configured for password reset operation
 	 */
 	@Override
-	public ClientCommand execute() {
+	public void execute(Network network) throws Exception {
 		io.println("Введите электронную почту");
 		String email = io.readLine();
-		while (!isValidEmail(email)) {
+		while (isValidEmail(email)) {
 			io.println("Некорректный email. Пример: user@example.com");
 			email = io.readLine();
 		}
 		io.println("Введите логин (не менее 8 символов)");
 		login = io.readLine();
-		while (!isLongEnough(login, 8)) {
+		while (isLongEnough(login, 8)) {
 			io.println("Логин должен быть не менее 8 символов");
 			login = io.readLine();
 		}
+		ClientCommand clientCommand = ClientCommand.builder().nameCommand("reset_password").login(login).email(email).build();
+		ServerResponse serverResponse = network.send(clientCommand);
 		return ClientCommand.builder().nameCommand("reset_password").login(login).email(email).build();
 	}
 }

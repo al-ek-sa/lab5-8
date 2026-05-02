@@ -30,8 +30,7 @@ public class MainClient {
 			client.connect();
 			IOProvider io = new IOConsole();
 			Registr registr = new Registr(io);
-			ClientCommand clientCommand = registr.registration();
-			client.send(clientCommand);
+			registr.registration(client);
 			InteractiveMode interactiveMode = new InteractiveMode();
 			interactiveMode.execute(client, io, registr);
 			client.close();

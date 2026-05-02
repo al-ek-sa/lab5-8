@@ -1,5 +1,6 @@
 package edu.itmo.piikt.client.entrance;
 
+import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.algorithms.DamerauLevenshteinDistance;
 import edu.itmo.piikt.common.sc.ClientCommand;
@@ -37,22 +38,17 @@ public class Registr {
 	 * Processes the authentication command selection. Reads user input and uses
 	 * fuzzy matching to identify the intended command. Supports login, register,
 	 * and reset_password commands with typo tolerance.
-	 *
-	 * @return ClientCommand for the selected authentication method, or null if
-	 *         command not recognized
 	 */
-	public ClientCommand registration() {
+	public void registration(Network network) throws Exception {
 		command.show();
 		type = io.readLine();
 		if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "login") <= 1) {
-			return command.executeCommand("login");
+			command.executeCommand("login", network);
 		} else if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "register") <= 1) {
-			return command.executeCommand("register");
+			command.executeCommand("register", network);
 
 		} else if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "reset_password") <= 1) {
-			return command.executeCommand("reset_password");
+			command.executeCommand("reset_password", network);
 		}
-
-		return null;
 	}
 }

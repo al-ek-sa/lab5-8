@@ -1,7 +1,12 @@
 package edu.itmo.piikt.client.entrance.registration;
 
+import edu.itmo.piikt.client.data.WorkerServer;
+import edu.itmo.piikt.client.network.Network;
+import edu.itmo.piikt.common.command.data.Commands;
 import edu.itmo.piikt.common.io.provider.IOProvider;
+import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.sc.ClientCommand;
+import edu.itmo.piikt.common.sc.ServerResponse;
 
 /**
  * Login request handler for the client side. Collects login and password from
@@ -37,30 +42,49 @@ public class LoginRequest implements Request {
 	}
 
 	/**
-	 * Executes the login request. Prompts the user for login and password, then
-	 * creates a command for the server.
+	 * Executes login: prompts for login and password, validates them,
+	 * sends command to server and repeats input on failure.
 	 *
-	 * @return ClientCommand configured for login operation
+	 * @param network network client for sending command
+	 * @throws Exception if I/O error occurs
 	 */
 	@Override
-	public ClientCommand execute() {
-		io.println("Введите логин (не менее 8 символов)");
-		login = io.readLine();
-		while (!isLongEnough(login, 8)) {
-			io.println("Логин должен быть не менее 8 символов");
-			login = io.readLine();
-		}
+	public void execute(Network network) throws Exception {
+		boolean success = false;
 
-		io.println("Введите пароль (должен быть не менее 8 символов и содержать минимум 1 спецсимвол: * _ .)");
-		String password = io.readLine();
-		while (!isLongEnough(password, 8) || !hasSpecialCharacter(password)) {
-			if (!isLongEnough(password, 8)) {
-				io.println("Пароль должен быть не менее 8 символов");
-			} else if (!hasSpecialCharacter(password)) {
-				io.println("Пароль должен содержать хотя бы один спецсимвол: * _ .");
+		while (!success) {
+			io.println("Введите логин (не менее 8 символов)");
+			login = io.readLine();
+			while (!isLongEnough(login, 8)) {
+				io.println("Логин должен быть не менее 8 символов");
+				login = io.readLine();
 			}
-			password = io.readLine();
+
+			io.println("Введите пароль (должен быть не менее 8 символов и содержать минимум 1 спецсимвол: * _ .)");
+			String password = io.readLine();
+			while (!isLongEnough(password, 8) || !hasSpecialCharacter(password)) {
+				if (!isLongEnough(password, 8)) {
+					io.println("Пароль должен быть не менее 8 символов");
+				} else if (!hasSpecialCharacter(password)) {
+					io.println("Пароль должен содержать хотя бы один спецсимвол: * _ .");
+				}
+				password = io.readLine();
+			}
+
+			ClientCommand clientCommand = ClientCommand.builder()
+					.nameCommand("login")
+					.login(login)
+					.password(password)
+					.build();
+
+			ServerResponse serverResponse = network.send(clientCommand);
+			serverResponse.printToConsole();
+
+			if (serverResponse.execution()) {
+				success = true;
+			} else {
+				io.println("Ошибка входа. Попробуйте снова.");
+			}
 		}
-		return ClientCommand.builder().nameCommand("login").login(login).password(password).build();
 	}
 }
