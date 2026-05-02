@@ -28,6 +28,7 @@ public class User {
 		handlers.put("login", com -> new Login().execute(com));
 		handlers.put("register", com -> new Register().execute(com));
 		handlers.put("reset_password", com -> new ResetPassword().execute(com));
+		handlers.put("register_email", com -> new RegisterEmail().execute(com));
 		logger.debug("Auth command handlers initialized: {}", handlers.keySet());
 	}
 

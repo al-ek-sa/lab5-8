@@ -1,5 +1,6 @@
 package edu.itmo.piikt.server.command.server;
 
+import edu.itmo.piikt.common.sc.ServerResponse;
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
 
@@ -109,7 +110,7 @@ public class EmailSender {
 			</html>
 			""";
 
-	public static void sendVerificationCode(String toEmail, String code) {
+	public static ServerResponse sendVerificationCode(String toEmail, String code) {
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -133,8 +134,10 @@ public class EmailSender {
 			message.setContent(htmlContent, "text/html; charset=UTF-8");
 
 			Transport.send(message);
+			return ServerResponse.successfulCompletion("Сообщение успешно отправлено");
 		} catch (MessagingException e) {
 			e.printStackTrace();
+			return ServerResponse.error("Сообщение не было отправлено");
 		}
 	}
 }
