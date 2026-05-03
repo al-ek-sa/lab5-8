@@ -2,15 +2,19 @@ package edu.itmo.piikt.server.command.model;
 
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
+import edu.itmo.piikt.common.models.Worker;
 import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
 import edu.itmo.piikt.server.command.interfaces.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.server.manager.BDConnect;
+import edu.itmo.piikt.server.manager.FirestoreService;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 /**
  * The class implements the command remove_lower {element} : remove from the
@@ -23,7 +27,17 @@ import java.time.format.DateTimeParseException;
 @NoArgsConstructor
 public final class RemoveLowerCommand implements CommandType {
 	private static final AppLogger logger = new AppLogger(RemoveLowerCommand.class);
-
+	private FirestoreService firestore;
+	private FirestoreService getFirestore() {
+		if (firestore == null) {
+			try {
+				firestore = new FirestoreService();
+			} catch (IOException e) {
+				logger.error("Failed to initialize Firestore: {}", e.getMessage(), e);
+			}
+		}
+		return firestore;
+	}
 	/**
 	 * Executes the REMOVE_LOWER command
 	 *
@@ -44,6 +58,7 @@ public final class RemoveLowerCommand implements CommandType {
 				logger.warn("Date argument is empty");
 				return ServerResponse.error("Дата не введена");
 			}
+			// проверить права
 
 			LocalDate date;
 			try {
@@ -56,6 +71,15 @@ public final class RemoveLowerCommand implements CommandType {
 
 			var listWorker = HistoryWorker.INSTANCE.getListWorker();
 			int sizeBefore = listWorker.size();
+			List<Worker> listRemove = listWorker.stream().filter(worker -> worker.getStartDate().isAfter(date))
+					.toList();
+			ServerResponse serverResponse = null;
+			for (Worker worker : listRemove)
+				serverResponse = getFirestore().deleteWorker(worker.getUuid());
+			assert serverResponse != null;
+			if (!serverResponse.exception()) {
+				return serverResponse;
+			}
 			listWorker.removeIf(worker -> worker.getStartDate().isAfter(date));
 			int removed = sizeBefore - listWorker.size();
 			logger.info("Removed {} workers with start date after {}", removed, date);

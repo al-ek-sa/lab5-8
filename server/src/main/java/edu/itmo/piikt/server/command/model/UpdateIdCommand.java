@@ -7,7 +7,10 @@ import edu.itmo.piikt.common.sc.ServerResponse;
 import edu.itmo.piikt.server.command.interfaces.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.server.manager.BDConnect;
+import edu.itmo.piikt.server.manager.FirestoreService;
 import lombok.NoArgsConstructor;
+
+import java.io.IOException;
 
 /**
  * The class implements the command update id {element} : update the value of
@@ -20,7 +23,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public final class UpdateIdCommand implements CommandType {
 	private static final AppLogger logger = new AppLogger(UpdateIdCommand.class);
-
+	private FirestoreService firestore;
+	private FirestoreService getFirestore() {
+		if (firestore == null) {
+			try {
+				firestore = new FirestoreService();
+			} catch (IOException e) {
+				logger.error("Failed to initialize Firestore: {}", e.getMessage(), e);
+			}
+		}
+		return firestore;
+	}
 	/**
 	 * Executes the UPDATE command
 	 *

@@ -2,12 +2,18 @@ package edu.itmo.piikt.server.command.model;
 
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
+import edu.itmo.piikt.common.models.Worker;
 import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
+import edu.itmo.piikt.server.command.bd.SearchWorker;
 import edu.itmo.piikt.server.command.interfaces.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.server.manager.BDConnect;
+import edu.itmo.piikt.server.manager.FirestoreService;
 import lombok.NoArgsConstructor;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * The class implements the command remove_by_id id : remove an element from the
@@ -20,7 +26,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public final class RemoveByIdCommand implements CommandType {
 	private static final AppLogger logger = new AppLogger(RemoveByIdCommand.class);
-
+	private FirestoreService firestore;
+	private FirestoreService getFirestore() {
+		if (firestore == null) {
+			try {
+				firestore = new FirestoreService();
+			} catch (IOException e) {
+				logger.error("Failed to initialize Firestore: {}", e.getMessage(), e);
+			}
+		}
+		return firestore;
+	}
 	/**
 	 * Executes the REMOVE_BY_ID command
 	 *
@@ -47,7 +63,14 @@ public final class RemoveByIdCommand implements CommandType {
 				logger.warn("Worker with id {} not found", id);
 				return ServerResponse.error("Работника с таким id не существует");
 			}
-
+			ServerResponse serverResponse = SearchWorker.getWorkerIdsByUserId(clientCommand, id);
+			if (!serverResponse.execution()) {
+				return serverResponse;
+			}
+			serverResponse = getFirestore().deleteWorker(id);
+			if (!serverResponse.exception()) {
+				return serverResponse;
+			}
 			listWorker.removeIf(worker -> worker.getUuid().equals(id));
 			logger.info("Worker with id {} removed successfully", id);
 			return ServerResponse.successfulCompletion("REMOVE BY ID");

@@ -82,18 +82,18 @@ public class FirestoreService {
 		}
 	}
 
-	public boolean deleteWorker(String workerId) {
+	public ServerResponse deleteWorker(String workerId) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Deleting worker from Firestore: id={}", workerId);
 			firestore.collection("workers").document(workerId).delete().get();
 			logger.info("Worker deleted from Firestore: id={}", workerId);
-			return true;
+			return ServerResponse.successfulCompletion("Работник успешно удалился");
 		} catch (InterruptedException | ExecutionException e) {
 			logger.error("Failed to delete worker: {}", e.getMessage(), e);
-			return false;
+			return ServerResponse.error("Ошибка удаления");
 		} catch (Exception e) {
 			logger.error("Unexpected error deleting worker: {}", e.getMessage(), e);
-			return false;
+			return ServerResponse.error("Ошибка удаления");
 		}
 	}
 
