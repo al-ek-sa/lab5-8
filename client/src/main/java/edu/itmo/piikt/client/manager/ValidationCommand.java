@@ -59,7 +59,7 @@ public enum ValidationCommand {
 	public void setNetwork(Network network) {
 		this.network = network;
 		this.addCommand = new AddCommand(network, worker);
-		this.updateCommand = new UpdateCommand(network, addCommand);
+		this.updateCommand = new UpdateCommand(network, worker);
 	}
 
 	/**
@@ -171,7 +171,7 @@ public enum ValidationCommand {
 							}
 							if (com2.equals(Commands.UPDATE.getName())) {
 								logger.debug("Executing UPDATE command for id: {}", argument);
-								updateCommand.execute(provider, com2, argument).printToConsole();
+								updateCommand.execute(provider, argument, user).printToConsole();
 								continue;
 							}
 							ClientCommand clientCommand = ClientCommand.builder().nameCommand(com2).user(user)

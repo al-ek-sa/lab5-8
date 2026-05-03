@@ -45,7 +45,7 @@ public record AddCommand(Network network, Worker worker) implements CommandExecu
 			ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName())
 					.user((String) arg[0]).data(workerData).build();
 			ServerResponse serverResponse = network.send(clientCommand);
-			return add(serverResponse, io);
+			return add(serverResponse, io, (String) arg[0]);
 		} catch (Exception e) {
 			logger.error("ADD command failed: {}", e);
 			throw new RuntimeException(e);
@@ -61,7 +61,7 @@ public record AddCommand(Network network, Worker worker) implements CommandExecu
 	 *            input/output provider for user interaction
 	 * @return successful server response
 	 */
-	private ServerResponse add(ServerResponse serverResponse, IOProvider io) {
+	private ServerResponse add(ServerResponse serverResponse, IOProvider io, String user) {
 		var workerServer = new WorkerServer(io);
 		var server = serverResponse;
 		while (true) {
@@ -74,7 +74,7 @@ public record AddCommand(Network network, Worker worker) implements CommandExecu
 					// Request corrected data from user
 					var data = workerServer.build(server);
 					ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName()).data(data)
-							.build();
+							.user(user).build();
 					server = network.send(clientCommand);
 				}
 			} catch (Exception e) {

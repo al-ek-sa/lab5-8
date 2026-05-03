@@ -1,16 +1,24 @@
 package edu.itmo.piikt.server.command.model;
 
+import edu.itmo.piikt.common.data.MessageExceptionValidation;
+import edu.itmo.piikt.common.data.WorkerData;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
+import edu.itmo.piikt.common.models.Worker;
 import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
+import edu.itmo.piikt.server.command.bd.WorkerAdd;
 import edu.itmo.piikt.server.command.interfaces.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.server.manager.BDConnect;
 import edu.itmo.piikt.server.manager.FirestoreService;
+import edu.itmo.piikt.server.validation.object.BuilderWorker;
+import edu.itmo.piikt.server.validation.object.ValidationError;
+import edu.itmo.piikt.server.validation.object.WorkerBuilder;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * The class implements the command update id {element} : update the value of
@@ -22,8 +30,12 @@ import java.io.IOException;
  */
 @NoArgsConstructor
 public final class UpdateIdCommand implements CommandType {
-	private static final AppLogger logger = new AppLogger(UpdateIdCommand.class);
+	private static final AppLogger logger = new AppLogger(AddCommand.class);
+	private final BuilderWorker builderWorker = new BuilderWorker();
+	private final WorkerBuilder workerBuilder = new WorkerBuilder();
+	private final WorkerAdd workerAdd = new WorkerAdd();
 	private FirestoreService firestore;
+
 	private FirestoreService getFirestore() {
 		if (firestore == null) {
 			try {
@@ -34,36 +46,63 @@ public final class UpdateIdCommand implements CommandType {
 		}
 		return firestore;
 	}
-	/**
-	 * Executes the UPDATE command
-	 *
-	 * @param clientCommand
-	 *            command containing the worker ID
-	 * @return ServerResponse indicating whether worker exists
-	 */
+
 	@Override
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			if (!BDConnect.INSTANCE.isConnected()) {
+				logger.warn("Database not connected");
 				return ServerResponse.error("на данный момент, команда не доступна, повторите попытку позже");
 			}
-			String id = clientCommand.getArgumentCommand();
-			logger.info("Executing UPDATE command for id: {}", id);
-			if (id == null || id.trim().isEmpty()) {
-				logger.warn("ID is empty");
-				return ServerResponse.error("ID не введен");
+
+			String targetId = clientCommand.getArgumentCommand();
+			logger.info("UPDATE command started for id: {}", targetId);
+
+			if (targetId == null || targetId.trim().isEmpty()) {
+				logger.warn("Empty worker id provided");
+				return ServerResponse.error("Worker ID cannot be empty");
 			}
-			var workers = HistoryWorker.INSTANCE.getListWorker();
-			boolean match = workers.stream().anyMatch(worker -> worker.getUuid().equals(id));
-			if (!match) {
-				logger.warn("Worker with id {} not found", id);
-				return ServerResponse.error("Нет работника с таким ID");
+
+			WorkerData dataWorker = (WorkerData) clientCommand.getData();
+			logger.debug("Worker data received: name={}, salary={}", dataWorker.getName(), dataWorker.getSalary());
+
+			Object result = builderWorker.data(dataWorker);
+			if (result instanceof WorkerData) {
+				Worker worker = workerBuilder.builerWorker(dataWorker);
+				worker.setUuid(clientCommand.getArgumentCommand());
+				logger.info("Worker UUID set to: {}", worker.getUuid());
+
+				ServerResponse serverResponse = workerAdd.newWorker(clientCommand, worker);
+				if (serverResponse.execution()) {
+					logger.info("PostgreSQL save successful for id: {}", worker.getUuid());
+
+					FirestoreService fs = getFirestore();
+					if (fs != null) {
+						ServerResponse saved = fs.saveWorker(worker);
+						if (saved.execution()) {
+							logger.info("Firestore save successful for id: {}", worker.getUuid());
+							HistoryWorker.INSTANCE.add(worker);
+							logger.info("Worker added to memory. Total workers: {}",
+									HistoryWorker.INSTANCE.getListWorker().size());
+						} else {
+							logger.warn("Firestore save failed for id: {}", worker.getUuid());
+						}
+					}
+					logger.info("UPDATE command completed successfully for id: {}", targetId);
+					return ServerResponse.successfulCompletion("UPDATE");
+				} else {
+					logger.error("PostgreSQL save failed for id: {}", targetId);
+					return serverResponse;
+				}
+			} else if (result instanceof ValidationError(List<MessageExceptionValidation>errors,Object data)) {
+				logger.warn("Validation failed: {} errors", errors.size());
+				return ServerResponse.error("Incorrect data entered", errors, data);
 			}
-			workers.removeIf(worker -> worker.getUuid().equals(id));
-			logger.info("Worker with id {} removed, ready for update", id);
-			return ServerResponse.successfulCompletion("Работник найден");
+
+			logger.error("Unknown validation result type: {}", result.getClass().getName());
+			return ServerResponse.error("Internal server error while processing UPDATE command");
 		} catch (Exception e) {
-			logger.error("Error executing UPDATE command: {}", e);
+			logger.error("Error executing UPDATE command: {}", e.getMessage(), e);
 			throw new RuntimeException(e);
 		}
 	}
