@@ -145,21 +145,18 @@ public record Connect(Dispatcher dispatcher, User command) {
 		var serverResponse = (ServerResponse) client.getMessage();
 
 		if (serverResponse == null) {
-			logger.warn("No response to send for client {}", clientChannel.getRemoteAddress());
 			selectionKey.interestOps(SelectionKey.OP_READ);
 			selectionKey.selector().wakeup();
 			return;
 		}
-
+		final ByteBuffer responseBuffer = DS.serialize(serverResponse);
+		final ClientData clientData = client;
 		responsePool.submit(() -> {
 			try (Context ignored = Context.newId()) {
-				ByteBuffer byteBuffer = DS.serialize(serverResponse);
-				clientChannel.write(byteBuffer);
+				clientChannel.write(responseBuffer);
 				logger.debug("Response sent to {}", clientChannel.getRemoteAddress());
-				client.setMessage(null);
-				client.clearReader();
-				selectionKey.interestOps(SelectionKey.OP_READ);
-				selectionKey.selector().wakeup();
+				clientData.setMessage(null);
+				clientData.clearReader();
 			} catch (IOException e) {
 				logger.error("Error sending response: {}", e.getMessage());
 				try {
@@ -169,9 +166,9 @@ public record Connect(Dispatcher dispatcher, User command) {
 				}
 			} catch (Exception e) {
 				logger.error("Unexpected error sending response: {}", e.getMessage());
-				selectionKey.interestOps(SelectionKey.OP_READ);
-				selectionKey.selector().wakeup();
 			}
 		});
+		selectionKey.interestOps(SelectionKey.OP_READ);
+		selectionKey.selector().wakeup();
 	}
 }

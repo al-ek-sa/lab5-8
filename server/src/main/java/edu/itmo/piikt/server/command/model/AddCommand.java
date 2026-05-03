@@ -72,7 +72,8 @@ public final class AddCommand implements CommandType {
 					if (fs != null) {
 						boolean saved = fs.saveWorker(worker);
 						if (!saved) {
-							logger.warn("Worker saved to PostgreSQL but failed to save to Firestore: id={}", worker.getUuid());
+							logger.warn("Worker saved to PostgreSQL but failed to save to Firestore: id={}",
+									worker.getUuid());
 						} else {
 							logger.info("Worker saved to Firestore: id={}", worker.getUuid());
 						}
