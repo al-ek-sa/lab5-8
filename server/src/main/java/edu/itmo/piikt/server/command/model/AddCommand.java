@@ -33,7 +33,7 @@ public final class AddCommand implements CommandType {
 	private static final AppLogger logger = new AppLogger(AddCommand.class);
 	private final BuilderWorker builderWorker = new BuilderWorker();
 	private final WorkerBuilder workerBuilder = new WorkerBuilder();
-	WorkerAdd workerAdd = new WorkerAdd();
+	private final WorkerAdd workerAdd = new WorkerAdd();
 	private FirestoreService firestore;
 	private FirestoreService getFirestore() {
 		if (firestore == null) {

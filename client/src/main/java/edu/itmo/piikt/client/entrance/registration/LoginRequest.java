@@ -56,17 +56,17 @@ public class LoginRequest implements Request {
 		while (!success) {
 			io.println("Введите логин (не менее 8 символов)");
 			login = io.readLine();
-			while (!isLongEnough(login, 8)) {
+			while (isLongEnough(login, 8)) {
 				io.println("Логин должен быть не менее 8 символов");
 				login = io.readLine();
 			}
 
 			io.println("Введите пароль (должен быть не менее 8 символов и содержать минимум 1 спецсимвол: * _ .)");
 			String password = io.readLine();
-			while (!isLongEnough(password, 8) || !hasSpecialCharacter(password)) {
-				if (!isLongEnough(password, 8)) {
+			while (isLongEnough(password, 8) || hasSpecialCharacter(password)) {
+				if (isLongEnough(password, 8)) {
 					io.println("Пароль должен быть не менее 8 символов");
-				} else if (!hasSpecialCharacter(password)) {
+				} else if (hasSpecialCharacter(password)) {
 					io.println("Пароль должен содержать хотя бы один спецсимвол: * _ .");
 				}
 				password = io.readLine();

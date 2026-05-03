@@ -7,6 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.HexFormat;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Database connection manager implemented as an enum singleton. Provides
  * database operations for user registration, authentication, and connection
@@ -38,20 +40,8 @@ public enum BDConnect {
 				connection = DriverManager.getConnection(URL, USER, PASSWORD);
 				break;
 			} catch (SQLException e) {
-				Thread.sleep(100);
+				sleep(100);
 			}
-		}
-	}
-
-	/**
-	 * Closes the database connection if it is open.
-	 *
-	 * @throws SQLException
-	 *             if a database access error occurs
-	 */
-	public void close() throws SQLException {
-		if (connection != null && !connection.isClosed()) {
-			connection.close();
 		}
 	}
 

@@ -4,8 +4,6 @@ import edu.itmo.piikt.common.util.GeneratorId;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.Date;
 import lombok.*;
 
 /**

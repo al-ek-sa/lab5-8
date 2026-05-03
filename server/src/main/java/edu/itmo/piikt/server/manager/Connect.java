@@ -136,10 +136,8 @@ public record Connect(Dispatcher dispatcher, User command) {
 	 *
 	 * @param selectionKey
 	 *            key containing the client channel and attachment
-	 * @throws IOException
-	 *             if writing fails
 	 */
-	public void writer(SelectionKey selectionKey) throws IOException {
+	public void writer(SelectionKey selectionKey) {
 		var clientChannel = (SocketChannel) selectionKey.channel();
 		var client = (ClientData) selectionKey.attachment();
 		var serverResponse = (ServerResponse) client.getMessage();

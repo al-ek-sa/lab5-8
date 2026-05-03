@@ -62,7 +62,7 @@ public class RegisterRequest implements Request {
 		email(network);
 		io.println("Введите логин(больше 8 символов)");
 		login = io.readLine();
-		while (!isLongEnough(login, 8)) {
+		while (isLongEnough(login, 8)) {
 			io.println("Логин должен состоять не менее чем из 8 символов");
 			login = io.readLine();
 		}
@@ -73,10 +73,10 @@ public class RegisterRequest implements Request {
 			io.println(
 					"Введите новый пароль (должен быть не менее 8 символов и содержать минимум 1 спецсимвол: * _ .)");
 			password = io.readLine();
-			while (!isLongEnough(password, 8) || !hasSpecialCharacter(password)) {
-				if (!isLongEnough(password, 8)) {
+			while (isLongEnough(password, 8) || hasSpecialCharacter(password)) {
+				if (isLongEnough(password, 8)) {
 					io.println("Пароль должен быть не менее 8 символов");
-				} else if (!hasSpecialCharacter(password)) {
+				} else if (hasSpecialCharacter(password)) {
 					io.println("Пароль должен содержать хотя бы один спецсимвол: * _ .");
 				}
 				password = io.readLine();

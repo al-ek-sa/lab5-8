@@ -6,7 +6,6 @@ import edu.itmo.piikt.client.entrance.registration.Request;
 import edu.itmo.piikt.client.entrance.registration.ResetPasswordRequest;
 import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.io.provider.IOProvider;
-import edu.itmo.piikt.common.sc.ClientCommand;
 import lombok.Data;
 
 import java.util.HashMap;

@@ -50,8 +50,8 @@ public interface Request {
 	 */
 	default boolean hasSpecialCharacter(String str) {
 		if (str == null)
-			return false;
-		return str.contains("*") || str.contains("_") || str.contains(".");
+			return true;
+		return !str.contains("*") && !str.contains("_") && !str.contains(".");
 	}
 
 	/**
@@ -65,7 +65,7 @@ public interface Request {
 	 */
 	default boolean isLongEnough(String str, int minLength) {
 		if (str == null)
-			return false;
-		return str.length() >= minLength;
+			return true;
+		return str.length() < minLength;
 	}
 }

@@ -16,7 +16,7 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
-import static java.lang.Thread.sleep;
+import static java.lang.Thread.*;
 
 /**
  * Network client for communication with the server
@@ -51,7 +51,7 @@ public class Network implements Client {
 	 * Attempts to connect to the server with infinite retries
 	 */
 	private void connectWithRetry() {
-		while (!Thread.currentThread().isInterrupted()) {
+		while (!currentThread().isInterrupted()) {
 			try (Context ignored = Context.newId()) {
 				logger.info("Connecting to {}:{}", HOST, PORT);
 				socketChannel = SocketChannel.open();
@@ -65,7 +65,7 @@ public class Network implements Client {
 				try {
 					sleep(250);
 				} catch (InterruptedException ex) {
-					Thread.currentThread().interrupt();
+					currentThread().interrupt();
 					return;
 				}
 			}

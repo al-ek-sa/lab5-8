@@ -38,10 +38,6 @@ public class Context implements AutoCloseable {
 		}
 	}
 
-	public static String getId() {
-		return MDC.get(KEY);
-	}
-
 	public static Context newId() {
 		return new Context();
 	}

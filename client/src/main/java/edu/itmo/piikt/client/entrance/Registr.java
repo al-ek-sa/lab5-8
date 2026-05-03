@@ -3,7 +3,6 @@ package edu.itmo.piikt.client.entrance;
 import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.algorithms.DamerauLevenshteinDistance;
-import edu.itmo.piikt.common.sc.ClientCommand;
 import lombok.Data;
 
 /**

@@ -136,7 +136,6 @@ public class EmailSender {
 			Transport.send(message);
 			return ServerResponse.successfulCompletion("Сообщение успешно отправлено");
 		} catch (MessagingException e) {
-			e.printStackTrace();
 			return ServerResponse.error("Сообщение не было отправлено");
 		}
 	}

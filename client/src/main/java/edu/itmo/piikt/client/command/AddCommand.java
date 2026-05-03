@@ -11,23 +11,19 @@ import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 /**
  * Command for adding a new Worker to the collection
  *
+ * @param network
+ *            Network client for sending requests to server
+ * @param worker
+ *            Worker builder for collecting input data
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-@AllArgsConstructor
-@Data
-public class AddCommand implements CommandExecute<ServerResponse> {
+public record AddCommand(Network network, Worker worker) implements CommandExecute<ServerResponse> {
 	private static final AppLogger logger = new AppLogger(AddCommand.class);
-	/** Network client for sending requests to server */
-	private Network network;
-	/** Worker builder for collecting input data */
-	private Worker worker;
 
 	/**
 	 * Executes the ADD command.

@@ -23,18 +23,6 @@ public enum ValidationMessage {
 
 	COORDINATE_Y("The entered number is less than -644, please try again"),
 
-	MAX_FLOAT("The number is too large, it exceeds " + Float.MAX_VALUE + ", please try again."),
-
-	MAX_INTEGER("The number is too large, it exceeds " + Integer.MAX_VALUE + ", please try again."),
-
-	MAX_LONG("The number is too large, it exceeds " + Long.MAX_VALUE + ", please try again."),
-
-	MIN_INTEGER("The number is too small, it is less than " + Integer.MIN_VALUE + ", please try again."),
-
-	MIN_LONG("The number is too small, it is less than " + Long.MIN_VALUE + ", please try again."),
-
-	MIN_FLOAT("The number is too small, it is less than " + Float.MIN_VALUE + ", please try again."),
-
 	NULL("The field is required, please try again"),
 
 	ENUM("The entered value does not match the numbers of the suggested options");
