@@ -21,3 +21,4 @@ CREATE INDEX idx_worker_name ON worker(name);
 CREATE INDEX idx_user_login ON "user"(login);
 CREATE INDEX idx_user_password ON "user"(password);
 CREATE INDEX idx_user_login_password ON "user"(login, password);
+ALTER TABLE worker ADD COLUMN create_date DATE DEFAULT NOW();

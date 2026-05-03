@@ -55,7 +55,7 @@ public class RegisterRequest implements Request {
 	public void execute(Network network) throws Exception {
 		io.println("Введите электронную почту");
 		email = io.readLine();
-		while (!isValidEmail(email)) {
+		while (isValidEmail(email)) {
 			io.println("Некорректный email, повторите ввод");
 			email = io.readLine();
 		}
@@ -67,19 +67,37 @@ public class RegisterRequest implements Request {
 			login = io.readLine();
 		}
 		io.println("Введите пароль (должен быть не менее 8 символов и содержать минимум 1 спецсимвол: * _ .)");
-		String password = io.readLine();
-		while (!isLongEnough(password, 8) || !hasSpecialCharacter(password)) {
-			if (isLongEnough(password, 8)) {
-				io.println("Пароль должен быть не менее 8 символов");
-			} else if (hasSpecialCharacter(password)) {
-				io.println("Пароль должен содержать хотя бы один спецсимвол: * _ .");
-			}
+		String password;
+		email(network);
+		while (true) {
+			io.println(
+					"Введите новый пароль (должен быть не менее 8 символов и содержать минимум 1 спецсимвол: * _ .)");
 			password = io.readLine();
+			while (!isLongEnough(password, 8) || !hasSpecialCharacter(password)) {
+				if (!isLongEnough(password, 8)) {
+					io.println("Пароль должен быть не менее 8 символов");
+				} else if (!hasSpecialCharacter(password)) {
+					io.println("Пароль должен содержать хотя бы один спецсимвол: * _ .");
+				}
+				password = io.readLine();
+			}
+			io.println("Введите пароль повторно");
+			String passwordTwo = io.readLine();
+			if (passwordTwo.equals(password)) {
+				io.println("Пароль успешно подтвержден");
+				break;
+			}
+			io.println("Пароли не совпадают, задайте пароли заново");
 		}
 		ClientCommand clientCommand = ClientCommand.builder().nameCommand("register").email(email).login(login)
 				.password(password).build();
 		ServerResponse serverResponse = network.send(clientCommand);
 		serverResponse.printToConsole();
+		if (!serverResponse.execution()) {
+			Registr registr = new Registr(io);
+			registr.registration(network);
+		}
+		io.println("Регистрация прошла успешно");
 	}
 
 	private void email(Network network) throws Exception {

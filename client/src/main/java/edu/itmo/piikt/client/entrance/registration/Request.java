@@ -1,7 +1,6 @@
 package edu.itmo.piikt.client.entrance.registration;
 
 import edu.itmo.piikt.client.network.Network;
-import edu.itmo.piikt.common.sc.ClientCommand;
 
 /**
  * Interface for client-side authentication requests. Defines the contract for
@@ -38,8 +37,8 @@ public interface Request {
 	 */
 	default boolean isValidEmail(String email) {
 		if (email == null || email.isBlank())
-			return false;
-		return email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+			return true;
+		return !email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
 	}
 
 	/**

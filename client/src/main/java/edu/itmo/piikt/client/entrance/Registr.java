@@ -40,15 +40,20 @@ public class Registr {
 	 * and reset_password commands with typo tolerance.
 	 */
 	public void registration(Network network) throws Exception {
-		command.show();
-		type = io.readLine();
-		if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "login") <= 1) {
-			command.executeCommand("login", network);
-		} else if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "register") <= 1) {
-			command.executeCommand("register", network);
+		while (true) {
+			command.show();
+			type = io.readLine();
+			if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "login") <= 1) {
+				command.executeCommand("login", network);
+				break;
+			} else if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "register") <= 1) {
+				command.executeCommand("register", network);
+				break;
 
-		} else if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "reset_password") <= 1) {
-			command.executeCommand("reset_password", network);
+			} else if (DamerauLevenshteinDistance.distance(type.toLowerCase(), "reset_password") <= 1) {
+				command.executeCommand("reset_password", network);
+				break;
+			}
 		}
 	}
 }

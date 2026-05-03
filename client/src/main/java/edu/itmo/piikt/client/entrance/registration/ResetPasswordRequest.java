@@ -8,7 +8,6 @@ import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
 
 import java.security.SecureRandom;
-import java.sql.DriverManager;
 
 /**
  * Password reset request handler for the client side. Collects login and email
@@ -56,8 +55,8 @@ public class ResetPasswordRequest implements Request {
 		boolean flag = true;
 		while (flag) {
 			io.println("Введите электронную почту");
-			String email = io.readLine();
-			while (!isValidEmail(email)) {
+			email = io.readLine();
+			while (isValidEmail(email)) {
 				io.println("Некорректный email");
 				email = io.readLine();
 			}
@@ -82,24 +81,35 @@ public class ResetPasswordRequest implements Request {
 				}
 			}
 		}
+		String password;
 		email(network);
-		String password = io.readLine();
-		while (!isLongEnough(password, 8) || !hasSpecialCharacter(password)) {
-			if (!isLongEnough(password, 8)) {
-				io.println("Пароль должен быть не менее 8 символов");
-			} else if (!hasSpecialCharacter(password)) {
-				io.println("Пароль должен содержать хотя бы один спецсимвол: * _ .");
-			}
+		while (true) {
+			io.println(
+					"Введите новый пароль (должен быть не менее 8 символов и содержать минимум 1 спецсимвол: * _ .)");
 			password = io.readLine();
+			while (!isLongEnough(password, 8) || !hasSpecialCharacter(password)) {
+				if (!isLongEnough(password, 8)) {
+					io.println("Пароль должен быть не менее 8 символов");
+				} else if (!hasSpecialCharacter(password)) {
+					io.println("Пароль должен содержать хотя бы один спецсимвол: * _ .");
+				}
+				password = io.readLine();
+			}
+			io.println("Введите пароль повторно");
+			String passwordTwo = io.readLine();
+			if (passwordTwo.equals(password)) {
+				io.println("Пароль успешно подтвержден");
+				break;
+			}
+			io.println("Пароли не совпадают, задайте пароли заново");
 		}
 		ClientCommand clientCommand = ClientCommand.builder().nameCommand("reset_password").login(login).email(email)
 				.password(password).build();
 		ServerResponse serverResponse = network.send(clientCommand);
-		if (serverResponse.execution()) {
-			return;
-		} else {
+		if (!serverResponse.execution()) {
 			execute(network);
 		}
+		io.println("Пароль успешно восстановлен");
 	}
 
 	private void email(Network network) throws Exception {

@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public final class UpdateIdCommand implements CommandType {
 	private static final AppLogger logger = new AppLogger(UpdateIdCommand.class);
-	private final WorkerUpdate workerUpdate = new WorkerUpdate();
 
 	/**
 	 * Executes the UPDATE command
@@ -42,7 +41,6 @@ public final class UpdateIdCommand implements CommandType {
 				logger.warn("ID is empty");
 				return ServerResponse.error("ID не введен");
 			}
-			workerUpdate.updateWorker(clientCommand, (Worker) clientCommand.getData());
 			var workers = HistoryWorker.INSTANCE.getListWorker();
 			boolean match = workers.stream().anyMatch(worker -> worker.getUuid().equals(id));
 			if (!match) {
