@@ -5,6 +5,7 @@ import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.models.Worker;
 import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
+import edu.itmo.piikt.server.command.bd.SearchWorkerList;
 import edu.itmo.piikt.server.command.interfaces.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.server.manager.BDConnect;
@@ -24,6 +25,9 @@ import java.util.List;
  * @version 4.1
  * @see HistoryWorker
  */
+// todo максимально не опционально(поиск прав на удаления каждого работника
+// отдельными запросами(бд пингуется жестоко) и добавляется тоже по одному
+// работнику сложность О(n)
 @NoArgsConstructor
 public final class RemoveLowerCommand implements CommandType {
 	private static final AppLogger logger = new AppLogger(RemoveLowerCommand.class);
@@ -58,7 +62,6 @@ public final class RemoveLowerCommand implements CommandType {
 				logger.warn("Date argument is empty");
 				return ServerResponse.error("Дата не введена");
 			}
-			// проверить права
 
 			LocalDate date;
 			try {
@@ -73,14 +76,16 @@ public final class RemoveLowerCommand implements CommandType {
 			int sizeBefore = listWorker.size();
 			List<Worker> listRemove = listWorker.stream().filter(worker -> worker.getStartDate().isAfter(date))
 					.toList();
+
+			List<Worker> listEnd = SearchWorkerList.searchWorkerList(clientCommand, listRemove);
 			ServerResponse serverResponse = null;
-			for (Worker worker : listRemove)
+			for (Worker worker : listEnd)
 				serverResponse = getFirestore().deleteWorker(worker.getUuid());
 			assert serverResponse != null;
-			if (!serverResponse.exception()) {
+			if (serverResponse.exception()) {
 				return serverResponse;
 			}
-			listWorker.removeIf(worker -> worker.getStartDate().isAfter(date));
+			listWorker.removeIf(listEnd::contains);
 			int removed = sizeBefore - listWorker.size();
 			logger.info("Removed {} workers with start date after {}", removed, date);
 			return ServerResponse.successfulCompletion("REMOVE LOWER");

@@ -68,7 +68,7 @@ public final class RemoveByIdCommand implements CommandType {
 				return serverResponse;
 			}
 			serverResponse = getFirestore().deleteWorker(id);
-			if (!serverResponse.exception()) {
+			if (serverResponse.exception()) {
 				return serverResponse;
 			}
 			listWorker.removeIf(worker -> worker.getUuid().equals(id));
