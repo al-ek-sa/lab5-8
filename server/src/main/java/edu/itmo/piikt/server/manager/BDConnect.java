@@ -20,9 +20,9 @@ import static java.lang.Thread.sleep;
 @Getter
 public enum BDConnect {
 	INSTANCE();
-	private static final String URL = "jdbc:postgresql://localhost:6969/proga";
-	private final static String USER = "alexa";
-	private static final String PASSWORD = "123";
+	private static final String URL = System.getenv("DB_URL");
+	private static final String USER = System.getenv("DB_USER");
+	private static final String PASSWORD = System.getenv("DB_PASSWORD");
 	private Connection connection;
 
 	/**
@@ -35,6 +35,9 @@ public enum BDConnect {
 	 *             if the thread is interrupted while sleeping
 	 */
 	public void connection() throws SQLException, InterruptedException {
+		if (URL == null || USER == null || PASSWORD == null) {
+			throw new IllegalStateException("Database credentials not set in environment variables");
+		}
 		while (true) {
 			try {
 				connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -75,35 +78,5 @@ public enum BDConnect {
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	public boolean register(String login, String password, String email) {
-		String sql = "insert into user(login, password, email) values (?, ?, ?)";
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setString(1, login);
-			preparedStatement.setString(2, hashPassword(password));
-			preparedStatement.setString(3, email);
-			preparedStatement.executeUpdate();
-			return true;
-		} catch (SQLException e) {
-			return false;
-		}
-	}
-
-	public boolean login(String login, String password) {
-		String sql = "select id from user where login = ? and password = ?";
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setString(1, login);
-			preparedStatement.setString(2, hashPassword(password));
-			ResultSet res = preparedStatement.executeQuery();
-			if (res.next()) {
-				return true;
-			}
-		} catch (SQLException e) {
-			return false;
-		}
-		return false;
 	}
 }
