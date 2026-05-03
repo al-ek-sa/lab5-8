@@ -7,7 +7,6 @@ import edu.itmo.piikt.common.models.*;
 import edu.itmo.piikt.common.util.GeneratorId;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.Date;
 import javax.annotation.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,18 +38,16 @@ public class WorkerBuilder {
 			String name = workerData.getName();
 			Coordinates coordinates = new Coordinates(Long.parseLong(workerData.getCoordinates().getX()),
 					Float.parseFloat(workerData.getCoordinates().getY()));
-			Date creationDate = new Date();
 			Float salary = workerData.getSalary() != null && !workerData.getSalary().trim().isEmpty()
 					? Float.parseFloat(workerData.getSalary())
 					: null;
 			LocalDate startDate = LocalDate.parse(workerData.getStartDate());
-			ZonedDateTime endDate = workerData.getEndDate() != null && !workerData.getEndDate().trim().isEmpty()
-					? ZonedDateTime.parse(workerData.getEndDate())
+			LocalDate endDate = (workerData.getEndDate() != null && !workerData.getEndDate().trim().isEmpty())
+					? LocalDate.parse(workerData.getEndDate())
 					: null;
 			Status status = Status.values()[Integer.parseInt(workerData.getStatus().getId()) - 1];
 			Organization organization = getOrganization(workerData);
-			Worker worker = new Worker(uuid, name, coordinates, creationDate, salary, startDate, endDate, status,
-					organization);
+			Worker worker = new Worker(uuid, name, coordinates, salary, startDate, endDate, status, organization);
 			logger.debug("Worker built successfully: id={}, name={}", uuid, name);
 			return worker;
 		} catch (Exception e) {

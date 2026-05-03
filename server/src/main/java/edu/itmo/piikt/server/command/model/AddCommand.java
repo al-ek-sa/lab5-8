@@ -7,6 +7,7 @@ import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
+import edu.itmo.piikt.server.manager.FirestoreService;
 import edu.itmo.piikt.server.validation.object.BuilderWorker;
 import edu.itmo.piikt.server.validation.object.ValidationError;
 import edu.itmo.piikt.server.validation.object.WorkerBuilder;
@@ -16,6 +17,7 @@ import edu.itmo.piikt.server.manager.BDConnect;
 import edu.itmo.piikt.server.command.bd.WorkerAdd;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -32,6 +34,17 @@ public final class AddCommand implements CommandType {
 	private final BuilderWorker builderWorker = new BuilderWorker();
 	private final WorkerBuilder workerBuilder = new WorkerBuilder();
 	WorkerAdd workerAdd = new WorkerAdd();
+	private FirestoreService firestore;
+	private FirestoreService getFirestore() {
+		if (firestore == null) {
+			try {
+				firestore = new FirestoreService();
+			} catch (IOException e) {
+				logger.error("Failed to initialize Firestore: {}", e.getMessage(), e);
+			}
+		}
+		return firestore;
+	}
 
 	/**
 	 * Executes the ADD command
@@ -55,6 +68,17 @@ public final class AddCommand implements CommandType {
 				Worker worker = workerBuilder.builerWorker(dataWorker);
 				ServerResponse serverResponse = workerAdd.newWorker(clientCommand, worker);
 				if (serverResponse.execution()) {
+					FirestoreService fs = getFirestore();
+					if (fs != null) {
+						boolean saved = fs.saveWorker(worker);
+						if (!saved) {
+							logger.warn("Worker saved to PostgreSQL but failed to save to Firestore: id={}", worker.getUuid());
+						} else {
+							logger.info("Worker saved to Firestore: id={}", worker.getUuid());
+						}
+					} else {
+						logger.warn("Firestore not available, worker saved only to PostgreSQL");
+					}
 					HistoryWorker.INSTANCE.add(worker);
 					logger.info("Worker added successfully, total workers: {}",
 							HistoryWorker.INSTANCE.getListWorker().size());

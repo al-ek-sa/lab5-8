@@ -43,10 +43,10 @@ public final class ShowCommand implements CommandSimple {
 				logger.debug("Collection is empty");
 				return ServerResponse.error("COLLECTION IS EMPTY");
 			}
-			// Sort workers: by name, then start date, then creation date
-			List<String> list = listHistory.stream().sorted(Comparator.comparing(Worker::getName)
-					.thenComparing(Worker::getStartDate).thenComparing(Worker::getCreationDate)).map(Worker::toString)
-					.collect(Collectors.toList());
+			// Sort workers: by name, then start date
+			List<String> list = listHistory.stream()
+					.sorted(Comparator.comparing(Worker::getName).thenComparing(Worker::getStartDate))
+					.map(Worker::toString).collect(Collectors.toList());
 			logger.debug("Showing {} workers", list.size());
 			return ServerResponse.successfulCompletion("SHOW: ", list);
 		} catch (Exception e) {

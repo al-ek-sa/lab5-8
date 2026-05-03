@@ -27,24 +27,21 @@ public final class Worker implements Comparable<Worker>, Serializable {
 
 	private Coordinates coordinates;
 
-	private java.util.Date creationDate;
-
 	private Float salary;
 
 	private java.time.LocalDate startDate;
 
-	private java.time.ZonedDateTime endDate;
+	private java.time.LocalDate endDate;
 
 	private Status status;
 
 	private Organization organization;
 
-	public Worker(String name, Coordinates coordinates, Float salary, LocalDate startDate, ZonedDateTime endDate,
+	public Worker(String name, Coordinates coordinates, Float salary, LocalDate startDate, LocalDate endDate,
 			Status status, Organization organization) {
 		this.uuid = GeneratorId.getId();
 		this.name = name;
 		this.coordinates = coordinates;
-		this.creationDate = new Date();
 		this.salary = salary;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -65,10 +62,9 @@ public final class Worker implements Comparable<Worker>, Serializable {
 	@Override
 	public String toString() {
 		return "id: " + uuid + ", name: " + name + ", coordinates: "
-				+ (coordinates == null ? "null" : coordinates.toString()) + ", creationDate: " + creationDate
-				+ ", salary: " + salary + ", \nstartDate: " + startDate + ", endDate: " + endDate + ", status: "
-				+ (status == null ? "null" : status.toString()) + ", organization: "
-				+ (organization == null ? "null" : organization.toString()) + "\n";
+				+ (coordinates == null ? "null" : coordinates.toString()) + ", salary: " + salary + ", \nstartDate: "
+				+ startDate + ", endDate: " + endDate + ", status: " + (status == null ? "null" : status.toString())
+				+ ", organization: " + (organization == null ? "null" : organization.toString()) + "\n";
 	}
 
 	@Override

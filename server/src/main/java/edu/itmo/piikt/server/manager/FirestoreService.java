@@ -6,12 +6,20 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
+import edu.itmo.piikt.common.models.Address;
+import edu.itmo.piikt.common.models.Coordinates;
+import edu.itmo.piikt.common.models.Organization;
+import edu.itmo.piikt.common.models.OrganizationType;
+import edu.itmo.piikt.common.models.Status;
 import edu.itmo.piikt.common.models.Worker;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class FirestoreService {
@@ -33,10 +41,7 @@ public class FirestoreService {
 			}
 
 			GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(keyPath));
-			this.firestore = FirestoreOptions.newBuilder()
-					.setProjectId(projectId)
-					.setCredentials(credentials)
-					.build()
+			this.firestore = FirestoreOptions.newBuilder().setProjectId(projectId).setCredentials(credentials).build()
 					.getService();
 			logger.info("Firestore connected successfully! Project: {}", projectId);
 		}
@@ -45,10 +50,8 @@ public class FirestoreService {
 	public boolean saveWorker(Worker worker) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Saving worker to Firestore: id={}, name={}", worker.getUuid(), worker.getName());
-			firestore.collection("workers")
-					.document(worker.getUuid())
-					.set(worker)
-					.get();
+			Map<String, Object> data = convertWorkerToMap(worker);
+			firestore.collection("workers").document(worker.getUuid()).set(data).get();
 			logger.info("Worker saved to Firestore: id={}", worker.getUuid());
 			return true;
 		} catch (InterruptedException | ExecutionException e) {
@@ -65,7 +68,7 @@ public class FirestoreService {
 			logger.debug("Fetching all workers from Firestore");
 			List<Worker> workers = new ArrayList<>();
 			for (DocumentSnapshot doc : firestore.collection("workers").get().get().getDocuments()) {
-				Worker worker = doc.toObject(Worker.class);
+				Worker worker = convertDocumentToWorker(doc);
 				if (worker != null) {
 					workers.add(worker);
 				}
@@ -81,10 +84,7 @@ public class FirestoreService {
 	public boolean deleteWorker(String workerId) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Deleting worker from Firestore: id={}", workerId);
-			firestore.collection("workers")
-					.document(workerId)
-					.delete()
-					.get();
+			firestore.collection("workers").document(workerId).delete().get();
 			logger.info("Worker deleted from Firestore: id={}", workerId);
 			return true;
 		} catch (InterruptedException | ExecutionException e) {
@@ -93,6 +93,114 @@ public class FirestoreService {
 		} catch (Exception e) {
 			logger.error("Unexpected error deleting worker: {}", e.getMessage(), e);
 			return false;
+		}
+	}
+
+	private Map<String, Object> convertWorkerToMap(Worker worker) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("uuid", worker.getUuid());
+		map.put("name", worker.getName());
+		map.put("salary", worker.getSalary());
+		map.put("status", worker.getStatus() != null ? worker.getStatus().name() : null);
+
+		if (worker.getStartDate() != null) {
+			map.put("startDate", worker.getStartDate().toString());
+		}
+
+		if (worker.getEndDate() != null) {
+			map.put("endDate", worker.getEndDate().toString());
+		} else {
+			map.put("endDate", null);
+		}
+		if (worker.getCoordinates() != null) {
+			Map<String, Object> coords = new HashMap<>();
+			coords.put("x", worker.getCoordinates().getX());
+			coords.put("y", worker.getCoordinates().getY());
+			map.put("coordinates", coords);
+		}
+
+		if (worker.getOrganization() != null) {
+			Map<String, Object> org = new HashMap<>();
+			org.put("annualTurnover", worker.getOrganization().getAnnualTurnover());
+			org.put("type",
+					worker.getOrganization().getType() != null ? worker.getOrganization().getType().name() : null);
+
+			if (worker.getOrganization().getOfficialAddress() != null) {
+				Map<String, Object> addr = new HashMap<>();
+				addr.put("street", worker.getOrganization().getOfficialAddress().getStreet());
+				org.put("address", addr);
+			}
+			map.put("organization", org);
+		}
+		return map;
+	}
+
+	private Worker convertDocumentToWorker(DocumentSnapshot doc) {
+		try {
+			Worker worker = new Worker();
+			worker.setUuid(doc.getString("uuid"));
+			worker.setName(doc.getString("name"));
+
+			Double salary = doc.getDouble("salary");
+			if (salary != null) {
+				worker.setSalary(salary.floatValue());
+			}
+
+			String statusStr = doc.getString("status");
+			if (statusStr != null) {
+				worker.setStatus(Status.valueOf(statusStr));
+			}
+
+			String startDateStr = doc.getString("startDate");
+			if (startDateStr != null) {
+				worker.setStartDate(LocalDate.parse(startDateStr));
+			}
+
+			String endDateStr = doc.getString("endDate");
+			if (endDateStr != null) {
+				worker.setEndDate(LocalDate.parse(endDateStr));
+			} else {
+				worker.setEndDate(null);
+			}
+
+			Map<String, Object> coords = (Map<String, Object>) doc.get("coordinates");
+			if (coords != null) {
+				Coordinates coordinates = new Coordinates();
+				Long x = (Long) coords.get("x");
+				if (x != null) {
+					coordinates.setX(x);
+				}
+				Double y = (Double) coords.get("y");
+				if (y != null) {
+					coordinates.setY(y.floatValue());
+				}
+				worker.setCoordinates(coordinates);
+			}
+
+			Map<String, Object> org = (Map<String, Object>) doc.get("organization");
+			if (org != null) {
+				Organization organization = new Organization();
+				Long annualTurnover = (Long) org.get("annualTurnover");
+				if (annualTurnover != null) {
+					organization.setAnnualTurnover(annualTurnover.intValue());
+				}
+				String orgTypeStr = (String) org.get("type");
+				if (orgTypeStr != null) {
+					organization.setType(OrganizationType.valueOf(orgTypeStr));
+				}
+				Map<String, Object> addr = (Map<String, Object>) org.get("address");
+				if (addr != null) {
+					Address address = new Address();
+					address.setStreet((String) addr.get("street"));
+					organization.setOfficialAddress(address);
+				}
+				worker.setOrganization(organization);
+			}
+
+			return worker;
+		} catch (Exception e) {
+			logger.error("Failed to convert document to Worker: {}", e.getMessage(), e);
+			return null;
 		}
 	}
 }
