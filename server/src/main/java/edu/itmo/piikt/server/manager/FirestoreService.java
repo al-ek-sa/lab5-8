@@ -12,6 +12,7 @@ import edu.itmo.piikt.common.models.Organization;
 import edu.itmo.piikt.common.models.OrganizationType;
 import edu.itmo.piikt.common.models.Status;
 import edu.itmo.piikt.common.models.Worker;
+import edu.itmo.piikt.common.sc.ServerResponse;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -47,19 +48,19 @@ public class FirestoreService {
 		}
 	}
 
-	public boolean saveWorker(Worker worker) {
+	public ServerResponse saveWorker(Worker worker) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Saving worker to Firestore: id={}, name={}", worker.getUuid(), worker.getName());
 			Map<String, Object> data = convertWorkerToMap(worker);
 			firestore.collection("workers").document(worker.getUuid()).set(data).get();
 			logger.info("Worker saved to Firestore: id={}", worker.getUuid());
-			return true;
+			return ServerResponse.successfulCompletion("Работник успешно добавлен");
 		} catch (InterruptedException | ExecutionException e) {
 			logger.error("Failed to save worker: {}", e.getMessage(), e);
-			return false;
+			return ServerResponse.error("Ошибка добавления работника");
 		} catch (Exception e) {
 			logger.error("Unexpected error saving worker: {}", e.getMessage(), e);
-			return false;
+			return ServerResponse.error("Ошибка добавления работника");
 		}
 	}
 

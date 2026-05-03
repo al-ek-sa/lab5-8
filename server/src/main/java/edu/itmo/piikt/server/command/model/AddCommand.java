@@ -70,19 +70,12 @@ public final class AddCommand implements CommandType {
 				if (serverResponse.execution()) {
 					FirestoreService fs = getFirestore();
 					if (fs != null) {
-						boolean saved = fs.saveWorker(worker);
-						if (!saved) {
-							logger.warn("Worker saved to PostgreSQL but failed to save to Firestore: id={}",
-									worker.getUuid());
-						} else {
-							logger.info("Worker saved to Firestore: id={}", worker.getUuid());
-						}
-					} else {
-						logger.warn("Firestore not available, worker saved only to PostgreSQL");
+						ServerResponse saved = fs.saveWorker(worker);
+						if (saved.execution())
+							HistoryWorker.INSTANCE.add(worker);
+						logger.info("Worker added successfully, total workers: {}",
+								HistoryWorker.INSTANCE.getListWorker().size());
 					}
-					HistoryWorker.INSTANCE.add(worker);
-					logger.info("Worker added successfully, total workers: {}",
-							HistoryWorker.INSTANCE.getListWorker().size());
 					return ServerResponse.successfulCompletion("ADD");
 				} else {
 					return serverResponse;

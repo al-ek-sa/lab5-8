@@ -8,7 +8,6 @@ import edu.itmo.piikt.common.sc.ServerResponse;
 import edu.itmo.piikt.server.command.interfaces.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.server.manager.BDConnect;
-import edu.itmo.piikt.server.command.bd.WorkerUpdate;
 import lombok.NoArgsConstructor;
 
 /**

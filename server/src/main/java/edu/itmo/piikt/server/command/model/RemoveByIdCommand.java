@@ -7,7 +7,6 @@ import edu.itmo.piikt.common.sc.ServerResponse;
 import edu.itmo.piikt.server.command.interfaces.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.server.manager.BDConnect;
-import edu.itmo.piikt.server.command.bd.WorkerDelete;
 import lombok.NoArgsConstructor;
 
 /**
@@ -20,7 +19,6 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 public final class RemoveByIdCommand implements CommandType {
-	WorkerDelete workerDelete = new WorkerDelete();
 	private static final AppLogger logger = new AppLogger(RemoveByIdCommand.class);
 
 	/**
@@ -42,11 +40,6 @@ public final class RemoveByIdCommand implements CommandType {
 			if (id == null || id.trim().isEmpty()) {
 				logger.warn("ID is empty");
 				return ServerResponse.error("ID не введено");
-			}
-			ServerResponse deleteResponse = workerDelete.deleteWorker(clientCommand, id);
-			if (!deleteResponse.execution()) {
-				logger.warn("Database deletion failed for id: {}", id);
-				return deleteResponse;
 			}
 			var listWorker = HistoryWorker.INSTANCE.getListWorker();
 			boolean match = listWorker.stream().anyMatch(worker -> worker.getUuid().equals(id));
