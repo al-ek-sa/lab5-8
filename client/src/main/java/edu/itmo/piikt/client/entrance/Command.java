@@ -48,11 +48,10 @@ public class Command {
 	 */
 	public void show() {
 		io.println("""
-				Выберите способ входа и введите соответствующую команду:\s
-				> регистрация (register)\
-				\s
-				> вход в аккаунт (login)\s
-				> восстановление пароля (reset_password)""");
+                Select login method and enter the appropriate command:
+                > registration (register)
+                > login (login)
+                > password recovery (reset_password)""");
 	}
 
 	/**

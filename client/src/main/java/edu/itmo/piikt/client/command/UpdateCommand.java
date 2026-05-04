@@ -14,6 +14,13 @@ import edu.itmo.piikt.common.sc.ServerResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * Command for updating an existing Worker by ID.
+ * Performs remove_by_id followed by add operation.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @Data
 @AllArgsConstructor
 public class UpdateCommand implements CommandExecute<ServerResponse> {
@@ -27,6 +34,14 @@ public class UpdateCommand implements CommandExecute<ServerResponse> {
 		this.network = network;
 	}
 
+	/**
+	 * Executes the UPDATE command.
+	 * Removes existing worker by ID, then adds new version with same ID.
+	 *
+	 * @param io input/output provider for user interaction
+	 * @param arg command arguments: [0] = worker ID, [1] = username
+	 * @return server response with operation result
+	 */
 	@Override
 	public ServerResponse execute(IOProvider io, Object... arg) {
 		try (Context ignored = Context.newId()) {
@@ -71,6 +86,15 @@ public class UpdateCommand implements CommandExecute<ServerResponse> {
 		}
 	}
 
+	/**
+	 * Handles validation retries for ADD operation during update.
+	 * Re-prompts user for corrected data if validation fails.
+	 *
+	 * @param serverResponse initial server response
+	 * @param io input/output provider
+	 * @param user username
+	 * @return successful server response after correction
+	 */
 	private ServerResponse add(ServerResponse serverResponse, IOProvider io, String user) {
 		var workerServer = new WorkerServer(io);
 		var server = serverResponse;

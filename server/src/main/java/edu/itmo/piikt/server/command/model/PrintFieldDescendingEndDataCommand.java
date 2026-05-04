@@ -35,7 +35,7 @@ public final class PrintFieldDescendingEndDataCommand implements CommandSimple {
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			if (!BDConnect.INSTANCE.isConnected()) {
-				return ServerResponse.error("на данный момент, команда не доступна, повторите попытку позже");
+				return ServerResponse.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
 			logger.info("Executing PRINT_FIELD_DESCENDING_END_DATE command");
 			var listWorker = HistoryWorker.INSTANCE.getListWorker();

@@ -2,7 +2,6 @@ package edu.itmo.piikt.server.command.model;
 
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
-import edu.itmo.piikt.common.models.Worker;
 import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
 import edu.itmo.piikt.server.command.bd.SearchWorker;
@@ -13,14 +12,13 @@ import edu.itmo.piikt.server.manager.FirestoreService;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * The class implements the command remove_by_id id : remove an element from the
  * collection by its id.
  *
  * @author Lishyk Aliaksandra
- * @version 3.1
+ * @version 4.0
  * @see HistoryWorker
  */
 @NoArgsConstructor
@@ -48,7 +46,7 @@ public final class RemoveByIdCommand implements CommandType {
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			if (!BDConnect.INSTANCE.isConnected()) {
-				return ServerResponse.error("на данный момент, команда не доступна, повторите попытку позже");
+				return ServerResponse.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
 			String id = clientCommand.getArgumentCommand();
 			logger.info("Executing REMOVE_BY_ID with id: {}", id);

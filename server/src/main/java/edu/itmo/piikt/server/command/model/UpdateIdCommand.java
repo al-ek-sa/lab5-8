@@ -25,7 +25,7 @@ import java.util.List;
  * the collection element whose id is equal to the specified one.
  *
  * @author Lishyk Aliaksandra
- * @version 3.1
+ * @version 4.0
  * @see HistoryWorker
  */
 @NoArgsConstructor
@@ -47,12 +47,19 @@ public final class UpdateIdCommand implements CommandType {
 		return firestore;
 	}
 
+	/**
+	 * Executes the UPDATE command.
+	 * Updates worker with specified ID Firestore, and memory.
+	 *
+	 * @param clientCommand client command containing WorkerData and target ID
+	 * @return ServerResponse with operation result
+	 */
 	@Override
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			if (!BDConnect.INSTANCE.isConnected()) {
 				logger.warn("Database not connected");
-				return ServerResponse.error("на данный момент, команда не доступна, повторите попытку позже");
+				return ServerResponse.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
 
 			String targetId = clientCommand.getArgumentCommand();

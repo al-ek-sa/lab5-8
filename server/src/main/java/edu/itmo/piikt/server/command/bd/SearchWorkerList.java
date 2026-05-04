@@ -12,17 +12,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Utility class for filtering workers by user ownership.
+ * Performs permission checks for each worker in the provided list.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 @UtilityClass
 public class SearchWorkerList {
 	private static final AppLogger logger = new AppLogger(SearchWorkerList.class);
 
 	/**
-	 * Retrieves the user ID associated with the specified client command. Executes
-	 * a SQL query to find the user by login from the command.
+	 * Filters a list of workers, returning only those that belong to the specified user.
+	 * For each worker, checks database to verify ownership.
 	 *
-	 * @return user identifier (primary key) from the database
-	 * @throws RuntimeException
-	 *             if user is not found or a database error occurs
+	 * @param clientCommand client command containing user authentication information
+	 * @param listWorker    list of workers to filter
+	 * @return filtered list of workers owned by the user
 	 */
 	public List<Worker> searchWorkerList(ClientCommand clientCommand, List<Worker> listWorker) {
 		String sql = "SELECT worker_id FROM worker WHERE user_id = ? and worker_id = ?";
@@ -36,9 +43,11 @@ public class SearchWorkerList {
 					list.add(worker);
 				}
 			} catch (SQLException e) {
+				logger.error("Error checking worker ownership for {}: {}", worker.getUuid(), e.getMessage(), e);
 				throw new RuntimeException(e);
 			}
 		}
+		logger.debug("Filtered workers: {} owned out of {}", list.size(), listWorker.size());
 		return list;
 	}
 }

@@ -23,10 +23,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Service for interacting with Google Cloud Firestore.
+ * Provides CRUD operations for Worker objects in the cloud database.
+ *
+ * @author Lishyk Aliaksandra
+ * @version 1.0
+ */
 public class FirestoreService {
 	private static final AppLogger logger = new AppLogger(FirestoreService.class);
 	private final Firestore firestore;
 
+	/**
+	 * Initializes Firestore connection using environment variables.
+	 * Requires GOOGLE_APPLICATION_CREDENTIALS and GOOGLE_CLOUD_PROJECT to be set.
+	 *
+	 * @throws IOException if credentials file not found or environment variables are missing
+	 */
 	public FirestoreService() throws IOException {
 		try (Context ignored = Context.newId()) {
 			String keyPath = System.getenv("GOOGLE_APPLICATION_CREDENTIALS");
@@ -48,6 +61,13 @@ public class FirestoreService {
 		}
 	}
 
+	/**
+	 * Saves a Worker to Firestore.
+	 * Converts Worker object to Map before saving.
+	 *
+	 * @param worker Worker object to save
+	 * @return ServerResponse indicating success or failure
+	 */
 	public ServerResponse saveWorker(Worker worker) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Saving worker to Firestore: id={}, name={}", worker.getUuid(), worker.getName());
@@ -57,13 +77,19 @@ public class FirestoreService {
 			return ServerResponse.successfulCompletion("Работник успешно добавлен");
 		} catch (InterruptedException | ExecutionException e) {
 			logger.error("Failed to save worker: {}", e.getMessage(), e);
-			return ServerResponse.error("Ошибка добавления работника");
+			return ServerResponse.error("Failed to add worker");
 		} catch (Exception e) {
 			logger.error("Unexpected error saving worker: {}", e.getMessage(), e);
-			return ServerResponse.error("Ошибка добавления работника");
+			return ServerResponse.error("Failed to add worker");
 		}
 	}
 
+	/**
+	 * Retrieves all workers from Firestore.
+	 * Converts Firestore documents back to Worker objects.
+	 *
+	 * @return List of workers
+	 */
 	public List<Worker> getAllWorkers() {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Fetching all workers from Firestore");
@@ -82,6 +108,12 @@ public class FirestoreService {
 		}
 	}
 
+	/**
+	 * Deletes a worker from Firestore by ID.
+	 *
+	 * @param workerId Unique identifier of the worker
+	 * @return ServerResponse indicating success or failure
+	 */
 	public ServerResponse deleteWorker(String workerId) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Deleting worker from Firestore: id={}", workerId);
@@ -90,13 +122,20 @@ public class FirestoreService {
 			return ServerResponse.successfulCompletion("Работник успешно удалился");
 		} catch (InterruptedException | ExecutionException e) {
 			logger.error("Failed to delete worker: {}", e.getMessage(), e);
-			return ServerResponse.error("Ошибка удаления");
+			return ServerResponse.error("Deletion failed");
 		} catch (Exception e) {
 			logger.error("Unexpected error deleting worker: {}", e.getMessage(), e);
-			return ServerResponse.error("Ошибка удаления");
+			return ServerResponse.error("Deletion failed");
 		}
 	}
 
+	/**
+	 * Converts Worker object to Map for Firestore storage.
+	 * Handles date conversion (LocalDate -> ISO string).
+	 *
+	 * @param worker Worker object to convert
+	 * @return Map representation of Worker
+	 */
 	private Map<String, Object> convertWorkerToMap(Worker worker) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("uuid", worker.getUuid());
@@ -136,6 +175,13 @@ public class FirestoreService {
 		return map;
 	}
 
+	/**
+	 * Converts Firestore Document to Worker object.
+	 * Restores dates from ISO strings.
+	 *
+	 * @param doc Firestore document
+	 * @return Worker object or null if conversion fails
+	 */
 	private Worker convertDocumentToWorker(DocumentSnapshot doc) {
 		try {
 			Worker worker = new Worker();

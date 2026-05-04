@@ -43,7 +43,7 @@ public class ResetPasswordRequest implements Request {
 	 */
 	@Override
 	public void getDescription() {
-		io.println("Восстановление пароля");
+		io.println("Password Recovery");
 	}
 
 	/**
@@ -54,16 +54,16 @@ public class ResetPasswordRequest implements Request {
 	public void execute(Network network) throws Exception {
 		boolean flag = true;
 		while (flag) {
-			io.println("Введите электронную почту");
+			io.println("Enter email address");
 			email = io.readLine();
 			while (isValidEmail(email)) {
-				io.println("Некорректный email");
+				io.println("Invalid email");
 				email = io.readLine();
 			}
-			io.println("Введите логин (не менее 8 символов)");
+			io.println("Enter login (at least 8 characters)");
 			login = io.readLine();
 			while (isLongEnough(login, 8)) {
-				io.println("Логин должен быть не менее 8 символов");
+				io.println("Login must be at least 8 characters");
 				login = io.readLine();
 			}
 			ClientCommand clientCommand = ClientCommand.builder().nameCommand("reset_password").login(login)
@@ -73,7 +73,7 @@ public class ResetPasswordRequest implements Request {
 			if (serverResponse.execution()) {
 				flag = false;
 			} else {
-				io.println("вы можете продолжить восстановление пароля, либо выйти в меню регистрации (exit)");
+				io.println("You can continue password recovery or exit to the registration menu (exit)");
 				String string = io.readLine().toLowerCase();
 				if (DamerauLevenshteinDistance.distance(string, "exit") <= 1) {
 					Registr registr = new Registr(io);
@@ -85,23 +85,23 @@ public class ResetPasswordRequest implements Request {
 		email(network);
 		while (true) {
 			io.println(
-					"Введите новый пароль (должен быть не менее 8 символов и содержать минимум 1 спецсимвол: * _ .)");
+					"Enter new password (must be at least 8 characters and contain at least 1 special character: * _ .)");
 			password = io.readLine();
 			while (isLongEnough(password, 8) || hasSpecialCharacter(password)) {
 				if (isLongEnough(password, 8)) {
-					io.println("Пароль должен быть не менее 8 символов");
+					io.println("Password must be at least 8 characters");
 				} else if (hasSpecialCharacter(password)) {
-					io.println("Пароль должен содержать хотя бы один спецсимвол: * _ .");
+					io.println("Password must contain at least one special character: * _ .");
 				}
 				password = io.readLine();
 			}
-			io.println("Введите пароль повторно");
+			io.println("Re-enter password");
 			String passwordTwo = io.readLine();
 			if (passwordTwo.equals(password)) {
-				io.println("Пароль успешно подтвержден");
+				io.println("Password confirmed successfully");
 				break;
 			}
-			io.println("Пароли не совпадают, задайте пароли заново");
+			io.println("Passwords do not match, please re-enter");
 		}
 		ClientCommand clientCommand = ClientCommand.builder().nameCommand("reset_password").login(login).email(email)
 				.password(password).build();
@@ -109,16 +109,22 @@ public class ResetPasswordRequest implements Request {
 		if (!serverResponse.execution()) {
 			execute(network);
 		}
-		io.println("Пароль успешно восстановлен");
+		io.println("Password reset successfully");
 	}
 
+	/**
+	 * Handles email verification process.
+	 * Sends verification code to user's email and validates input.
+	 *
+	 * @param network network client for sending command
+	 * @throws Exception if I/O error occurs
+	 */
 	private void email(Network network) throws Exception {
 		if (MAX > 0) {
 			MAX = MAX - 1;
 			codeUser = generateCode();
 			io.println(
-					"На Вашу электронную почту направлено письмо с кодом подтверждения, для повторного запроса введите команду"
-							+ "(отправить код повторно), если Вы хотите отменить действие регистрации введите \"exit\")");
+					"A confirmation code has been sent to your email address. To request a new code, enter 'resend code'. To cancel, enter 'exit'.");
 			ClientCommand clientCommand = ClientCommand.builder().nameCommand("register_email").email(email)
 					.data(codeUser).build();
 			if (!network.connected()) {
@@ -128,9 +134,9 @@ public class ResetPasswordRequest implements Request {
 			serverResponse.printToConsole();
 			while (count > 0) {
 				count = count - 1;
-				io.println("Введите шестизначный код");
+				io.println("Enter the 6-digit code");
 				String code = io.readLine();
-				if (DamerauLevenshteinDistance.distance(code, "отправить код повторно") <= 3) {
+				if (DamerauLevenshteinDistance.distance(code, "resend code") <= 2) {
 					count = 3;
 					email(network);
 				}
@@ -144,13 +150,13 @@ public class ResetPasswordRequest implements Request {
 			count = 3;
 			while (true) {
 				io.println(
-						"Попытки ввода исчерпаны, запросите повторный ввод (отправить код повторно) или вернитесь в меню входа(exit)");
+						"Attempts exhausted. Enter 'resend code' to request a new code, or 'exit' to return to the login menu.");
 				String input = io.readLine().toLowerCase();
 				if (DamerauLevenshteinDistance.distance(input, "exit") <= 1) {
 					Registr registr = new Registr(io);
 					registr.registration(network);
 					return;
-				} else if (DamerauLevenshteinDistance.distance("отправить код повторно", input) <= 1) {
+				} else if (DamerauLevenshteinDistance.distance("resend code", input) <= 1) {
 					email(network);
 					return;
 				}
@@ -161,6 +167,11 @@ public class ResetPasswordRequest implements Request {
 		}
 	}
 
+	/**
+	 * Generates a random 6-digit verification code.
+	 *
+	 * @return 6-digit code as string
+	 */
 	private String generateCode() {
 		codeUser = String.format("%06d", random.nextInt(1_000_000));
 		return codeUser;

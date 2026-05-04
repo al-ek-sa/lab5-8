@@ -8,11 +8,12 @@ import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
 
 /**
- * Login request handler for the client side. Collects login and password from
- * user input and creates a login command.
+ * Client-side login request handler.
+ * Prompts user for login and password, sends command to server,
+ * and retries indefinitely on failure.
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 public class LoginRequest implements Request {
 
@@ -28,7 +29,7 @@ public class LoginRequest implements Request {
 	 */
 	@Override
 	public void getDescription() {
-		io.println("Вход в аккаунт");
+		io.println("Account login");
 	}
 
 	/**
@@ -54,20 +55,20 @@ public class LoginRequest implements Request {
 		boolean success = false;
 
 		while (!success) {
-			io.println("Введите логин (не менее 8 символов)");
+			io.println("Enter login (at least 8 characters)");
 			login = io.readLine();
 			while (isLongEnough(login, 8)) {
-				io.println("Логин должен быть не менее 8 символов");
+				io.println("Login must be at least 8 characters");
 				login = io.readLine();
 			}
 
-			io.println("Введите пароль (должен быть не менее 8 символов и содержать минимум 1 спецсимвол: * _ .)");
+			io.println("Enter password (at least 8 characters and must contain at least 1 special character: * _ .)");
 			String password = io.readLine();
 			while (isLongEnough(password, 8) || hasSpecialCharacter(password)) {
 				if (isLongEnough(password, 8)) {
-					io.println("Пароль должен быть не менее 8 символов");
+					io.println("Password must be at least 8 characters");
 				} else if (hasSpecialCharacter(password)) {
-					io.println("Пароль должен содержать хотя бы один спецсимвол: * _ .");
+					io.println("Password must contain at least one special character: * _ .");
 				}
 				password = io.readLine();
 			}
@@ -81,7 +82,7 @@ public class LoginRequest implements Request {
 			if (serverResponse.execution()) {
 				success = true;
 			} else {
-				io.println("Ошибка входа. Попробуйте снова (введите login), либо вернитесь в меню регистрации (exit).");
+				io.println("Login failed. Please try again (type 'login'), or return to the registration menu (type 'exit').");
 				String string = io.readLine().toLowerCase();
 				if (DamerauLevenshteinDistance.distance(string, "exit") <= 1) {
 					Registr registr = new Registr(io);
@@ -91,6 +92,6 @@ public class LoginRequest implements Request {
 				execute(network);
 			}
 		}
-		io.println("Вы вошли в аккаунт");
+		io.println("Login successful");
 	}
 }

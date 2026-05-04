@@ -22,7 +22,7 @@ import java.util.List;
  * collection all elements that are lower than the specified one.
  *
  * @author Lishyk Aliaksandra
- * @version 4.1
+ * @version 5.0
  * @see HistoryWorker
  */
 // todo максимально не опционально(поиск прав на удаления каждого работника
@@ -53,7 +53,7 @@ public final class RemoveLowerCommand implements CommandType {
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			if (!BDConnect.INSTANCE.isConnected()) {
-				return ServerResponse.error("на данный момент, команда не доступна, повторите попытку позже");
+				return ServerResponse.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
 			String argument = clientCommand.getArgumentCommand();
 			logger.info("Executing REMOVE_LOWER with argument: {}", argument);

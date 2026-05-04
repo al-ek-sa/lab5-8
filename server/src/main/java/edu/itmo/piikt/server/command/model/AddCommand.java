@@ -25,7 +25,7 @@ import java.util.List;
  * collection.
  *
  * @author Lishyk Aliaksandra
- * @version 3.1
+ * @version 4.0
  * @see HistoryWorker
  */
 @NoArgsConstructor
@@ -57,7 +57,7 @@ public final class AddCommand implements CommandType {
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			if (!BDConnect.INSTANCE.isConnected()) {
-				return ServerResponse.error("на данный момент, команда не доступна, повторите попытку позже");
+				return ServerResponse.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
 			logger.info("Executing ADD command");
 			WorkerData dataWorker = (WorkerData) clientCommand.getData();
