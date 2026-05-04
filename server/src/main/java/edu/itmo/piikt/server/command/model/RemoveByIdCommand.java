@@ -46,7 +46,8 @@ public final class RemoveByIdCommand implements CommandType {
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			if (!BDConnect.INSTANCE.isConnected()) {
-				return ServerResponse.error("         return ServerResponse.error(\"Command unavailable, please try again later");
+				return ServerResponse
+						.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
 			String id = clientCommand.getArgumentCommand();
 			logger.info("Executing REMOVE_BY_ID with id: {}", id);

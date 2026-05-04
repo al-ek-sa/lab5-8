@@ -36,7 +36,8 @@ public final class FilterContainsNameCommand implements CommandType {
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			if (!BDConnect.INSTANCE.isConnected()) {
-				return ServerResponse.error("         return ServerResponse.error(\"Command unavailable, please try again later");
+				return ServerResponse
+						.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
 			String argument = clientCommand.getArgumentCommand();
 			logger.info("Executing FILTER_CONTAINS_NAME with argument: {}", argument);

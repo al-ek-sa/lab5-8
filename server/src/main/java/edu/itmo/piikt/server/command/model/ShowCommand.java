@@ -35,7 +35,8 @@ public final class ShowCommand implements CommandSimple {
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			if (!BDConnect.INSTANCE.isConnected()) {
-				return ServerResponse.error("         return ServerResponse.error(\"Command unavailable, please try again later");
+				return ServerResponse
+						.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
 			logger.info("Executing SHOW command");
 			var listHistory = HistoryWorker.INSTANCE.getListWorker();

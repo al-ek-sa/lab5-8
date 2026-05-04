@@ -11,8 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Utility class for checking user permissions on worker records.
- * Provides methods to verify if a user has rights to access specific workers.
+ * Utility class for checking user permissions on worker records. Provides
+ * methods to verify if a user has rights to access specific workers.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -22,11 +22,13 @@ public class SearchWorker {
 	private static final AppLogger logger = new AppLogger(SearchWorker.class);
 
 	/**
-	 * Checks if the user has permissions to modify the specified worker.
-	 * Executes a SQL query to verify that both user_id and worker_id exist.
+	 * Checks if the user has permissions to modify the specified worker. Executes a
+	 * SQL query to verify that both user_id and worker_id exist.
 	 *
-	 * @param clientCommand client command containing user authentication information
-	 * @param workerId      unique identifier of the worker to check
+	 * @param clientCommand
+	 *            client command containing user authentication information
+	 * @param workerId
+	 *            unique identifier of the worker to check
 	 * @return ServerResponse indicating whether user has permissions
 	 */
 	public static ServerResponse getWorkerIdsByUserId(ClientCommand clientCommand, String workerId) {

@@ -113,11 +113,13 @@ public class ResetPasswordRequest implements Request {
 	}
 
 	/**
-	 * Handles email verification process.
-	 * Sends verification code to user's email and validates input.
+	 * Handles email verification process. Sends verification code to user's email
+	 * and validates input.
 	 *
-	 * @param network network client for sending command
-	 * @throws Exception if I/O error occurs
+	 * @param network
+	 *            network client for sending command
+	 * @throws Exception
+	 *             if I/O error occurs
 	 */
 	private void email(Network network) throws Exception {
 		if (MAX > 0) {

@@ -42,7 +42,8 @@ public final class CountByOrganizationCommand implements CommandType {
 	public ServerResponse execute(ClientCommand clientCommand) {
 		try (Context ignored = Context.newId()) {
 			if (!BDConnect.INSTANCE.isConnected()) {
-				return ServerResponse.error("         return ServerResponse.error(\"Command unavailable, please try again later");
+				return ServerResponse
+						.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
 			logger.info("Executing COUNT_BY_ORGANIZATION command");
 			OrganizationData organizationData = (OrganizationData) clientCommand.getData();

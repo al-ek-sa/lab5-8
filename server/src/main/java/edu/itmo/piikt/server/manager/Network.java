@@ -25,7 +25,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class Network {
 	/** Server port number */
-	private static final int PORT = 6653;
+	private static final int PORT = 6654;
 	/** No data available for console input */
 	private static final int NO_DATA = 0;
 	/** Selector timeout in milliseconds */

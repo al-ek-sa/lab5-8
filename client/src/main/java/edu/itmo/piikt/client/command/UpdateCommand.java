@@ -15,8 +15,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * Command for updating an existing Worker by ID.
- * Performs remove_by_id followed by add operation.
+ * Command for updating an existing Worker by ID. Performs remove_by_id followed
+ * by add operation.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -35,11 +35,13 @@ public class UpdateCommand implements CommandExecute<ServerResponse> {
 	}
 
 	/**
-	 * Executes the UPDATE command.
-	 * Removes existing worker by ID, then adds new version with same ID.
+	 * Executes the UPDATE command. Removes existing worker by ID, then adds new
+	 * version with same ID.
 	 *
-	 * @param io input/output provider for user interaction
-	 * @param arg command arguments: [0] = worker ID, [1] = username
+	 * @param io
+	 *            input/output provider for user interaction
+	 * @param arg
+	 *            command arguments: [0] = worker ID, [1] = username
 	 * @return server response with operation result
 	 */
 	@Override
@@ -49,6 +51,8 @@ public class UpdateCommand implements CommandExecute<ServerResponse> {
 				logger.error("Invalid arguments count: expected 2, got {}", arg.length);
 				throw new RuntimeException();
 			}
+			id = arg[0].toString();
+			io.println(id);
 			if (!(arg[1] instanceof String user) || !(arg[0] instanceof String argument)) {
 				logger.error("Invalid argument types: user={}, argument={}", arg[1].getClass().getName(),
 						arg[0].getClass().getName());
@@ -58,19 +62,19 @@ public class UpdateCommand implements CommandExecute<ServerResponse> {
 			logger.info("UPDATE command started: targetId={}, user={}", argument, user);
 
 			ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.REMOVE_BY_ID.getName())
-					.user(user).argumentCommand(argument).build();
+					.user(user).argumentCommand(id).build();
 
 			ServerResponse serverResponse = network.send(clientCommand);
 			logger.debug("REMOVE_BY_ID response: execution={}, message={}", serverResponse.execution(),
 					serverResponse.message());
 
 			if (serverResponse.execution()) {
-				id = argument;
 				logger.info("Worker with id={} removed successfully, proceeding with ADD", id);
 
 				WorkerData workerData = worker.build(io);
-				clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName()).user(user).data(workerData)
-						.argumentCommand(id).build();
+				io.println(id);
+				clientCommand = ClientCommand.builder().nameCommand(Commands.UPDATE.getName()).user(user)
+						.data(workerData).argumentCommand(id).build();
 
 				serverResponse = network.send(clientCommand);
 				logger.debug("ADD response: execution={}", serverResponse.execution());
@@ -87,12 +91,15 @@ public class UpdateCommand implements CommandExecute<ServerResponse> {
 	}
 
 	/**
-	 * Handles validation retries for ADD operation during update.
-	 * Re-prompts user for corrected data if validation fails.
+	 * Handles validation retries for ADD operation during update. Re-prompts user
+	 * for corrected data if validation fails.
 	 *
-	 * @param serverResponse initial server response
-	 * @param io input/output provider
-	 * @param user username
+	 * @param serverResponse
+	 *            initial server response
+	 * @param io
+	 *            input/output provider
+	 * @param user
+	 *            username
 	 * @return successful server response after correction
 	 */
 	private ServerResponse add(ServerResponse serverResponse, IOProvider io, String user) {
@@ -107,8 +114,8 @@ public class UpdateCommand implements CommandExecute<ServerResponse> {
 				} else {
 					logger.warn("Validation error, requesting correction for user={}", user);
 					var data = workerServer.build(server);
-					ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName()).data(data)
-							.argumentCommand(id).user(user).build();
+					ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.UPDATE.getName())
+							.data(data).argumentCommand(id).user(user).build();
 					server = network.send(clientCommand);
 					logger.debug("Retry ADD sent, waiting for response");
 				}

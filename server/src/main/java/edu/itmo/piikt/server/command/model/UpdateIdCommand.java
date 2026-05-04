@@ -30,7 +30,7 @@ import java.util.List;
  */
 @NoArgsConstructor
 public final class UpdateIdCommand implements CommandType {
-	private static final AppLogger logger = new AppLogger(AddCommand.class);
+	private static final AppLogger logger = new AppLogger(UpdateIdCommand.class);
 	private final BuilderWorker builderWorker = new BuilderWorker();
 	private final WorkerBuilder workerBuilder = new WorkerBuilder();
 	private final WorkerAdd workerAdd = new WorkerAdd();
@@ -48,10 +48,11 @@ public final class UpdateIdCommand implements CommandType {
 	}
 
 	/**
-	 * Executes the UPDATE command.
-	 * Updates worker with specified ID Firestore, and memory.
+	 * Executes the UPDATE command. Updates worker with specified ID Firestore, and
+	 * memory.
 	 *
-	 * @param clientCommand client command containing WorkerData and target ID
+	 * @param clientCommand
+	 *            client command containing WorkerData and target ID
 	 * @return ServerResponse with operation result
 	 */
 	@Override
@@ -59,7 +60,8 @@ public final class UpdateIdCommand implements CommandType {
 		try (Context ignored = Context.newId()) {
 			if (!BDConnect.INSTANCE.isConnected()) {
 				logger.warn("Database not connected");
-				return ServerResponse.error("         return ServerResponse.error(\"Command unavailable, please try again later");
+				return ServerResponse
+						.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
 
 			String targetId = clientCommand.getArgumentCommand();
@@ -76,6 +78,7 @@ public final class UpdateIdCommand implements CommandType {
 			Object result = builderWorker.data(dataWorker);
 			if (result instanceof WorkerData) {
 				Worker worker = workerBuilder.builerWorker(dataWorker);
+				logger.error(clientCommand.getArgumentCommand());
 				worker.setUuid(clientCommand.getArgumentCommand());
 				logger.info("Worker UUID set to: {}", worker.getUuid());
 

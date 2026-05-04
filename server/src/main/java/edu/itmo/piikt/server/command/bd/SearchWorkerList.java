@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Utility class for filtering workers by user ownership.
- * Performs permission checks for each worker in the provided list.
+ * Utility class for filtering workers by user ownership. Performs permission
+ * checks for each worker in the provided list.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -24,11 +24,13 @@ public class SearchWorkerList {
 	private static final AppLogger logger = new AppLogger(SearchWorkerList.class);
 
 	/**
-	 * Filters a list of workers, returning only those that belong to the specified user.
-	 * For each worker, checks database to verify ownership.
+	 * Filters a list of workers, returning only those that belong to the specified
+	 * user. For each worker, checks database to verify ownership.
 	 *
-	 * @param clientCommand client command containing user authentication information
-	 * @param listWorker    list of workers to filter
+	 * @param clientCommand
+	 *            client command containing user authentication information
+	 * @param listWorker
+	 *            list of workers to filter
 	 * @return filtered list of workers owned by the user
 	 */
 	public List<Worker> searchWorkerList(ClientCommand clientCommand, List<Worker> listWorker) {

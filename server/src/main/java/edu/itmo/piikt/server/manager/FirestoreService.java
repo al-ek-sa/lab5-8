@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Service for interacting with Google Cloud Firestore.
- * Provides CRUD operations for Worker objects in the cloud database.
+ * Service for interacting with Google Cloud Firestore. Provides CRUD operations
+ * for Worker objects in the cloud database.
  *
  * @author Lishyk Aliaksandra
  * @version 1.0
@@ -35,10 +35,12 @@ public class FirestoreService {
 	private final Firestore firestore;
 
 	/**
-	 * Initializes Firestore connection using environment variables.
-	 * Requires GOOGLE_APPLICATION_CREDENTIALS and GOOGLE_CLOUD_PROJECT to be set.
+	 * Initializes Firestore connection using environment variables. Requires
+	 * GOOGLE_APPLICATION_CREDENTIALS and GOOGLE_CLOUD_PROJECT to be set.
 	 *
-	 * @throws IOException if credentials file not found or environment variables are missing
+	 * @throws IOException
+	 *             if credentials file not found or environment variables are
+	 *             missing
 	 */
 	public FirestoreService() throws IOException {
 		try (Context ignored = Context.newId()) {
@@ -62,10 +64,10 @@ public class FirestoreService {
 	}
 
 	/**
-	 * Saves a Worker to Firestore.
-	 * Converts Worker object to Map before saving.
+	 * Saves a Worker to Firestore. Converts Worker object to Map before saving.
 	 *
-	 * @param worker Worker object to save
+	 * @param worker
+	 *            Worker object to save
 	 * @return ServerResponse indicating success or failure
 	 */
 	public ServerResponse saveWorker(Worker worker) {
@@ -85,8 +87,8 @@ public class FirestoreService {
 	}
 
 	/**
-	 * Retrieves all workers from Firestore.
-	 * Converts Firestore documents back to Worker objects.
+	 * Retrieves all workers from Firestore. Converts Firestore documents back to
+	 * Worker objects.
 	 *
 	 * @return List of workers
 	 */
@@ -111,7 +113,8 @@ public class FirestoreService {
 	/**
 	 * Deletes a worker from Firestore by ID.
 	 *
-	 * @param workerId Unique identifier of the worker
+	 * @param workerId
+	 *            Unique identifier of the worker
 	 * @return ServerResponse indicating success or failure
 	 */
 	public ServerResponse deleteWorker(String workerId) {
@@ -130,10 +133,11 @@ public class FirestoreService {
 	}
 
 	/**
-	 * Converts Worker object to Map for Firestore storage.
-	 * Handles date conversion (LocalDate -> ISO string).
+	 * Converts Worker object to Map for Firestore storage. Handles date conversion
+	 * (LocalDate -> ISO string).
 	 *
-	 * @param worker Worker object to convert
+	 * @param worker
+	 *            Worker object to convert
 	 * @return Map representation of Worker
 	 */
 	private Map<String, Object> convertWorkerToMap(Worker worker) {
@@ -176,10 +180,11 @@ public class FirestoreService {
 	}
 
 	/**
-	 * Converts Firestore Document to Worker object.
-	 * Restores dates from ISO strings.
+	 * Converts Firestore Document to Worker object. Restores dates from ISO
+	 * strings.
 	 *
-	 * @param doc Firestore document
+	 * @param doc
+	 *            Firestore document
 	 * @return Worker object or null if conversion fails
 	 */
 	private Worker convertDocumentToWorker(DocumentSnapshot doc) {

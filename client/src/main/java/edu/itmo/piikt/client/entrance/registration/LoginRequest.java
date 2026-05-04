@@ -8,9 +8,8 @@ import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
 
 /**
- * Client-side login request handler.
- * Prompts user for login and password, sends command to server,
- * and retries indefinitely on failure.
+ * Client-side login request handler. Prompts user for login and password, sends
+ * command to server, and retries indefinitely on failure.
  *
  * @author Lishyk Aliaksandra
  * @version 2.0
@@ -82,7 +81,8 @@ public class LoginRequest implements Request {
 			if (serverResponse.execution()) {
 				success = true;
 			} else {
-				io.println("Login failed. Please try again (type 'login'), or return to the registration menu (type 'exit').");
+				io.println(
+						"Login failed. Please try again (type 'login'), or return to the registration menu (type 'exit').");
 				String string = io.readLine().toLowerCase();
 				if (DamerauLevenshteinDistance.distance(string, "exit") <= 1) {
 					Registr registr = new Registr(io);

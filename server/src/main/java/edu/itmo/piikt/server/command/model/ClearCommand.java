@@ -29,7 +29,8 @@ public final class ClearCommand implements CommandSimple {
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			if (!BDConnect.INSTANCE.isConnected()) {
-				return ServerResponse.error("         return ServerResponse.error(\"Command unavailable, please try again later");
+				return ServerResponse
+						.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
 			logger.info("Executing CLEAR command");
 			int sizeBefore = HistoryWorker.INSTANCE.getListWorker().size();
