@@ -10,8 +10,6 @@
 | `login` | VARCHAR(25) | Логин пользователя, уникальный                                  |
 | `password` | VARCHAR(40) | Хэш пароля (SHA‑1)                                              |
 | `email` | VARCHAR(30) | Email пользователя                                              |
-| `login_attempts` | INTEGER | Количество неудачных попыток входа (по умолчанию 0)             |
-| `locked_until` | TIMESTAMP | Время до которого аккаунт заблокирован (NULL = не заблокирован) |
 
 **Ограничения:**
 - `CHECK (CHAR_LENGTH(login) > 8 AND CHAR_LENGTH(password) > 8)` — логин и пароль длиннее 8 символов
@@ -23,11 +21,12 @@
 
 Содержит объекты `Worker`, привязанные к пользователю.
 
-| Поле | Тип | Описание |
-|------|-----|----------|
-| `worker_id` | VARCHAR(25) | PRIMARY KEY, уникальный идентификатор работника |
-| `name` | VARCHAR(100) | Имя работника |
-| `user_id` | INTEGER | Внешний ключ на `"user"(id)`, при удалении пользователя удаляются его объекты |
+| Поле          | Тип          | Описание                                                                      |
+|---------------|--------------|-------------------------------------------------------------------------------|
+| `worker_id`   | VARCHAR(25)  | PRIMARY KEY, уникальный идентификатор работника                               |
+| `name`        | VARCHAR(100) | Имя работника                                                                 |
+| `user_id`     | INTEGER      | Внешний ключ на `"user"(id)`, при удалении пользователя удаляются его объекты |
+| `create_date` | DATE         | Время добавления сотрудника в базу, default now()                             |
 
 **Ограничения:**
 - `NOT NULL` для `worker_id` и `name`
@@ -43,8 +42,6 @@
 | `idx_user_login` | `"user"` | `login` | Ускорение поиска по логину |
 | `idx_user_password` | `"user"` | `password` | Ускорение аутентификации |
 | `idx_user_login_password` | `"user"` | `login, password` | Составной индекс для входа |
-| `idx_reset_tokens_user_id` | `password_reset_tokens` | `user_id` | Поиск токенов по пользователю |
-| `idx_reset_tokens_code` | `password_reset_tokens` | `code` | Быстрый поиск по коду |
 
 ---
 

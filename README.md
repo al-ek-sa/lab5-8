@@ -198,7 +198,7 @@ public enum OrganizationType {
 mvn clean compile package
 ```
 
-## При использование docker
+## При использовании docker
 ```bash
 #логгирование устанавливается по умолчанию и на клиенте, и на сервере
 #сервер

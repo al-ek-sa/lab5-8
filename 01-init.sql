@@ -9,6 +9,7 @@ CREATE TABLE "user" (
 
 CREATE TABLE worker (
                         worker_id VARCHAR(25) PRIMARY KEY,
+                        name VARCHAR(100),
                         user_id INTEGER REFERENCES "user"(id),
                         CHECK (worker_id IS NOT NULL),
                         CHECK (name IS NOT NULL),
