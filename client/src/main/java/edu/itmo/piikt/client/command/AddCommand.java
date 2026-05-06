@@ -24,6 +24,7 @@ import edu.itmo.piikt.common.sc.ServerResponse;
  */
 public record AddCommand(Network network, Worker worker) implements CommandExecute<ServerResponse> {
 	private static final AppLogger logger = new AppLogger(AddCommand.class);
+	private static String flag;
 
 	/**
 	 * Executes the ADD command.
@@ -41,9 +42,11 @@ public record AddCommand(Network network, Worker worker) implements CommandExecu
 			logger.info("ADD command started");
 			// Build Worker from user input
 			WorkerData workerData = worker.build(io);
+			io.println("Введите права на редактирование данной записи для других пользователей");
+			flag = io.readLine();
 			// Create and send command
 			ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName())
-					.user((String) arg[0]).data(workerData).build();
+					.user((String) arg[0]).data(workerData).argumentCommand(flag).build();
 			ServerResponse serverResponse = network.send(clientCommand);
 			return add(serverResponse, io, (String) arg[0]);
 		} catch (Exception e) {
@@ -74,7 +77,7 @@ public record AddCommand(Network network, Worker worker) implements CommandExecu
 					// Request corrected data from user
 					var data = workerServer.build(server);
 					ClientCommand clientCommand = ClientCommand.builder().nameCommand(Commands.ADD.getName()).data(data)
-							.user(user).build();
+							.argumentCommand(flag).user(user).build();
 					server = network.send(clientCommand);
 				}
 			} catch (Exception e) {

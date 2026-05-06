@@ -34,12 +34,13 @@ public class WorkerAdd {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Saving worker to database: id={}, name={}", worker.getUuid(), worker.getName());
 
-			String sql = "INSERT INTO worker(worker_id, name, user_id) VALUES (?, ?, ?)";
+			String sql = "INSERT INTO worker(worker_id, name, user_id, flag) VALUES (?, ?, ?, ?)";
 
 			try (PreparedStatement preparedStatement = BDConnect.INSTANCE.getConnection().prepareStatement(sql)) {
 				preparedStatement.setString(1, worker.getUuid());
 				preparedStatement.setString(2, worker.getName());
 				preparedStatement.setInt(3, EmployeeSearch.idUser(clientCommand));
+				preparedStatement.setString(4, clientCommand.getArgumentCommand());
 
 				int rowsAffected = preparedStatement.executeUpdate();
 				logger.info("Worker saved successfully: id={}, rowsAffected={}", worker.getUuid(), rowsAffected);

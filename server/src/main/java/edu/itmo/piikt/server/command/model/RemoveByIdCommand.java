@@ -5,6 +5,8 @@ import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
 import edu.itmo.piikt.server.command.bd.SearchWorker;
+import edu.itmo.piikt.server.command.bd.WorkerAdd;
+import edu.itmo.piikt.server.command.bd.WorkerFlag;
 import edu.itmo.piikt.server.command.interfaces.CommandType;
 import edu.itmo.piikt.server.history.HistoryWorker;
 import edu.itmo.piikt.server.manager.BDConnect;
@@ -62,8 +64,10 @@ public final class RemoveByIdCommand implements CommandType {
 				logger.warn("Worker with id {} not found", id);
 				return ServerResponse.error("Работника с таким id не существует");
 			}
+			ServerResponse serverResponse1 = WorkerFlag.getWorkerIdsByUserId(clientCommand, id);
 			ServerResponse serverResponse = SearchWorker.getWorkerIdsByUserId(clientCommand, id);
-			if (!serverResponse.execution()) {
+
+			if (!serverResponse.execution() && serverResponse1.execution()) {
 				return serverResponse;
 			}
 			serverResponse = getFirestore().deleteWorker(id);

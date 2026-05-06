@@ -82,28 +82,23 @@ public final class UpdateIdCommand implements CommandType {
 				worker.setUuid(clientCommand.getArgumentCommand());
 				logger.info("Worker UUID set to: {}", worker.getUuid());
 
-				ServerResponse serverResponse = workerAdd.newWorker(clientCommand, worker);
-				if (serverResponse.execution()) {
-					logger.info("PostgreSQL save successful for id: {}", worker.getUuid());
+				logger.info("PostgreSQL save successful for id: {}", worker.getUuid());
 
-					FirestoreService fs = getFirestore();
-					if (fs != null) {
-						ServerResponse saved = fs.saveWorker(worker);
-						if (saved.execution()) {
-							logger.info("Firestore save successful for id: {}", worker.getUuid());
-							HistoryWorker.INSTANCE.add(worker);
-							logger.info("Worker added to memory. Total workers: {}",
-									HistoryWorker.INSTANCE.getListWorker().size());
-						} else {
-							logger.warn("Firestore save failed for id: {}", worker.getUuid());
-						}
+				FirestoreService fs = getFirestore();
+				if (fs != null) {
+					ServerResponse saved = fs.saveWorker(worker);
+					if (saved.execution()) {
+						logger.info("Firestore save successful for id: {}", worker.getUuid());
+						HistoryWorker.INSTANCE.add(worker);
+						logger.info("Worker added to memory. Total workers: {}",
+								HistoryWorker.INSTANCE.getListWorker().size());
+					} else {
+						logger.warn("Firestore save failed for id: {}", worker.getUuid());
 					}
-					logger.info("UPDATE command completed successfully for id: {}", targetId);
-					return ServerResponse.successfulCompletion("UPDATE");
-				} else {
-					logger.error("PostgreSQL save failed for id: {}", targetId);
-					return serverResponse;
 				}
+				logger.info("UPDATE command completed successfully for id: {}", targetId);
+				return ServerResponse.successfulCompletion("UPDATE");
+
 			} else if (result instanceof ValidationError(List<MessageExceptionValidation>errors,Object data)) {
 				logger.warn("Validation failed: {} errors", errors.size());
 				return ServerResponse.error("Incorrect data entered", errors, data);

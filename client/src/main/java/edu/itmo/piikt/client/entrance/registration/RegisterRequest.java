@@ -127,6 +127,7 @@ public class RegisterRequest implements Request {
 				if (DamerauLevenshteinDistance.distance(code, "resend code") <= 2) {
 					count = 3;
 					email(network);
+					return;
 				}
 				if (code.equals("exit")) {
 					Registr registr = new Registr(io);
