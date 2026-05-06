@@ -9,7 +9,7 @@ CREATE TABLE "user" (
 
 CREATE TABLE worker (
                         id serial primary key,
-                        worker_id VARCHAR(25),
+                        worker_id VARCHAR(100),
                         name VARCHAR(100),
                         user_id INTEGER REFERENCES "user"(id),
                         CHECK (worker_id IS NOT NULL),

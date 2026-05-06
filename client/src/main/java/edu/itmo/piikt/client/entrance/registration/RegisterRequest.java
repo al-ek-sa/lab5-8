@@ -67,7 +67,6 @@ public class RegisterRequest implements Request {
 			login = io.readLine();
 		}
 		String password;
-		email(network);
 		while (true) {
 			io.println(
 					"Enter new password (must be at least 8 characters and contain at least 1 special character: * _ .)");
