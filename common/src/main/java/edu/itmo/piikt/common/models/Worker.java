@@ -1,14 +1,9 @@
 package edu.itmo.piikt.common.models;
 
-import com.opencsv.bean.CsvBindByPosition;
-import com.opencsv.bean.CsvDate;
-import com.opencsv.bean.CsvRecurse;
 import edu.itmo.piikt.common.util.GeneratorId;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.Date;
 import lombok.*;
 
 /**
@@ -24,42 +19,27 @@ public final class Worker implements Comparable<Worker>, Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
-	@CsvBindByPosition(position = 0)
 	private String uuid;
 
-	@CsvBindByPosition(position = 1)
 	private String name;
 
-	@CsvRecurse
 	private Coordinates coordinates;
 
-	@CsvBindByPosition(position = 4)
-	@CsvDate("yyyy-MM-dd HH:mm:ss")
-	private java.util.Date creationDate;
-
-	@CsvBindByPosition(position = 5)
 	private Float salary;
 
-	@CsvBindByPosition(position = 6)
-	@CsvDate("yyyy-MM-dd")
 	private java.time.LocalDate startDate;
 
-	@CsvBindByPosition(position = 7)
-	@CsvDate("yyyy-MM-dd'T'HH:mm:ssXXX")
-	private java.time.ZonedDateTime endDate;
+	private java.time.LocalDate endDate;
 
-	@CsvBindByPosition(position = 8)
 	private Status status;
 
-	@CsvRecurse
 	private Organization organization;
 
-	public Worker(String name, Coordinates coordinates, Float salary, LocalDate startDate, ZonedDateTime endDate,
+	public Worker(String name, Coordinates coordinates, Float salary, LocalDate startDate, LocalDate endDate,
 			Status status, Organization organization) {
 		this.uuid = GeneratorId.getId();
 		this.name = name;
 		this.coordinates = coordinates;
-		this.creationDate = new Date();
 		this.salary = salary;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -80,10 +60,9 @@ public final class Worker implements Comparable<Worker>, Serializable {
 	@Override
 	public String toString() {
 		return "id: " + uuid + ", name: " + name + ", coordinates: "
-				+ (coordinates == null ? "null" : coordinates.toString()) + ", creationDate: " + creationDate
-				+ ", salary: " + salary + ", \nstartDate: " + startDate + ", endDate: " + endDate + ", status: "
-				+ (status == null ? "null" : status.toString()) + ", organization: "
-				+ (organization == null ? "null" : organization.toString()) + "\n";
+				+ (coordinates == null ? "null" : coordinates.toString()) + ", salary: " + salary + ", \nstartDate: "
+				+ startDate + ", endDate: " + endDate + ", status: " + (status == null ? "null" : status.toString())
+				+ ", organization: " + (organization == null ? "null" : organization.toString()) + "\n";
 	}
 
 	@Override

@@ -2,8 +2,8 @@ package edu.itmo.piikt.client.data;
 
 import edu.itmo.piikt.common.data.AddressData;
 import edu.itmo.piikt.common.data.OrganizationData;
-import edu.itmo.piikt.common.data.OrganizationType.OrganizationTypeData;
-import edu.itmo.piikt.common.data.OrganizationType.TypeOrganizationDate;
+import edu.itmo.piikt.common.data.organization.type.OrganizationTypeData;
+import edu.itmo.piikt.common.data.organization.type.TypeOrganizationDate;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;

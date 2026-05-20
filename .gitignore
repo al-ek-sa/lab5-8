@@ -3,7 +3,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .kotlin
-
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
@@ -12,6 +11,10 @@ target/
 *.iws
 *.iml
 *.ipr
+
+# Logs
+logs/
+*.log
 
 ### Eclipse ###
 .apt_generated
@@ -37,3 +40,10 @@ build/
 
 ### Mac OS ###
 .DS_Store
+.env
+
+# Google Cloud / Firebase keys
+keys/
+*.json
+*.p12
+*.pem

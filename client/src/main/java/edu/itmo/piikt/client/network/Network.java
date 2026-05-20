@@ -1,19 +1,22 @@
 package edu.itmo.piikt.client.network;
 
-import edu.itmo.piikt.common.interfaceCommon.Client;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
-import edu.itmo.piikt.common.server_client.ClientCommand;
-import edu.itmo.piikt.common.server_client.ClientData;
-import edu.itmo.piikt.common.server_client.ServerResponse;
+import edu.itmo.piikt.common.sc.Client;
+import edu.itmo.piikt.common.sc.ClientCommand;
+import edu.itmo.piikt.common.sc.ClientData;
+import edu.itmo.piikt.common.sc.ServerResponse;
 import edu.itmo.piikt.common.util.DS;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import static java.lang.Thread.*;
 
 /**
  * Network client for communication with the server
@@ -36,7 +39,7 @@ public class Network implements Client {
 	/** Server host address */
 	private static final String HOST = System.getenv().getOrDefault("SERVER_HOST", "localhost");
 	/** Server port */
-	private final Integer PORT = 6652;
+	private final Integer PORT = 6654;
 	private ClientData clientData;
 
 	@Override
@@ -48,7 +51,7 @@ public class Network implements Client {
 	 * Attempts to connect to the server with infinite retries
 	 */
 	private void connectWithRetry() {
-		while (!Thread.currentThread().isInterrupted()) {
+		while (!currentThread().isInterrupted()) {
 			try (Context ignored = Context.newId()) {
 				logger.info("Connecting to {}:{}", HOST, PORT);
 				socketChannel = SocketChannel.open();
@@ -60,9 +63,9 @@ public class Network implements Client {
 			} catch (IOException e) {
 				logger.warn("Retry interrupted");
 				try {
-					Thread.sleep(250);
+					sleep(250);
 				} catch (InterruptedException ex) {
-					Thread.currentThread().interrupt();
+					currentThread().interrupt();
 					return;
 				}
 			}
