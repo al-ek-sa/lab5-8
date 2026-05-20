@@ -42,7 +42,7 @@ public class A1 {
                     g2dRotated.dispose();
                 }
             };
-
+            contentPane.setRequestFocusEnabled(true);
             contentPane.setLayout(null);
             contentPane.setBackground(new Color(0, 0, 0));
             contentPane.setPreferredSize(new Dimension(1440, 900));

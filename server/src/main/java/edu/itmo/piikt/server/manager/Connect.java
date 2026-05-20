@@ -34,7 +34,7 @@ public record Connect(Dispatcher dispatcher, User command) {
 	private static final int NO_DATA_READ = 0;
 	private static final AppLogger logger = new AppLogger(Connect.class);
 	/** Fixed thread pool for sending responses */
-	private static final ExecutorService responsePool = Executors.newFixedThreadPool(10);
+	private static final ExecutorService responsePool = Executors.newVirtualThreadPerTaskExecutor();
 
 	/**
 	 * Handles new client connection.
@@ -92,7 +92,7 @@ public record Connect(Dispatcher dispatcher, User command) {
 		buffer.get(data);
 		client.clearReader();
 
-		Thread readThread = new Thread(() -> {
+		Thread.ofVirtual().name("reader-" + clientChannel.getRemoteAddress()).start(() -> {
 			try (Context ignored = Context.newId()) {
 				ByteBuffer bb = ByteBuffer.wrap(data);
 				ClientCommand clientCommand = (ClientCommand) DS.deserialize(bb);
@@ -100,7 +100,7 @@ public record Connect(Dispatcher dispatcher, User command) {
 				logger.debug("Received command from {}: {}", clientChannel.getRemoteAddress(),
 						clientCommand.getNameCommand());
 
-				Thread processThread = new Thread(() -> {
+				Thread.ofVirtual().name("processor-" + clientCommand.getNameCommand()).start(() -> {
 					try (Context ignored2 = Context.newId()) {
 						ServerResponse serverResponse = dispatcher.dispatcher(clientCommand);
 						if (serverResponse == null) {
@@ -120,7 +120,6 @@ public record Connect(Dispatcher dispatcher, User command) {
 						selectionKey.selector().wakeup();
 					}
 				});
-				processThread.start();
 			} catch (Exception e) {
 				logger.error("Error deserializing command: {}", e.getMessage());
 				client.clearReader();
@@ -128,7 +127,6 @@ public record Connect(Dispatcher dispatcher, User command) {
 				selectionKey.selector().wakeup();
 			}
 		});
-		readThread.start();
 	}
 
 	/**
