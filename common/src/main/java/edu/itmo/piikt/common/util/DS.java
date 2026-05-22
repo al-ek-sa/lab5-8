@@ -33,7 +33,8 @@ public class DS {
 			byteBuffer.get(bytes);
 			String json = new String(bytes, StandardCharsets.UTF_8);
 			log.debug("JSON: {}", json);
-			T result = MAPPER.readValue(json, tClass);log.debug("Deserialization successful: {}", result.getClass().getSimpleName());
+			T result = MAPPER.readValue(json, tClass);
+			log.debug("Deserialization successful: {}", result.getClass().getSimpleName());
 			return result;
 		} catch (IOException e) {
 			log.error("Deserialization failed: {}", e.getMessage());
