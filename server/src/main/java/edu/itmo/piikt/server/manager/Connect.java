@@ -86,20 +86,17 @@ public record Connect(Dispatcher dispatcher, User command) {
 		if (reader == NO_DATA_READ) {
 			return;
 		}
-
 		buffer.flip();
 		byte[] data = new byte[buffer.remaining()];
 		buffer.get(data);
 		client.clearReader();
-
 		Thread.ofVirtual().name("reader-" + clientChannel.getRemoteAddress()).start(() -> {
 			try (Context ignored = Context.newId()) {
 				ByteBuffer bb = ByteBuffer.wrap(data);
-				ClientCommand clientCommand = (ClientCommand) DS.deserialize(bb);
+				ClientCommand clientCommand = DS.deserialize(bb, ClientCommand.class);
 				client.setCommand(clientCommand);
 				logger.debug("Received command from {}: {}", clientChannel.getRemoteAddress(),
 						clientCommand.getNameCommand());
-
 				Thread.ofVirtual().name("processor-" + clientCommand.getNameCommand()).start(() -> {
 					try (Context ignored2 = Context.newId()) {
 						ServerResponse serverResponse = dispatcher.dispatcher(clientCommand);
@@ -139,7 +136,6 @@ public record Connect(Dispatcher dispatcher, User command) {
 		var clientChannel = (SocketChannel) selectionKey.channel();
 		var client = (ClientData) selectionKey.attachment();
 		var serverResponse = (ServerResponse) client.getMessage();
-
 		if (serverResponse == null) {
 			selectionKey.interestOps(SelectionKey.OP_READ);
 			selectionKey.selector().wakeup();

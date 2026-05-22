@@ -24,6 +24,7 @@
         <lombok.version>1.18.30</lombok.version>
         <opencsv.version>5.7.1</opencsv.version>
         <spotless.version>2.43.0</spotless.version>
+        <jackson.version>2.17.0</jackson.version>
     </properties>
 
     <dependencyManagement>
@@ -32,6 +33,17 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
 
             <dependency>

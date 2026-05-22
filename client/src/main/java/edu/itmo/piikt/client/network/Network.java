@@ -100,7 +100,7 @@ public class Network implements Client {
 				return send(clientResponse);
 			}
 			reader.flip();
-			ServerResponse serverResponse = (ServerResponse) DS.deserialize(reader);
+			ServerResponse serverResponse = DS.deserialize(reader, ServerResponse.class);
 			logger.debug("Response received: success={}", serverResponse.execution());
 			return serverResponse;
 		} catch (Exception e) {

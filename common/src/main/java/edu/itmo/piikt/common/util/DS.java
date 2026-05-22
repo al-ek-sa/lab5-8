@@ -2,72 +2,60 @@ package edu.itmo.piikt.common.util;
 
 import edu.itmo.piikt.common.logger.AppLogger;
 import java.io.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+
 import lombok.experimental.UtilityClass;
 
 /**
  * Serialization utility for converting objects to/from ByteBuffer
  *
  * @author Lishyk Aliaksandra
- * @version 1.0
+ * @version 2.0
  */
 @UtilityClass
 public class DS {
 	private static final AppLogger log = new AppLogger(DS.class);
+	private static final ObjectMapper MAPPER;
+	static {
+		MAPPER = new ObjectMapper();
+		MAPPER.registerModule(new JavaTimeModule());
+		MAPPER.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+	}
 
-	/**
-	 * Deserializes an object from a ByteBuffer
-	 *
-	 * @param byteBuffer
-	 *            buffer containing serialized data
-	 * @return deserialized object
-	 * @throws RuntimeException
-	 *             if deserialization fails
-	 */
-	public static Object deserialize(ByteBuffer byteBuffer) {
+	public static <T> T deserialize(ByteBuffer byteBuffer, Class<T> tClass) {
 		log.debug("Deserializing object from ByteBuffer, size: {} bytes", byteBuffer.remaining());
-		try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteBuffer.array(), 0,
-				byteBuffer.limit());
-				ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
-			var result = objectInputStream.readObject();
-			log.debug("Deserialization successful: {}", result.getClass().getSimpleName());
+		try {
+			byte[] bytes = new byte[byteBuffer.remaining()];
+			byteBuffer.get(bytes);
+			String json = new String(bytes, StandardCharsets.UTF_8);
+			log.debug("JSON: {}", json);
+			T result = MAPPER.readValue(json, tClass);log.debug("Deserialization successful: {}", result.getClass().getSimpleName());
 			return result;
-		} catch (ClassNotFoundException ex) {
-			log.error("Deserialization failed: class not found - {}", ex.getMessage());
-			throw new RuntimeException("Class not found during deserialization", ex);
 		} catch (IOException e) {
-			log.error("Deserialization failed: IO error - {}", e.getMessage());
-			throw new RuntimeException("IO error during deserialization", e);
-		} catch (Exception e) {
 			log.error("Deserialization failed: {}", e.getMessage());
-			throw new RuntimeException(e);
+			throw new RuntimeException("JSON deserialization failed", e);
 		}
 	}
 
-	/**
-	 * Serializes an object to a ByteBuffer
-	 *
-	 * @param object
-	 *            object to serialize
-	 * @return ByteBuffer containing serialized data
-	 * @throws RuntimeException
-	 *             if serialization fails
-	 */
 	public static ByteBuffer serialize(Object object) {
 		log.debug("Serializing object: {}", object.getClass().getSimpleName());
-		try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
-			objectOutputStream.writeObject(object);
-			objectOutputStream.flush();
-			byte[] bytes = byteArrayOutputStream.toByteArray();
+		try {
+			String json = MAPPER.writeValueAsString(object);
+			log.debug("JSON: {}", json);
+			byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
 			log.debug("Serialization successful, size: {} bytes", bytes.length);
 			return ByteBuffer.wrap(bytes);
-		} catch (NotSerializableException e) {
-			log.error("Serialization failed: object not serializable - {}", e.getMessage());
-			throw new RuntimeException("Object not serializable: " + object.getClass().getName(), e);
 		} catch (IOException e) {
-			log.error("Serialization failed: IO error - {}", e.getMessage());
-			throw new RuntimeException("IO error during serialization", e);
+			log.error("Serialization failed: {}", e.getMessage());
+			throw new RuntimeException("JSON serialization failed for: " + object.getClass().getName(), e);
 		}
+	}
+
+	public static ObjectMapper getMapper() {
+		return MAPPER;
 	}
 }
