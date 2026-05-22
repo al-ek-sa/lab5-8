@@ -64,7 +64,7 @@ public final class UpdateIdCommand implements CommandType {
 						.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
 
-			String targetId = clientCommand.getArgumentCommand();
+			String targetId = clientCommand.argumentCommand();
 			logger.info("UPDATE command started for id: {}", targetId);
 
 			if (targetId == null || targetId.trim().isEmpty()) {
@@ -72,14 +72,14 @@ public final class UpdateIdCommand implements CommandType {
 				return ServerResponse.error("Worker ID cannot be empty");
 			}
 
-			WorkerData dataWorker = (WorkerData) clientCommand.getData();
+			WorkerData dataWorker = (WorkerData) clientCommand.data();
 			logger.debug("Worker data received: name={}, salary={}", dataWorker.getName(), dataWorker.getSalary());
 
 			Object result = builderWorker.data(dataWorker);
 			if (result instanceof WorkerData) {
 				Worker worker = workerBuilder.builerWorker(dataWorker);
-				logger.error(clientCommand.getArgumentCommand());
-				worker.setUuid(clientCommand.getArgumentCommand());
+				logger.error(clientCommand.argumentCommand());
+				worker.setUuid(clientCommand.argumentCommand());
 				logger.info("Worker UUID set to: {}", worker.getUuid());
 
 				logger.info("PostgreSQL save successful for id: {}", worker.getUuid());

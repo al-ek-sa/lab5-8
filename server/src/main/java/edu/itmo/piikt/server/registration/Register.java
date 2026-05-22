@@ -31,9 +31,9 @@ public class Register implements CommandType {
 	@Override
 	public ServerResponse execute(ClientCommand command) {
 		try (Context ignored = Context.newId()) {
-			String login = command.getLogin();
-			String email = command.getEmail();
-			String password = command.getPassword();
+			String login = command.login();
+			String email = command.email();
+			String password = command.password();
 
 			logger.info("Processing registration request for login: {}, email: {}", login, email);
 
@@ -54,8 +54,7 @@ public class Register implements CommandType {
 			return response;
 
 		} catch (Exception e) {
-			logger.error("Unexpected error during registration for login {}: {}", command.getLogin(), e.getMessage(),
-					e);
+			logger.error("Unexpected error during registration for login {}: {}", command.login(), e.getMessage(), e);
 			return ServerResponse.error("Internal server error");
 		}
 	}

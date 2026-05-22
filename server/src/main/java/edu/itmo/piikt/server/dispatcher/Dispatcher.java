@@ -52,7 +52,7 @@ public class Dispatcher {
 	 */
 	public ServerResponse dispatcher(ClientCommand command) {
 		try (Context ignored = Context.newId()) {
-			String commandName = command.getNameCommand();
+			String commandName = command.nameCommand();
 			logger.debug("Dispatching command: {}", commandName);
 
 			Commands commands = Commands.nameCommands(commandName);

@@ -46,7 +46,7 @@ public final class CountByOrganizationCommand implements CommandType {
 						.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
 			logger.info("Executing COUNT_BY_ORGANIZATION command");
-			OrganizationData organizationData = (OrganizationData) clientCommand.getData();
+			OrganizationData organizationData = (OrganizationData) clientCommand.data();
 			logger.debug("Organization data: turnover={}, type={}, street={}", organizationData.getAnnualTurnover(),
 					organizationData.getType().getId(), organizationData.getOfficialAddress().getStreet());
 			// Validate data

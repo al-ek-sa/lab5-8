@@ -40,7 +40,7 @@ public class WorkerAdd {
 				preparedStatement.setString(1, worker.getUuid());
 				preparedStatement.setString(2, worker.getName());
 				preparedStatement.setInt(3, EmployeeSearch.idUser(clientCommand));
-				preparedStatement.setString(4, clientCommand.getArgumentCommand());
+				preparedStatement.setString(4, clientCommand.argumentCommand());
 
 				int rowsAffected = preparedStatement.executeUpdate();
 				logger.info("Worker saved successfully: id={}, rowsAffected={}", worker.getUuid(), rowsAffected);

@@ -87,7 +87,7 @@ public class Network implements Client {
 			if (socketChannel == null || !socketChannel.isConnected()) {
 				connect();
 			}
-			logger.debug("Sending command: {}", clientResponse.getNameCommand());
+			logger.debug("Sending command: {}", clientResponse.nameCommand());
 			ByteBuffer writer = DS.serialize(clientResponse);
 			socketChannel.write(writer);
 			socketChannel.socket().setSoTimeout(TIME);

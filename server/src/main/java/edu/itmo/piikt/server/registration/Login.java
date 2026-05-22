@@ -34,8 +34,8 @@ public class Login implements CommandType {
 	@Override
 	public ServerResponse execute(ClientCommand command) {
 		try (Context ignored = Context.newId()) {
-			String login = command.getLogin();
-			String password = command.getPassword();
+			String login = command.login();
+			String password = command.password();
 
 			logger.info("Processing login request for user: {}", login);
 
@@ -49,7 +49,7 @@ public class Login implements CommandType {
 			return bd.login(login, password);
 
 		} catch (Exception e) {
-			logger.error("Unexpected error during login for user {}: {}", command.getLogin(), e.getMessage(), e);
+			logger.error("Unexpected error during login for user {}: {}", command.login(), e.getMessage(), e);
 			return ServerResponse.error("Internal server error");
 		}
 	}

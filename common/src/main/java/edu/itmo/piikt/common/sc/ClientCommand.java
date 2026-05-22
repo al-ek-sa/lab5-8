@@ -1,8 +1,10 @@
 package edu.itmo.piikt.common.sc;
 
-import java.io.Serial;
-import java.io.Serializable;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Value;
 
 /**
  * Command sent from client to server for execution
@@ -10,16 +12,8 @@ import lombok.*;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-@Value
 @Builder
-public class ClientCommand implements Serializable {
-	@Serial
-	private static final long serialVersionUID = 1L;
-	String nameCommand;
-	String argumentCommand;
-	Object data;
-	String login;
-	String email;
-	String password;
-	String user;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record ClientCommand(String nameCommand, String argumentCommand, Object data, String login, String email,
+		String password, String user) {
 }

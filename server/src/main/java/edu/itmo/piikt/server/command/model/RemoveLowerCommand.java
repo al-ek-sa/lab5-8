@@ -56,7 +56,7 @@ public final class RemoveLowerCommand implements CommandType {
 				return ServerResponse
 						.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
-			String argument = clientCommand.getArgumentCommand();
+			String argument = clientCommand.argumentCommand();
 			logger.info("Executing REMOVE_LOWER with argument: {}", argument);
 			// Validate argument presence
 			if (argument == null || argument.trim().isEmpty()) {

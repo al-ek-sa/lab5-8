@@ -51,7 +51,7 @@ public final class RemoveByIdCommand implements CommandType {
 				return ServerResponse
 						.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
-			String id = clientCommand.getArgumentCommand();
+			String id = clientCommand.argumentCommand();
 			logger.info("Executing REMOVE_BY_ID with id: {}", id);
 
 			if (id == null || id.trim().isEmpty()) {

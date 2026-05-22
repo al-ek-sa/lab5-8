@@ -61,7 +61,7 @@ public final class AddCommand implements CommandType {
 						.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
 			logger.info("Executing ADD command");
-			WorkerData dataWorker = (WorkerData) clientCommand.getData();
+			WorkerData dataWorker = (WorkerData) clientCommand.data();
 			logger.debug("Worker data received: name={}, salary={}", dataWorker.getName(), dataWorker.getSalary());
 			// Validate data
 			Object result = builderWorker.data(dataWorker);

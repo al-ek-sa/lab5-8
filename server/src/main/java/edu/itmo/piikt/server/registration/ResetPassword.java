@@ -31,9 +31,9 @@ public class ResetPassword implements CommandType {
 	@Override
 	public ServerResponse execute(ClientCommand command) {
 		try (Context ignored = Context.newId()) {
-			String login = command.getLogin();
-			String email = command.getEmail();
-			String newPassword = command.getPassword();
+			String login = command.login();
+			String email = command.email();
+			String newPassword = command.password();
 
 			logger.info("Processing reset password request for login: {}, email: {}", login, email);
 
@@ -43,13 +43,12 @@ public class ResetPassword implements CommandType {
 			}
 
 			logger.debug("Executing password reset in database for login: {}", login);
-			if (command.getPassword() == null || newPassword.isEmpty()) {
-				return bd.selectUser(command.getLogin(), command.getEmail());
+			if (command.password() == null || newPassword.isEmpty()) {
+				return bd.selectUser(command.login(), command.email());
 			}
 			return bd.newPassword(email, login, newPassword);
 		} catch (Exception e) {
-			logger.error("Unexpected error during password reset for login {}: {}", command.getLogin(), e.getMessage(),
-					e);
+			logger.error("Unexpected error during password reset for login {}: {}", command.login(), e.getMessage(), e);
 			return ServerResponse.error("Internal server error");
 		}
 	}

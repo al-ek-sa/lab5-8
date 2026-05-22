@@ -39,7 +39,7 @@ public final class FilterContainsNameCommand implements CommandType {
 				return ServerResponse
 						.error("         return ServerResponse.error(\"Command unavailable, please try again later");
 			}
-			String argument = clientCommand.getArgumentCommand();
+			String argument = clientCommand.argumentCommand();
 			logger.info("Executing FILTER_CONTAINS_NAME with argument: {}", argument);
 			var listWorker = HistoryWorker.INSTANCE.getListWorker();
 			List<String> list = listWorker.stream().filter(worker -> worker.getName() != null)

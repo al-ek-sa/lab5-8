@@ -96,15 +96,15 @@ public record Connect(Dispatcher dispatcher, User command) {
 				ClientCommand clientCommand = DS.deserialize(bb, ClientCommand.class);
 				client.setCommand(clientCommand);
 				logger.debug("Received command from {}: {}", clientChannel.getRemoteAddress(),
-						clientCommand.getNameCommand());
-				Thread.ofVirtual().name("processor-" + clientCommand.getNameCommand()).start(() -> {
+						clientCommand.nameCommand());
+				Thread.ofVirtual().name("processor-" + clientCommand.nameCommand()).start(() -> {
 					try (Context ignored2 = Context.newId()) {
 						ServerResponse serverResponse = dispatcher.dispatcher(clientCommand);
 						if (serverResponse == null) {
 							serverResponse = command.execute(clientCommand);
 						}
 						if (serverResponse == null) {
-							logger.error("Command returned null response for: {}", clientCommand.getNameCommand());
+							logger.error("Command returned null response for: {}", clientCommand.nameCommand());
 							serverResponse = ServerResponse.error("Internal server error");
 						}
 						client.setMessage(serverResponse);
