@@ -1,15 +1,15 @@
 package edu.itmo.piikt.client.gui.command;
 
-import edu.itmo.piikt.client.gui.RightContentPanel;
+import edu.itmo.piikt.client.gui.ss.MainAppPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class HelpPanel extends JPanel {
-    private RightContentPanel parent;
+    private MainAppPanel parent;
     private String currentUser;
 
-    public HelpPanel(RightContentPanel parent, String username) {
+    public HelpPanel(MainAppPanel parent, String username) {
         this.parent = parent;
         this.currentUser = username;
         setBackground(Color.BLACK);
@@ -17,20 +17,18 @@ public class HelpPanel extends JPanel {
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridwidth = 1;
-        gbc.anchor = GridBagConstraints.CENTER;
-
-        JLabel titleLabel = new JLabel("СПРАВКА");
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 50));
         gbc.gridy = 0;
-        gbc.insets = new Insets(50, 0, 30, 0);
-        add(titleLabel, gbc);
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
 
+        JLabel titleLabel = new JLabel("ПОМОЩЬ");
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 70));
+        gbc.insets = new Insets(60, 0, 30, 0);
+        add(titleLabel, gbc);
         JTextArea helpText = new JTextArea();
         helpText.setText(
-                "ДОСТУПНЫЕ КОМАНДЫ:\n\n" +
-                        "help - вывести справку\n" +
+                "help - вывести справку\n" +
                         "info - информация о коллекции\n" +
                         "show - показать все элементы\n" +
                         "add - добавить элемент\n" +
@@ -47,27 +45,15 @@ public class HelpPanel extends JPanel {
         );
         helpText.setForeground(Color.WHITE);
         helpText.setBackground(Color.BLACK);
-        helpText.setFont(new Font("Monospaced", Font.PLAIN, 16));
+        helpText.setFont(new Font("Monospaced", Font.PLAIN, 18));
         helpText.setEditable(false);
         helpText.setLineWrap(true);
         helpText.setWrapStyleWord(true);
         helpText.setOpaque(false);
-        helpText.setColumns(40);
+        helpText.setColumns(35);
 
         gbc.gridy = 1;
-        gbc.insets = new Insets(0, 20, 30, 20);
+        gbc.insets = new Insets(0, 0, 0, 0);
         add(helpText, gbc);
-
-        JButton backButton = new JButton("ВЕРНУТЬСЯ");
-        backButton.setBackground(new Color(48, 48, 48));
-        backButton.setForeground(Color.WHITE);
-        backButton.setFont(new Font("Arial", Font.BOLD, 25));
-        backButton.setFocusPainted(false);
-        backButton.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
-        backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        backButton.addActionListener(e -> parent.showMainApp(currentUser));
-        gbc.gridy = 2;
-        gbc.insets = new Insets(20, 0, 50, 0);
-        add(backButton, gbc);
     }
 }

@@ -15,6 +15,8 @@ public class MainGUI extends JFrame {
 	private JPanel appPanel;
 	private JPanel loginContentPanel;
 	private AppTopPanel appTopPanel;
+	private RightContentPanel rightContentPanel;
+	private MainAppPanel mainAppPanel;
 
 	public MainGUI() {
 		setTitle("WORKERFLOW");
@@ -69,10 +71,12 @@ public class MainGUI extends JFrame {
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBackground(Color.BLACK);
 
+		rightContentPanel = new RightContentPanel(this);
+
 		splitPane = new JSplitPane(
 				JSplitPane.HORIZONTAL_SPLIT,
 				new LeftPanel(),
-				new RightContentPanel(this)
+				rightContentPanel
 		);
 		splitPane.setDividerLocation(0.5);
 		splitPane.setEnabled(false);
@@ -90,9 +94,11 @@ public class MainGUI extends JFrame {
 		panel.setBackground(Color.BLACK);
 
 		appTopPanel = new AppTopPanel(this);
-		panel.add(appTopPanel, BorderLayout.NORTH);
+		mainAppPanel = new MainAppPanel();
+		appTopPanel.setMainAppPanel(mainAppPanel);
 
-		panel.add(new MainAppPanel(), BorderLayout.CENTER);
+		panel.add(appTopPanel, BorderLayout.NORTH);
+		panel.add(mainAppPanel, BorderLayout.CENTER);
 
 		return panel;
 	}
@@ -102,26 +108,6 @@ public class MainGUI extends JFrame {
 		loginContentPanel.setVisible(false);
 		topPanel.setVisible(false);
 		appPanel.setVisible(true);
-		layeredPane.repaint();
-	}
-
-	public void showLoginPanel() {
-		appPanel.setVisible(false);
-		loginContentPanel.setVisible(true);
-		topPanel.setVisible(true);
-
-		Component[] comps = loginContentPanel.getComponents();
-		for (Component comp : comps) {
-			if (comp instanceof JSplitPane) {
-				JSplitPane sp = (JSplitPane) comp;
-				Component right = sp.getRightComponent();
-				if (right instanceof RightContentPanel) {
-					((RightContentPanel) right).resetToLoginStart();
-					break;
-				}
-			}
-		}
-
 		layeredPane.repaint();
 	}
 

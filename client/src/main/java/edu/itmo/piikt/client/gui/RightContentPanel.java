@@ -75,8 +75,4 @@ public class RightContentPanel extends JPanel {
 		add(panel, "COMPLETE_REGISTRATION");
 		cardLayout.show(this, "COMPLETE_REGISTRATION");
 	}
-
-	public void resetToLoginStart() {
-		cardLayout.show(this, "LOGIN_START");
-	}
 }
