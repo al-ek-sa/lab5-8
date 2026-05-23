@@ -4,55 +4,46 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LoginPanel extends JPanel {
-	private JTextField loginField;
-	private JPasswordField passwordField;
+    private RightContentPanel parent;
 
-	public LoginPanel() {
-		setLayout(new GridBagLayout());
-		setBackground(Color.WHITE);
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(10, 20, 10, 20);
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		JLabel titleLabel = new JLabel("ВХОД");
-		titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-		titleLabel.setForeground(new Color(70, 130, 200));
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 2;
-		add(titleLabel, gbc);
-		gbc.gridwidth = 1;
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		add(new JLabel("Логин:"), gbc);
+    public LoginPanel(RightContentPanel parent) {
+        this.parent = parent;
+        setBackground(Color.BLACK);
+        setLayout(new GridBagLayout());
 
-		gbc.gridx = 1;
-		loginField = new JTextField(15);
-		add(loginField, gbc);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
 
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		add(new JLabel("Пароль:"), gbc);
+        JLabel titleLabel = new JLabel("WORKERFLOW");
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 90));
+        gbc.gridy = 0;
+        gbc.insets = new Insets(0, 0, 40, 0);
+        add(titleLabel, gbc);
 
-		gbc.gridx = 1;
-		passwordField = new JPasswordField(15);
-		add(passwordField, gbc);
+        JButton loginButton = createButton("ВХОД В АККАУНТ", new Color(48, 48, 48));
+        loginButton.addActionListener(e -> parent.showPanel("LOGIN_FORM"));
+        gbc.gridy = 1;
+        gbc.insets = new Insets(10, 50, 10, 50);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        add(loginButton, gbc);
 
-		JButton loginButton = new JButton("Войти");
-		loginButton.setBackground(new Color(70, 130, 200));
-		loginButton.setForeground(Color.WHITE);
+        JButton registerButton = createButton("РЕГИСТРАЦИЯ", new Color(48, 48, 48));
+        registerButton.addActionListener(e -> parent.showPanel("REGISTER"));
+        gbc.gridy = 2;
+        add(registerButton, gbc);
+    }
 
-		JButton registerButton = new JButton("Регистрация");
-		registerButton.setBackground(new Color(100, 150, 220));
-		registerButton.setForeground(Color.WHITE);
-
-		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
-		buttonPanel.setBackground(Color.WHITE);
-		buttonPanel.add(loginButton);
-		buttonPanel.add(registerButton);
-
-		gbc.gridx = 0;
-		gbc.gridy = 3;
-		gbc.gridwidth = 2;
-		add(buttonPanel, gbc);
-	}
+    private JButton createButton(String text, Color bgColor) {
+        JButton button = new JButton(text);
+        button.setBackground(bgColor);
+        button.setForeground(Color.WHITE);
+        button.setFont(new Font("Arial", Font.BOLD, 35));
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(15, 30, 15, 30));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return button;
+    }
 }

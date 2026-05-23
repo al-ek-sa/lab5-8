@@ -1,20 +1,82 @@
 package edu.itmo.piikt.client.gui;
 
+import edu.itmo.piikt.client.gui.register.email.CodeConfirmationPanel;
+import edu.itmo.piikt.client.gui.register.email.CompleteRegistrationPanel;
+import edu.itmo.piikt.client.gui.register.email.RegisterPanel;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RightContentPanel extends JPanel {
 	private CardLayout cardLayout;
+	private Map<String, JPanel> panels;
+	private MainGUI mainGUI;
 
-	public RightContentPanel() {
+	public RightContentPanel(MainGUI mainGUI) {
+		this.mainGUI = mainGUI;
 		cardLayout = new CardLayout();
 		setLayout(cardLayout);
+		setBackground(Color.BLACK);
 
-		add(new JPanel(), "REGISTER");
-		add(new JPanel(), "MAIN");
+		panels = new HashMap<>();
+
+		panels.put("LOGIN_START", new LoginPanel(this));
+		panels.put("LOGIN_FORM", new LoginFormPanel(this));
+		panels.put("FORGOT_PASSWORD", new ForgotPasswordPanel(this));
+		panels.put("REGISTER", new RegisterPanel(this));
+		panels.put("RESET_CODE_CONFIRMATION", new JPanel());
+		panels.put("RESET_PASSWORD", new JPanel());
+		panels.put("CODE_CONFIRMATION", new JPanel());
+		panels.put("COMPLETE_REGISTRATION", new JPanel());
+
+		for (Map.Entry<String, JPanel> entry : panels.entrySet()) {
+			add(entry.getValue(), entry.getKey());
+		}
+
+		cardLayout.show(this, "LOGIN_START");
 	}
 
 	public void showPanel(String panelName) {
-		cardLayout.show(this, panelName);
+		if (panels.containsKey(panelName)) {
+			cardLayout.show(this, panelName);
+		}
+	}
+
+	public void showMainApp(String username) {
+		mainGUI.showAppPanel(username);
+	}
+
+	public void showResetCodeConfirmation(String login, String email) {
+		ResetCodeConfirmationPanel panel = new ResetCodeConfirmationPanel(this, login, email);
+		panels.put("RESET_CODE_CONFIRMATION", panel);
+		add(panel, "RESET_CODE_CONFIRMATION");
+		cardLayout.show(this, "RESET_CODE_CONFIRMATION");
+	}
+
+	public void showResetPasswordPanel(String login, String email) {
+		ResetPasswordPanel panel = new ResetPasswordPanel(this, login, email);
+		panels.put("RESET_PASSWORD", panel);
+		add(panel, "RESET_PASSWORD");
+		cardLayout.show(this, "RESET_PASSWORD");
+	}
+
+	public void showCodeConfirmation(String email) {
+		CodeConfirmationPanel panel = new CodeConfirmationPanel(this, email);
+		panels.put("CODE_CONFIRMATION", panel);
+		add(panel, "CODE_CONFIRMATION");
+		cardLayout.show(this, "CODE_CONFIRMATION");
+	}
+
+	public void showCompleteRegistration(String email) {
+		CompleteRegistrationPanel panel = new CompleteRegistrationPanel(this, email);
+		panels.put("COMPLETE_REGISTRATION", panel);
+		add(panel, "COMPLETE_REGISTRATION");
+		cardLayout.show(this, "COMPLETE_REGISTRATION");
+	}
+
+	public void resetToLoginStart() {
+		cardLayout.show(this, "LOGIN_START");
 	}
 }

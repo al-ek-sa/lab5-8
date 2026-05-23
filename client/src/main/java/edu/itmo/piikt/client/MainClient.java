@@ -1,6 +1,7 @@
 package edu.itmo.piikt.client;
 
 import edu.itmo.piikt.client.entrance.Registr;
+import edu.itmo.piikt.client.gui.MainGUI;
 import edu.itmo.piikt.client.mode.InteractiveMode;
 import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.io.provider.IOProvider;
@@ -9,6 +10,7 @@ import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Config;
 import edu.itmo.piikt.common.logger.Context;
 
+import javax.swing.*;
 import java.io.IOException;
 
 /**
@@ -23,6 +25,9 @@ public class MainClient {
 	public static void main(String[] args) {
 		Config.configureFromArgs(args);
 
+		SwingUtilities.invokeLater(() -> {
+			new MainGUI().setVisible(true);
+		});
 		try (Context ignored = Context.newId()) {
 			logger.info("Starting client");
 			Network client = new Network();

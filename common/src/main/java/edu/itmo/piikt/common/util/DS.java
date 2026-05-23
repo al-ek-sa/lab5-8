@@ -55,8 +55,4 @@ public class DS {
 			throw new RuntimeException("JSON serialization failed for: " + object.getClass().getName(), e);
 		}
 	}
-
-	public static ObjectMapper getMapper() {
-		return MAPPER;
-	}
 }
