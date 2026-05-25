@@ -1,8 +1,6 @@
 package edu.itmo.piikt.client.command;
 
-import edu.itmo.piikt.client.algorithms.Graph;
-import edu.itmo.piikt.client.commands.CommandVoid;
-import edu.itmo.piikt.client.manager.ValidationCommand;
+import edu.itmo.piikt.client.command.algorithms.Graph;
 import edu.itmo.piikt.common.io.data.NameIOProvider;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.io.providerType.IOFile;
@@ -23,20 +21,13 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-public final class ExecuteScriptCommand implements CommandVoid {
+public final class ExecuteScriptCommand {
 	private static final AppLogger log = new AppLogger(ExecuteScriptCommand.class);
 	/** List of executed scripts to prevent recursion */
 	private final List<String> name = new ArrayList<>();
 	/** Graph for cycle detection in script calls */
 	private final Graph graph = new Graph();
 
-	/**
-	 * Executes a script from the specified file
-	 *
-	 * @param io
-	 *            input/output provider
-	 */
-	@Override
 	public void execute(IOProvider io, Object... arg) {
 		if (arg.length != 1) {
 			throw new RuntimeException();
@@ -66,8 +57,6 @@ public final class ExecuteScriptCommand implements CommandVoid {
 			// Create provider for script file and switch context
 			IOFile ioProvider = new IOFile(argument);
 			IOProvider provider = new ScriptProvider(ioProvider, graph, argument);
-
-			ValidationCommand.INSTANCE.pushProvider(provider);
 			log.debug("Script provider pushed for: {}", argument);
 		} catch (FileNotFoundException e) {
 			log.error("Script file not found: {}", argument);

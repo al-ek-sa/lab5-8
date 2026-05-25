@@ -30,7 +30,7 @@ public class LeftPanel extends JPanel {
 		super.paintComponent(g);
 		if (backgroundImage != null) {
 			int panelHeight = getHeight();
-			g.drawImage(backgroundImage, 0, 0, panelHeight/2 + 15, panelHeight, this);
+			g.drawImage(backgroundImage, 0, 0, panelHeight / 2 + 15, panelHeight, this);
 		} else {
 			g.setColor(Color.DARK_GRAY);
 			g.fillRect(0, 0, getWidth(), getHeight());

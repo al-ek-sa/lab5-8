@@ -1,4 +1,4 @@
-package edu.itmo.piikt.client.algorithms;
+package edu.itmo.piikt.client.command.algorithms;
 
 import edu.itmo.piikt.common.logger.AppLogger;
 import java.util.*;

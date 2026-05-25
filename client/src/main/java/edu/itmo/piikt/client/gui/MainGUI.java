@@ -4,10 +4,15 @@ import edu.itmo.piikt.client.gui.ss.AppTopPanel;
 import edu.itmo.piikt.client.gui.ss.MainAppPanel;
 import edu.itmo.piikt.client.gui.title.LeftPanel;
 import edu.itmo.piikt.client.gui.title.TopPanel;
+import edu.itmo.piikt.client.manager.GuiCommandSender;
+import edu.itmo.piikt.client.network.Network;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.swing.*;
 import java.awt.*;
-
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class MainGUI extends JFrame {
 	private JLayeredPane layeredPane;
 	private JSplitPane splitPane;
@@ -73,11 +78,7 @@ public class MainGUI extends JFrame {
 
 		rightContentPanel = new RightContentPanel(this);
 
-		splitPane = new JSplitPane(
-				JSplitPane.HORIZONTAL_SPLIT,
-				new LeftPanel(),
-				rightContentPanel
-		);
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new LeftPanel(), rightContentPanel);
 		splitPane.setDividerLocation(0.5);
 		splitPane.setEnabled(false);
 		splitPane.setResizeWeight(0.5);
@@ -104,16 +105,21 @@ public class MainGUI extends JFrame {
 	}
 
 	public void showAppPanel(String username) {
-		appTopPanel.setUsername(username);
-		loginContentPanel.setVisible(false);
-		topPanel.setVisible(false);
-		appPanel.setVisible(true);
-		layeredPane.repaint();
-	}
+		try {
+			Network network = new Network();
+			network.connect();
 
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> {
-			new MainGUI().setVisible(true);
-		});
+			GuiCommandSender.INSTANCE.setNetwork(network);
+			GuiCommandSender.INSTANCE.setUser(username);
+
+			appTopPanel.setUsername(username);
+			loginContentPanel.setVisible(false);
+			topPanel.setVisible(false);
+			appPanel.setVisible(true);
+			layeredPane.repaint();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Ошибка подключения к серверу: " + e.getMessage(), "Ошибка",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }
