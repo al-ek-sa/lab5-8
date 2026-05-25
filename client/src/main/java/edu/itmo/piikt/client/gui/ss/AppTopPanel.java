@@ -1,16 +1,11 @@
 package edu.itmo.piikt.client.gui.ss;
 
 import edu.itmo.piikt.client.gui.MainGUI;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.swing.*;
 import java.awt.*;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class AppTopPanel extends JPanel {
-    private final MainGUI parent;
     private final JLabel userLabel;
     private final JButton langButton;
     private final JButton logoutButton;
@@ -18,7 +13,6 @@ public class AppTopPanel extends JPanel {
     private MainAppPanel mainAppPanel;
 
     public AppTopPanel(MainGUI parent) {
-        this.parent = parent;
         setLayout(new BorderLayout());
         setBackground(new Color(20, 20, 30));
         setPreferredSize(new Dimension(0, 60));
@@ -108,72 +102,23 @@ public class AppTopPanel extends JPanel {
         item.addActionListener(e -> {
             System.out.println("Command: " + command);
             System.out.println("currentUser value: '" + currentUser + "'");
-
-            if (command.equals("help")) {
-                if (mainAppPanel != null) {
-                    mainAppPanel.showHelp(currentUser);
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Панель приложения не инициализирована",
-                            "Ошибка",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            } else if (command.equals("info")) {
-                if (mainAppPanel != null) {
-                    mainAppPanel.showInfo(currentUser);
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Панель приложения не инициализирована",
-                            "Ошибка",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            } else if (command.equals("history")) {
-                if (mainAppPanel != null) {
-                    mainAppPanel.showHistory(currentUser);
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Панель приложения не инициализирована",
-                            "Ошибка",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            } else if (command.equals("first_worker")) {
-                if (mainAppPanel != null) {
-                    mainAppPanel.showFirstWorker(currentUser);
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Панель приложения не инициализирована",
-                            "Ошибка",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            } else if (command.equals("read_file")) {
-                if (mainAppPanel != null) {
-                    mainAppPanel.showReadFile(currentUser);
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Панель приложения не инициализирована",
-                            "Ошибка",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            } else if (command.equals("search_by_organization")) {
-                if (mainAppPanel != null) {
-                    mainAppPanel.showSearchByOrganization(currentUser);
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Панель приложения не инициализирована",
-                            "Ошибка",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            } else if (command.equals("show")) {
-                if (mainAppPanel != null) {
-                    mainAppPanel.showShow(currentUser);
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Панель приложения не инициализирована",
-                            "Ошибка",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
+            if (mainAppPanel == null) {
+                System.err.println("mainAppPanel is null!");
                 JOptionPane.showMessageDialog(this,
+                        "Ошибка: панель приложения не инициализирована",
+                        "Ошибка",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            switch (command) {
+                case "help" -> mainAppPanel.showHelp(currentUser);
+                case "info" -> mainAppPanel.showInfo(currentUser);
+                case "history" -> mainAppPanel.showHistory(currentUser);
+                case "first_worker" -> mainAppPanel.showFirstWorker(currentUser);
+                case "read_file" -> mainAppPanel.showReadFile(currentUser);
+                case "search_by_organization" -> mainAppPanel.showSearchByOrganization(currentUser);
+                case "show" -> mainAppPanel.showShow(currentUser);
+                default -> JOptionPane.showMessageDialog(this,
                         "Команда '" + description + "' будет реализована позже",
                         "Информация",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -184,9 +129,7 @@ public class AppTopPanel extends JPanel {
 
     private JMenuItem createLangMenuItem(String langName, String code) {
         JMenuItem item = new JMenuItem(langName + " (" + code + ")");
-        item.addActionListener(e -> {
-            langButton.setText(code);
-        });
+        item.addActionListener(e -> langButton.setText(code));
         return item;
     }
 
@@ -198,5 +141,8 @@ public class AppTopPanel extends JPanel {
             displayName = displayName.substring(0, 12) + "...";
         }
         userLabel.setText(displayName);
+    }
+    public void setMainAppPanel(MainAppPanel mainAppPanel) {
+        this.mainAppPanel = mainAppPanel;
     }
 }
