@@ -6,8 +6,6 @@ import lombok.EqualsAndHashCode;
 
 import javax.swing.*;
 import java.awt.*;
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class AppTopPanel extends JPanel {
 	private final JLabel userLabel;
 	private final JButton langButton;
@@ -137,5 +135,8 @@ public class AppTopPanel extends JPanel {
 			displayName = displayName.substring(0, 12) + "...";
 		}
 		userLabel.setText(displayName);
+	}
+	public void setMainAppPanel(MainAppPanel mainAppPanel) {
+		this.mainAppPanel = mainAppPanel;
 	}
 }

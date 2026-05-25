@@ -14,8 +14,6 @@ import lombok.EqualsAndHashCode;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class MainAppPanel extends JPanel {
 	private CardLayout cardLayout;
 	private JPanel container;
@@ -158,7 +156,7 @@ public class MainAppPanel extends JPanel {
 				return new ImageIcon(imgUrl);
 			}
 		} catch (Exception ignored) {
-			//ignored
+			// ignored
 		}
 		return null;
 	}

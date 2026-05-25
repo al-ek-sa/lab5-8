@@ -5,8 +5,6 @@ import lombok.EqualsAndHashCode;
 
 import javax.swing.*;
 import java.awt.*;
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class LoginPanel extends JPanel {
 	private RightContentPanel parent;
 

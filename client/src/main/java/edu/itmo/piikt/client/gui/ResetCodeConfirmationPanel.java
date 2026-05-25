@@ -8,8 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class ResetCodeConfirmationPanel extends JPanel {
 	private RightContentPanel parent;
 	private JTextField[] codeFields;

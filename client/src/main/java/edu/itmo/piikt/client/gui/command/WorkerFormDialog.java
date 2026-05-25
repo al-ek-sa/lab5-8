@@ -6,8 +6,6 @@ import lombok.EqualsAndHashCode;
 
 import javax.swing.*;
 import java.awt.*;
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class WorkerFormDialog extends JDialog {
 	private MainAppPanel parent;
 	private String currentUser;

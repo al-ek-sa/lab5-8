@@ -11,8 +11,6 @@ import lombok.EqualsAndHashCode;
 
 import javax.swing.*;
 import java.awt.*;
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class MainGUI extends JFrame {
 	private JLayeredPane layeredPane;
 	private JSplitPane splitPane;

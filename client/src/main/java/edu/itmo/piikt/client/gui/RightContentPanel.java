@@ -18,8 +18,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class RightContentPanel extends JPanel {
 	private CardLayout cardLayout;
 	private Map<String, JPanel> panels;

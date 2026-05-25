@@ -6,8 +6,6 @@ import lombok.EqualsAndHashCode;
 
 import javax.swing.*;
 import java.awt.*;
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class HelpPanel extends JPanel {
 	private MainAppPanel parent;
 	private String currentUser;
@@ -31,20 +29,20 @@ public class HelpPanel extends JPanel {
 		add(titleLabel, gbc);
 		JTextArea helpText = new JTextArea();
 		helpText.setText("""
-                help - вывести справку
-                info - информация о коллекции
-                show - показать все элементы
-                add - добавить элемент
-                update - обновить элемент
-                remove_by_id - удалить по id
-                clear - очистить коллекцию
-                head - первый элемент
-                history - история команд
-                count_by_organization - количество по организации
-                filter_contains_name - фильтр по имени
-                print_field_desc_end_date - вывести endDate
-                execute_script - выполнить скрипт
-                exit - завершить программу""");
+				help - вывести справку
+				info - информация о коллекции
+				show - показать все элементы
+				add - добавить элемент
+				update - обновить элемент
+				remove_by_id - удалить по id
+				clear - очистить коллекцию
+				head - первый элемент
+				history - история команд
+				count_by_organization - количество по организации
+				filter_contains_name - фильтр по имени
+				print_field_desc_end_date - вывести endDate
+				execute_script - выполнить скрипт
+				exit - завершить программу""");
 		helpText.setForeground(Color.WHITE);
 		helpText.setBackground(Color.BLACK);
 		helpText.setFont(new Font("Monospaced", Font.PLAIN, 18));

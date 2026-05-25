@@ -10,8 +10,6 @@ import lombok.EqualsAndHashCode;
 import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class RegisterPanel extends JPanel {
 	private RightContentPanel parent;
 	private JTextField emailField;
