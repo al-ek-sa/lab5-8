@@ -1,6 +1,6 @@
 package edu.itmo.piikt.client;
 
-import edu.itmo.piikt.client.entrance.Registr;
+import edu.itmo.piikt.client.mode.CronMode;
 import edu.itmo.piikt.client.mode.InteractiveMode;
 import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.io.provider.IOProvider;
@@ -28,15 +28,25 @@ public class MainClient {
 			Network client = new Network();
 			client.connect();
 			IOProvider io = new IOConsole();
-			Registr registr = new Registr(io);
-			registr.registration(client);
+			if (args.length > 0) {
+				for (int i = 0; i < args.length; i++) {
+					if (args[i].equalsIgnoreCase("--cron") && i + 1 < args.length) {
+						String command = args[i + 1];
+						CronMode cronMode = new CronMode(command);
+						cronMode.execute(client, io);
+						client.close();
+						return;
+					} else if (args[i].equalsIgnoreCase("--cron")) {
+						client.close();
+						return;
+					}
+				}
+			}
 			InteractiveMode interactiveMode = new InteractiveMode();
-			interactiveMode.execute(client, io, registr);
+			interactiveMode.execute(client, io);
 			client.close();
 		} catch (IOException e) {
 			logger.error("Client failed: {}", e.getMessage());
-		} catch (Exception e) {
-			throw new RuntimeException(e);
 		}
 	}
 }

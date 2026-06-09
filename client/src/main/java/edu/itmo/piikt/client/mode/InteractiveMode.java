@@ -1,6 +1,5 @@
 package edu.itmo.piikt.client.mode;
 
-import edu.itmo.piikt.client.entrance.Registr;
 import edu.itmo.piikt.client.manager.ValidationCommand;
 import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.common.io.provider.IOProvider;
@@ -13,7 +12,7 @@ import edu.itmo.piikt.common.logger.Context;
  * @author Lishyk Aliaksandra
  * @version 1.0
  */
-public class InteractiveMode {
+public class InteractiveMode implements ClientMode {
 
 	private static final AppLogger logger = new AppLogger(InteractiveMode.class);
 
@@ -25,12 +24,11 @@ public class InteractiveMode {
 	 * @param inputProvider
 	 *            input/output provider for console
 	 */
-	public void execute(Network existingNetwork, IOProvider inputProvider, Registr registr) {
+	@Override
+	public void execute(Network existingNetwork, IOProvider inputProvider) {
 		try (Context ignored = Context.newId()) {
 			logger.info("Starting interactive mode");
 			try {
-				String user = registr.user();
-				ValidationCommand.INSTANCE.setUser(user);
 				ValidationCommand.INSTANCE.setNetwork(existingNetwork);
 				ValidationCommand.INSTANCE.validation(inputProvider);
 			} catch (Exception e) {

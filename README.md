@@ -198,9 +198,9 @@ public enum OrganizationType {
 mvn clean compile package
 ```
 
-## При использовании docker
+## При использование docker
 ```bash
-#логгирование устанавливается по умолчанию и на клиенте, и на сервере
+#логгирование устанавливаеться по умолчанию и на клиенте, и на сервере
 #сервер
 docker run -it -p 6668:6668 --name server 2sem_server
 #клиент
@@ -218,22 +218,27 @@ java -jar server/target/server-1.0-SNAPSHOT-jar-with-dependencies.jar
 #После основного кода запуска в строке необходимо установить уровень логгирования, куда будет производиться логгирование, файл для логгирования (если необходимо)
 #место
 #логгирование в файл
---log-output file
+--log_output file
 #логгирование в консоль
---log-output console
+--log_output console
 #логгирование в файл и в консоль
---log-output both
+--log_output both
 #уровень логгирование
 #уровень TRACE (выводит логги всех уровней: TRACE + DEBAG + INFO + WARM + ERROR)
---log-level TRACE
+--log_level TRACE
 #уровень DEBAG (выводит логги следующих уровней: DEBAG + INFO + WARM + ERROR)
---log-level DEBAG
+--log_level DEBAG
 #уровень INFO (выводит логги следующих уровней: INFO + WARM + ERROR)
---log-level INFO
+--log_level INFO
 #уровень WARM (выводит логги следующих уровней: WARM + ERROR)
---log-level WARM
+--log_level WARM
 #уровень ERROR (выводит логги следующих уровней: ERROR)
---log-level ERROR
+--log_level ERROR
 #создание файла для логгирования
 --log-file название_файла
+```
+
+## Для выполнения только одной команды следует указать следуюющий код во время запуска
+```bash
+--cron название_команды #(execute_script указывать плохая идея)
 ```

@@ -1,5 +1,7 @@
 package edu.itmo.piikt.common.models;
 
+import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvRecurse;
 import java.io.Serial;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
@@ -19,10 +21,13 @@ public final class Organization implements Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
+	@CsvBindByPosition(position = 9)
 	private int annualTurnover;
 
+	@CsvBindByPosition(position = 10)
 	private OrganizationType type;
 
+	@CsvRecurse
 	private Address officialAddress;
 
 	/**

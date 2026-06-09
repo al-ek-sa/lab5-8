@@ -1,6 +1,6 @@
 package edu.itmo.piikt.common.data;
 
-import edu.itmo.piikt.common.data.status.DataStatus;
+import edu.itmo.piikt.common.data.Status.DataStatus;
 import java.io.Serial;
 import java.io.Serializable;
 import lombok.*;

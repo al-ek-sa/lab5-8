@@ -1,6 +1,7 @@
 package edu.itmo.piikt.client.command;
 
 import edu.itmo.piikt.client.algorithms.Graph;
+import edu.itmo.piikt.client.commands.CommandExecute;
 import edu.itmo.piikt.client.commands.CommandVoid;
 import edu.itmo.piikt.client.manager.ValidationCommand;
 import edu.itmo.piikt.common.io.data.NameIOProvider;
@@ -10,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import edu.itmo.piikt.common.logger.AppLogger;
 import lombok.Data;

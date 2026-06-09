@@ -13,15 +13,14 @@ import edu.itmo.piikt.common.command.data.Commands;
 import edu.itmo.piikt.common.data.OrganizationData;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.logger.AppLogger;
-import edu.itmo.piikt.common.sc.ClientCommand;
-import edu.itmo.piikt.common.sc.ServerResponse;
+import edu.itmo.piikt.common.server_client.ClientCommand;
+import edu.itmo.piikt.common.server_client.ServerResponse;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * The main class of the program. The class determines which command was called.
@@ -49,8 +48,6 @@ public enum ValidationCommand {
 			.map(Commands::getName).collect(Collectors.toList());
 	private final Deque<IOProvider> dequeProvider = new ArrayDeque<>();
 	private IOProvider provider;
-	@Setter
-	private String user;
 
 	ValidationCommand() {
 		this.flag = true;
@@ -59,7 +56,7 @@ public enum ValidationCommand {
 	public void setNetwork(Network network) {
 		this.network = network;
 		this.addCommand = new AddCommand(network, worker);
-		this.updateCommand = new UpdateCommand(network, worker);
+		this.updateCommand = new UpdateCommand(network, addCommand);
 	}
 
 	/**
@@ -116,7 +113,7 @@ public enum ValidationCommand {
 				HistoryCommands.INSTANCE.add(nameCommand);
 				String command = nameCommand.trim();
 				String[] input = command.split("\\s+");
-				String element = input[0].toLowerCase();
+				String element = input[0];
 				if (!network.connected())
 					network.connect();
 				// Command without arguments
@@ -135,7 +132,7 @@ public enum ValidationCommand {
 							}
 							if (com1.equals(Commands.ADD.getName())) {
 								logger.debug("Executing ADD command");
-								var server = addCommand.execute(provider, user);
+								var server = addCommand.execute(provider);
 								server.printToConsole();
 								continue;
 							}
@@ -143,13 +140,13 @@ public enum ValidationCommand {
 								logger.debug("Executing COUNT_BY_ORGANIZATION command");
 								OrganizationData organizationData = organization.build(provider);
 								ClientCommand clientCommand = ClientCommand.builder()
-										.nameCommand(Commands.COUNT_BY_ORGANIZATION.getName()).user(user)
-										.data(organizationData).build();
+										.nameCommand(Commands.COUNT_BY_ORGANIZATION.getName()).data(organizationData)
+										.build();
 								ServerResponse serverResponse = network.send(clientCommand);
 								serverResponse.printToConsole();
 								continue;
 							}
-							ClientCommand clientCommand = ClientCommand.builder().nameCommand(com1).user(user).build();
+							ClientCommand clientCommand = ClientCommand.builder().nameCommand(com1).build();
 							ServerResponse serverResponse = network.send(clientCommand);
 							serverResponse.printToConsole();
 						}
@@ -171,10 +168,10 @@ public enum ValidationCommand {
 							}
 							if (com2.equals(Commands.UPDATE.getName())) {
 								logger.debug("Executing UPDATE command for id: {}", argument);
-								updateCommand.execute(provider, argument, user).printToConsole();
+								updateCommand.execute(provider, com2, argument).printToConsole();
 								continue;
 							}
-							ClientCommand clientCommand = ClientCommand.builder().nameCommand(com2).user(user)
+							ClientCommand clientCommand = ClientCommand.builder().nameCommand(com2)
 									.argumentCommand(argument).build();
 							ServerResponse serverResponse = network.send(clientCommand);
 							serverResponse.printToConsole();

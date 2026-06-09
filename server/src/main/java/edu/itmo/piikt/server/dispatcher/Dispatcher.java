@@ -3,9 +3,9 @@ package edu.itmo.piikt.server.dispatcher;
 import edu.itmo.piikt.common.command.data.Commands;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
-import edu.itmo.piikt.common.sc.ClientCommand;
-import edu.itmo.piikt.common.sc.ServerResponse;
-import edu.itmo.piikt.server.command.model.*;
+import edu.itmo.piikt.common.server_client.ClientCommand;
+import edu.itmo.piikt.common.server_client.ServerResponse;
+import edu.itmo.piikt.server.command.modelCommand.*;
 
 import java.util.EnumMap;
 import java.util.function.Function;
@@ -41,6 +41,7 @@ public class Dispatcher {
 		enumMap.put(Commands.HELP_ENTERING_COMMAND, com -> new HelpEnteringCommand().execute());
 		enumMap.put(Commands.PRINT_FIELD_DESCENDING_END_DATE,
 				com -> new PrintFieldDescendingEndDataCommand().execute());
+		enumMap.put(Commands.EXIT, com -> new ExitCommand().execute());
 	}
 
 	/**
@@ -58,7 +59,7 @@ public class Dispatcher {
 			Commands commands = Commands.nameCommands(commandName);
 			if (commands == null) {
 				logger.warn("Unknown command: {}", commandName);
-				return null;
+				return ServerResponse.error("Unknown command: " + commandName);
 			}
 
 			Function<ClientCommand, ServerResponse> input = enumMap.get(commands);

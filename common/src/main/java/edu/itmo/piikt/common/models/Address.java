@@ -1,5 +1,6 @@
 package edu.itmo.piikt.common.models;
 
+import com.opencsv.bean.CsvBindByPosition;
 import java.io.Serial;
 import java.io.Serializable;
 import lombok.*;
@@ -17,6 +18,7 @@ public final class Address implements Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
+	@CsvBindByPosition(position = 11)
 	private String street;
 
 	/**

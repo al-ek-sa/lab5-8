@@ -1,5 +1,6 @@
 package edu.itmo.piikt.common.models;
 
+import com.opencsv.bean.CsvBindByPosition;
 import java.io.Serial;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
@@ -19,8 +20,10 @@ public final class Coordinates implements Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
+	@CsvBindByPosition(position = 2)
 	private long x;
 
+	@CsvBindByPosition(position = 3)
 	private float y;
 
 	/**

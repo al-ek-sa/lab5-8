@@ -19,7 +19,8 @@ public enum HistoryWorker {
 
 	private static final AppLogger logger = new AppLogger(HistoryWorker.class);
 	private final Date data;
-	private final List<Worker> listWorker = Collections.synchronizedList(new LinkedList<>());
+	private final LinkedList<Worker> listWorker = new LinkedList<>();
+
 	HistoryWorker() {
 		this.data = new Date();
 	}
