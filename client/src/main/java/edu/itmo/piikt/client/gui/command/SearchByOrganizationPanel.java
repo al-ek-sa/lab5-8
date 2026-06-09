@@ -1,21 +1,49 @@
 package edu.itmo.piikt.client.gui.command;
 
+import edu.itmo.piikt.client.gui.localization.LocaleManager;
 import edu.itmo.piikt.client.gui.ss.MainAppPanel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import edu.itmo.piikt.client.manager.GuiCommandSender;
+import edu.itmo.piikt.common.sc.ClientCommand;
+import edu.itmo.piikt.common.sc.ServerResponse;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
+
 public class SearchByOrganizationPanel extends JPanel {
-	private MainAppPanel parent;
-	private String currentUser;
-	private JTextField turnoverField;
-	private JComboBox<String> typeComboBox;
-	private JTextField addressField;
+	private final MainAppPanel parent;
+	private final String currentUser;
+	private final LocaleManager lm;
+	private final JTextField turnoverField;
+	private final JComboBox<String> typeComboBox;
+	private final JTextField addressField;
+	private final JLabel titleLabel;
+	private final JLabel turnoverLabel;
+	private final JLabel typeLabel;
+	private final JLabel addressLabel;
+	private final JButton searchButton;
+
+	private final Map<String, String> typeToId = new HashMap<>();
+	private final Map<String, String> typeToKey = new HashMap<>();
 
 	public SearchByOrganizationPanel(MainAppPanel parent, String username) {
 		this.parent = parent;
 		this.currentUser = username;
+		this.lm = LocaleManager.getInstance();
+
+		typeToId.put("COMMERCIAL", "1");
+		typeToId.put("PUBLIC", "2");
+		typeToId.put("GOVERNMENT", "3");
+		typeToId.put("TRUST", "4");
+		typeToId.put("OPEN_JOINT_STOCK_COMPANY", "5");
+		typeToKey.put("COMMERCIAL", "organization.type.commercial");
+		typeToKey.put("PUBLIC", "organization.type.public");
+		typeToKey.put("GOVERNMENT", "organization.type.government");
+		typeToKey.put("TRUST", "organization.type.trust");
+		typeToKey.put("OPEN_JOINT_STOCK_COMPANY", "organization.type.open_joint_stock");
+
 		setBackground(Color.BLACK);
 		setLayout(new GridBagLayout());
 
@@ -25,7 +53,7 @@ public class SearchByOrganizationPanel extends JPanel {
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.NONE;
 
-		JLabel titleLabel = new JLabel("ПОИСК ПО ОРГАНИЗАЦИИ");
+		titleLabel = new JLabel();
 		titleLabel.setForeground(Color.WHITE);
 		titleLabel.setFont(new Font("Arial", Font.BOLD, 50));
 		gbc.insets = new Insets(0, 0, 40, 0);
@@ -38,7 +66,7 @@ public class SearchByOrganizationPanel extends JPanel {
 		formPanel.setMaximumSize(new Dimension(500, 450));
 		formPanel.setPreferredSize(new Dimension(500, 450));
 
-		JLabel turnoverLabel = new JLabel("Введите годовой оборот организации");
+		turnoverLabel = new JLabel();
 		turnoverLabel.setForeground(Color.WHITE);
 		turnoverLabel.setFont(new Font("Arial", Font.PLAIN, 18));
 		turnoverLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -56,7 +84,8 @@ public class SearchByOrganizationPanel extends JPanel {
 		turnoverField.setAlignmentX(Component.LEFT_ALIGNMENT);
 		formPanel.add(turnoverField);
 		formPanel.add(Box.createVerticalStrut(15));
-		JLabel typeLabel = new JLabel("Выберите тип организации");
+
+		typeLabel = new JLabel();
 		typeLabel.setForeground(Color.WHITE);
 		typeLabel.setFont(new Font("Arial", Font.PLAIN, 18));
 		typeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -79,12 +108,18 @@ public class SearchByOrganizationPanel extends JPanel {
 				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 				setForeground(Color.WHITE);
 				setBackground(new Color(48, 48, 48));
+				if (value != null) {
+					String typeKey = typeToKey.get(value.toString());
+					if (typeKey != null) {
+						setText(lm.getString(typeKey));
+					}
+				}
 				return this;
 			}
 		});
 		formPanel.add(typeComboBox);
 		formPanel.add(Box.createVerticalStrut(15));
-		JLabel addressLabel = new JLabel("Введите адрес организации");
+		addressLabel = new JLabel();
 		addressLabel.setForeground(Color.WHITE);
 		addressLabel.setFont(new Font("Arial", Font.PLAIN, 18));
 		addressLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -102,37 +137,101 @@ public class SearchByOrganizationPanel extends JPanel {
 		addressField.setAlignmentX(Component.LEFT_ALIGNMENT);
 		formPanel.add(addressField);
 		formPanel.add(Box.createVerticalStrut(25));
-		JButton searchButton = new JButton("ПОИСК ПО ОРГАНИЗАЦИИ");
-		searchButton.setBackground(new Color(48, 48, 48));
-		searchButton.setForeground(Color.WHITE);
-		searchButton.setFont(new Font("Arial", Font.BOLD, 22));
-		searchButton.setFocusPainted(false);
-		searchButton.setBorder(BorderFactory.createEmptyBorder(12, 30, 12, 30));
-		searchButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		searchButton.setMaximumSize(new Dimension(500, 55));
-		searchButton.setPreferredSize(new Dimension(500, 55));
-		searchButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-		searchButton.addActionListener(e -> onSearch());
+
+		searchButton = getJButton();
 		formPanel.add(searchButton);
 
 		gbc.gridy = 1;
 		add(formPanel, gbc);
+		lm.addLocaleChangeListener(this::updateTexts);
+		updateTexts();
+	}
+
+	private void updateTexts() {
+		titleLabel.setText(lm.getString("command.search_organization"));
+		turnoverLabel.setText(lm.getString("form.enter_turnover"));
+		typeLabel.setText(lm.getString("form.select_organization_type"));
+		addressLabel.setText(lm.getString("form.enter_address"));
+		searchButton.setText(lm.getString("command.search_organization"));
+		typeComboBox.repaint();
+	}
+
+	@Nonnull
+	private JButton getJButton() {
+		JButton button = new JButton();
+		button.setBackground(new Color(48, 48, 48));
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Arial", Font.BOLD, 22));
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(12, 30, 12, 30));
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setMaximumSize(new Dimension(500, 55));
+		button.setPreferredSize(new Dimension(500, 55));
+		button.setAlignmentX(Component.LEFT_ALIGNMENT);
+		button.addActionListener(e -> onSearch());
+		return button;
 	}
 
 	private void onSearch() {
-		String turnover = turnoverField.getText().trim();
-		String type = (String) typeComboBox.getSelectedItem();
+		String turnoverStr = turnoverField.getText().trim();
+		String typeName = (String) typeComboBox.getSelectedItem();
 		String address = addressField.getText().trim();
 
-		if (turnover.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Введите годовой оборот организации", "Ошибка",
+		if (turnoverStr.isEmpty()) {
+			JOptionPane.showMessageDialog(this, lm.getString("error.empty_turnover"), lm.getString("message.error"),
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (address.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Введите адрес организации", "Ошибка", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, lm.getString("error.empty_address"), lm.getString("message.error"),
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		parent.showSearchResult(currentUser);
+
+		try {
+			Long.parseLong(turnoverStr);
+
+			String typeId = typeToId.get(typeName);
+			if (typeId == null) {
+				typeId = "1";
+			}
+
+			String searchData = turnoverStr + ":" + typeId + ":" + address;
+
+			setEnabled(false);
+
+			new Thread(() -> {
+				try {
+					ClientCommand command = ClientCommand.builder().nameCommand("count_by_organization")
+							.user(currentUser).argumentCommand(searchData).build();
+
+					ServerResponse response = GuiCommandSender.INSTANCE.sendCommand(command);
+
+					SwingUtilities.invokeLater(() -> {
+						setEnabled(true);
+
+						if (response != null && response.execution()) {
+							parent.showSearchResult(currentUser, searchData);
+						} else {
+							String errorMsg = response != null ? response.message() : lm.getString("error.prefix");
+							JOptionPane.showMessageDialog(SearchByOrganizationPanel.this,
+									lm.getString("error.prefix") + errorMsg, lm.getString("message.error"),
+									JOptionPane.ERROR_MESSAGE);
+						}
+					});
+				} catch (Exception ex) {
+					SwingUtilities.invokeLater(() -> {
+						setEnabled(true);
+						JOptionPane.showMessageDialog(SearchByOrganizationPanel.this,
+								lm.getString("error.connection") + ": " + ex.getMessage(),
+								lm.getString("message.error"), JOptionPane.ERROR_MESSAGE);
+					});
+				}
+			}).start();
+
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(this, lm.getString("error.invalid_number"), lm.getString("message.error"),
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }

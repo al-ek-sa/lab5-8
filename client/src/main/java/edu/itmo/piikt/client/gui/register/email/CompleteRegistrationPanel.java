@@ -1,27 +1,31 @@
 package edu.itmo.piikt.client.gui.register.email;
 
 import edu.itmo.piikt.client.gui.RightContentPanel;
+import edu.itmo.piikt.client.gui.localization.LocaleManager;
 import edu.itmo.piikt.client.manager.GuiCommandSender;
 import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 public class CompleteRegistrationPanel extends JPanel {
-	private RightContentPanel parent;
-	private String email;
-	private JTextField loginField;
-	private JPasswordField passwordField;
-	private JPasswordField confirmPasswordField;
+	private final RightContentPanel parent;
+	private final String email;
+	private final LocaleManager lm;
+	private final JTextField loginField;
+	private final JPasswordField passwordField;
+	private final JPasswordField confirmPasswordField;
+	private final JLabel registerLabel;
+	private JLabel loginLabel;
+	private JLabel passwordLabel;
+	private JLabel confirmPasswordLabel;
+	private final JButton completeButton;
 
 	public CompleteRegistrationPanel(RightContentPanel parent, String email) {
 		this.parent = parent;
 		this.email = email;
-
-		System.out.println("CompleteRegistrationPanel created with email: " + email);
+		this.lm = LocaleManager.getInstance();
 
 		setBackground(Color.BLACK);
 		setLayout(new GridBagLayout());
@@ -40,7 +44,7 @@ public class CompleteRegistrationPanel extends JPanel {
 		gbc.insets = new Insets(50, 0, 20, 0);
 		add(titleLabel, gbc);
 
-		JLabel registerLabel = new JLabel("РЕГИСТРАЦИЯ");
+		registerLabel = new JLabel();
 		registerLabel.setForeground(Color.WHITE);
 		registerLabel.setFont(new Font("Arial", Font.BOLD, 50));
 		gbc.gridy = 1;
@@ -54,20 +58,19 @@ public class CompleteRegistrationPanel extends JPanel {
 
 		int fixedWidth = 500;
 
-		JPanel loginPanel = createFieldPanel("Введите логин", loginField = new JTextField(30));
+		JPanel loginPanel = createFieldPanel(loginField = new JTextField(30));
 		formPanel.add(loginPanel);
 		formPanel.add(Box.createVerticalStrut(20));
 
-		JPanel passwordPanel = createFieldPanel("Введите пароль", passwordField = new JPasswordField(30));
+		JPanel passwordPanel = createFieldPanel(passwordField = new JPasswordField(30));
 		formPanel.add(passwordPanel);
 		formPanel.add(Box.createVerticalStrut(20));
 
-		JPanel confirmPanel = createFieldPanel("Введите пароль повторно",
-				confirmPasswordField = new JPasswordField(30));
+		JPanel confirmPanel = createFieldPanel(confirmPasswordField = new JPasswordField(30));
 		formPanel.add(confirmPanel);
 		formPanel.add(Box.createVerticalStrut(40));
 
-		JButton completeButton = getJButton(fixedWidth);
+		completeButton = createCompleteButton(fixedWidth);
 		formPanel.add(completeButton);
 
 		gbc.gridy = 2;
@@ -77,25 +80,19 @@ public class CompleteRegistrationPanel extends JPanel {
 		gbc.gridy = 3;
 		gbc.weighty = 1.0;
 		add(Box.createVerticalGlue(), gbc);
+		lm.addLocaleChangeListener(this::updateTexts);
+		updateTexts();
 	}
 
-	@Nonnull
-	private JButton getJButton(int fixedWidth) {
-		JButton completeButton = new JButton("ЗАВЕРШИТЬ РЕГИСТРАЦИЮ");
-		completeButton.setBackground(new Color(48, 48, 48));
-		completeButton.setForeground(Color.WHITE);
-		completeButton.setFont(new Font("Arial", Font.BOLD, 25));
-		completeButton.setFocusPainted(false);
-		completeButton.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
-		completeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		completeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		completeButton.setMaximumSize(new Dimension(fixedWidth, 80));
-		completeButton.setPreferredSize(new Dimension(fixedWidth, 80));
-		completeButton.addActionListener(e -> onCompleteRegistration());
-		return completeButton;
+	private void updateTexts() {
+		registerLabel.setText(lm.getString("auth.register"));
+		loginLabel.setText(lm.getString("auth.login_placeholder"));
+		passwordLabel.setText(lm.getString("auth.password_placeholder"));
+		confirmPasswordLabel.setText(lm.getString("auth.confirm_password"));
+		completeButton.setText(lm.getString("button.complete"));
 	}
 
-	private JPanel createFieldPanel(String labelText, JTextField field) {
+	private JPanel createFieldPanel(JTextField field) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.setOpaque(false);
@@ -104,7 +101,8 @@ public class CompleteRegistrationPanel extends JPanel {
 
 		JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		labelPanel.setOpaque(false);
-		JLabel label = new JLabel(labelText);
+
+		JLabel label = new JLabel();
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("Arial", Font.PLAIN, 20));
 		labelPanel.add(label);
@@ -121,7 +119,31 @@ public class CompleteRegistrationPanel extends JPanel {
 		field.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(field);
 
+		if (field == loginField) {
+			loginLabel = label;
+		} else if (field == passwordField) {
+			passwordLabel = label;
+		} else if (field == confirmPasswordField) {
+			confirmPasswordLabel = label;
+		}
+
 		return panel;
+	}
+
+	@Nonnull
+	private JButton createCompleteButton(int fixedWidth) {
+		JButton button = new JButton();
+		button.setBackground(new Color(48, 48, 48));
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Arial", Font.BOLD, 25));
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button.setMaximumSize(new Dimension(fixedWidth, 80));
+		button.setPreferredSize(new Dimension(fixedWidth, 80));
+		button.addActionListener(e -> onCompleteRegistration());
+		return button;
 	}
 
 	private void onCompleteRegistration() {
@@ -130,25 +152,28 @@ public class CompleteRegistrationPanel extends JPanel {
 		String confirmPassword = new String(confirmPasswordField.getPassword());
 
 		if (login.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Введите логин", "Ошибка", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, lm.getString("error.empty_login"), lm.getString("message.error"),
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (login.length() < 8) {
-			JOptionPane.showMessageDialog(this, "Логин должен быть не менее 8 символов", "Ошибка",
+			JOptionPane.showMessageDialog(this, lm.getString("error.login_too_short"), lm.getString("message.error"),
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (password.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Введите пароль", "Ошибка", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, lm.getString("error.empty_password"), lm.getString("message.error"),
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (password.length() < 8) {
-			JOptionPane.showMessageDialog(this, "Пароль должен быть не менее 8 символов", "Ошибка",
+			JOptionPane.showMessageDialog(this, lm.getString("error.password_too_short"), lm.getString("message.error"),
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (!password.equals(confirmPassword)) {
-			JOptionPane.showMessageDialog(this, "Пароли не совпадают", "Ошибка", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, lm.getString("error.password_mismatch"), lm.getString("message.error"),
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -157,21 +182,19 @@ public class CompleteRegistrationPanel extends JPanel {
 					.password(password).email(email).build();
 
 			ServerResponse response = GuiCommandSender.INSTANCE.sendCommand(command);
-			System.out.println("Register response: " + (response != null ? response.message() : "null"));
 
 			if (response != null && response.execution()) {
-				JOptionPane.showMessageDialog(this, "Регистрация успешно завершена!", "Успех",
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, lm.getString("message.registration_success"),
+						lm.getString("message.success"), JOptionPane.INFORMATION_MESSAGE);
 				parent.showMainApp(login);
 			} else {
-				String errorMsg = response != null ? response.message() : "Неизвестная ошибка";
-				JOptionPane.showMessageDialog(this, "Ошибка регистрации: " + errorMsg, "Ошибка",
-						JOptionPane.ERROR_MESSAGE);
+				String errorMsg = response != null ? response.message() : lm.getString("error.unknown");
+				JOptionPane.showMessageDialog(this, lm.getString("error.registration") + ": " + errorMsg,
+						lm.getString("message.error"), JOptionPane.ERROR_MESSAGE);
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			JOptionPane.showMessageDialog(this, "Ошибка соединения: " + ex.getMessage(), "Ошибка",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, lm.getString("error.connection") + ": " + ex.getMessage(),
+					lm.getString("message.error"), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

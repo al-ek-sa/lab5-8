@@ -2,9 +2,6 @@ package edu.itmo.piikt.common.sc;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Value;
 
 /**
  * Command sent from client to server for execution
@@ -15,5 +12,5 @@ import lombok.Value;
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ClientCommand(String nameCommand, String argumentCommand, Object data, String login, String email,
-		String password, String user) {
+		String password, String user, String language) {
 }

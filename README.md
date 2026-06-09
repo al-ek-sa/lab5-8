@@ -195,7 +195,8 @@ public enum OrganizationType {
 
 ## Сборка проекта
 ```bash
-mvn clean compile package
+mvn clean compile package javadoc:aggregate
+./gradlew clean build
 ```
 
 ## При использовании docker
@@ -211,6 +212,8 @@ docker run -it --name client --link server:server -e SERVER_HOST=server 2sem_ser
 ```bash
 java -jar client/target/client-1.0-SNAPSHOT-jar-with-dependencies.jar
 java -jar server/target/server-1.0-SNAPSHOT-jar-with-dependencies.jar
+./gradlew :client:run
+./gradlew :server:run
 ```
 ## Инструкция по установлению логгирования
 (по умолчанию логгирование производиться в файл и в консоль на уровне INFO, по умолчанию создаеться общий файл для логгирования клиента и сервера, также создаеться отдальный файл для логгов уровня ERROR)

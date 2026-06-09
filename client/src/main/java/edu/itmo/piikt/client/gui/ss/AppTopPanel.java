@@ -1,19 +1,26 @@
 package edu.itmo.piikt.client.gui.ss;
 
 import edu.itmo.piikt.client.gui.MainGUI;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import edu.itmo.piikt.client.gui.localization.LocaleManager;
+import lombok.Setter;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
+
 public class AppTopPanel extends JPanel {
 	private final JLabel userLabel;
 	private final JButton langButton;
-	private final JButton logoutButton;
 	private String currentUser;
+	@Setter
 	private MainAppPanel mainAppPanel;
+	private final JPopupMenu commandMenu;
+	private final LocaleManager localeManager;
+	private final MainGUI mainGUI;
 
-	public AppTopPanel(MainGUI parent) {
+	public AppTopPanel(MainGUI mainGUI) {
+		this.mainGUI = mainGUI;
+		this.localeManager = LocaleManager.getInstance();
 		setLayout(new BorderLayout());
 		setBackground(new Color(20, 20, 30));
 		setPreferredSize(new Dimension(0, 60));
@@ -30,15 +37,8 @@ public class AppTopPanel extends JPanel {
 		menuButton.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
 		menuButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-		JPopupMenu commandMenu = new JPopupMenu();
-		commandMenu.add(createCommandMenuItem("search_by_organization", "ПОИСК ПО ОРГАНИЗАЦИИ"));
-		commandMenu.add(createCommandMenuItem("help", "ПОМОЩЬ"));
-		commandMenu.add(createCommandMenuItem("info", "ИНФОРМАЦИЯ"));
-		commandMenu.add(createCommandMenuItem("history", "ИСТОРИЯ"));
-		commandMenu.add(createCommandMenuItem("animation", "АНИМАЦИЯ"));
-		commandMenu.add(createCommandMenuItem("first_worker", "ПЕРВЫЙ РАБОТНИК"));
-		commandMenu.add(createCommandMenuItem("read_file", "ЧТЕНИЕ ИЗ ФАЙЛА"));
-		commandMenu.add(createCommandMenuItem("show", "ПОКАЗ"));
+		commandMenu = new JPopupMenu();
+		updateCommandMenu();
 
 		menuButton.addActionListener(e -> commandMenu.show(menuButton, 0, menuButton.getHeight()));
 		leftPanel.add(menuButton);
@@ -63,7 +63,7 @@ public class AppTopPanel extends JPanel {
 		userLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
 		buttonPanel.add(userLabel);
 
-		langButton = new JButton("RU");
+		langButton = new JButton(getLangCode());
 		langButton.setFont(new Font("Arial", Font.BOLD, 12));
 		langButton.setFocusPainted(false);
 		langButton.setBackground(new Color(60, 60, 70));
@@ -71,15 +71,25 @@ public class AppTopPanel extends JPanel {
 		langButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		langButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-		JPopupMenu langMenu = new JPopupMenu();
-		langMenu.add(createLangMenuItem("Русский", "RU"));
-		langMenu.add(createLangMenuItem("Deutsch", "DE"));
-		langMenu.add(createLangMenuItem("Svenska", "SV"));
-		langMenu.add(createLangMenuItem("Español", "ES"));
+		JPopupMenu langMenu = getJPopupMenu();
 		langButton.addActionListener(e -> langMenu.show(langButton, 0, langButton.getHeight()));
 		buttonPanel.add(langButton);
 
-		logoutButton = new JButton("->");
+		JButton logoutButton = getJButton();
+		buttonPanel.add(logoutButton);
+
+		rightPanel.add(buttonPanel, BorderLayout.EAST);
+		add(rightPanel, BorderLayout.EAST);
+
+		localeManager.addLocaleChangeListener(() -> SwingUtilities.invokeLater(() -> {
+			updateCommandMenu();
+			langButton.setText(getLangCode());
+		}));
+	}
+
+	@Nonnull
+	private JButton getJButton() {
+		JButton logoutButton = new JButton("->");
 		logoutButton.setFont(new Font("Arial", Font.BOLD, 12));
 		logoutButton.setFocusPainted(false);
 		logoutButton.setBackground(new Color(60, 60, 70));
@@ -87,25 +97,88 @@ public class AppTopPanel extends JPanel {
 		logoutButton.setBorder(BorderFactory.createEmptyBorder(5, 8, 5, 8));
 		logoutButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		logoutButton.addActionListener(e -> {
-			Window window = SwingUtilities.getWindowAncestor(this);
-			if (window != null) {
-				window.dispose();
+			int confirm = JOptionPane.showConfirmDialog(this, localeManager.getString("confirm.logout"),
+					localeManager.getString("confirm.title"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if (confirm == JOptionPane.YES_OPTION && mainGUI != null) {
+				mainGUI.logout();
 			}
 		});
-		buttonPanel.add(logoutButton);
+		return logoutButton;
+	}
 
-		rightPanel.add(buttonPanel, BorderLayout.EAST);
-		add(rightPanel, BorderLayout.EAST);
+	private String getLangCode() {
+		String lang = localeManager.getCurrentLang();
+		return switch (lang) {
+			case "de" -> "DE";
+			case "sv" -> "SV";
+			case "es" -> "ES";
+			default -> "RU";
+		};
+	}
+
+	@Nonnull
+	private JPopupMenu getJPopupMenu() {
+		JPopupMenu langMenu = new JPopupMenu();
+		JMenuItem ruItem = new JMenuItem("Русский (RU)");
+		JMenuItem deItem = new JMenuItem("Deutsch (DE)");
+		JMenuItem svItem = new JMenuItem("Svenska (SV)");
+		JMenuItem esItem = new JMenuItem("Español (ES)");
+
+		ruItem.addActionListener(e -> {
+			localeManager.setLocale("ru");
+			updateCommandMenu();
+		});
+
+		deItem.addActionListener(e -> {
+			localeManager.setLocale("de");
+			updateCommandMenu();
+		});
+
+		svItem.addActionListener(e -> {
+			localeManager.setLocale("sv");
+			updateCommandMenu();
+		});
+
+		esItem.addActionListener(e -> {
+			localeManager.setLocale("es");
+			updateCommandMenu();
+		});
+
+		langMenu.add(ruItem);
+		langMenu.add(deItem);
+		langMenu.add(svItem);
+		langMenu.add(esItem);
+		return langMenu;
+	}
+
+	private void updateCommandMenu() {
+		commandMenu.removeAll();
+
+		commandMenu.add(createCommandMenuItem("search_by_organization",
+				localeManager.getString("command.search_organization")));
+		commandMenu.add(createCommandMenuItem("help", localeManager.getString("command.help")));
+		commandMenu.add(createCommandMenuItem("info", localeManager.getString("command.info")));
+		commandMenu.add(createCommandMenuItem("history", localeManager.getString("command.history")));
+		commandMenu.add(createCommandMenuItem("animation", localeManager.getString("command.animation")));
+		commandMenu.add(createCommandMenuItem("first_worker", localeManager.getString("command.first_worker")));
+		commandMenu.add(createCommandMenuItem("read_file", localeManager.getString("command.read_file")));
+		commandMenu.add(createCommandMenuItem("show", localeManager.getString("command.show")));
+
+		commandMenu.revalidate();
+		commandMenu.repaint();
 	}
 
 	private JMenuItem createCommandMenuItem(String command, String description) {
 		JMenuItem item = new JMenuItem(description);
 		item.addActionListener(e -> {
 			if (mainAppPanel == null) {
-				JOptionPane.showMessageDialog(this, "Ошибка: панель приложения не инициализирована", "Ошибка",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, localeManager.getString("error.panel_not_initialized"),
+						localeManager.getString("message.error"), JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+
+			edu.itmo.piikt.client.command.history.HistoryCommands.INSTANCE.add(command);
+
 			switch (command) {
 				case "help" -> mainAppPanel.showHelp(currentUser);
 				case "info" -> mainAppPanel.showInfo(currentUser);
@@ -114,29 +187,21 @@ public class AppTopPanel extends JPanel {
 				case "read_file" -> mainAppPanel.showReadFile(currentUser);
 				case "search_by_organization" -> mainAppPanel.showSearchByOrganization(currentUser);
 				case "show" -> mainAppPanel.showShow(currentUser);
-				default -> JOptionPane.showMessageDialog(this, "Команда '" + description + "' будет реализована позже",
-						"Информация", JOptionPane.INFORMATION_MESSAGE);
+				case "animation" -> mainAppPanel.showAnimation(currentUser);
+				default -> JOptionPane.showMessageDialog(this,
+						localeManager.getString("message.command_not_implemented") + " '" + description + "'",
+						localeManager.getString("message.info"), JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		return item;
 	}
 
-	private JMenuItem createLangMenuItem(String langName, String code) {
-		JMenuItem item = new JMenuItem(langName + " (" + code + ")");
-		item.addActionListener(e -> langButton.setText(code));
-		return item;
-	}
-
 	public void setUsername(String username) {
-		System.out.println("setUsername called with: '" + username + "'");
 		this.currentUser = username;
 		String displayName = username;
 		if (displayName.length() > 15) {
 			displayName = displayName.substring(0, 12) + "...";
 		}
 		userLabel.setText(displayName);
-	}
-	public void setMainAppPanel(MainAppPanel mainAppPanel) {
-		this.mainAppPanel = mainAppPanel;
 	}
 }

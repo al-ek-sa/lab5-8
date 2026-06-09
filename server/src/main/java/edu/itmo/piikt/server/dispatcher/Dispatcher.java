@@ -1,60 +1,71 @@
 package edu.itmo.piikt.server.dispatcher;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.itmo.piikt.common.command.data.Commands;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
 import edu.itmo.piikt.server.command.model.*;
+import edu.itmo.piikt.server.manager.CollectionManager;
+import edu.itmo.piikt.server.manager.Websocket;
 
 import java.util.EnumMap;
 import java.util.function.Function;
 
-/**
- * Command dispatcher that routes client commands to appropriate handlers
- *
- * @author Lishyk Aliaksandra
- * @version 1.0
- */
 public class Dispatcher {
 	private static final AppLogger logger = new AppLogger(Dispatcher.class);
-	/**
-	 * Map linking command enums to their execution functions
-	 */
 	private final EnumMap<Commands, Function<ClientCommand, ServerResponse>> enumMap = new EnumMap<>(Commands.class);
+	private final ObjectMapper objectMapper;
+	private Websocket wsServer;
+	private CollectionManager collectionManager;
 
-	/**
-	 * Initializes the dispatcher with all command handlers
-	 */
+	private final AddCommand addCommand = new AddCommand();
+	private final UpdateIdCommand updateCommand = new UpdateIdCommand();
+	private final RemoveByIdCommand removeCommand = new RemoveByIdCommand();
+	private final ClearCommand clearCommand = new ClearCommand();
+	private final RemoveLowerCommand removeLowerCommand = new RemoveLowerCommand();
+
 	public Dispatcher() {
-		enumMap.put(Commands.ADD, com -> new AddCommand().execute(com));
-		enumMap.put(Commands.UPDATE, com -> new UpdateIdCommand().execute(com));
-		enumMap.put(Commands.REMOVE_BY_ID, com -> new RemoveByIdCommand().execute(com));
-		enumMap.put(Commands.REMOVE_LOWER, com -> new RemoveLowerCommand().execute(com));
-		enumMap.put(Commands.FILTER_CONTAINS_NAME, com -> new FilterContainsNameCommand().execute(com));
+		objectMapper = new ObjectMapper();
+		objectMapper.findAndRegisterModules();
+
+		enumMap.put(Commands.ADD, addCommand::execute);
+		enumMap.put(Commands.UPDATE, updateCommand::execute);
+		enumMap.put(Commands.REMOVE_BY_ID, removeCommand::execute);
+		enumMap.put(Commands.REMOVE_LOWER, removeLowerCommand::execute);
+		enumMap.put(Commands.CLEAR, clearCommand::execute);
 		enumMap.put(Commands.COUNT_BY_ORGANIZATION, com -> new CountByOrganizationCommand().execute(com));
 		enumMap.put(Commands.INFO, com -> new InfoCommand().execute());
 		enumMap.put(Commands.SHOW, com -> new ShowCommand().execute());
 		enumMap.put(Commands.HEAD, com -> new HeadCommand().execute());
-		enumMap.put(Commands.CLEAR, com -> new ClearCommand().execute());
 		enumMap.put(Commands.HELP, com -> new HelpCommand().execute());
-		enumMap.put(Commands.HELP_ENTERING_COMMAND, com -> new HelpEnteringCommand().execute());
-		enumMap.put(Commands.PRINT_FIELD_DESCENDING_END_DATE,
-				com -> new PrintFieldDescendingEndDataCommand().execute());
 	}
 
-	/**
-	 * Dispatches a client command to the appropriate handler
-	 *
-	 * @param command
-	 *            client command to execute
-	 * @return ServerResponse containing execution result
-	 */
+	public void setWebSocketServer(Websocket wsServer) {
+		this.wsServer = wsServer;
+
+		addCommand.setWebSocketServer(wsServer);
+		updateCommand.setWebSocketServer(wsServer);
+		removeCommand.setWebSocketServer(wsServer);
+		clearCommand.setWebSocketServer(wsServer);
+		removeLowerCommand.setWebSocketServer(wsServer);
+	}
+
+	public void setCollectionManager(CollectionManager collectionManager) {
+		this.collectionManager = collectionManager;
+
+		addCommand.setCollectionManager(collectionManager);
+		updateCommand.setCollectionManager(collectionManager);
+		removeCommand.setCollectionManager(collectionManager);
+		clearCommand.setCollectionManager(collectionManager);
+		removeLowerCommand.setCollectionManager(collectionManager);
+	}
+
 	public ServerResponse dispatcher(ClientCommand command) {
 		try (Context ignored = Context.newId()) {
 			String commandName = command.nameCommand();
 			logger.debug("Dispatching command: {}", commandName);
-
 			Commands commands = Commands.nameCommands(commandName);
 			if (commands == null) {
 				logger.warn("Unknown command: {}", commandName);

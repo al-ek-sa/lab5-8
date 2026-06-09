@@ -1,15 +1,29 @@
 package edu.itmo.piikt.client.gui;
 
+import edu.itmo.piikt.client.gui.localization.LocaleManager;
+import edu.itmo.piikt.client.manager.GuiCommandSender;
+import edu.itmo.piikt.common.sc.ClientCommand;
+import edu.itmo.piikt.common.sc.ServerResponse;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class LoginFormPanel extends JPanel {
-	private RightContentPanel parent;
-	private JTextField loginField;
-	private JPasswordField passwordField;
+	private final RightContentPanel parent;
+	private final LocaleManager lm;
+	private final JTextField loginField;
+	private final JPasswordField passwordField;
+	private final JLabel loginTitleLabel;
+	private JLabel loginLabel;
+	private JLabel passwordLabel;
+	private final JButton loginButton;
+	private final JButton forgotButton;
+	private final JButton backButton;
 
 	public LoginFormPanel(RightContentPanel parent) {
 		this.parent = parent;
+		this.lm = LocaleManager.getInstance();
+
 		setBackground(Color.BLACK);
 		setLayout(new GridBagLayout());
 
@@ -27,7 +41,7 @@ public class LoginFormPanel extends JPanel {
 		gbc.insets = new Insets(50, 0, 20, 0);
 		add(titleLabel, gbc);
 
-		JLabel loginTitleLabel = new JLabel("ВХОД В АККАУНТ");
+		loginTitleLabel = new JLabel();
 		loginTitleLabel.setForeground(Color.WHITE);
 		loginTitleLabel.setFont(new Font("Arial", Font.BOLD, 50));
 		gbc.gridy = 1;
@@ -41,53 +55,23 @@ public class LoginFormPanel extends JPanel {
 
 		int fixedWidth = 500;
 
-		JPanel loginFieldPanel = createFieldPanel("Введите логин", loginField = new JTextField(30));
+		JPanel loginFieldPanel = createFieldPanel(loginField = new JTextField(30));
 		formPanel.add(loginFieldPanel);
 		formPanel.add(Box.createVerticalStrut(20));
 
-		JPanel passwordFieldPanel = createFieldPanel("Введите пароль", passwordField = new JPasswordField(30));
+		JPanel passwordFieldPanel = createFieldPanel(passwordField = new JPasswordField(30));
 		formPanel.add(passwordFieldPanel);
 		formPanel.add(Box.createVerticalStrut(30));
 
-		JButton loginButton = new JButton("ВОЙТИ В АККАУНТ");
-		loginButton.setBackground(new Color(48, 48, 48));
-		loginButton.setForeground(Color.WHITE);
-		loginButton.setFont(new Font("Arial", Font.BOLD, 30));
-		loginButton.setFocusPainted(false);
-		loginButton.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
-		loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		loginButton.setMaximumSize(new Dimension(fixedWidth, 80));
-		loginButton.setPreferredSize(new Dimension(fixedWidth, 80));
-		loginButton.addActionListener(e -> onLogin());
+		loginButton = createLoginButton(fixedWidth);
 		formPanel.add(loginButton);
 		formPanel.add(Box.createVerticalStrut(15));
 
-		JButton forgotButton = new JButton("ВОССТАНОВИТЬ ПАРОЛЬ");
-		forgotButton.setBackground(new Color(48, 48, 48));
-		forgotButton.setForeground(Color.WHITE);
-		forgotButton.setFont(new Font("Arial", Font.BOLD, 25));
-		forgotButton.setFocusPainted(false);
-		forgotButton.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
-		forgotButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		forgotButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		forgotButton.setMaximumSize(new Dimension(fixedWidth, 70));
-		forgotButton.setPreferredSize(new Dimension(fixedWidth, 70));
-		forgotButton.addActionListener(e -> parent.showPanel("FORGOT_PASSWORD"));
+		forgotButton = createForgotButton(fixedWidth);
 		formPanel.add(forgotButton);
 		formPanel.add(Box.createVerticalStrut(15));
 
-		JButton backButton = new JButton("ВЕРНУТЬСЯ НАЗАД");
-		backButton.setBackground(new Color(48, 48, 48));
-		backButton.setForeground(Color.WHITE);
-		backButton.setFont(new Font("Arial", Font.BOLD, 30));
-		backButton.setFocusPainted(false);
-		backButton.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
-		backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		backButton.setMaximumSize(new Dimension(fixedWidth, 80));
-		backButton.setPreferredSize(new Dimension(fixedWidth, 80));
-		backButton.addActionListener(e -> parent.showPanel("LOGIN_START"));
+		backButton = createBackButton(fixedWidth);
 		formPanel.add(backButton);
 
 		gbc.gridy = 2;
@@ -97,19 +81,30 @@ public class LoginFormPanel extends JPanel {
 		gbc.gridy = 3;
 		gbc.weighty = 1.0;
 		add(Box.createVerticalGlue(), gbc);
+		lm.addLocaleChangeListener(this::updateTexts);
+		updateTexts();
 	}
 
-	private JPanel createFieldPanel(String labelText, JTextField field) {
+	private void updateTexts() {
+		loginTitleLabel.setText(lm.getString("auth.login"));
+		loginLabel.setText(lm.getString("auth.login_placeholder"));
+		passwordLabel.setText(lm.getString("auth.password_placeholder"));
+		loginButton.setText(lm.getString("auth.login_button"));
+		forgotButton.setText(lm.getString("auth.forgot_password"));
+		backButton.setText(lm.getString("button.back"));
+	}
+
+	private JPanel createFieldPanel(JTextField field) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.setOpaque(false);
 		panel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.setMaximumSize(new Dimension(500, 80));
-		panel.setPreferredSize(new Dimension(500, 80));
 
 		JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		labelPanel.setOpaque(false);
-		JLabel label = new JLabel(labelText);
+
+		JLabel label = new JLabel();
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("Arial", Font.PLAIN, 20));
 		labelPanel.add(label);
@@ -126,7 +121,54 @@ public class LoginFormPanel extends JPanel {
 		field.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(field);
 
+		if (field == loginField) {
+			loginLabel = label;
+		} else if (field == passwordField) {
+			passwordLabel = label;
+		}
 		return panel;
+	}
+
+	private JButton createLoginButton(int fixedWidth) {
+		JButton button = new JButton();
+		button.setBackground(new Color(48, 48, 48));
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Arial", Font.BOLD, 25));
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button.setMaximumSize(new Dimension(fixedWidth, 70));
+		button.addActionListener(e -> onLogin());
+		return button;
+	}
+
+	private JButton createForgotButton(int fixedWidth) {
+		JButton button = new JButton();
+		button.setBackground(new Color(48, 48, 48));
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Arial", Font.BOLD, 25));
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button.setMaximumSize(new Dimension(fixedWidth, 70));
+		button.addActionListener(e -> parent.showForgotPassword());
+		return button;
+	}
+
+	private JButton createBackButton(int fixedWidth) {
+		JButton button = new JButton();
+		button.setBackground(new Color(48, 48, 48));
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Arial", Font.BOLD, 25));
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button.setMaximumSize(new Dimension(fixedWidth, 70));
+		button.addActionListener(e -> parent.showLoginStart());
+		return button;
 	}
 
 	private void onLogin() {
@@ -134,14 +176,32 @@ public class LoginFormPanel extends JPanel {
 		String password = new String(passwordField.getPassword());
 
 		if (login.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Введите логин");
+			JOptionPane.showMessageDialog(this, lm.getString("error.empty_login"), lm.getString("message.error"),
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (password.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Введите пароль");
+			JOptionPane.showMessageDialog(this, lm.getString("error.empty_password"), lm.getString("message.error"),
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
-		parent.showMainApp(login);
+		try {
+			ClientCommand command = ClientCommand.builder().nameCommand("login").user(login).login(login)
+					.password(password).build();
+
+			ServerResponse response = GuiCommandSender.INSTANCE.sendCommand(command);
+
+			if (response != null && response.execution()) {
+				parent.showMainApp(login);
+			} else {
+				String errorMsg = response != null ? response.message() : lm.getString("error.unknown");
+				JOptionPane.showMessageDialog(this, lm.getString("error.login") + ": " + errorMsg,
+						lm.getString("message.error"), JOptionPane.ERROR_MESSAGE);
+			}
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, lm.getString("error.connection") + ": " + ex.getMessage(),
+					lm.getString("message.error"), JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }

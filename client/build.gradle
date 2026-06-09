@@ -1,0 +1,30 @@
+plugins {
+    id 'application'
+}
+
+application {
+    mainClass = 'edu.itmo.piikt.client.MainClient'
+}
+
+dependencies {
+    implementation project(':common')
+    implementation 'org.codehaus.janino:janino:3.1.10'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+}
+
+tasks.register('fatJar', Jar) {
+    archiveBaseName = 'client'
+    archiveClassifier = 'jar-with-dependencies'
+    manifest {
+        attributes 'Main-Class': 'edu.itmo.piikt.client.MainClient'
+    }
+    from sourceSets.main.output
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+}
+
+build.dependsOn fatJar

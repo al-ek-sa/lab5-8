@@ -33,15 +33,17 @@ public final class InfoCommand implements CommandSimple {
 			logger.info("Executing INFO command");
 			var listWorker = HistoryWorker.INSTANCE.getListWorker();
 			var data = HistoryWorker.INSTANCE.getData();
-			List<String> list = List.of("Collection type: " + listWorker.getClass().getSimpleName()
-					+ "\nIdentification time: " + data + "\nNumber of elements: " + listWorker.size());
+
+			String infoText = "Collection type: " + listWorker.getClass().getSimpleName() + "\n"
+					+ "Identification time: " + data + "\n" + "Number of elements: " + listWorker.size();
+
 			logger.debug("Collection info: type={}, size={}, created={}", listWorker.getClass().getSimpleName(),
 					listWorker.size(), data);
-			ServerResponse.successfulCompletion("INFO: ", list);
-			return ServerResponse.successfulCompletion("INFO: ", list);
+
+			return ServerResponse.successfulCompletion(infoText);
 		} catch (Exception e) {
 			logger.error("Error executing INFO command: {}", e);
-			throw new RuntimeException(e);
+			return ServerResponse.error("Error getting collection info: " + e.getMessage());
 		}
 	}
 }

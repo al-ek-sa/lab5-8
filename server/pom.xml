@@ -34,6 +34,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.java-websocket</groupId>
+            <artifactId>Java-WebSocket</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.cloud</groupId>
             <artifactId>google-cloud-firestore</artifactId>
         </dependency>
@@ -42,6 +48,12 @@
             <groupId>edu.itmo.piikt</groupId>
             <artifactId>common</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.17.0</version>
         </dependency>
 
         <dependency>

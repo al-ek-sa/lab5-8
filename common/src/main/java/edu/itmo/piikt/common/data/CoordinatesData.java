@@ -2,6 +2,7 @@ package edu.itmo.piikt.common.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Data transfer object for coordinates
@@ -11,6 +12,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class CoordinatesData {
 	private String x;
 	private String y;

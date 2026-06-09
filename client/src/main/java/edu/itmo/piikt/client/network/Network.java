@@ -4,66 +4,53 @@ import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
 import edu.itmo.piikt.common.sc.Client;
 import edu.itmo.piikt.common.sc.ClientCommand;
-import edu.itmo.piikt.common.sc.ClientData;
 import edu.itmo.piikt.common.sc.ServerResponse;
 import edu.itmo.piikt.common.util.DS;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.channels.ClosedByInterruptException;
 import java.nio.channels.SocketChannel;
 
 import static java.lang.Thread.*;
 
-/**
- * Network client for communication with the server
- *
- * @author Lishyk Aliaksandra
- * @version 1.0
- */
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
 public class Network implements Client {
-	/** Buffer size for data transfer */
-	private static final int SIZE = 66666;
-	/** Socket timeout in milliseconds */
-	private static final int TIME = 3000;
-	/** Return value indicating connection closed */
-	private static final int CONNECTION_CLOSED = -1;
 	private static final AppLogger logger = new AppLogger(Network.class);
-	private SocketChannel socketChannel;
-	/** Server host address */
+	private static final int HEADER_SIZE = 8;
+	private static final int BUFFER_SIZE = 65536;
+	private static final int SO_TIMEOUT = 60000;
 	private static final String HOST = System.getenv().getOrDefault("SERVER_HOST", "localhost");
-	/** Server port */
-	private final Integer PORT = 6654;
-	private ClientData clientData;
+	private static final int PORT = 6654;
+
+	private SocketChannel socketChannel;
+	private volatile boolean isClosing = false;
 
 	@Override
 	public void connect() {
 		connectWithRetry();
 	}
 
-	/**
-	 * Attempts to connect to the server with infinite retries
-	 */
 	private void connectWithRetry() {
-		while (!currentThread().isInterrupted()) {
+		while (!currentThread().isInterrupted() && !isClosing) {
 			try (Context ignored = Context.newId()) {
 				logger.info("Connecting to {}:{}", HOST, PORT);
 				socketChannel = SocketChannel.open();
 				socketChannel.configureBlocking(true);
+				socketChannel.socket().setSoTimeout(SO_TIMEOUT);
 				socketChannel.connect(new InetSocketAddress(HOST, PORT));
-				clientData = new ClientData(SIZE);
 				logger.info("Connected successfully");
 				return;
 			} catch (IOException e) {
-				logger.warn("Retry interrupted");
+				if (!isClosing) {
+					logger.warn("Connection failed, retrying...");
+				}
 				try {
-					sleep(250);
+					sleep(1000);
 				} catch (InterruptedException ex) {
 					currentThread().interrupt();
 					return;
@@ -72,73 +59,74 @@ public class Network implements Client {
 		}
 	}
 
-	/**
-	 * Sends a command to the server and receives the response
-	 *
-	 * @param clientResponse
-	 *            command to send
-	 * @return server response
-	 * @throws Exception
-	 *             Exception if communication fails
-	 */
 	@Override
 	public ServerResponse send(ClientCommand clientResponse) throws Exception {
+		if (isClosing) {
+			throw new IOException("Connection is closing");
+		}
+
 		try (Context ignored = Context.newId()) {
 			if (socketChannel == null || !socketChannel.isConnected()) {
 				connect();
 			}
 			logger.debug("Sending command: {}", clientResponse.nameCommand());
-			ByteBuffer writer = DS.serialize(clientResponse);
-			socketChannel.write(writer);
-			socketChannel.socket().setSoTimeout(TIME);
-			ByteBuffer reader = clientData.getReader();
-			reader.clear();
-			int bytes = socketChannel.read(reader);
-			if (bytes == CONNECTION_CLOSED) {
-				logger.error("Connection closed by server");
-				connect();
-				return send(clientResponse);
+			ByteBuffer writeBuffer = DS.serializeWithSize(clientResponse);
+			socketChannel.write(writeBuffer);
+			ByteBuffer headerBuffer = ByteBuffer.allocate(HEADER_SIZE);
+			int headerBytes = 0;
+			while (headerBytes < HEADER_SIZE) {
+				int read = socketChannel.read(headerBuffer);
+				if (read == -1) {
+					throw new IOException("Connection closed while reading header");
+				}
+				headerBytes += read;
 			}
-			reader.flip();
-			ServerResponse serverResponse = DS.deserialize(reader, ServerResponse.class);
-			logger.debug("Response received: success={}", serverResponse.execution());
-			return serverResponse;
+			headerBuffer.flip();
+			long responseSize = headerBuffer.getLong();
+
+			logger.debug("Expecting response of size: {} bytes", responseSize);
+			ByteBuffer dataBuffer = ByteBuffer.allocate((int) responseSize);
+			int dataBytes = 0;
+			while (dataBytes < responseSize) {
+				int read = socketChannel.read(dataBuffer);
+				if (read == -1) {
+					throw new IOException("Connection closed while reading data");
+				}
+				dataBytes += read;
+			}
+			dataBuffer.flip();
+			ServerResponse response = DS.deserialize(dataBuffer, ServerResponse.class);
+			logger.debug("Response received: success={}", response.execution());
+			return response;
+
+		} catch (ClosedByInterruptException e) {
+			Thread.currentThread().interrupt();
+			throw new IOException("Connection interrupted", e);
 		} catch (Exception e) {
-			logger.error("Error sending command: {}", e);
+			if (!isClosing && !Thread.currentThread().isInterrupted()) {
+				logger.error("Error sending command: {}", e.getMessage(), e);
+			}
 			throw e;
 		}
 	}
 
-	/**
-	 * Closes the network connection
-	 *
-	 * @throws IOException
-	 *             if closing fails
-	 */
 	@Override
 	public void close() throws IOException {
+		isClosing = true;
 		try (Context ignored = Context.newId()) {
 			logger.info("Closing connection");
 			if (socketChannel != null) {
-				socketChannel.close();
+				try {
+					socketChannel.close();
+				} catch (IOException e) {
+					logger.debug("Error closing socket: {}", e.getMessage());
+				}
 			}
 			logger.info("Connection closed");
-		} catch (IOException e) {
-			logger.error("Error closing connection: {}", e);
-			throw e;
 		}
 	}
 
 	public boolean connected() {
-		boolean isConnected = socketChannel != null && socketChannel.isConnected();
-		logger.debug("Connection status: {}", isConnected);
-		try {
-			socketChannel.configureBlocking(false);
-			int bytes = socketChannel.read(ByteBuffer.allocate(0));
-			socketChannel.configureBlocking(true);
-			return bytes != -1;
-		} catch (IOException e) {
-			return false;
-		}
+		return socketChannel != null && socketChannel.isConnected() && socketChannel.isOpen();
 	}
 }

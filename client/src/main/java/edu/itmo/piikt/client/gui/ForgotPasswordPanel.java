@@ -1,18 +1,27 @@
 package edu.itmo.piikt.client.gui;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import edu.itmo.piikt.client.gui.localization.LocaleManager;
+import edu.itmo.piikt.client.manager.GuiCommandSender;
+import edu.itmo.piikt.common.sc.ClientCommand;
+import edu.itmo.piikt.common.sc.ServerResponse;
 
-import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
+
 public class ForgotPasswordPanel extends JPanel {
-	private RightContentPanel parent;
-	private JTextField loginField;
-	private JTextField emailField;
+	private final RightContentPanel parent;
+	private final LocaleManager lm;
+	private final JTextField loginField;
+	private final JTextField emailField;
+	private final JLabel forgotTitleLabel;
+	private JLabel loginLabel;
+	private JLabel emailLabel;
+	private final JButton sendButton;
+	private final JButton backButton;
 
 	public ForgotPasswordPanel(RightContentPanel parent) {
 		this.parent = parent;
+		this.lm = LocaleManager.getInstance();
 		setBackground(Color.BLACK);
 		setLayout(new GridBagLayout());
 
@@ -28,31 +37,34 @@ public class ForgotPasswordPanel extends JPanel {
 		gbc.gridy = 0;
 		gbc.insets = new Insets(50, 0, 20, 0);
 		add(titleLabel, gbc);
-		JLabel forgotTitleLabel = new JLabel("ВОССТАНОВЛЕНИЕ ПАРОЛЯ");
+
+		forgotTitleLabel = new JLabel();
 		forgotTitleLabel.setForeground(Color.WHITE);
 		forgotTitleLabel.setFont(new Font("Arial", Font.BOLD, 50));
 		gbc.gridy = 1;
 		gbc.insets = new Insets(0, 0, 40, 0);
 		add(forgotTitleLabel, gbc);
+
 		JPanel formPanel = new JPanel();
 		formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
 		formPanel.setOpaque(false);
 		formPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		int fixedWidth = 500;
-		JPanel loginFieldPanel = createFieldPanel("Введите логин", loginField = new JTextField(30));
-		formPanel.add(loginFieldPanel);
+
+		JPanel loginPanel = createFieldPanel(loginField = new JTextField(30));
+		formPanel.add(loginPanel);
 		formPanel.add(Box.createVerticalStrut(20));
 
-		JPanel emailFieldPanel = createFieldPanel("Введите электронную почту", emailField = new JTextField(30));
-		formPanel.add(emailFieldPanel);
+		JPanel emailPanel = createFieldPanel(emailField = new JTextField(30));
+		formPanel.add(emailPanel);
 		formPanel.add(Box.createVerticalStrut(40));
 
-		JButton resetButton = getJButton(fixedWidth);
-		formPanel.add(resetButton);
+		sendButton = createSendButton(fixedWidth);
+		formPanel.add(sendButton);
 		formPanel.add(Box.createVerticalStrut(15));
 
-		JButton backButton = getJButton(parent, fixedWidth);
+		backButton = createBackButton(fixedWidth);
 		formPanel.add(backButton);
 
 		gbc.gridy = 2;
@@ -61,51 +73,29 @@ public class ForgotPasswordPanel extends JPanel {
 		gbc.gridy = 3;
 		gbc.weighty = 1.0;
 		add(Box.createVerticalGlue(), gbc);
+		lm.addLocaleChangeListener(this::updateTexts);
+		updateTexts();
 	}
 
-	@Nonnull
-	private static JButton getJButton(RightContentPanel parent, int fixedWidth) {
-		JButton backButton = new JButton("ВЕРНУТЬСЯ НАЗАД");
-		backButton.setBackground(new Color(48, 48, 48));
-		backButton.setForeground(Color.WHITE);
-		backButton.setFont(new Font("Arial", Font.BOLD, 30));
-		backButton.setFocusPainted(false);
-		backButton.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
-		backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		backButton.setMaximumSize(new Dimension(fixedWidth, 80));
-		backButton.setPreferredSize(new Dimension(fixedWidth, 80));
-		backButton.addActionListener(e -> parent.showPanel("LOGIN_FORM"));
-		return backButton;
+	private void updateTexts() {
+		forgotTitleLabel.setText(lm.getString("auth.recovery"));
+		loginLabel.setText(lm.getString("auth.login_placeholder"));
+		emailLabel.setText(lm.getString("auth.email"));
+		sendButton.setText(lm.getString("button.send_code"));
+		backButton.setText(lm.getString("button.back"));
 	}
 
-	@Nonnull
-	private JButton getJButton(int fixedWidth) {
-		JButton resetButton = new JButton("ВОССТАНОВИТЬ ПАРОЛЬ");
-		resetButton.setBackground(new Color(48, 48, 48));
-		resetButton.setForeground(Color.WHITE);
-		resetButton.setFont(new Font("Arial", Font.BOLD, 30));
-		resetButton.setFocusPainted(false);
-		resetButton.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
-		resetButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		resetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		resetButton.setMaximumSize(new Dimension(fixedWidth, 80));
-		resetButton.setPreferredSize(new Dimension(fixedWidth, 80));
-		resetButton.addActionListener(e -> onResetPassword());
-		return resetButton;
-	}
-
-	private JPanel createFieldPanel(String labelText, JTextField field) {
+	private JPanel createFieldPanel(JTextField field) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.setOpaque(false);
 		panel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.setMaximumSize(new Dimension(500, 80));
-		panel.setPreferredSize(new Dimension(500, 80));
 
 		JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		labelPanel.setOpaque(false);
-		JLabel label = new JLabel(labelText);
+
+		JLabel label = new JLabel();
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("Arial", Font.PLAIN, 20));
 		labelPanel.add(label);
@@ -122,23 +112,89 @@ public class ForgotPasswordPanel extends JPanel {
 		field.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(field);
 
+		if (field == loginField) {
+			loginLabel = label;
+		} else if (field == emailField) {
+			emailLabel = label;
+		}
+
 		return panel;
 	}
 
-	private void onResetPassword() {
+	private JButton createSendButton(int fixedWidth) {
+		JButton button = new JButton();
+		button.setBackground(new Color(48, 48, 48));
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Arial", Font.BOLD, 30));
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button.setMaximumSize(new Dimension(fixedWidth, 80));
+		button.setPreferredSize(new Dimension(fixedWidth, 80));
+		button.addActionListener(e -> onSendCode());
+		return button;
+	}
+
+	private JButton createBackButton(int fixedWidth) {
+		JButton button = new JButton();
+		button.setBackground(new Color(48, 48, 48));
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Arial", Font.BOLD, 30));
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button.setMaximumSize(new Dimension(fixedWidth, 80));
+		button.setPreferredSize(new Dimension(fixedWidth, 80));
+		button.addActionListener(e -> parent.showLoginStart());
+		return button;
+	}
+
+	private void onSendCode() {
 		String login = loginField.getText().trim();
 		String email = emailField.getText().trim();
 
 		if (login.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Введите логин");
+			JOptionPane.showMessageDialog(this, lm.getString("error.empty_login"), lm.getString("message.error"),
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (email.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Введите электронную почту");
+			JOptionPane.showMessageDialog(this, lm.getString("error.empty_email"), lm.getString("message.error"),
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		JOptionPane.showMessageDialog(this, "Код подтверждения отправлен на " + email);
 
-		parent.showResetCodeConfirmation(login, email);
+		setEnabled(false);
+
+		new Thread(() -> {
+			try {
+				ClientCommand checkCommand = ClientCommand.builder().nameCommand("check_user").login(login).email(email)
+						.build();
+
+				ServerResponse checkResponse = GuiCommandSender.INSTANCE.sendCommand(checkCommand);
+
+				SwingUtilities.invokeLater(() -> {
+					setEnabled(true);
+
+					if (checkResponse != null && checkResponse.execution()) {
+						parent.showResetCodeConfirmation(login, email);
+					} else {
+						String errorMsg = checkResponse != null
+								? checkResponse.message()
+								: lm.getString("error.user_not_found");
+						JOptionPane.showMessageDialog(this, errorMsg, lm.getString("message.error"),
+								JOptionPane.ERROR_MESSAGE);
+					}
+				});
+			} catch (Exception ex) {
+				SwingUtilities.invokeLater(() -> {
+					setEnabled(true);
+					JOptionPane.showMessageDialog(this, lm.getString("error.connection") + ": " + ex.getMessage(),
+							lm.getString("message.error"), JOptionPane.ERROR_MESSAGE);
+				});
+			}
+		}).start();
 	}
 }

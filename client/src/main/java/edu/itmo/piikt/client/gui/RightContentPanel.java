@@ -1,37 +1,28 @@
 package edu.itmo.piikt.client.gui;
 
-import edu.itmo.piikt.client.gui.command.HelpPanel;
-import edu.itmo.piikt.client.gui.command.InfoPanel;
-import edu.itmo.piikt.client.gui.command.HistoryPanel;
-import edu.itmo.piikt.client.gui.command.FirstWorkerPanel;
-import edu.itmo.piikt.client.gui.command.ReadFilePanel;
-import edu.itmo.piikt.client.gui.command.SearchByOrganizationPanel;
-import edu.itmo.piikt.client.gui.command.SearchResultPanel;
-import edu.itmo.piikt.client.gui.command.ShowPanel;
+import edu.itmo.piikt.client.gui.localization.LocaleManager;
 import edu.itmo.piikt.client.gui.register.email.CodeConfirmationPanel;
 import edu.itmo.piikt.client.gui.register.email.CompleteRegistrationPanel;
 import edu.itmo.piikt.client.gui.register.email.RegisterPanel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+
 public class RightContentPanel extends JPanel {
-	private CardLayout cardLayout;
-	private Map<String, JPanel> panels;
-	private MainGUI mainGUI;
-	private String currentUsername;
+	private final CardLayout cardLayout;
+	private final Map<String, JPanel> panels;
+	private final MainGUI mainGUI;
 
 	public RightContentPanel(MainGUI mainGUI) {
 		this.mainGUI = mainGUI;
-		cardLayout = new CardLayout();
+		LocaleManager lm = LocaleManager.getInstance();
+		this.cardLayout = new CardLayout();
 		setLayout(cardLayout);
 		setBackground(Color.BLACK);
 
 		panels = new HashMap<>();
-
 		panels.put("LOGIN_START", new LoginPanel(this));
 		panels.put("LOGIN_FORM", new LoginFormPanel(this));
 		panels.put("FORGOT_PASSWORD", new ForgotPasswordPanel(this));
@@ -55,35 +46,30 @@ public class RightContentPanel extends JPanel {
 	}
 
 	public void showMainApp(String username) {
-		this.currentUsername = username;
 		mainGUI.showAppPanel(username);
 	}
 
 	public void showResetCodeConfirmation(String login, String email) {
 		ResetCodeConfirmationPanel panel = new ResetCodeConfirmationPanel(this, login, email);
-		panels.put("RESET_CODE_CONFIRMATION", panel);
-		add(panel, "RESET_CODE_CONFIRMATION");
+		replacePanel("RESET_CODE_CONFIRMATION", panel);
 		cardLayout.show(this, "RESET_CODE_CONFIRMATION");
 	}
 
 	public void showResetPasswordPanel(String login, String email) {
 		ResetPasswordPanel panel = new ResetPasswordPanel(this, login, email);
-		panels.put("RESET_PASSWORD", panel);
-		add(panel, "RESET_PASSWORD");
+		replacePanel("RESET_PASSWORD", panel);
 		cardLayout.show(this, "RESET_PASSWORD");
 	}
 
 	public void showCodeConfirmation(String email, String code) {
 		CodeConfirmationPanel panel = new CodeConfirmationPanel(this, email, code);
-		panels.put("CODE_CONFIRMATION", panel);
-		add(panel, "CODE_CONFIRMATION");
+		replacePanel("CODE_CONFIRMATION", panel);
 		cardLayout.show(this, "CODE_CONFIRMATION");
 	}
 
 	public void showCompleteRegistration(String email) {
 		CompleteRegistrationPanel panel = new CompleteRegistrationPanel(this, email);
-		panels.put("COMPLETE_REGISTRATION", panel);
-		add(panel, "COMPLETE_REGISTRATION");
+		replacePanel("COMPLETE_REGISTRATION", panel);
 		cardLayout.show(this, "COMPLETE_REGISTRATION");
 	}
 
@@ -91,19 +77,18 @@ public class RightContentPanel extends JPanel {
 		cardLayout.show(this, "LOGIN_START");
 	}
 
-	public void showLoginForm() {
-		cardLayout.show(this, "LOGIN_FORM");
-	}
-
 	public void showForgotPassword() {
 		cardLayout.show(this, "FORGOT_PASSWORD");
 	}
 
-	public void showRegister() {
-		cardLayout.show(this, "REGISTER");
-	}
-
-	public void resetToLoginStart() {
-		cardLayout.show(this, "LOGIN_START");
+	private void replacePanel(String panelKey, JPanel newPanel) {
+		JPanel oldPanel = panels.get(panelKey);
+		if (oldPanel != null) {
+			remove(oldPanel);
+		}
+		panels.put(panelKey, newPanel);
+		add(newPanel, panelKey);
+		revalidate();
+		repaint();
 	}
 }

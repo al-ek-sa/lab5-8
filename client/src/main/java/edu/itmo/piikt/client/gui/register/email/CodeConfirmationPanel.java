@@ -1,27 +1,32 @@
 package edu.itmo.piikt.client.gui.register.email;
 
 import edu.itmo.piikt.client.gui.RightContentPanel;
+import edu.itmo.piikt.client.gui.localization.LocaleManager;
 import edu.itmo.piikt.client.manager.GuiCommandSender;
 import edu.itmo.piikt.common.sc.ClientCommand;
 import edu.itmo.piikt.common.sc.ServerResponse;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 public class CodeConfirmationPanel extends JPanel {
-	private RightContentPanel parent;
-	private JTextField[] codeFields;
-	private String email;
+	private final RightContentPanel parent;
+	private final LocaleManager lm;
+	private final JTextField[] codeFields;
+	private final String email;
 	private String expectedCode;
+	private final JLabel confirmTitleLabel;
+	private JLabel messageLabel;
+	private final JButton confirmButton;
+	private final JButton resendButton;
+	private final JButton backButton;
 
 	public CodeConfirmationPanel(RightContentPanel parent, String email, String expectedCode) {
 		this.parent = parent;
 		this.email = email;
 		this.expectedCode = expectedCode;
+		this.lm = LocaleManager.getInstance();
 
 		setBackground(Color.BLACK);
 		setLayout(new GridBagLayout());
@@ -40,7 +45,7 @@ public class CodeConfirmationPanel extends JPanel {
 		gbc.insets = new Insets(50, 0, 20, 0);
 		add(titleLabel, gbc);
 
-		JLabel confirmTitleLabel = new JLabel("ПОДТВЕРЖДЕНИЕ");
+		confirmTitleLabel = new JLabel();
 		confirmTitleLabel.setForeground(Color.WHITE);
 		confirmTitleLabel.setFont(new Font("Arial", Font.BOLD, 50));
 		gbc.gridy = 1;
@@ -54,8 +59,7 @@ public class CodeConfirmationPanel extends JPanel {
 
 		int fixedWidth = 500;
 
-		JPanel messagePanel = getJPanel(email, fixedWidth);
-
+		JPanel messagePanel = createMessagePanel(fixedWidth);
 		formPanel.add(messagePanel);
 		formPanel.add(Box.createVerticalStrut(30));
 
@@ -106,15 +110,15 @@ public class CodeConfirmationPanel extends JPanel {
 		formPanel.add(codePanel);
 		formPanel.add(Box.createVerticalStrut(40));
 
-		JButton confirmButton = getJButton(fixedWidth);
+		confirmButton = createConfirmButton(fixedWidth);
 		formPanel.add(confirmButton);
 		formPanel.add(Box.createVerticalStrut(15));
 
-		JButton resendButton = getButton(fixedWidth);
+		resendButton = createResendButton(fixedWidth);
 		formPanel.add(resendButton);
 		formPanel.add(Box.createVerticalStrut(15));
 
-		JButton backButton = getJButton(parent, fixedWidth);
+		backButton = createBackButton(fixedWidth);
 		formPanel.add(backButton);
 
 		gbc.gridy = 2;
@@ -124,58 +128,19 @@ public class CodeConfirmationPanel extends JPanel {
 		gbc.gridy = 3;
 		gbc.weighty = 1.0;
 		add(Box.createVerticalGlue(), gbc);
+		lm.addLocaleChangeListener(this::updateTexts);
+		updateTexts();
 	}
 
-	@Nonnull
-	private static JButton getJButton(RightContentPanel parent, int fixedWidth) {
-		JButton backButton = new JButton("ВЕРНУТЬСЯ НАЗАД");
-		backButton.setBackground(new Color(48, 48, 48));
-		backButton.setForeground(Color.WHITE);
-		backButton.setFont(new Font("Arial", Font.BOLD, 30));
-		backButton.setFocusPainted(false);
-		backButton.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
-		backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		backButton.setMaximumSize(new Dimension(fixedWidth, 80));
-		backButton.setPreferredSize(new Dimension(fixedWidth, 80));
-		backButton.addActionListener(e -> parent.showPanel("REGISTER"));
-		return backButton;
+	private void updateTexts() {
+		confirmTitleLabel.setText(lm.getString("auth.confirm"));
+		messageLabel.setText(lm.getString("auth.code_sent"));
+		confirmButton.setText(lm.getString("button.confirm"));
+		resendButton.setText(lm.getString("button.resend"));
+		backButton.setText(lm.getString("button.back"));
 	}
 
-	@Nonnull
-	private JButton getButton(int fixedWidth) {
-		JButton resendButton = new JButton("ЗАПРОСИТЬ КОД ПОВТОРНО");
-		resendButton.setBackground(new Color(48, 48, 48));
-		resendButton.setForeground(Color.WHITE);
-		resendButton.setFont(new Font("Arial", Font.BOLD, 25));
-		resendButton.setFocusPainted(false);
-		resendButton.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
-		resendButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		resendButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		resendButton.setMaximumSize(new Dimension(fixedWidth, 70));
-		resendButton.setPreferredSize(new Dimension(fixedWidth, 70));
-		resendButton.addActionListener(e -> onResendCode());
-		return resendButton;
-	}
-
-	@Nonnull
-	private JButton getJButton(int fixedWidth) {
-		JButton confirmButton = new JButton("ПОДТВЕРДИТЬ");
-		confirmButton.setBackground(new Color(48, 48, 48));
-		confirmButton.setForeground(Color.WHITE);
-		confirmButton.setFont(new Font("Arial", Font.BOLD, 30));
-		confirmButton.setFocusPainted(false);
-		confirmButton.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
-		confirmButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		confirmButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		confirmButton.setMaximumSize(new Dimension(fixedWidth, 80));
-		confirmButton.setPreferredSize(new Dimension(fixedWidth, 80));
-		confirmButton.addActionListener(e -> onConfirmCode());
-		return confirmButton;
-	}
-
-	@Nonnull
-	private static JPanel getJPanel(String email, int fixedWidth) {
+	private JPanel createMessagePanel(int fixedWidth) {
 		JPanel messagePanel = new JPanel();
 		messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
 		messagePanel.setOpaque(false);
@@ -183,7 +148,7 @@ public class CodeConfirmationPanel extends JPanel {
 		messagePanel.setMaximumSize(new Dimension(fixedWidth, 100));
 		messagePanel.setPreferredSize(new Dimension(fixedWidth, 100));
 
-		JLabel messageLabel = new JLabel("На вашу почту направлен код подтверждения");
+		messageLabel = new JLabel();
 		messageLabel.setForeground(Color.WHITE);
 		messageLabel.setFont(new Font("Arial", Font.PLAIN, 20));
 		messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -197,22 +162,67 @@ public class CodeConfirmationPanel extends JPanel {
 		return messagePanel;
 	}
 
+	private JButton createConfirmButton(int fixedWidth) {
+		JButton button = new JButton();
+		button.setBackground(new Color(48, 48, 48));
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Arial", Font.BOLD, 30));
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button.setMaximumSize(new Dimension(fixedWidth, 80));
+		button.setPreferredSize(new Dimension(fixedWidth, 80));
+		button.addActionListener(e -> onConfirmCode());
+		return button;
+	}
+
+	private JButton createResendButton(int fixedWidth) {
+		JButton button = new JButton();
+		button.setBackground(new Color(48, 48, 48));
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Arial", Font.BOLD, 25));
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button.setMaximumSize(new Dimension(fixedWidth, 70));
+		button.setPreferredSize(new Dimension(fixedWidth, 70));
+		button.addActionListener(e -> onResendCode());
+		return button;
+	}
+
+	private JButton createBackButton(int fixedWidth) {
+		JButton button = new JButton();
+		button.setBackground(new Color(48, 48, 48));
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Arial", Font.BOLD, 30));
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button.setMaximumSize(new Dimension(fixedWidth, 80));
+		button.setPreferredSize(new Dimension(fixedWidth, 80));
+		button.addActionListener(e -> parent.showPanel("REGISTER"));
+		return button;
+	}
+
 	private void onConfirmCode() {
 		StringBuilder code = new StringBuilder();
 		for (JTextField field : codeFields) {
 			if (field.getText().trim().isEmpty()) {
-				JOptionPane.showMessageDialog(this, "Введите полный код подтверждения", "Ошибка",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, lm.getString("error.enter_full_code"),
+						lm.getString("message.error"), JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			code.append(field.getText().trim());
 		}
 
 		if (code.toString().equals(expectedCode)) {
-			System.out.println("Codes match! Showing complete registration");
 			parent.showCompleteRegistration(email);
 		} else {
-			JOptionPane.showMessageDialog(this, "Неверный код подтверждения", "Ошибка", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, lm.getString("error.invalid_code"), lm.getString("message.error"),
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -227,19 +237,20 @@ public class CodeConfirmationPanel extends JPanel {
 			ServerResponse response = GuiCommandSender.INSTANCE.sendCommand(command);
 
 			if (response != null && response.execution()) {
-				JOptionPane.showMessageDialog(this, "Новый код отправлен на " + email, "Успех",
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, lm.getString("message.code_resent") + " " + email,
+						lm.getString("message.success"), JOptionPane.INFORMATION_MESSAGE);
 				for (JTextField field : codeFields) {
 					field.setText("");
 				}
 				codeFields[0].requestFocus();
 			} else {
-				String errorMsg = response != null ? response.message() : "Неизвестная ошибка";
-				JOptionPane.showMessageDialog(this, "Ошибка: " + errorMsg, "Ошибка", JOptionPane.ERROR_MESSAGE);
+				String errorMsg = response != null ? response.message() : lm.getString("error.unknown");
+				JOptionPane.showMessageDialog(this, lm.getString("error.prefix") + errorMsg,
+						lm.getString("message.error"), JOptionPane.ERROR_MESSAGE);
 			}
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, "Ошибка соединения: " + ex.getMessage(), "Ошибка",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, lm.getString("error.connection") + ": " + ex.getMessage(),
+					lm.getString("message.error"), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

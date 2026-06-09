@@ -1,22 +1,33 @@
 package edu.itmo.piikt.client.gui;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import edu.itmo.piikt.client.gui.localization.LocaleManager;
+import edu.itmo.piikt.client.manager.GuiCommandSender;
+import edu.itmo.piikt.common.sc.ClientCommand;
+import edu.itmo.piikt.common.sc.ServerResponse;
 
-import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
+
 public class ResetPasswordPanel extends JPanel {
-	private RightContentPanel parent;
-	private String login;
-	private String email;
-	private JPasswordField newPasswordField;
-	private JPasswordField confirmPasswordField;
+	private final RightContentPanel parent;
+	private final String login;
+	private final String email;
+	private final LocaleManager lm;
+	private final JPasswordField newPasswordField;
+	private final JPasswordField confirmPasswordField;
+	private final JLabel resetTitleLabel;
+	private JLabel loginInfoLabel;
+	private JLabel emailInfoLabel;
+	private JLabel newPasswordLabel;
+	private JLabel confirmPasswordLabel;
+	private final JButton saveButton;
+	private final JButton backButton;
 
 	public ResetPasswordPanel(RightContentPanel parent, String login, String email) {
 		this.parent = parent;
 		this.login = login;
 		this.email = email;
+		this.lm = LocaleManager.getInstance();
 		setBackground(Color.BLACK);
 		setLayout(new GridBagLayout());
 
@@ -33,7 +44,7 @@ public class ResetPasswordPanel extends JPanel {
 		gbc.gridy = 0;
 		gbc.insets = new Insets(50, 0, 20, 0);
 		add(titleLabel, gbc);
-		JLabel resetTitleLabel = new JLabel("СМЕНА ПАРОЛЯ");
+		resetTitleLabel = new JLabel();
 		resetTitleLabel.setForeground(Color.WHITE);
 		resetTitleLabel.setFont(new Font("Arial", Font.BOLD, 50));
 		gbc.gridy = 1;
@@ -47,23 +58,24 @@ public class ResetPasswordPanel extends JPanel {
 
 		int fixedWidth = 500;
 
-		JPanel infoPanel = getJPanel(login, email);
+		JPanel infoPanel = createInfoPanel();
 
 		formPanel.add(infoPanel);
 		formPanel.add(Box.createVerticalStrut(30));
 
-		JPanel newPasswordPanel = createFieldPanel("Введите новый пароль", newPasswordField = new JPasswordField(30));
+		JPanel newPasswordPanel = createFieldPanel(newPasswordField = new JPasswordField(30));
 		formPanel.add(newPasswordPanel);
 		formPanel.add(Box.createVerticalStrut(20));
 
-		JPanel confirmPanel = createFieldPanel("Повторите новый пароль", confirmPasswordField = new JPasswordField(30));
+		JPanel confirmPanel = createFieldPanel(confirmPasswordField = new JPasswordField(30));
 		formPanel.add(confirmPanel);
 		formPanel.add(Box.createVerticalStrut(40));
 
-		JButton saveButton = getJButton(fixedWidth);
+		saveButton = createSaveButton(fixedWidth);
 		formPanel.add(saveButton);
 		formPanel.add(Box.createVerticalStrut(15));
-		JButton backButton = getJButton(parent, fixedWidth);
+
+		backButton = createBackButton(fixedWidth);
 		formPanel.add(backButton);
 
 		gbc.gridy = 2;
@@ -73,72 +85,51 @@ public class ResetPasswordPanel extends JPanel {
 		gbc.gridy = 3;
 		gbc.weighty = 1.0;
 		add(Box.createVerticalGlue(), gbc);
+		lm.addLocaleChangeListener(this::updateTexts);
+		updateTexts();
 	}
 
-	@Nonnull
-	private static JButton getJButton(RightContentPanel parent, int fixedWidth) {
-		JButton backButton = new JButton("ВЕРНУТЬСЯ НАЗАД");
-		backButton.setBackground(new Color(48, 48, 48));
-		backButton.setForeground(Color.WHITE);
-		backButton.setFont(new Font("Arial", Font.BOLD, 30));
-		backButton.setFocusPainted(false);
-		backButton.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
-		backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		backButton.setMaximumSize(new Dimension(fixedWidth, 80));
-		backButton.setPreferredSize(new Dimension(fixedWidth, 80));
-		backButton.addActionListener(e -> parent.showPanel("LOGIN_FORM"));
-		return backButton;
+	private void updateTexts() {
+		resetTitleLabel.setText(lm.getString("auth.recovery"));
+		loginInfoLabel.setText(lm.getString("auth.login_placeholder") + ": " + login);
+		emailInfoLabel.setText(lm.getString("auth.email") + ": " + email);
+		newPasswordLabel.setText(lm.getString("reset.new_password"));
+		confirmPasswordLabel.setText(lm.getString("reset.confirm_new_password"));
+		saveButton.setText(lm.getString("button.save"));
+		backButton.setText(lm.getString("button.back"));
 	}
 
-	@Nonnull
-	private JButton getJButton(int fixedWidth) {
-		JButton saveButton = new JButton("СОХРАНИТЬ ПАРОЛЬ");
-		saveButton.setBackground(new Color(48, 48, 48));
-		saveButton.setForeground(Color.WHITE);
-		saveButton.setFont(new Font("Arial", Font.BOLD, 30));
-		saveButton.setFocusPainted(false);
-		saveButton.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
-		saveButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		saveButton.setMaximumSize(new Dimension(fixedWidth, 80));
-		saveButton.setPreferredSize(new Dimension(fixedWidth, 80));
-		saveButton.addActionListener(e -> onSavePassword());
-		return saveButton;
-	}
-
-	@Nonnull
-	private static JPanel getJPanel(String login, String email) {
+	private JPanel createInfoPanel() {
 		JPanel infoPanel = new JPanel();
 		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 		infoPanel.setOpaque(false);
 		infoPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		JLabel loginLabel = new JLabel("Логин: " + login);
-		loginLabel.setForeground(new Color(150, 150, 150));
-		loginLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-		loginLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		infoPanel.add(loginLabel);
+		loginInfoLabel = new JLabel();
+		loginInfoLabel.setForeground(new Color(150, 150, 150));
+		loginInfoLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+		loginInfoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		infoPanel.add(loginInfoLabel);
 
-		JLabel emailInfoLabel = new JLabel("Email: " + email);
+		emailInfoLabel = new JLabel();
 		emailInfoLabel.setForeground(new Color(150, 150, 150));
 		emailInfoLabel.setFont(new Font("Arial", Font.PLAIN, 18));
 		emailInfoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		infoPanel.add(emailInfoLabel);
+
 		return infoPanel;
 	}
 
-	private JPanel createFieldPanel(String labelText, JTextField field) {
+	private JPanel createFieldPanel(JTextField field) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.setOpaque(false);
 		panel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.setMaximumSize(new Dimension(500, 80));
-		panel.setPreferredSize(new Dimension(500, 80));
 
 		JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		labelPanel.setOpaque(false);
-		JLabel label = new JLabel(labelText);
+		JLabel label = new JLabel();
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("Arial", Font.PLAIN, 20));
 		labelPanel.add(label);
@@ -155,7 +146,42 @@ public class ResetPasswordPanel extends JPanel {
 		field.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(field);
 
+		if (field == newPasswordField) {
+			newPasswordLabel = label;
+		} else if (field == confirmPasswordField) {
+			confirmPasswordLabel = label;
+		}
 		return panel;
+	}
+
+	private JButton createSaveButton(int fixedWidth) {
+		JButton button = new JButton();
+		button.setBackground(new Color(48, 48, 48));
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Arial", Font.BOLD, 30));
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button.setMaximumSize(new Dimension(fixedWidth, 80));
+		button.setPreferredSize(new Dimension(fixedWidth, 80));
+		button.addActionListener(e -> onSavePassword());
+		return button;
+	}
+
+	private JButton createBackButton(int fixedWidth) {
+		JButton button = new JButton();
+		button.setBackground(new Color(48, 48, 48));
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Arial", Font.BOLD, 30));
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(15, 50, 15, 50));
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button.setMaximumSize(new Dimension(fixedWidth, 80));
+		button.setPreferredSize(new Dimension(fixedWidth, 80));
+		button.addActionListener(e -> parent.showForgotPassword());
+		return button;
 	}
 
 	private void onSavePassword() {
@@ -163,17 +189,39 @@ public class ResetPasswordPanel extends JPanel {
 		String confirmPassword = new String(confirmPasswordField.getPassword());
 
 		if (newPassword.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Введите новый пароль");
+			JOptionPane.showMessageDialog(this, lm.getString("error.empty_password"), lm.getString("message.error"),
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (newPassword.length() < 8) {
-			JOptionPane.showMessageDialog(this, "Пароль должен быть не менее 8 символов");
+			JOptionPane.showMessageDialog(this, lm.getString("error.password_too_short"), lm.getString("message.error"),
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (!newPassword.equals(confirmPassword)) {
-			JOptionPane.showMessageDialog(this, "Пароли не совпадают");
+			JOptionPane.showMessageDialog(this, lm.getString("error.password_mismatch"), lm.getString("message.error"),
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		parent.showMainApp(login);
+
+		try {
+			ClientCommand command = ClientCommand.builder().nameCommand("reset_password").login(login).email(email)
+					.password(newPassword).build();
+
+			ServerResponse response = GuiCommandSender.INSTANCE.sendCommand(command);
+
+			if (response != null && response.execution()) {
+				JOptionPane.showMessageDialog(this, lm.getString("message.password_changed"),
+						lm.getString("message.success"), JOptionPane.INFORMATION_MESSAGE);
+				parent.showMainApp(login);
+			} else {
+				String errorMsg = response != null ? response.message() : lm.getString("error.unknown");
+				JOptionPane.showMessageDialog(this, lm.getString("error.prefix") + errorMsg,
+						lm.getString("message.error"), JOptionPane.ERROR_MESSAGE);
+			}
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, lm.getString("error.connection") + ": " + ex.getMessage(),
+					lm.getString("message.error"), JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }

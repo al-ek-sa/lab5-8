@@ -9,19 +9,18 @@ public class LeftPanel extends JPanel {
 
 	public LeftPanel() {
 		setBackground(Color.BLACK);
-		loadImage("images/gear.png");
+		loadImage();
 	}
 
-	private void loadImage(String path) {
+	private void loadImage() {
 		try {
-			URL imgUrl = getClass().getClassLoader().getResource(path);
+			URL imgUrl = getClass().getClassLoader().getResource("images/gear.png");
 			if (imgUrl != null) {
 				ImageIcon icon = new ImageIcon(imgUrl);
 				backgroundImage = icon.getImage();
 				repaint();
 			}
-		} catch (Exception e) {
-			System.err.println("Image not found: " + path);
+		} catch (Exception ignored) {
 		}
 	}
 
