@@ -31,21 +31,20 @@ public final class HeadCommand implements CommandSimple {
 	public ServerResponse execute() {
 		try (Context ignored = Context.newId()) {
 			if (!BDConnect.INSTANCE.isConnected()) {
-				return ServerResponse
-						.error("         return ServerResponse.error(\"Command unavailable, please try again later");
+				return ServerResponse.error("Service temporarily unavailable, please try again later");
 			}
 			logger.info("Executing HEAD command");
 			var listWorker = HistoryWorker.INSTANCE.getListWorker();
 			if (listWorker.isEmpty()) {
 				logger.debug("Collection is empty");
-				return ServerResponse.successfulCompletion("COLLECTION IS EMPTY");
+				return ServerResponse.successfulCompletion("Коллекция пуста");
 			}
 			String input = listWorker.getFirst().toString();
 			logger.debug("First worker: {}", input);
-			return ServerResponse.successfulCompletion("HEAD WORKER", List.of(input));
+			return ServerResponse.successfulCompletion(input);
 		} catch (Exception e) {
 			logger.error("Error executing HEAD command: {}", e);
-			throw new RuntimeException(e);
+			return ServerResponse.error("Error getting first worker: " + e.getMessage());
 		}
 	}
 }

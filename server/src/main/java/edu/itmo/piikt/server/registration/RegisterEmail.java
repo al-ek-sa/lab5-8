@@ -15,8 +15,8 @@ public class RegisterEmail implements CommandType {
 	@Override
 	public ServerResponse execute(ClientCommand command) {
 		try (Context ignored = Context.newId()) {
-			String email = command.getEmail();
-			String code = command.getData().toString();
+			String email = command.email();
+			String code = command.data().toString();
 			return EmailSender.sendVerificationCode(email, code);
 		} catch (Exception e) {
 			return ServerResponse.error("Internal server error");

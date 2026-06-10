@@ -1,8 +1,6 @@
 package edu.itmo.piikt.common.data;
 
 import edu.itmo.piikt.common.data.status.DataStatus;
-import java.io.Serial;
-import java.io.Serializable;
 import lombok.*;
 
 /**
@@ -14,9 +12,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public final class WorkerData implements Serializable {
-	@Serial
-	private static final long serialVersionUID = 1L;
+public final class WorkerData {
 	private String name;
 	private CoordinatesData coordinates;
 	private String salary;

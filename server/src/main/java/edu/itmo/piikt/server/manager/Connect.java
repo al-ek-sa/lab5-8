@@ -17,40 +17,18 @@ import java.nio.channels.SocketChannel;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * Handles client connections, reading commands, and sending responses.
- *
- * @param dispatcher
- *            command dispatcher for processing client commands
- * @param command
- *            authentication command router
- * @author Lishyk Aliaksandra
- * @version 1.0
- */
 public record Connect(Dispatcher dispatcher, User command) {
-	/** Return value indicating end of stream */
-	private static final int END_OF_STREAM = -1;
-	/** Return value indicating no data available to read */
-	private static final int NO_DATA_READ = 0;
 	private static final AppLogger logger = new AppLogger(Connect.class);
-	/** Fixed thread pool for sending responses */
-	private static final ExecutorService responsePool = Executors.newFixedThreadPool(10);
+	private static final ExecutorService responsePool = Executors.newVirtualThreadPerTaskExecutor();
+	private static final int HEADER_SIZE = 8;
 
-	/**
-	 * Handles new client connection.
-	 *
-	 * @param selectionKey
-	 *            key containing the server channel
-	 * @throws IOException
-	 *             if accepting connection fails
-	 */
 	public void connected(SelectionKey selectionKey) throws IOException {
 		try (Context ignored = Context.newId()) {
 			var serverChannel = (ServerSocketChannel) selectionKey.channel();
 			var clientChannel = serverChannel.accept();
 			clientChannel.configureBlocking(false);
 			logger.info("New client connected: {}", clientChannel.getRemoteAddress());
-			ClientData client = new ClientData(66666);
+			ClientData client = new ClientData(65536);
 			clientChannel.register(selectionKey.selector(), SelectionKey.OP_READ, client);
 		} catch (IOException e) {
 			logger.error("Error accepting connection: {}", e.getMessage());
@@ -58,114 +36,129 @@ public record Connect(Dispatcher dispatcher, User command) {
 		}
 	}
 
-	/**
-	 * Reads data from client.
-	 *
-	 * @param selectionKey
-	 *            key containing the client channel and attachment
-	 * @throws IOException
-	 *             if reading fails
-	 */
 	public void reader(SelectionKey selectionKey) throws IOException {
 		var clientChannel = (SocketChannel) selectionKey.channel();
 		var client = (ClientData) selectionKey.attachment();
 		var buffer = client.getReader();
-		int reader;
+
+		int read;
 		try {
-			reader = clientChannel.read(buffer);
+			read = clientChannel.read(buffer);
 		} catch (IOException e) {
-			logger.warn("Client disconnected unexpectedly: {}", e.getMessage());
+			logger.warn("Client disconnected: {}", e.getMessage());
 			clientChannel.close();
 			return;
 		}
-		if (reader == END_OF_STREAM) {
+
+		if (read == -1) {
 			logger.info("Client disconnected: {}", clientChannel.getRemoteAddress());
 			clientChannel.close();
 			return;
 		}
-		if (reader == NO_DATA_READ) {
+
+		if (read == 0)
+			return;
+
+		if (client.isReadingChunked()) {
+			buffer.flip();
+			byte[] chunk = new byte[buffer.remaining()];
+			buffer.get(chunk);
+			client.addChunk(chunk);
+			client.clearReader();
+
+			if (client.isChunkedComplete()) {
+				byte[] fullData = client.getAssembledData();
+				client.finishChunkedReading();
+				processCommand(selectionKey, clientChannel, client, fullData);
+			} else {
+				selectionKey.interestOps(SelectionKey.OP_READ);
+				selectionKey.selector().wakeup();
+			}
+			return;
+		}
+
+		if (buffer.position() < HEADER_SIZE) {
+			selectionKey.interestOps(SelectionKey.OP_READ);
+			selectionKey.selector().wakeup();
 			return;
 		}
 
 		buffer.flip();
-		byte[] data = new byte[buffer.remaining()];
+		long messageSize = buffer.getLong();
+		int dataSize = (int) messageSize;
+
+		if (dataSize > buffer.remaining()) {
+			client.startChunkedReading(messageSize);
+			byte[] firstChunk = new byte[buffer.remaining()];
+			buffer.get(firstChunk);
+			client.addChunk(firstChunk);
+			client.clearReader();
+			selectionKey.interestOps(SelectionKey.OP_READ);
+			selectionKey.selector().wakeup();
+			return;
+		}
+
+		byte[] data = new byte[dataSize];
 		buffer.get(data);
 		client.clearReader();
+		processCommand(selectionKey, clientChannel, client, data);
+	}
 
-		Thread readThread = new Thread(() -> {
-			try (Context ignored = Context.newId()) {
-				ByteBuffer bb = ByteBuffer.wrap(data);
-				ClientCommand clientCommand = (ClientCommand) DS.deserialize(bb);
+	private void processCommand(SelectionKey selectionKey, SocketChannel clientChannel, ClientData client,
+			byte[] data) {
+		Thread.ofVirtual().start(() -> {
+			try {
+				ClientCommand clientCommand = DS.deserialize(ByteBuffer.wrap(data), ClientCommand.class);
 				client.setCommand(clientCommand);
-				logger.debug("Received command from {}: {}", clientChannel.getRemoteAddress(),
-						clientCommand.getNameCommand());
+				logger.debug("Received command: {}", clientCommand.nameCommand());
 
-				Thread processThread = new Thread(() -> {
-					try (Context ignored2 = Context.newId()) {
-						ServerResponse serverResponse = dispatcher.dispatcher(clientCommand);
-						if (serverResponse == null) {
-							serverResponse = command.execute(clientCommand);
-						}
-						if (serverResponse == null) {
-							logger.error("Command returned null response for: {}", clientCommand.getNameCommand());
-							serverResponse = ServerResponse.error("Internal server error");
-						}
-						client.setMessage(serverResponse);
-						selectionKey.interestOps(SelectionKey.OP_WRITE);
-						selectionKey.selector().wakeup();
-					} catch (Exception e) {
-						logger.error("Error processing command: {}", e.getMessage());
-						client.clearReader();
-						selectionKey.interestOps(SelectionKey.OP_READ);
-						selectionKey.selector().wakeup();
-					}
-				});
-				processThread.start();
+				ServerResponse serverResponse = dispatcher.dispatcher(clientCommand);
+				if (serverResponse == null) {
+					serverResponse = command.execute(clientCommand);
+				}
+				if (serverResponse == null) {
+					serverResponse = ServerResponse.error("Internal server error");
+				}
+
+				client.setMessage(serverResponse);
+				selectionKey.interestOps(SelectionKey.OP_WRITE);
+				selectionKey.selector().wakeup();
 			} catch (Exception e) {
-				logger.error("Error deserializing command: {}", e.getMessage());
+				logger.error("Error processing command: {}", e.getMessage());
 				client.clearReader();
 				selectionKey.interestOps(SelectionKey.OP_READ);
 				selectionKey.selector().wakeup();
 			}
 		});
-		readThread.start();
 	}
 
-	/**
-	 * Sends response to client.
-	 *
-	 * @param selectionKey
-	 *            key containing the client channel and attachment
-	 */
 	public void writer(SelectionKey selectionKey) {
 		var clientChannel = (SocketChannel) selectionKey.channel();
 		var client = (ClientData) selectionKey.attachment();
 		var serverResponse = (ServerResponse) client.getMessage();
-
 		if (serverResponse == null) {
 			selectionKey.interestOps(SelectionKey.OP_READ);
 			selectionKey.selector().wakeup();
 			return;
 		}
-		final ByteBuffer responseBuffer = DS.serialize(serverResponse);
-		final ClientData clientData = client;
+
+		ByteBuffer responseBuffer = DS.serializeWithSize(serverResponse);
+
 		responsePool.submit(() -> {
-			try (Context ignored = Context.newId()) {
+			try {
 				clientChannel.write(responseBuffer);
-				logger.debug("Response sent to {}", clientChannel.getRemoteAddress());
-				clientData.setMessage(null);
-				clientData.clearReader();
+				logger.debug("Response sent");
+				client.setMessage(null);
+				client.clearReader();
 			} catch (IOException e) {
 				logger.error("Error sending response: {}", e.getMessage());
 				try {
 					clientChannel.close();
-				} catch (IOException ex) {
-					logger.error("Error closing channel: {}", ex.getMessage());
+				} catch (IOException ignored) {
 				}
-			} catch (Exception e) {
-				logger.error("Unexpected error sending response: {}", e.getMessage());
 			}
 		});
+
 		selectionKey.interestOps(SelectionKey.OP_READ);
 		selectionKey.selector().wakeup();
 	}

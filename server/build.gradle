@@ -1,0 +1,33 @@
+plugins {
+    id 'application'
+}
+
+application {
+    mainClass = 'edu.itmo.piikt.server.MainServer'
+}
+
+dependencies {
+    implementation project(':common')
+    implementation 'org.java-websocket:Java-WebSocket:1.5.6'
+    implementation 'com.google.cloud:google-cloud-firestore:3.15.0'
+    implementation 'org.postgresql:postgresql:42.7.11'
+    implementation 'com.sun.mail:jakarta.mail:2.0.2'
+    implementation 'org.codehaus.janino:janino:3.1.10'
+}
+
+tasks.register('fatJar', Jar) {
+    archiveBaseName = 'server'
+    archiveClassifier = 'jar-with-dependencies'
+    manifest {
+        attributes 'Main-Class': 'edu.itmo.piikt.server.MainServer'
+    }
+    from sourceSets.main.output
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+}
+
+build.dependsOn fatJar

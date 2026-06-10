@@ -1,6 +1,5 @@
 package edu.itmo.piikt.client.command.history;
 
-import edu.itmo.piikt.client.commands.CommandVoid;
 import edu.itmo.piikt.common.io.provider.IOProvider;
 import edu.itmo.piikt.common.logger.AppLogger;
 import edu.itmo.piikt.common.logger.Context;
@@ -16,7 +15,7 @@ import lombok.NoArgsConstructor;
  * @see HistoryCommands
  */
 @NoArgsConstructor
-public final class HistoryCommand implements CommandVoid {
+public final class HistoryCommand {
 	/** Maximum number of commands to display in history */
 	private static final int LIMIT_HISTORY = 14;
 	private static final AppLogger logger = new AppLogger(HistoryCommand.class);
@@ -28,7 +27,6 @@ public final class HistoryCommand implements CommandVoid {
 	 * @param io
 	 *            provider for outputting command results
 	 */
-	@Override
 	public void execute(IOProvider io, Object... arg) {
 		if (arg.length != 0)
 			throw new RuntimeException();

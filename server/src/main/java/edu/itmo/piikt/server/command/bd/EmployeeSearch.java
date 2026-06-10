@@ -33,15 +33,15 @@ public class EmployeeSearch {
 	public static int idUser(ClientCommand clientCommand) {
 		String sql = "SELECT id FROM \"user\" WHERE login = ? LIMIT 1";
 		try (PreparedStatement preparedStatement = BDConnect.INSTANCE.getConnection().prepareStatement(sql)) {
-			preparedStatement.setString(1, clientCommand.getUser());
+			preparedStatement.setString(1, clientCommand.user());
 			ResultSet res = preparedStatement.executeQuery();
 			if (res.next()) {
 				int userId = res.getInt("id");
-				logger.debug("Found userId={} for login={}", userId, clientCommand.getUser());
+				logger.debug("Found userId={} for login={}", userId, clientCommand.user());
 				return userId;
 			} else {
-				logger.error("User not found: login={}", clientCommand.getUser());
-				throw new RuntimeException("User not found: " + clientCommand.getUser());
+				logger.error("User not found: login={}", clientCommand.user());
+				throw new RuntimeException("User not found: " + clientCommand.user());
 			}
 		} catch (SQLException e) {
 			logger.error("SQL error while fetching userId: {}", e.getMessage(), e);

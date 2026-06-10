@@ -1,9 +1,8 @@
 package edu.itmo.piikt.common.data;
 
-import java.io.Serial;
-import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Data transfer object for coordinates
@@ -13,9 +12,8 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class CoordinatesData implements Serializable {
-	@Serial
-	private static final long serialVersionUID = 1L;
+@NoArgsConstructor
+public class CoordinatesData {
 	private String x;
 	private String y;
 }

@@ -1,73 +1,47 @@
 package edu.itmo.piikt.common.util;
 
 import edu.itmo.piikt.common.logger.AppLogger;
-import java.io.*;
-import java.nio.ByteBuffer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.experimental.UtilityClass;
 
-/**
- * Serialization utility for converting objects to/from ByteBuffer
- *
- * @author Lishyk Aliaksandra
- * @version 1.0
- */
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+
 @UtilityClass
 public class DS {
 	private static final AppLogger log = new AppLogger(DS.class);
+	private static final ObjectMapper MAPPER;
 
-	/**
-	 * Deserializes an object from a ByteBuffer
-	 *
-	 * @param byteBuffer
-	 *            buffer containing serialized data
-	 * @return deserialized object
-	 * @throws RuntimeException
-	 *             if deserialization fails
-	 */
-	public static Object deserialize(ByteBuffer byteBuffer) {
-		log.debug("Deserializing object from ByteBuffer, size: {} bytes", byteBuffer.remaining());
-		try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteBuffer.array(), 0,
-				byteBuffer.limit());
-				ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
-			var result = objectInputStream.readObject();
-			log.debug("Deserialization successful: {}", result.getClass().getSimpleName());
-			return result;
-		} catch (ClassNotFoundException ex) {
-			log.error("Deserialization failed: class not found - {}", ex.getMessage());
-			throw new RuntimeException("Class not found during deserialization", ex);
+	static {
+		MAPPER = new ObjectMapper();
+		MAPPER.registerModule(new JavaTimeModule());
+		MAPPER.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+	}
+
+	public static <T> T deserialize(ByteBuffer byteBuffer, Class<T> tClass) {
+		try {
+			byte[] bytes = new byte[byteBuffer.remaining()];
+			byteBuffer.get(bytes);
+			return MAPPER.readValue(bytes, tClass);
 		} catch (IOException e) {
-			log.error("Deserialization failed: IO error - {}", e.getMessage());
-			throw new RuntimeException("IO error during deserialization", e);
-		} catch (Exception e) {
-			log.error("Deserialization failed: {}", e.getMessage());
-			throw new RuntimeException(e);
+			throw new RuntimeException("JSON deserialization failed", e);
 		}
 	}
 
-	/**
-	 * Serializes an object to a ByteBuffer
-	 *
-	 * @param object
-	 *            object to serialize
-	 * @return ByteBuffer containing serialized data
-	 * @throws RuntimeException
-	 *             if serialization fails
-	 */
-	public static ByteBuffer serialize(Object object) {
-		log.debug("Serializing object: {}", object.getClass().getSimpleName());
-		try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
-			objectOutputStream.writeObject(object);
-			objectOutputStream.flush();
-			byte[] bytes = byteArrayOutputStream.toByteArray();
-			log.debug("Serialization successful, size: {} bytes", bytes.length);
-			return ByteBuffer.wrap(bytes);
-		} catch (NotSerializableException e) {
-			log.error("Serialization failed: object not serializable - {}", e.getMessage());
-			throw new RuntimeException("Object not serializable: " + object.getClass().getName(), e);
+	public static ByteBuffer serializeWithSize(Object object) {
+		try {
+			byte[] data = MAPPER.writeValueAsBytes(object);
+			ByteBuffer buffer = ByteBuffer.allocate(8 + data.length);
+			buffer.putLong(data.length);
+			buffer.put(data);
+			buffer.flip();
+			return buffer;
 		} catch (IOException e) {
-			log.error("Serialization failed: IO error - {}", e.getMessage());
-			throw new RuntimeException("IO error during serialization", e);
+			throw new RuntimeException("Serialization failed", e);
 		}
 	}
+
 }

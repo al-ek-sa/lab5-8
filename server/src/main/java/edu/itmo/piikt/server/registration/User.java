@@ -29,6 +29,8 @@ public class User {
 		handlers.put("register", com -> new Register().execute(com));
 		handlers.put("reset_password", com -> new ResetPassword().execute(com));
 		handlers.put("register_email", com -> new RegisterEmail().execute(com));
+		handlers.put("send_reset_code", com -> new SendResetCode().execute(com));
+		handlers.put("check_user", com -> new CheckUser().execute(com));
 		logger.debug("Auth command handlers initialized: {}", handlers.keySet());
 	}
 
@@ -42,7 +44,7 @@ public class User {
 	 */
 	public ServerResponse execute(ClientCommand command) {
 		try (Context ignored = Context.newId()) {
-			String commandName = command.getNameCommand();
+			String commandName = command.nameCommand();
 			logger.info("Processing auth command: {}", commandName);
 
 			Function<ClientCommand, ServerResponse> handler = handlers.get(commandName);
@@ -69,8 +71,7 @@ public class User {
 			return response;
 
 		} catch (Exception e) {
-			logger.error("Unexpected error processing auth command {}: {}", command.getNameCommand(), e.getMessage(),
-					e);
+			logger.error("Unexpected error processing auth command {}: {}", command.nameCommand(), e.getMessage(), e);
 			return ServerResponse.error("Internal server error");
 		}
 	}

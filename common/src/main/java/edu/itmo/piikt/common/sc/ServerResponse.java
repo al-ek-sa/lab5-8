@@ -1,9 +1,8 @@
 package edu.itmo.piikt.common.sc;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import edu.itmo.piikt.common.data.MessageExceptionValidation;
 import edu.itmo.piikt.common.logger.AppLogger;
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import lombok.*;
@@ -22,11 +21,10 @@ import lombok.*;
  * @param errors
  *            list of validation errors for correction
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Builder
 public record ServerResponse(boolean execution, String message, Object dataString, List<String> data,
-		List<MessageExceptionValidation> errors, String login, String email, String password) implements Serializable {
-	@Serial
-	private static final long serialVersionUID = 1L;
+		List<MessageExceptionValidation> errors, String login, String email, String password) {
 	private static final AppLogger log = new AppLogger(ServerResponse.class);
 
 	public static ServerResponse successfulCompletion(String message) {

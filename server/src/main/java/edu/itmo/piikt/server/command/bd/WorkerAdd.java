@@ -34,13 +34,12 @@ public class WorkerAdd {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Saving worker to database: id={}, name={}", worker.getUuid(), worker.getName());
 
-			String sql = "INSERT INTO worker(worker_id, name, user_id, flag) VALUES (?, ?, ?, ?)";
+			String sql = "INSERT INTO worker(worker_id, name, user_id) VALUES (?, ?, ?)";
 
 			try (PreparedStatement preparedStatement = BDConnect.INSTANCE.getConnection().prepareStatement(sql)) {
 				preparedStatement.setString(1, worker.getUuid());
 				preparedStatement.setString(2, worker.getName());
 				preparedStatement.setInt(3, EmployeeSearch.idUser(clientCommand));
-				preparedStatement.setString(4, clientCommand.getArgumentCommand());
 
 				int rowsAffected = preparedStatement.executeUpdate();
 				logger.info("Worker saved successfully: id={}, rowsAffected={}", worker.getUuid(), rowsAffected);
@@ -59,6 +58,35 @@ public class WorkerAdd {
 		} catch (Exception e) {
 			logger.error("Unexpected error in newWorker: {}", e.getMessage(), e);
 			return ServerResponse.error("Internal server error");
+		}
+	}
+
+	public ServerResponse updateWorker(ClientCommand clientCommand, Worker worker) {
+		try (Context ignored = Context.newId()) {
+			logger.debug("Updating worker in database: id={}, name={}", worker.getUuid(), worker.getName());
+
+			String sql = "UPDATE worker SET name = ?, user_id = ? WHERE worker_id = ?";
+
+			try (PreparedStatement preparedStatement = BDConnect.INSTANCE.getConnection().prepareStatement(sql)) {
+				preparedStatement.setString(1, worker.getName());
+				preparedStatement.setInt(2, EmployeeSearch.idUser(clientCommand));
+				preparedStatement.setString(3, worker.getUuid());
+
+				int rowsAffected = preparedStatement.executeUpdate();
+				if (rowsAffected > 0) {
+					logger.info("Worker updated successfully: id={}, rowsAffected={}", worker.getUuid(), rowsAffected);
+					return ServerResponse.successfulCompletion("Worker updated successfully");
+				} else {
+					logger.warn("Worker not found for update: id={}", worker.getUuid());
+					return ServerResponse.error("Worker not found");
+				}
+			} catch (SQLException e) {
+				logger.error("Database error while updating worker: {}", e.getMessage(), e);
+				return ServerResponse.error("Database error, please try again later");
+			}
+		} catch (Exception e) {
+			logger.error("Unexpected error in updateWorker: {}", e.getMessage(), e);
+			return ServerResponse.error("Internal server error: " + e.getMessage());
 		}
 	}
 }

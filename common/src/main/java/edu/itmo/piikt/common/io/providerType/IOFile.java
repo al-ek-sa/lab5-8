@@ -8,13 +8,6 @@ import java.io.*;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-/**
- * A class that inherits from the IOProvider interface implements data output to
- * the console and reading from a file.
- *
- * @author Lishyk Aliaksandra
- * @version 2.2
- */
 public class IOFile implements IOProvider {
 	private static final AppLogger logger = new AppLogger(IOFile.class);
 	private final BufferedReader reader;
@@ -34,12 +27,6 @@ public class IOFile implements IOProvider {
 		}
 	}
 
-	/**
-	 * The method reads data from a script. The data is read character by character
-	 * and converted into words.
-	 *
-	 * @return command
-	 */
 	@Override
 	public String readLine() {
 		try (Context ignored = Context.newId()) {
@@ -70,13 +57,6 @@ public class IOFile implements IOProvider {
 		return NameIOProvider.FILE.getName();
 	}
 
-	/**
-	 * A method that adds data entered after the command, in curly braces, to a
-	 * queue.
-	 *
-	 * @param data
-	 *            A string with data is passed as parameters to the method.
-	 */
 	private void data(String data) {
 		try (Context ignored = Context.newId()) {
 			logger.debug("Parsing data: {}", data);
@@ -85,7 +65,10 @@ public class IOFile implements IOProvider {
 			}
 			String[] arguments = data.split(";");
 			for (String argument : arguments) {
-				String dataEnd = argument.substring(1, argument.length() - 1);
+				String dataEnd = argument.trim();
+				if (dataEnd.startsWith("\"") && dataEnd.endsWith("\"")) {
+					dataEnd = dataEnd.substring(1, dataEnd.length() - 1);
+				}
 				dataQueue.add(dataEnd);
 				logger.debug("Queued data: {}", dataEnd);
 			}
@@ -97,11 +80,21 @@ public class IOFile implements IOProvider {
 		if (brace < 0)
 			return line;
 		String left = line.substring(0, brace).trim();
-		if (!left.startsWith("add"))
-			return line;
-		String right = line.substring(brace + 1);
-		data(right);
-		return left;
+		String right = line.substring(brace);
+		if (left.startsWith("add") || left.startsWith("update")) {
+			String[] leftParts = left.split("\\s+");
+			String commandWithId = leftParts[0];
+			String id = leftParts.length > 1 ? leftParts[1] : null;
+
+			if (id != null && left.startsWith("update")) {
+				dataQueue.add(id);
+				logger.debug("Added update ID to queue: {}", id);
+			}
+			data(right);
+			return commandWithId;
+		}
+
+		return line;
 	}
 
 	public void close() {

@@ -1,8 +1,6 @@
 package edu.itmo.piikt.common.data;
 
 import edu.itmo.piikt.common.data.organization.type.TypeOrganizationDate;
-import java.io.Serial;
-import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,9 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrganizationData implements Serializable {
-	@Serial
-	private static final long serialVersionUID = 1L;
+public class OrganizationData {
 	private String annualTurnover;
 	private TypeOrganizationDate type;
 	private AddressData officialAddress;
