@@ -7,7 +7,6 @@ import edu.itmo.piikt.client.gui.ss.MainAppPanel;
 import edu.itmo.piikt.client.gui.title.LeftPanel;
 import edu.itmo.piikt.client.gui.title.TopPanel;
 import edu.itmo.piikt.client.manager.GuiCommandSender;
-import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.client.webSocket.CollectionUpdate;
 import edu.itmo.piikt.client.webSocket.Websocket;
 import edu.itmo.piikt.common.models.Worker;
@@ -118,10 +117,6 @@ public class MainGUI extends JFrame {
 			this.currentUsername = username;
 			this.currentPassword = password;
 
-			Network network = new Network();
-			network.connect();
-
-			GuiCommandSender.INSTANCE.setNetwork(network);
 			GuiCommandSender.INSTANCE.setUser(username);
 
 			appTopPanel.setUsername(username);
@@ -157,7 +152,6 @@ public class MainGUI extends JFrame {
 		}
 
 		GuiCommandSender.INSTANCE.setUser(null);
-		GuiCommandSender.INSTANCE.setNetwork(null);
 
 		clearAllTextFields(loginContentPanel);
 

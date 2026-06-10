@@ -15,7 +15,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
-//есть мертвый код
+
 public class Websocket {
 	private final HttpClient httpClient;
 	private final ObjectMapper objectMapper;
