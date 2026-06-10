@@ -45,8 +45,8 @@ public class RightContentPanel extends JPanel {
 		}
 	}
 
-	public void showMainApp(String username) {
-		mainGUI.showAppPanel(username);
+	public void showMainApp(String username, String password) {
+		mainGUI.showAppPanel(username, password);
 	}
 
 	public void showResetCodeConfirmation(String login, String email) {

@@ -193,7 +193,7 @@ public class LoginFormPanel extends JPanel {
 			ServerResponse response = GuiCommandSender.INSTANCE.sendCommand(command);
 
 			if (response != null && response.execution()) {
-				parent.showMainApp(login);
+				parent.showMainApp(login, password);
 			} else {
 				String errorMsg = response != null ? response.message() : lm.getString("error.unknown");
 				JOptionPane.showMessageDialog(this, lm.getString("error.login") + ": " + errorMsg,
