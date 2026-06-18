@@ -7,7 +7,6 @@ import edu.itmo.piikt.client.gui.ss.MainAppPanel;
 import edu.itmo.piikt.client.gui.title.LeftPanel;
 import edu.itmo.piikt.client.gui.title.TopPanel;
 import edu.itmo.piikt.client.manager.GuiCommandSender;
-import edu.itmo.piikt.client.network.Network;
 import edu.itmo.piikt.client.webSocket.CollectionUpdate;
 import edu.itmo.piikt.client.webSocket.Websocket;
 import edu.itmo.piikt.common.models.Worker;
@@ -29,6 +28,8 @@ public class MainGUI extends JFrame {
 	private MainAppPanel mainAppPanel;
 	private final LocaleManager lm;
 	private Websocket wsClient;
+	private String currentUsername;
+	private String currentPassword;
 
 	public MainGUI() {
 		this.lm = LocaleManager.getInstance();
@@ -111,12 +112,11 @@ public class MainGUI extends JFrame {
 		return panel;
 	}
 
-	public void showAppPanel(String username) {
+	public void showAppPanel(String username, String password) {
 		try {
-			Network network = new Network();
-			network.connect();
+			this.currentUsername = username;
+			this.currentPassword = password;
 
-			GuiCommandSender.INSTANCE.setNetwork(network);
 			GuiCommandSender.INSTANCE.setUser(username);
 
 			appTopPanel.setUsername(username);
@@ -124,6 +124,7 @@ public class MainGUI extends JFrame {
 			topPanel.setVisible(false);
 			appPanel.setVisible(true);
 			layeredPane.repaint();
+
 			initWebSocket();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, lm.getString("error.connection") + ": " + e.getMessage(),
@@ -151,7 +152,6 @@ public class MainGUI extends JFrame {
 		}
 
 		GuiCommandSender.INSTANCE.setUser(null);
-		GuiCommandSender.INSTANCE.setNetwork(null);
 
 		clearAllTextFields(loginContentPanel);
 
@@ -164,6 +164,8 @@ public class MainGUI extends JFrame {
 		}
 
 		layeredPane.repaint();
+		currentUsername = null;
+		currentPassword = null;
 	}
 
 	private void clearAllTextFields(Container container) {
@@ -179,6 +181,9 @@ public class MainGUI extends JFrame {
 	private void initWebSocket() {
 		if (wsClient == null) {
 			wsClient = new Websocket("localhost", 7083, this::onCollectionUpdate, this::onConnectionChange);
+		}
+		if (currentUsername != null && currentPassword != null) {
+			wsClient.setCredentials(currentUsername, currentPassword);
 			wsClient.connect();
 		}
 	}
@@ -241,7 +246,7 @@ public class MainGUI extends JFrame {
 	}
 
 	private void onConnectionChange(boolean connected) {
-		// todo
+		// TODO
 	}
 
 	@Override

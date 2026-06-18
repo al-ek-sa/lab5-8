@@ -186,7 +186,7 @@ public class CompleteRegistrationPanel extends JPanel {
 			if (response != null && response.execution()) {
 				JOptionPane.showMessageDialog(this, lm.getString("message.registration_success"),
 						lm.getString("message.success"), JOptionPane.INFORMATION_MESSAGE);
-				parent.showMainApp(login);
+				parent.showMainApp(login, password);
 			} else {
 				String errorMsg = response != null ? response.message() : lm.getString("error.unknown");
 				JOptionPane.showMessageDialog(this, lm.getString("error.registration") + ": " + errorMsg,

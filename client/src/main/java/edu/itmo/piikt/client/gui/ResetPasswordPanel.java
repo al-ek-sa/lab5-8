@@ -213,7 +213,7 @@ public class ResetPasswordPanel extends JPanel {
 			if (response != null && response.execution()) {
 				JOptionPane.showMessageDialog(this, lm.getString("message.password_changed"),
 						lm.getString("message.success"), JOptionPane.INFORMATION_MESSAGE);
-				parent.showMainApp(login);
+				parent.showMainApp(login, newPassword);
 			} else {
 				String errorMsg = response != null ? response.message() : lm.getString("error.unknown");
 				JOptionPane.showMessageDialog(this, lm.getString("error.prefix") + errorMsg,

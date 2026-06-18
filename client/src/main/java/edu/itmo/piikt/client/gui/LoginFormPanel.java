@@ -8,6 +8,8 @@ import edu.itmo.piikt.common.sc.ServerResponse;
 import javax.swing.*;
 import java.awt.*;
 
+import static java.lang.Thread.sleep;
+
 public class LoginFormPanel extends JPanel {
 	private final RightContentPanel parent;
 	private final LocaleManager lm;
@@ -19,6 +21,10 @@ public class LoginFormPanel extends JPanel {
 	private final JButton loginButton;
 	private final JButton forgotButton;
 	private final JButton backButton;
+	private JLabel statusLabel;
+	private String pendingLogin = null;
+	private String pendingPassword = null;
+	private Timer statusTimer;
 
 	public LoginFormPanel(RightContentPanel parent) {
 		this.parent = parent;
@@ -61,7 +67,14 @@ public class LoginFormPanel extends JPanel {
 
 		JPanel passwordFieldPanel = createFieldPanel(passwordField = new JPasswordField(30));
 		formPanel.add(passwordFieldPanel);
-		formPanel.add(Box.createVerticalStrut(30));
+		formPanel.add(Box.createVerticalStrut(20));
+		statusLabel = new JLabel();
+		statusLabel.setForeground(new Color(236, 224, 184));
+		statusLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+		statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		statusLabel.setVisible(false);
+		formPanel.add(statusLabel);
+		formPanel.add(Box.createVerticalStrut(10));
 
 		loginButton = createLoginButton(fixedWidth);
 		formPanel.add(loginButton);
@@ -171,6 +184,19 @@ public class LoginFormPanel extends JPanel {
 		return button;
 	}
 
+	private void showStatus(String text, Color color) {
+		statusLabel.setText(text);
+		statusLabel.setForeground(color);
+		statusLabel.setVisible(true);
+
+		if (statusTimer != null) {
+			statusTimer.stop();
+		}
+		statusTimer = new Timer(3000, e -> statusLabel.setVisible(false));
+		statusTimer.setRepeats(false);
+		statusTimer.start();
+	}
+
 	private void onLogin() {
 		String login = loginField.getText().trim();
 		String password = new String(passwordField.getPassword());
@@ -186,22 +212,70 @@ public class LoginFormPanel extends JPanel {
 			return;
 		}
 
-		try {
-			ClientCommand command = ClientCommand.builder().nameCommand("login").user(login).login(login)
-					.password(password).build();
+		loginButton.setEnabled(false);
+		loginButton.setText(lm.getString("auth.login_button"));
+		showStatus("Подключение", new Color(239, 225, 175));
 
+		ClientCommand command = ClientCommand.builder().nameCommand("login").user(login).login(login).password(password)
+				.build();
+
+		new Thread(() -> {
 			ServerResponse response = GuiCommandSender.INSTANCE.sendCommand(command);
 
-			if (response != null && response.execution()) {
-				parent.showMainApp(login);
-			} else {
-				String errorMsg = response != null ? response.message() : lm.getString("error.unknown");
-				JOptionPane.showMessageDialog(this, lm.getString("error.login") + ": " + errorMsg,
-						lm.getString("message.error"), JOptionPane.ERROR_MESSAGE);
+			SwingUtilities.invokeLater(() -> {
+				loginButton.setEnabled(true);
+				loginButton.setText(lm.getString("auth.login_button"));
+
+				if (response != null && response.execution()) {
+					showStatus("Вход выполнен", new Color(193, 237, 193));
+					parent.showMainApp(login, password);
+				} else {
+					String errorMsg = response != null ? response.message() : "Unknown error";
+					if (errorMsg.contains("недоступен") || errorMsg.contains("таймаут")) {
+						showStatus("Сервер недоступен, команда в очереди", new Color(234, 199, 177));
+						pendingLogin = login;
+						pendingPassword = password;
+						startPendingLoginMonitor();
+					} else {
+						showStatus("Ошибка: " + errorMsg, Color.RED);
+						JOptionPane.showMessageDialog(LoginFormPanel.this,
+								lm.getString("error.login") + ": " + errorMsg, lm.getString("message.error"),
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			});
+		}).start();
+	}
+
+	private void startPendingLoginMonitor() {
+		Thread monitorThread = new Thread(() -> {
+			while (pendingLogin != null && pendingPassword != null) {
+				try {
+					sleep(5000);
+
+					ClientCommand command = ClientCommand.builder().nameCommand("login").user(pendingLogin)
+							.login(pendingLogin).password(pendingPassword).build();
+
+					ServerResponse response = GuiCommandSender.INSTANCE.sendCommand(command);
+
+					if (response != null && response.execution()) {
+						String successLogin = pendingLogin;
+						String successPassword = pendingPassword;
+						pendingLogin = null;
+						pendingPassword = null;
+
+						SwingUtilities.invokeLater(() -> {
+							showStatus("Подключение восстановлено, вход выполнен", new Color(174, 232, 174, 247));
+							parent.showMainApp(successLogin, successPassword);
+						});
+						break;
+					}
+				} catch (Exception e) {
+					//
+				}
 			}
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, lm.getString("error.connection") + ": " + ex.getMessage(),
-					lm.getString("message.error"), JOptionPane.ERROR_MESSAGE);
-		}
+		});
+		monitorThread.setDaemon(true);
+		monitorThread.start();
 	}
 }

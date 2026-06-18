@@ -28,9 +28,14 @@ public class Websocket {
 	private WebSocket webSocket;
 	private volatile boolean connected = false;
 	private volatile boolean closing = false;
+	private volatile boolean authenticated = false;
 	private long lastVersion = 0;
+	private String login = null;
+	private String password = null;
+	private String authToken = null;
 	private Future<?> pingTask;
 	private Future<?> reconnectTask;
+	private final StringBuilder messageBuffer = new StringBuilder();
 
 	public Websocket(String host, int port, Consumer<CollectionUpdate> onUpdate, Consumer<Boolean> onConnectionChange) {
 		this.host = host;
@@ -42,10 +47,18 @@ public class Websocket {
 		this.httpClient = HttpClient.newHttpClient();
 	}
 
+	public void setCredentials(String login, String password) {
+		this.login = login;
+		this.password = password;
+	}
+
 	public void connect() {
 		if (closing)
 			return;
 
+		if (login == null || password == null) {
+			return;
+		}
 		if (reconnectTask != null) {
 			reconnectTask.cancel(false);
 		}
@@ -66,7 +79,8 @@ public class Websocket {
 
 	public void disconnect() {
 		closing = true;
-		scheduler.shutdown();
+		authenticated = false;
+		authToken = null;
 		if (pingTask != null) {
 			pingTask.cancel(true);
 		}
@@ -76,14 +90,14 @@ public class Websocket {
 		if (webSocket != null) {
 			webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "Client closing");
 		}
+		scheduler.shutdown();
 	}
 
 	private void scheduleReconnect() {
 		if (closing)
 			return;
-
 		reconnectTask = scheduler.schedule(() -> {
-			if (!closing) {
+			if (!closing && !authenticated) {
 				connect();
 			}
 		}, 3, TimeUnit.SECONDS);
@@ -94,7 +108,7 @@ public class Websocket {
 			pingTask.cancel(false);
 		}
 		pingTask = scheduler.scheduleAtFixedRate(() -> {
-			if (connected && webSocket != null) {
+			if (connected && authenticated && webSocket != null) {
 				try {
 					webSocket.sendPing(ByteBuffer.wrap(new byte[0]));
 				} catch (Exception e) {
@@ -104,26 +118,53 @@ public class Websocket {
 		}, 30, 30, TimeUnit.SECONDS);
 	}
 
-	private void requestDiff() {
+	private void sendAuthentication() {
+		if (login == null || password == null) {
+			return;
+		}
+		if (webSocket == null) {
+			return;
+		}
 		try {
-			ObjectNode request = objectMapper.createObjectNode();
-			request.put("type", "DIFF_REQUEST");
-			request.put("version", lastVersion);
-			String json = objectMapper.writeValueAsString(request);
+			ObjectNode authMessage = objectMapper.createObjectNode();
+			authMessage.put("type", "AUTH");
+			authMessage.put("login", login);
+			authMessage.put("password", password);
+			String json = objectMapper.writeValueAsString(authMessage);
 			webSocket.sendText(json, true);
 		} catch (Exception e) {
-			// todo
+			//
 		}
 	}
 
 	private void requestFullSync() {
+		if (!authenticated || authToken == null) {
+			return;
+		}
 		try {
 			ObjectNode request = objectMapper.createObjectNode();
 			request.put("type", "SYNC_REQUEST");
+			request.put("token", authToken);
 			String json = objectMapper.writeValueAsString(request);
 			webSocket.sendText(json, true);
 		} catch (Exception e) {
-			// todo
+			//
+		}
+	}
+	private void requestDiff() {
+		if (!authenticated || authToken == null) {
+			return;
+		}
+
+		try {
+			ObjectNode request = objectMapper.createObjectNode();
+			request.put("type", "DIFF_REQUEST");
+			request.put("version", lastVersion);
+			request.put("token", authToken);
+			String json = objectMapper.writeValueAsString(request);
+			webSocket.sendText(json, true);
+		} catch (Exception e) {
+			//
 		}
 	}
 
@@ -131,32 +172,37 @@ public class Websocket {
 
 		@Override
 		public void onOpen(WebSocket webSocket) {
+			Websocket.this.webSocket = webSocket;
 			connected = true;
-			startKeepAlive();
-			SwingUtilities.invokeLater(() -> onConnectionChange.accept(true));
-			if (lastVersion > 0) {
-				requestDiff();
-			} else {
-				requestFullSync();
+
+			synchronized (messageBuffer) {
+				messageBuffer.setLength(0);
 			}
+			sendAuthentication();
 			webSocket.request(1);
 		}
 
 		@Override
 		public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
-			String message = data.toString();
+			synchronized (messageBuffer) {
+				messageBuffer.append(data);
 
-			try {
-				JsonNode root = objectMapper.readTree(message);
-				handleMessage(root);
-			} catch (Exception e) {
-				// todo
+				if (last) {
+					String fullMessage = messageBuffer.toString();
+					messageBuffer.setLength(0);
+
+					try {
+						JsonNode root = objectMapper.readTree(fullMessage);
+						handleMessage(root);
+					} catch (Exception e) {
+						// todo
+					}
+				}
 			}
 
 			webSocket.request(1);
 			return null;
 		}
-
 		@Override
 		public CompletionStage<?> onPing(WebSocket webSocket, ByteBuffer message) {
 			webSocket.sendPong(ByteBuffer.wrap(new byte[0]));
@@ -166,14 +212,28 @@ public class Websocket {
 		@Override
 		public void onError(WebSocket webSocket, Throwable error) {
 			connected = false;
-			SwingUtilities.invokeLater(() -> onConnectionChange.accept(false));
+			authenticated = false;
+			authToken = null;
+			synchronized (messageBuffer) {
+				messageBuffer.setLength(0);
+			}
+			if (onConnectionChange != null) {
+				SwingUtilities.invokeLater(() -> onConnectionChange.accept(false));
+			}
 			scheduleReconnect();
 		}
 
 		@Override
 		public CompletionStage<?> onClose(WebSocket webSocket, int statusCode, String reason) {
 			connected = false;
-			SwingUtilities.invokeLater(() -> onConnectionChange.accept(false));
+			authenticated = false;
+			authToken = null;
+			synchronized (messageBuffer) {
+				messageBuffer.setLength(0);
+			}
+			if (onConnectionChange != null) {
+				SwingUtilities.invokeLater(() -> onConnectionChange.accept(false));
+			}
 			if (!closing) {
 				scheduleReconnect();
 			}
@@ -181,35 +241,113 @@ public class Websocket {
 		}
 
 		private void handleMessage(JsonNode root) {
+			if (!root.has("type")) {
+				return;
+			}
+
 			String type = root.get("type").asText();
 
 			switch (type) {
-				case "FULL_SYNC" -> {
-					lastVersion = root.has("version") ? root.get("version").asLong() : 0;
-					CollectionUpdate update = new CollectionUpdate.FullSync(root.get("workers"));
-					SwingUtilities.invokeLater(() -> onUpdate.accept(update));
+				case "AUTH_SUCCESS" -> {
+					authenticated = true;
+					if (root.has("token")) {
+						authToken = root.get("token").asText();
+					}
+					startKeepAlive();
+					if (onConnectionChange != null) {
+						SwingUtilities.invokeLater(() -> onConnectionChange.accept(true));
+					}
+					if (lastVersion > 0) {
+						requestDiff();
+					} else {
+						requestFullSync();
+					}
 				}
+
+				case "AUTH_FAILED" -> {
+					authenticated = false;
+					authToken = null;
+					if (onConnectionChange != null) {
+						SwingUtilities.invokeLater(() -> onConnectionChange.accept(false));
+					}
+					SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,
+							"WebSocket authentication failed!\nCheck your login and password.", "Authentication Error",
+							JOptionPane.ERROR_MESSAGE));
+					disconnect();
+				}
+
+				case "FULL_SYNC" -> {
+					if (!authenticated) {
+						return;
+					}
+
+					lastVersion = root.has("version") ? root.get("version").asLong() : 0;
+
+					JsonNode workersNode = root.get("workers");
+
+					if (workersNode == null) {
+						return;
+					}
+
+					if (!workersNode.isArray()) {
+						return;
+					}
+
+					if (onUpdate != null) {
+						CollectionUpdate update = new CollectionUpdate.FullSync(workersNode);
+						SwingUtilities.invokeLater(() -> onUpdate.accept(update));
+					}
+				}
+
 				case "UPDATE" -> {
+					if (!authenticated) {
+						return;
+					}
 					long version = root.has("version") ? root.get("version").asLong() : 0;
 					if (version > lastVersion) {
 						lastVersion = version;
+					}
+					if (!root.has("operation")) {
+						return;
 					}
 					String operation = root.get("operation").asText();
 					JsonNode data = root.get("data");
 
 					CollectionUpdate update = switch (operation) {
-						case "ADD" -> new CollectionUpdate.Add(data);
-						case "UPDATE" -> new CollectionUpdate.Update(data);
-						case "REMOVE" -> new CollectionUpdate.Remove(data.get("uuid").asText());
-						case "CLEAR" -> new CollectionUpdate.Clear();
-						default -> null;
+						case "ADD" -> {
+							if (data != null) {
+								yield new CollectionUpdate.Add(data);
+							} else {
+								yield null;
+							}
+						}
+						case "UPDATE" -> {
+							if (data != null) {
+								yield new CollectionUpdate.Update(data);
+							} else {
+								yield null;
+							}
+						}
+						case "REMOVE" -> {
+							if (data != null && data.has("uuid")) {
+								String uuid = data.get("uuid").asText();
+								yield new CollectionUpdate.Remove(uuid);
+							} else {
+								yield null;
+							}
+						}
+						case "CLEAR" -> {
+							yield new CollectionUpdate.Clear();
+						}
+						default -> {
+							yield null;
+						}
 					};
 
-					if (update != null) {
-						SwingUtilities.invokeLater(() -> onUpdate.accept(update));
+					if (update != null && onUpdate != null) {
+						final CollectionUpdate finalUpdate = update;
+						SwingUtilities.invokeLater(() -> onUpdate.accept(finalUpdate));
 					}
-				}
-				default -> {
 				}
 			}
 		}
